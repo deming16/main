@@ -1,5 +1,10 @@
 package seedu.address.model.user;
+
+import seedu.address.model.module.Module;
+
+import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Represents a Student User.
  *
@@ -8,6 +13,7 @@ public class Student extends User {
     protected String enrollmentDate;
     protected List<String> major;
     protected List<String> minor;
+    protected List<Module> modules;
     /**
      * Constructor method of User
      *
@@ -23,6 +29,7 @@ public class Student extends User {
         this.enrollmentDate = enrollmentDate;
         this.major = major;
         this.minor = minor;
+        this.modules = new ArrayList<>();
     }
     @Override
     public void updateName(String newName) {
@@ -45,4 +52,22 @@ public class Student extends User {
     public void updateMinors(List<String> newMinors) {
         this.minor = newMinors;
     }
+
+    public boolean hasModule(Module module) {
+        for(Module existModule: modules) {
+            if(existModule.equals(module)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeModule(Module module) {
+        modules.remove(module);
+    }
+
+    public void addModule(Module module) {
+        modules.add(module);
+    }
+
 }
