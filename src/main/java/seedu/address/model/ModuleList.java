@@ -1,4 +1,4 @@
 package seedu.address.model;
 
-public class Module {
+public class ModuleList {
 }
