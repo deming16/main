@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,9 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.model.person.Person;
+import seedu.address.model.user.User;
+import seedu.address.model.user.Student;
+import seedu.address.model.module.Module;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -20,24 +24,27 @@ import seedu.address.model.person.Person;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private static User currentUser = null;
+    private final ReadOnlyModuleList moduleList;
     private final VersionedAddressBook versionedAddressBook;
-    private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Person> filteredModule;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyModuleList moduleList, ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
         super();
-        requireAllNonNull(addressBook, userPrefs);
+        requireAllNonNull(moduleList, addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
+        this.moduleList = moduleList;
         versionedAddressBook = new VersionedAddressBook(addressBook);
-        filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
+        filteredModule = new FilteredList<>(versionedAddressBook.getPersonList());
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new ModuleList(), new AddressBook(), new UserPrefs());
     }
 
     @Override
@@ -51,28 +58,41 @@ public class ModelManager extends ComponentManager implements Model {
         return versionedAddressBook;
     }
 
+    @Override
+    public ReadOnlyModuleList getModuleList() {
+        return moduleList;
+    }
+
+    @Override
+    public Optional<Module> searchModuleInModuleList(Module module) {
+        ModuleList moduleList = (ModuleList)getModuleList();
+        return moduleList.getModuleInformation(module);
+    }
+
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
         raise(new AddressBookChangedEvent(versionedAddressBook));
     }
 
     @Override
-    public boolean hasPerson(Person person) {
-        requireNonNull(person);
-        return versionedAddressBook.hasPerson(person);
+    public boolean hasModule(Module module) {
+        requireNonNull(module);
+        Student student = (Student)getCurrentUser();
+        return student.hasModule(module);
     }
 
     @Override
-    public void deletePerson(Person target) {
-        versionedAddressBook.removePerson(target);
-        indicateAddressBookChanged();
+    public void removeModule(Module module) {
+        requireNonNull(module);
+        Student student = (Student)getCurrentUser();
+        student.removeModule(module);
     }
 
     @Override
-    public void addPerson(Person person) {
-        versionedAddressBook.addPerson(person);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        indicateAddressBookChanged();
+    public void addModule(Module module) {
+        requireNonNull(module);
+        Student student = (Student)getCurrentUser();
+        student.addModule(module);
     }
 
     @Override
@@ -91,13 +111,13 @@ public class ModelManager extends ComponentManager implements Model {
      */
     @Override
     public ObservableList<Person> getFilteredPersonList() {
-        return FXCollections.unmodifiableObservableList(filteredPersons);
+        return FXCollections.unmodifiableObservableList(filteredModule);
     }
 
     @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
-        filteredPersons.setPredicate(predicate);
+        filteredModule.setPredicate(predicate);
     }
 
     //=========== Undo/Redo =================================================================================
@@ -144,7 +164,18 @@ public class ModelManager extends ComponentManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return versionedAddressBook.equals(other.versionedAddressBook)
-                && filteredPersons.equals(other.filteredPersons);
+                && filteredModule.equals(other.filteredModule);
     }
 
+    //============= User Account Management Methods ============================
+    @Override
+    public void setCurrentUser(User user) {
+        requireNonNull(user);
+        currentUser = user;
+    }
+
+    @Override
+    public User getCurrentUser() {
+        return currentUser;
+    }
 }
