@@ -12,11 +12,11 @@ import seedu.address.model.module.Module;
  * Adds a module to the user's profile.
  * Keyword matching is case insensitive.
  */
-public class AddCommand extends Command {
+public class AddOnCommand extends Command {
 
-    public static final String COMMAND_WORD = "add";
+    public static final String COMMAND_WORD = "addon";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds one module to your profile. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds on one module to your profile. "
             + "Parameters: "
             + "MOD_CODE(case insensitive)\n"
             + "Example: " + COMMAND_WORD + " "
@@ -29,9 +29,9 @@ public class AddCommand extends Command {
     private Module toAdd;
 
     /**
-     * Creates an AddCommand to add the specified {@code module}
+     * Creates an AddOnCommand to add the specified {@code module}
      */
-    public AddCommand(Module module) {
+    public AddOnCommand(Module module) {
         requireNonNull(module);
         toAdd = module;
     }
@@ -57,7 +57,7 @@ public class AddCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AddCommand // instanceof handles nulls
-                && toAdd.equals(((AddCommand) other).toAdd));
+                || (other instanceof AddOnCommand // instanceof handles nulls
+                && toAdd.equals(((AddOnCommand) other).toAdd));
     }
 }
