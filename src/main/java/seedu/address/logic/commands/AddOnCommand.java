@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+
 import java.util.Optional;
 
 import seedu.address.logic.CommandHistory;
@@ -40,18 +41,18 @@ public class AddOnCommand extends Command {
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
         Optional<Module> optionalModule = model.searchModuleInModuleList(toAdd);
-        if(!optionalModule.isPresent()) {
+        if (optionalModule.isPresent()) {
             toAdd = optionalModule.get();
         } else {
             throw new CommandException(MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE);
         }
-            if (model.hasModule(toAdd)) {
-                throw new CommandException(MESSAGE_DUPLICATE_MODULE);
-            }
+        if (model.hasModule(toAdd)) {
+            throw new CommandException(MESSAGE_DUPLICATE_MODULE);
+        }
 
-            model.addModule(toAdd);
-            model.commitAddressBook();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+        model.addModule(toAdd);
+        model.commitAddressBook();
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 
     @Override

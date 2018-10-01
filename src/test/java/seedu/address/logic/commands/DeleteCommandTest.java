@@ -1,4 +1,4 @@
 package seedu.address.logic.commands;
 
-public class AddOnCommandTest {
+public class DeleteCommandTest {
 }
