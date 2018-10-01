@@ -20,10 +20,11 @@
 <li><a href="#saving-module-configurations-code-save-code">3.5. Saving module configurations: <code>save</code></a></li>
 <li><a href="#loading-module-configurations-code-load-code">3.6. Loading module configurations: <code>load</code></a></li>
 <li><a href="#generate-module-plan-code-generate-code">3.7. Generate module plan : <code>generate</code></a></li>
-<li><a href="#encryption-code-no-encrypt-code">3.8. Encryption: <code>no-encrypt</code></a></li>
-<li><a href="#set-module-preference-code-set-mod-code">3.9. Set module preference: <code>set-mod</code></a></li>
-<li><a href="#set-maximum-number-of-semesters-code-set-max-sem-num_semesters-code">3.10. Set maximum number of semesters: <code>set-max-sem &lt;NUM_SEMESTERS&gt;</code></a></li>
-<li><a href="#set-theme-code-set-theme-code">3.11. Set theme: <code>set-theme</code></a></li>
+<li><a href="#register-a-student-account-code-register-code">3.8. Register a Student Account : <code>register</code></a></li>
+<li><a href="#encryption-code-no-encrypt-code">3.9. Encryption: <code>no-encrypt</code></a></li>
+<li><a href="#set-module-preference-code-set-mod-code">3.10. Set module preference: <code>set-mod</code></a></li>
+<li><a href="#set-maximum-number-of-semesters-code-set-max-sem-num_semesters-code">3.11. Set maximum number of semesters: <code>set-max-sem &lt;NUM_SEMESTERS&gt;</code></a></li>
+<li><a href="#set-theme-code-set-theme-code">3.12. Set theme: <code>set-theme</code></a></li>
 </ul>
 </li>
 <li><a href="#faq">4. FAQ</a></li>
@@ -225,7 +226,14 @@ Format: <code>generate</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="encryption-code-no-encrypt-code"><a class="link" href="#encryption-code-no-encrypt-code">3.8. Encryption: <code>no-encrypt</code></a></h3>
+<h3 id="register-a-student-account-code-register-code"><a class="link" href="#register-a-student-account-code-register-code">3.8. Register a Student Account : <code>register</code></a></h3>
+<div class="paragraph">
+<p>Register a Student Account with the input parameters.<br>
+Format: <code>register user/[USERNAME] pass/[PASSWORD] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="encryption-code-no-encrypt-code"><a class="link" href="#encryption-code-no-encrypt-code">3.9. Encryption: <code>no-encrypt</code></a></h3>
 <div class="paragraph">
 <p>Encryption of information is enabled by default. If users wish to store the saved configuration in plaintext, they are required to explicitly disable this feature.<br>
 Format: <code>no-encrypt</code></p>
@@ -243,7 +251,7 @@ The application will save the configuration file in plaintext.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="set-module-preference-code-set-mod-code"><a class="link" href="#set-module-preference-code-set-mod-code">3.9. Set module preference: <code>set-mod</code></a></h3>
+<h3 id="set-module-preference-code-set-mod-code"><a class="link" href="#set-module-preference-code-set-mod-code">3.10. Set module preference: <code>set-mod</code></a></h3>
 <div class="paragraph">
 <p>Setting a preferred semester to take a module.<br>
 Format: <code>set-mod &lt;MOD_CODE&gt; &lt;SEMESTER&gt;</code></p>
@@ -261,7 +269,7 @@ Configures CS2103T to be taken in year 2 semester 1.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="set-maximum-number-of-semesters-code-set-max-sem-num_semesters-code"><a class="link" href="#set-maximum-number-of-semesters-code-set-max-sem-num_semesters-code">3.10. Set maximum number of semesters: <code>set-max-sem &lt;NUM_SEMESTERS&gt;</code></a></h3>
+<h3 id="set-maximum-number-of-semesters-code-set-max-sem-num_semesters-code"><a class="link" href="#set-maximum-number-of-semesters-code-set-max-sem-num_semesters-code">3.11. Set maximum number of semesters: <code>set-max-sem &lt;NUM_SEMESTERS&gt;</code></a></h3>
 <div class="paragraph">
 <p>Setting the maximum number of semesters during candidature.<br>
 Format: <code>set-max-sem &lt;NUM_SEMESTERS&gt;</code></p>
@@ -278,7 +286,7 @@ Format: <code>set-max-sem &lt;NUM_SEMESTERS&gt;</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="set-theme-code-set-theme-code"><a class="link" href="#set-theme-code-set-theme-code">3.11. Set theme: <code>set-theme</code></a></h3>
+<h3 id="set-theme-code-set-theme-code"><a class="link" href="#set-theme-code-set-theme-code">3.12. Set theme: <code>set-theme</code></a></h3>
 <div class="paragraph">
 <p>Set a different theme based on a configuration file.<br>
 Format: <code>set-theme &lt;FILE_NAME&gt;</code></p>
@@ -332,9 +340,12 @@ Format: <code>set-theme &lt;FILE_NAME&gt;</code></p>
 <p><strong>Generate</strong> : <code>generate</code></p>
 </li>
 <li>
+<p><strong>Register</strong> : <code>register user/[USERNAME] pass/[PASSWORD] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]</code></p>
+</li>
+<li>
 <p><strong>Encryption</strong> : <code>no-encrypt</code></p>
 </li>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-09-22 19:10:07 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-01 08:12:56 UTC</div></div></div></body></html>
