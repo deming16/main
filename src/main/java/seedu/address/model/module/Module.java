@@ -1,5 +1,6 @@
 package seedu.address.model.module;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Objects;
 /**
  * Class to encapsulate all data fields relating to a Module.
@@ -71,6 +72,18 @@ public class Module {
         return otherModule != null
                 && otherModule.getCode().equals(getCode());
     }
+
+    /**
+     * Returns true if this module's code is the prefix of the other module's code.
+     */
+    public boolean isPrefixModule(Module otherModule) {
+        if (otherModule == this) {
+            return true;
+        }
+        return otherModule != null
+                && otherModule.getCode().startsWith(getCode());
+    }
+
     /**
      * Returns true if both modules have the same identity and data fields.
      * This defines a stronger notion of equality between two modules.
