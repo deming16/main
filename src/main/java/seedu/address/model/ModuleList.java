@@ -1,7 +1,9 @@
 package seedu.address.model;
 import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 import java.util.Optional;
+
 import javafx.collections.ObservableList;
 import seedu.address.model.module.Module;
 import seedu.address.model.module.UniqueModuleList;
@@ -68,7 +70,7 @@ public class ModuleList implements ReadOnlyModuleList {
         return modules.search(target);
     }
 
-    public List<Module> searchKeyword(Module keyword){
+    public List<Module> searchKeyword(Module keyword) {
         return modules.searchKeyword(keyword);
     }
     //// util methods
