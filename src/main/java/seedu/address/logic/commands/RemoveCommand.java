@@ -10,18 +10,19 @@ import seedu.address.model.Model;
 import seedu.address.model.module.Module;
 
 /**
- * Deletes a person identified using it's displayed index from the address book.
+ * Deletes a module from the user's profile.
+ * Keyword matching is case insensitive.
  */
 public class RemoveCommand extends Command {
 
     public static final String COMMAND_WORD = "remove";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the module identified by its code.\n"
+            + ": Removes the module identified by its code.\n"
             + "Parameters: MOD_CODE(case insensitive)\n"
             + "Example: " + COMMAND_WORD + " CS2103T";
 
-    public static final String MESSAGE_DELETE_MODULE_SUCCESS = "Removed Module: %1$s";
+    public static final String MESSAGE_REMOVE_MODULE_SUCCESS = "Removed Module: %1$s";
     public static final String MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE = "This module does not exist in our database";
     public static final String MESSAGE_MODULE_NOT_EXISTS = "This module does not exist in your profile";
 
@@ -46,7 +47,7 @@ public class RemoveCommand extends Command {
 
         model.removeModule(toRemove);
         model.commitAddressBook();
-        return new CommandResult(String.format(MESSAGE_DELETE_MODULE_SUCCESS, toRemove));
+        return new CommandResult(String.format(MESSAGE_REMOVE_MODULE_SUCCESS, toRemove));
     }
 
     @Override
