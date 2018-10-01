@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.util.function.Predicate;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.collections.ObservableList;
@@ -30,6 +31,22 @@ public interface Model {
     /** Returns the ModuleList */
     ReadOnlyModuleList getModuleList();
 
+    /**
+     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     */
+    boolean hasPerson(Person person);
+
+    /**
+     * Deletes the given person.
+     * The person must exist in the address book.
+     */
+    void deletePerson(Person target);
+
+    /**
+     * Adds the given person.
+     * {@code person} must not already exist in the address book.
+     */
+    void addPerson(Person person);
 
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
@@ -108,4 +125,9 @@ public interface Model {
      * Returns the optional of the module in the storage.
      */
     Optional<Module> searchModuleInModuleList(Module module);
+
+    /**
+     * Returns the a list of modules whose codes begin with the keyword.
+     */
+    List<Module> searchKeyWordInModuleList(Module keyword);
 }

@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.Optional;
@@ -69,9 +70,33 @@ public class ModelManager extends ComponentManager implements Model {
         return moduleList.getModuleInformation(module);
     }
 
+    @Override
+    public List<Module> searchKeyWordInModuleList(Module keyword) {
+        ModuleList moduleList = (ModuleList)getModuleList();
+        return moduleList.searchKeyword(keyword);
+    }
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
         raise(new AddressBookChangedEvent(versionedAddressBook));
+    }
+
+    @Override
+    public boolean hasPerson(Person person) {
+        requireNonNull(person);
+        return versionedAddressBook.hasPerson(person);
+    }
+
+    @Override
+    public void deletePerson(Person target) {
+        versionedAddressBook.removePerson(target);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public void addPerson(Person person) {
+        versionedAddressBook.addPerson(person);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        indicateAddressBookChanged();
     }
 
     @Override
