@@ -6,7 +6,7 @@ import seedu.address.model.module.Module;
 /**
  * Parses input arguments and creates a new AddOnCommand object
  */
-public class AddCommandParser implements Parser<AddOnCommand> {
+public class AddOnCommandParser implements Parser<AddOnCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the AddOnCommand
