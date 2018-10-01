@@ -1,93 +1,129 @@
 package seedu.address.testutil;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.util.SampleDataUtil;
-
+import seedu.address.model.module.Module;
 /**
- * A utility class to help with building Person objects.
+ * A utility class to help with building Module objects.
  */
-public class PersonBuilder {
-
-    public static final String DEFAULT_NAME = "Alice Pauline";
-    public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_EMAIL = "alice@gmail.com";
-    public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
-
-    private Name name;
-    private Phone phone;
-    private Email email;
-    private Address address;
-    private Set<Tag> tags;
-
-    public PersonBuilder() {
-        name = new Name(DEFAULT_NAME);
-        phone = new Phone(DEFAULT_PHONE);
-        email = new Email(DEFAULT_EMAIL);
-        address = new Address(DEFAULT_ADDRESS);
-        tags = new HashSet<>();
+public class ModuleBuilder {
+    public static final String DEFAULT_CODE = "CS1010";
+    public static final String DEFAULT_DEPARTMENT = "Computer Science";
+    public static final String DEFAULT_TITLE = "Programming Methodology";
+    public static final String DEFAULT_DESCRIPTION = "This module introduces the fundamental concepts of "
+            + "problem solving by computing and programming using an imperative programming language. It "
+            + "is the first and foremost introductory course to computing. It is also the first part of a "
+            + "three-part series on introductory programming and problem solving by computing, which also "
+            + "includes CS1020 and CS2010. Topics covered include problem solving by computing, writing "
+            + "pseudo-codes, basic problem formulation and problem solving, program development, coding, "
+            + "testing and debugging, fundamental programming constructs (variables, types, expressions, "
+            + "assignments, functions, control structures, etc.), fundamental data structures: arrays, "
+            + "strings and structures, simple file processing, and basic recursion. This module is "
+            + "appropriate for SoC students.";
+    public static final int DEFAULT_CREDIT = 4;
+    public static final boolean DEFAULT_ISAVAILABLEINSEM1 = true;
+    public static final boolean DEFAULT_ISAVAILABLEINSEM2 = true;
+    public static final boolean DEFAULT_ISAVAILABLEINSPECIALTERM1 = false;
+    public static final boolean DEFAULT_ISAVAILABLEINSPECIALTERM2 = false;
+    private String code;
+    private String department;
+    private String title;
+    private String description;
+    private int credit;
+    private boolean isAvailableInSem1;
+    private boolean isAvailableInSem2;
+    private boolean isAvailableInSpecialTerm1;
+    private boolean isAvailableInSpecialTerm2;
+    public ModuleBuilder() {
+        code = DEFAULT_CODE;
+        department = DEFAULT_DEPARTMENT;
+        title = DEFAULT_TITLE;
+        description = DEFAULT_DESCRIPTION;
+        credit = DEFAULT_CREDIT;
+        isAvailableInSem1 = DEFAULT_ISAVAILABLEINSEM1;
+        isAvailableInSem2 = DEFAULT_ISAVAILABLEINSEM2;
+        isAvailableInSpecialTerm1 = DEFAULT_ISAVAILABLEINSPECIALTERM1;
+        isAvailableInSpecialTerm2 = DEFAULT_ISAVAILABLEINSPECIALTERM2;
     }
-
     /**
-     * Initializes the PersonBuilder with the data of {@code personToCopy}.
+     * Initializes the ModuleBuilder with the data of {@code moduleToCopy}.
      */
-    public PersonBuilder(Person personToCopy) {
-        name = personToCopy.getName();
-        phone = personToCopy.getPhone();
-        email = personToCopy.getEmail();
-        address = personToCopy.getAddress();
-        tags = new HashSet<>(personToCopy.getTags());
+    public ModuleBuilder(Module moduleToCopy) {
+        code = moduleToCopy.getCode();
+        department = moduleToCopy.getDepartment();
+        title = moduleToCopy.getTitle();
+        description = moduleToCopy.getDescription();
+        credit = moduleToCopy.getCredit();
+        isAvailableInSem1 = moduleToCopy.isAvailableInSem1();
+        isAvailableInSem2 = moduleToCopy.isAvailableInSem2();
+        isAvailableInSpecialTerm1 = moduleToCopy.isAvailableInSpecialTerm1();
+        isAvailableInSpecialTerm2 = moduleToCopy.isAvailableInSpecialTerm2();
     }
-
     /**
-     * Sets the {@code Name} of the {@code Person} that we are building.
+     * Sets the code of the {@code Module} that we are building.
      */
-    public PersonBuilder withName(String name) {
-        this.name = new Name(name);
+    public ModuleBuilder withCode(String code) {
+        this.code = code;
         return this;
     }
-
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
+     * Sets the department of the {@code Module} that we are building.
      */
-    public PersonBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
+    public ModuleBuilder withDepartment(String department) {
+        this.department = department;
         return this;
     }
-
     /**
-     * Sets the {@code Address} of the {@code Person} that we are building.
+     * Sets the title of the {@code Module} that we are building.
      */
-    public PersonBuilder withAddress(String address) {
-        this.address = new Address(address);
+    public ModuleBuilder withTitle(String title) {
+        this.title = title;
         return this;
     }
-
     /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
+     * Sets the description of the {@code Module} that we are building.
      */
-    public PersonBuilder withPhone(String phone) {
-        this.phone = new Phone(phone);
+    public ModuleBuilder withDescription(String description) {
+        this.description = description;
         return this;
     }
-
     /**
-     * Sets the {@code Email} of the {@code Person} that we are building.
+     * Sets the credit of the {@code Module} that we are building.
      */
-    public PersonBuilder withEmail(String email) {
-        this.email = new Email(email);
+    public ModuleBuilder withCredit(int credit) {
+        this.credit = credit;
         return this;
     }
-
-    public Person build() {
-        return new Person(name, phone, email, address, tags);
+    /**
+     * Sets isAvailableInSem1 of the {@code Module} that we are building.
+     */
+    public ModuleBuilder withIsAvailableInSem1(boolean isAvailableInSem1) {
+        this.isAvailableInSem1 = isAvailableInSem1;
+        return this;
     }
-
+    /**
+     * Sets isAvailableInSem2 of the {@code Module} that we are building.
+     */
+    public ModuleBuilder withIsAvailableInSem2(boolean isAvailableInSem2) {
+        this.isAvailableInSem2 = isAvailableInSem2;
+        return this;
+    }
+    /**
+     * Sets isAvailableInSpecialTerm1 of the {@code Module} that we are building.
+     */
+    public ModuleBuilder withisAvailableInSpecialTerm1(boolean isAvailableInSpecialTerm1) {
+        this.isAvailableInSpecialTerm1 = isAvailableInSpecialTerm1;
+        return this;
+    }
+    /**
+     * Sets isAvailableInSpecialTerm2 of the {@code Module} that we are building.
+     */
+    public ModuleBuilder withisAvailableInSpecialTerm2(boolean isAvailableInSpecialTerm2) {
+        this.isAvailableInSpecialTerm2 = isAvailableInSpecialTerm2;
+        return this;
+    }
+    /**
+     * Creates a module object.
+     */
+    public Module build() {
+        return new Module(code, department, title, description, credit, isAvailableInSem1,
+                isAvailableInSem2, isAvailableInSpecialTerm1, isAvailableInSpecialTerm2);
+    }
 }
