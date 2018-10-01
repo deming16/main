@@ -1,10 +1,12 @@
 package seedu.address.model.module;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.module.exceptions.DuplicateModuleException;
@@ -31,12 +33,18 @@ public class UniqueModuleList implements Iterable<Module> {
         return internalList.stream().anyMatch(toCheck::isSameModule);
     }
 
+    /**
+     * Returns the Optional of the Module.
+     */
     public Optional<Module> search(Module toSearch) {
         requireNonNull(toSearch);
         return internalList.stream().filter(toSearch::isSameModule).findFirst();
     }
 
-    public List<Module> searchKeyword(Module keyword){
+    /**
+     * Returns the List of Modules start with the keyword
+     */
+    public List<Module> searchKeyword(Module keyword) {
         requireNonNull(keyword);
         Object[] objectsArray = internalList.stream().filter(keyword::isPrefixModule).toArray();
         Module[] modulesArray = Arrays.copyOf(objectsArray, objectsArray.length, Module[].class);
