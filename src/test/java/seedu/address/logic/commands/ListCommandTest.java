@@ -11,6 +11,7 @@ import org.junit.Test;
 import seedu.address.logic.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.ModuleList;
 import seedu.address.model.UserPrefs;
 
 /**
@@ -24,8 +25,8 @@ public class ListCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        model = new ModelManager(new ModuleList(), getTypicalAddressBook(), new UserPrefs());
+        expectedModel = new ModelManager(new ModuleList(), model.getAddressBook(), new UserPrefs());
     }
 
     @Test
