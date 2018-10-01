@@ -1,6 +1,7 @@
 package seedu.address.model.module;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import seedu.address.model.module.exceptions.ModuleNotFoundException;
  * Supports a minimal set of list operations.
  *
  * @see Module#isSameModule(Module)
+ * @see Module#isPrefixModule(Module)
  */
 public class UniqueModuleList implements Iterable<Module> {
     private final ObservableList<Module> internalList = FXCollections.observableArrayList();
@@ -33,6 +35,14 @@ public class UniqueModuleList implements Iterable<Module> {
         requireNonNull(toSearch);
         return internalList.stream().filter(toSearch::isSameModule).findFirst();
     }
+
+    public List<Module> searchKeyword(Module keyword){
+        requireNonNull(keyword);
+        Object[] objectsArray = internalList.stream().filter(keyword::isPrefixModule).toArray();
+        Module[] modulesArray = Arrays.copyOf(objectsArray, objectsArray.length, Module[].class);
+        return Arrays.asList(modulesArray);
+    }
+
     /**
      * Adds a module to the list.
      * The module must not already exist in the list.
