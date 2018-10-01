@@ -10,9 +10,11 @@ import com.google.common.eventbus.Subscribe;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.ModuleListChangedEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyModuleList;
 import seedu.address.model.UserPrefs;
 
 /**
@@ -23,10 +25,13 @@ public class StorageManager extends ComponentManager implements Storage {
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private AddressBookStorage addressBookStorage;
     private UserPrefsStorage userPrefsStorage;
+    private ModuleListStorage moduleListStorage;
 
 
-    public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(ModuleListStorage moduleListStorage, AddressBookStorage addressBookStorage,
+                          UserPrefsStorage userPrefsStorage) {
         super();
+        this.moduleListStorage = moduleListStorage;
         this.addressBookStorage = addressBookStorage;
         this.userPrefsStorage = userPrefsStorage;
     }
@@ -48,6 +53,45 @@ public class StorageManager extends ComponentManager implements Storage {
         userPrefsStorage.saveUserPrefs(userPrefs);
     }
 
+    // ================ Module methods ==============================
+
+    @Override
+    public Path getModuleFilePath() {
+        return moduleListStorage.getModuleFilePath();
+    }
+
+    @Override
+    public Optional<ReadOnlyModuleList> readModuleList() throws DataConversionException, IOException {
+        return readModuleList(moduleListStorage.getModuleFilePath());
+    }
+
+    @Override
+    public Optional<ReadOnlyModuleList> readModuleList(Path filePath) throws DataConversionException, IOException {
+        logger.fine("Attempting to read data from file: " + filePath);
+        return moduleListStorage.readModuleList(filePath);
+    }
+
+    @Override
+    public void saveModuleList(ReadOnlyModuleList moduleList) throws IOException {
+        saveModuleList(moduleList, moduleListStorage.getModuleFilePath());
+    }
+
+    @Override
+    public void saveModuleList(ReadOnlyModuleList moduleList, Path filePath) throws IOException {
+        logger.fine("Attempting to write to data file: " + filePath);
+        moduleListStorage.saveModuleList(moduleList, filePath);
+    }
+
+    @Override
+    @Subscribe
+    public void handleModuleListChangedEvent(ModuleListChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "ModuleList data changed, saving to file"));
+        try {
+            saveModuleList(event.data);
+        } catch (IOException e) {
+            raise(new DataSavingExceptionEvent(e));
+        }
+    }
 
     // ================ AddressBook methods ==============================
 

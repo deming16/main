@@ -25,12 +25,37 @@ public class XmlFileStorage {
     }
 
     /**
+     * Saves the given modulelist data to the specified file.
+     */
+    public static void saveDataToFile(Path file, XmlSerializableModuleList moduleList)
+            throws FileNotFoundException {
+        try {
+            XmlUtil.saveDataToFile(file, moduleList);
+        } catch (JAXBException e) {
+            throw new AssertionError("Unexpected exception " + e.getMessage(), e);
+        }
+    }
+
+    /**
      * Returns address book in the file or an empty address book
      */
     public static XmlSerializableAddressBook loadDataFromSaveFile(Path file) throws DataConversionException,
-                                                                            FileNotFoundException {
+            FileNotFoundException {
         try {
             return XmlUtil.getDataFromFile(file, XmlSerializableAddressBook.class);
+        } catch (JAXBException e) {
+            throw new DataConversionException(e);
+        }
+    }
+
+    /**
+     * Returns module list in the file
+     */
+    public static XmlSerializableModuleList loadModuleListFromSaveFile(Path file) throws
+            DataConversionException,
+            FileNotFoundException {
+        try {
+            return XmlUtil.getDataFromFile(file, XmlSerializableModuleList.class);
         } catch (JAXBException e) {
             throw new DataConversionException(e);
         }
