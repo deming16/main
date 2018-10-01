@@ -4,9 +4,9 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
-import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,10 +14,11 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
-import seedu.address.model.person.Person;
-import seedu.address.model.user.User;
-import seedu.address.model.user.Student;
 import seedu.address.model.module.Module;
+import seedu.address.model.person.Person;
+import seedu.address.model.user.Student;
+import seedu.address.model.user.User;
+
 
 /**
  * Represents the in-memory model of the address book data.
@@ -66,13 +67,13 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public Optional<Module> searchModuleInModuleList(Module module) {
-        ModuleList moduleList = (ModuleList)getModuleList();
+        ModuleList moduleList = (ModuleList) getModuleList();
         return moduleList.getModuleInformation(module);
     }
 
     @Override
     public List<Module> searchKeyWordInModuleList(Module keyword) {
-        ModuleList moduleList = (ModuleList)getModuleList();
+        ModuleList moduleList = (ModuleList) getModuleList();
         return moduleList.searchKeyword(keyword);
     }
     /** Raises an event to indicate the model has changed */
@@ -102,21 +103,21 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public boolean hasModule(Module module) {
         requireNonNull(module);
-        Student student = (Student)getCurrentUser();
+        Student student = (Student) getCurrentUser();
         return student.hasModule(module);
     }
 
     @Override
     public void removeModule(Module module) {
         requireNonNull(module);
-        Student student = (Student)getCurrentUser();
+        Student student = (Student) getCurrentUser();
         student.removeModule(module);
     }
 
     @Override
     public void addModule(Module module) {
         requireNonNull(module);
-        Student student = (Student)getCurrentUser();
+        Student student = (Student) getCurrentUser();
         student.addModule(module);
     }
 

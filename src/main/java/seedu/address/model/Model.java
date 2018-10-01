@@ -1,13 +1,14 @@
 package seedu.address.model;
 
-import java.util.function.Predicate;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.module.Module;
 import seedu.address.model.person.Person;
 import seedu.address.model.user.User;
-import seedu.address.model.module.Module;
+
 
 /**
  * The API of the Model component.
