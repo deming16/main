@@ -5,39 +5,43 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.commons.core.Messages;
 import seedu.address.logic.CommandHistory;
 import seedu.address.model.Model;
+import seedu.address.model.module.Module;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 
+import java.util.List;
+
 /**
- * Finds and lists all persons in address book whose name contains any of the argument keywords.
+ * Finds and lists all modules in the user's profile whose name contains any of the argument keywords.
  * Keyword matching is case insensitive.
  */
-public class FindCommand extends Command {
+public class SearchCommand extends Command {
 
-    public static final String COMMAND_WORD = "find";
+    public static final String COMMAND_WORD = "search";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Searches all modules whose codes begin with any of "
+            + "the specified keywords (case-insensitive) and displays them as a list.\n"
+            + "Parameters: KEYWORD\n"
+            + "Example: " + COMMAND_WORD + " CS101";
 
-    private final NameContainsKeywordsPredicate predicate;
+    private Module keyword;
+    private List<Module> result;
 
-    public FindCommand(NameContainsKeywordsPredicate predicate) {
-        this.predicate = predicate;
+    public SearchCommand(Module module) {
+        this.keyword = module;
     }
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) {
         requireNonNull(model);
-        model.updateFilteredPersonList(predicate);
+        result =  model.searchKeyWordInModuleList(keyword);
         return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+                String.format(Messages.MESSAGE_MODULE_LISTED_OVERVIEW, result.size()));
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof FindCommand // instanceof handles nulls
-                && predicate.equals(((FindCommand) other).predicate)); // state check
+                || (other instanceof SearchCommand // instanceof handles nulls
+                && keyword.equals(((SearchCommand) other).keyword)); // state check
     }
 }
