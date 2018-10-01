@@ -67,6 +67,10 @@ public class ModuleList implements ReadOnlyModuleList {
     public Optional<Module> getModuleInformation(Module target) {
         return modules.search(target);
     }
+
+    public List<Module> searchKeyword(Module keyword){
+        return modules.searchKeyword(keyword);
+    }
     //// util methods
     @Override
     public String toString() {
