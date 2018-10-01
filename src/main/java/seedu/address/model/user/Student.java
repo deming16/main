@@ -1,9 +1,9 @@
 package seedu.address.model.user;
 
-import seedu.address.model.module.Module;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import seedu.address.model.module.Module;
 
 /**
  * Represents a Student User.
@@ -53,9 +53,12 @@ public class Student extends User {
         this.minor = newMinors;
     }
 
+    /**
+     * Returns true if both student's profile contains the module and false otherwise.
+     */
     public boolean hasModule(Module module) {
-        for(Module existModule: modules) {
-            if(existModule.equals(module)) {
+        for (Module existModule: modules) {
+            if (existModule.equals(module)) {
                 return true;
             }
         }
@@ -68,6 +71,10 @@ public class Student extends User {
 
     public void addModule(Module module) {
         modules.add(module);
+    }
+
+    public List<Module> getModules() {
+        return modules;
     }
 
 }
