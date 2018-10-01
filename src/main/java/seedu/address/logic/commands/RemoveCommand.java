@@ -29,6 +29,7 @@ public class RemoveCommand extends Command {
     private Module toRemove;
 
     public RemoveCommand(Module module) {
+        requireNonNull(module);
         this.toRemove = module;
     }
 
@@ -36,7 +37,7 @@ public class RemoveCommand extends Command {
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
         Optional<Module> optionalModule = model.searchModuleInModuleList(toRemove);
-        if(!optionalModule.isPresent()) {
+        if (optionalModule.isPresent()) {
             toRemove = optionalModule.get();
         } else {
             throw new CommandException(MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE);
