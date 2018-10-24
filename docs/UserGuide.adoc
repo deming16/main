@@ -137,7 +137,7 @@ Returns the same result as above.
 === Saving user data: `save`
 
 Save current module configurations for future usage. +
-Format: `save sp/[FILE_NAME]`
+Format: `save sp/[FILE_NAME].xml`
 
 Examples:
 
