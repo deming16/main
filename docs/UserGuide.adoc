@@ -206,9 +206,9 @@ Available Options:
 * Edit Minor : `min/[MINOR_CODE]`
 * Edit Modules Taken : `modules/[MODULE_CODE]`
 
-=== Encryption `[coming in v1.3]`
+=== Data Encryption
 
-Encryption of information is enabled by default.
+Data stored using the `save` command is encrypted by default.
 
 === Set module preference: `set-mod`
 
