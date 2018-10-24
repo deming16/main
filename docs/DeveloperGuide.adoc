@@ -726,10 +726,10 @@ image::UndoRedoActivityDiagram.png[width="650"]
 // tag::saveuser[]
 === Save User Feature
 The save user feature involves mainly the saving process of a user's attributes.
-A user is able to save their data only after they have logged in/registered an account.
+A user can save their data only after they have logged in/registered an account.
 
 [NOTE]
-Data refers to user's attribute listed in `SaveCommand` under current implementation of the save user feature.
+Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature.
 
 This section will describe in detail the current implementation and the design considerations of the save user feature.
 
@@ -737,7 +737,7 @@ This section will describe in detail the current implementation and the design c
 The save mechanism is facilitated by the following classes:
 
 * `SaveCommand` +
-It stores the following attributes of an `User` object: +
+It stores the following attributes of a `User` object: +
 
 ** All user
 
@@ -771,7 +771,7 @@ It stores the following attributes of an `User` object: +
     A list of modules staged for the generation of candidature.
 
 * `UserStorage` +
-It provide methods to save the current user's attributes as well as to load a file containing previously saved data. +
+It provides methods to save the current user's attributes as well as to load a file containing previously saved data. +
 Additionally, it implements the following operations(s):
 ** `StorageManager#saveUser(…​)` — Save the user's data into the specified file path.
 ** `StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
@@ -779,10 +779,10 @@ Additionally, it implements the following operations(s):
 ===== Implementation of the save feature
 
 The `save` mechanism of modsUni is facilitated by `SaveCommand` class and is event-driven.
-It allows a user to save their own data in modsUni as a XML file.
+It allows a user to save their data in modsUni as a XML file.
 
 [NOTE]
-Both admin and student are able to use the save feature.
+Both admin and student can use the save feature.
 
 The `SaveCommand` class extends from the `Command` class.
 Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
@@ -801,15 +801,15 @@ The sequence diagram shown below in Figure 3 illustrates the interactions betwee
 As seen from the diagram, the `SaveCommand` is driven by the `SaveUserChangedEvent`.
 
 image::SequenceDiagramforSave.png[width="800"]
-_Figure 3. High Level Sequence Diagram for the `save sp/userdata.xml` command_
+_Figure 3. High-Level Sequence Diagram for the `save sp/userdata.xml` command_
 
-The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as show in Figure 4.
+The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as shown in Figure 4.
 
 image::SequenceDiagramforSaveEventHandling.png[width="650"]
-_Figure 4. High Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
+_Figure 4. High-Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
 
 The Storage component makes use of `XmlUserStorage` class to write `User` to the file specified by the file path.
-Both the conversion of `User` object to `XmlSerializableUser` as will as writing to file is shown in the following code snippet below:
+Both the conversion of `User` object to `XmlSerializableUser` as well as writing to file is shown in the following code snippet below:
 
 [source, java]
 ----
