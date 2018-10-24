@@ -295,7 +295,6 @@ Removes a module with module code "CS2109" if it exists.
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
 * *Register* : `register user/[USERNAME] pass/[PASSWORD] name/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 * *Edit Student* : `editStudent [OPTION]/[INPUT]...`
-* *Encryption* : `no-encrypt`
 * *Add Admin* : `addAdmin user\<USERNAME> pass\<PASSWORD> n\<NAME> ptp\<PATH_TO_PIC> salary\<SALARY> date\<EMPLOYMENT_DATE>`
 * *Add Module to Database* : `addModuleDB code\<MODULE_CODE> department\<DEPARTMENT> title\<TITLE> credit\<CREDIT> available\<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2> description\<DESCRIPTION>`
 * *Remove Module from Database* : `removeModuleDB <MODULE_CODE>`
