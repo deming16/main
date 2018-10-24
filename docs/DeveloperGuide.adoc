@@ -772,12 +772,9 @@ It stores the following attributes of an `User` object: +
 
 * `UserStorage` +
 It provide methods to save the current user's attributes as well as to load a file containing previously saved data. +
-
 Additionally, it implements the following operations(s):
-
-StorageManager#saveUser(…​) — Save the user's data into the specified file path.
-
-StorageManager#readUser(…​) — Reads the user's data from the specified file path.
+** StorageManager#saveUser(…​) — Save the user's data into the specified file path.
+** StorageManager#readUser(…​) — Reads the user's data from the specified file path.
 
 ===== Implementation of the save feature
 
