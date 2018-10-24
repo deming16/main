@@ -725,16 +725,67 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 // tag::saveuser[]
 === Save User Feature
-The save user feature involves mainly the saving process of a user's information.
-A user is able to save their information only after they have logged in/registered an account.
+The save user feature involves mainly the saving process of a user's attributes.
+A user is able to save their data only after they have logged in/registered an account.
 
-The section below will describe in detail the current implementation and the design considerations of the save user feature.
+[NOTE]
+Data refers to user's attribute listed in `SaveCommand` under current implementation of the save user feature.
+
+This section will describe in detail the current implementation and the design considerations of the save user feature.
 
 ==== Current Implementation
+The save mechanism is facilitated by the following classes:
+
+* `SaveCommand` +
+It stores the following attributes of an `User` object: +
+
+** All user
+
+*** Username +
+    The username used for logging in.
+*** Name +
+    The name of the user.
+*** Role +
+    The role of the user.
+*** Path to Profile Picture +
+    The path to the user's profile picture.
+
+** Admin
+
+*** Salary +
+    The salary of an administrator.
+*** Employ Date +
+    The employment date of an administrator.
+
+** Student
+
+*** Enrollment Date +
+    The enrollment date of a student.
+*** Major(s) +
+    A list of the student's major.
+*** Minor(s) +
+    A list of the student's minor.
+*** Modules Taken +
+    A list of modules took by the student.
+*** Modules Staged +
+    A list of modules staged for the generation of candidature.
+
+* `UserStorage` +
+It provide methods to save the current user's attributes as well as to load a file containing previously saved data. +
+
+Additionally, it implements the following operations(s):
+
+StorageManager#saveUser(…​) — Save the user's data into the specified file path.
+
+StorageManager#readUser(…​) — Reads the user's data from the specified file path.
+
+===== Implementation of the save feature
 
 The `save` mechanism of modsUni is facilitated by `SaveCommand` class and is event-driven.
 It allows a user to save their own data in modsUni as a XML file.
-It makes use of the `XmlAdaptedUser` and `XmlSerializableUser` classes to convert `User` object to XML format.
+
+[NOTE]
+Both admin and student are able to use the save feature.
 
 The `SaveCommand` class extends from the `Command` class.
 Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
@@ -742,30 +793,27 @@ Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
 image::SaveCommandUML.png[width="250"]
 _Figure 1. SaveCommand UML Diagram_
 
+Parsing of command is performed by `SaveCommandParser`, which returns a `RegisterCommand` object after parsing the save file path. The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic & Model components when the SaveCommand is being executed.
+
+!!!!!!!!!!!!!!!!!!!!!!! ADD SEQUENCE DIAGRAM !!!!!!!!!!!!!!!!!!!!!!!
+
+image::SDforSaveCommandLogicAndModel.png[width="900"]
+_Figure 2. Sequence Diagram for the interaction between Logic and Model Components when executing SaveCommand_
+
 The `save` feature uses multiple components of the modsUni application.
-The sequence diagram shown below in Figure 2 illustrates the interactions between some of these components.
+The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
 As seen from the diagram, the `SaveCommand` is driven by the `SaveUserChangedEvent`.
 
 image::SequenceDiagramforSave.png[width="800"]
-_Figure 2. High Level Sequence Diagram for the `save sp/userdata.xml` command_
+_Figure 3. High Level Sequence Diagram for the `save sp/userdata.xml` command_
 
-The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as show in Figure 3.
+The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as show in Figure 4.
 
 image::SequenceDiagramforSaveEventHandling.png[width="650"]
-_Figure 3. High Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
+_Figure 4. High Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
 
-Storage makes use of a `UserStorage` object to write `User` to the file specified by the file path.
-This is shown in the following code snippet below:
-
-[source, java]
-----
-    public void saveUser(User user, Path filePath) throws IOException {
-        // ... logging ...
-        userStorage.saveUser(user, filePath);
-    }
-----
-
-Subsequently, `XmlUserStorage#saveUser(...)` will be utilized to convert a `User` object into a `XmlSerializableUser` object as seen below:
+The Storage component makes use of `XmlUserStorage` class to write `User` to the file specified by the file path.
+Both the conversion of `User` object to `XmlSerializableUser` as will as writing to file is shown in the following code snippet below:
 
 [source, java]
 ----
@@ -775,7 +823,7 @@ public void saveUser(User user, Path filePath) throws IOException {
     XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
 }
 ----
-Finally, the `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)`.
+The converted newly created `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)` as shown in the code snipplets below:
 
 [source, java]
 ----
@@ -788,22 +836,22 @@ public static void saveDataToFile(Path file, XmlSerializableUser user) throws Fi
 }
 ----
 
-===== Implementation of the save feature
+
+---
 Given below is an example usage scenario and how the save mechanism behaves:
 
-The user launches the application for the first time and the `currentUser` will at this point be `null`.
-Issuing the save command at this point will throw an error message indicating to the user that they have not registered an account or they are currently not logged in.
+1. The user launches the application for the first time and since the `currentUser` is not instantiated, the user is unable to use the save feature.
 
-In order to utilize the save function, the user must perform one of the following options:
+2. Having already registered an account, the user can proceed to log into their account and add their preferred modules.
 
-* The user executes `register user/demo ...` to register a new `Student` account.
-The `save` command will call `Model#saveUserFile(...)`. +
+3. Upon issuing the command `save sp/userdata.xml`, the save command will call Model#saveUserFile(...) which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` will be handled by `StorageManager`.
 
-* The user executes `login user/demo pass/#Qwerty1 userData/userdata.xml` to log into account.
-The `save` command will call `Model#saveUserFile(...)`. +
+4. `StorageManager` then utilizes `XmlUserStorage#saveUser(...)` which does the saving of the file.
+
 
 [NOTE]
-A new `Student` would be initialized and automatically set as the `currentUser`, enabling the user to perform save command. +
+A new registered `Student` would be initialized and automatically set as the `currentUser`, enabling the user to perform save command. +
+
 
 ==== Design Considerations
 
