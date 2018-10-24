@@ -790,9 +790,8 @@ Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
 image::SaveCommandUML.png[width="250"]
 _Figure 1. SaveCommand UML Diagram_
 
-Parsing of command is performed by `SaveCommandParser`, which returns a `RegisterCommand` object after parsing the save file path. The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic & Model components when the SaveCommand is being executed.
-
-!!!!!!!!!!!!!!!!!!!!!!! ADD SEQUENCE DIAGRAM !!!!!!!!!!!!!!!!!!!!!!!
+Parsing of command is performed by `SaveCommandParser`, which returns a `SaveCommand` object after parsing the save file path.
+The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic & Model components when the SaveCommand is being executed.
 
 image::SDforSaveCommandLogicAndModel.png[width="900"]
 _Figure 2. Sequence Diagram for the interaction between Logic and Model Components when executing SaveCommand_
@@ -837,17 +836,15 @@ public static void saveDataToFile(Path file, XmlSerializableUser user) throws Fi
 ---
 Given below is an example usage scenario and how the save mechanism behaves:
 
-1. The user launches the application for the first time and since the `currentUser` is not instantiated, the user is unable to use the save feature.
+1. A student will first log into their account and add their preferred modules.
 
-2. Having already registered an account, the user can proceed to log into their account and add their preferred modules.
+2. Upon issuing the command `save sp/userdata.xml`, the save command will call `Model#saveUserFile(...)` which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` will be handled by `StorageManager`.
 
-3. Upon issuing the command `save sp/userdata.xml`, the save command will call Model#saveUserFile(...) which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` will be handled by `StorageManager`.
-
-4. `StorageManager` then utilizes `XmlUserStorage#saveUser(...)` which does the saving of the file.
+3. `StorageManager` then utilizes `XmlUserStorage#saveUser(...)` which saves the file to the file path specified by the user.
 
 
-[NOTE]
-A new registered `Student` would be initialized and automatically set as the `currentUser`, enabling the user to perform save command. +
+[TIP]
+A new registered `Student` would be initialized and automatically logged in which enabling the student to perform save command. +
 
 
 ==== Design Considerations
