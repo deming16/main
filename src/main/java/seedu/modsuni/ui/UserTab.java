@@ -69,9 +69,13 @@ public class UserTab extends UiPart<Region> {
         userNameText.setText(event.currentUser.getName().fullName);
 
         if (event.currentUser.getRole() == Role.STUDENT) {
+            userDetailLabel1.setText("Major(s):");
             dateText.setText(((Student) event.currentUser).getEnrollmentDate().enrollmentDate);
             userDetailText1.setText(((Student) event.currentUser).getMajor().toString());
             userDetailText2.setText(((Student) event.currentUser).getMinor().toString());
+        } else {
+            userDetailLabel1.setText("Salary:");
+            userDetailText2.setVisible(false); // hides secondary detail
         }
 
         lastSavedText.setText(dateFormat.format(new Date(clock.millis())));
