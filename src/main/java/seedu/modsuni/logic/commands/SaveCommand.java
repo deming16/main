@@ -13,6 +13,7 @@ import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.user.User;
+import seedu.modsuni.ui.SaveDisplay;
 
 /**
  * Saves the current user.
