@@ -6,11 +6,11 @@ import seedu.modsuni.model.user.User;
 /**
  * An event indicating a user has logged in.
  */
-public class UserLoginEvent extends BaseEvent {
+public class UserTabChangedEvent extends BaseEvent {
 
     public final User currentUser;
 
-    public UserLoginEvent(User user) {
+    public UserTabChangedEvent(User user) {
         currentUser = user;
     }
 
