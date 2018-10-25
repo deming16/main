@@ -1,5 +1,6 @@
 package seedu.modsuni.model.semester;
 
+import javafx.collections.ObservableList;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
 
@@ -30,6 +31,10 @@ public class Semester {
             total += module.getCredit();
         }
         return total;
+    }
+
+    public ObservableList<Module> getModuleList() {
+        return toBeTaken.asUnmodifiableObservableList();
     }
 
     @Override
