@@ -2,12 +2,13 @@ package seedu.modsuni.model.semester;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Represents the students schedule.
  */
-public class SemesterList {
+public class SemesterList implements Iterable<Semester> {
     private List<Semester> semesterList;
 
     public SemesterList() {
@@ -35,5 +36,10 @@ public class SemesterList {
             count++;
         }
         return sb.toString();
+    }
+
+    @Override
+    public Iterator<Semester> iterator() {
+        return semesterList.iterator();
     }
 }
