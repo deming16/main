@@ -14,6 +14,7 @@ public class SaveDisplay extends UiPart<Region> {
 
     private static final Logger logger = LogsCenter.getLogger(SaveDisplay.class);
     private static final String FXML = "SaveDisplay.fxml";
+    private static final String MESSAGE_BEFORE_DATA = "The following information has been saved: \n\n";
 
     @FXML
     private TextArea saveDisplay;
@@ -27,7 +28,7 @@ public class SaveDisplay extends UiPart<Region> {
     private void handleNewSaveResultAvailableEvent(NewSaveResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         Platform.runLater(() -> {
-            saveDisplay.setText(event.currentUser.toDisplayUI());
+            saveDisplay.setText(MESSAGE_BEFORE_DATA + event.currentUser.toDisplayUI());
         });
     }
 
