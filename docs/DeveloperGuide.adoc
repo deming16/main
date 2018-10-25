@@ -970,10 +970,10 @@ _Figure 2. Sequence Diagram for the interaction between Logic Component and Data
 
 * **Alternative 1 (current choice):** Generate the key using a user's password.
 ** Pros: User does not need to supply additional information or file for encryption/decryption.
-** Cons: If a user forgets their password, they are unable to retrieve their user data file.
+** Cons: User is unable to decrypt their user data file if they forget their password.
 * **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
 ** Pros: The key will be more secured compared to the key generated from alternative 1.
-** Cons: User is unable to decrypt if the key file is lost or corrupted.
+** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
 // end::dataencryption[]
 
 === Logging
