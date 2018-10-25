@@ -13,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import seedu.modsuni.commons.core.LogsCenter;
-import seedu.modsuni.commons.events.ui.UserLoginEvent;
+import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.student.Student;
 
@@ -64,12 +64,13 @@ public class UserTab extends UiPart<Region> {
     }
 
     @Subscribe
-    public void handleUserLoginEvent(UserLoginEvent event) {
+    public void handleUserTabChangedEvent(UserTabChangedEvent event) {
 
         userNameText.setText(event.currentUser.getName().fullName);
 
         if (event.currentUser.getRole() == Role.STUDENT) {
             userDetailLabel1.setText("Major(s):");
+            userDetailText2.setVisible(true);
             dateText.setText(((Student) event.currentUser).getEnrollmentDate().enrollmentDate);
             userDetailText1.setText(((Student) event.currentUser).getMajor().toString());
             userDetailText2.setText(((Student) event.currentUser).getMinor().toString());
