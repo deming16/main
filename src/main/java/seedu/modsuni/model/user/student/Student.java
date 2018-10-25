@@ -181,4 +181,27 @@ public class Student extends User {
             .append(getUsername().getUsername());
         return builder.toString();
     }
+
+    public String toDisplayUI() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Username: ")
+                .append(getUsername().toString())
+                .append("\nName: ")
+                .append(getName().toString())
+                .append("\nRole: ")
+                .append(getRole().toString())
+                .append("\nPath to profile picture: ")
+                .append(getPathToProfilePic().toString())
+                .append("\nEnrollment date: ")
+                .append(enrollmentDate.toString())
+                .append("\nMajor: ")
+                .append(major.toString())
+                .append("\nMinor: ")
+                .append(minor.toString())
+                .append("\nModules taken: ")
+                .append(modulesTaken.toString())
+                .append("\nModules staged: ")
+                .append(modulesStaged.toString());
+        return builder.toString();
+    }
 }

@@ -104,4 +104,21 @@ public class Admin extends User {
         return builder.toString();
     }
 
+    public String toDisplayUI() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Username: ")
+                .append(getUsername().toString())
+                .append("\nName: ")
+                .append(getName().toString())
+                .append("\nRole: ")
+                .append(getRole().toString())
+                .append("\nPath to profile picture: ")
+                .append(getPathToProfilePic().toString())
+                .append("\nSalary: ")
+                .append(getSalary())
+                .append("\nEmployment date: ")
+                .append(getEmploymentDate());
+        return builder.toString();
+    }
+
 }

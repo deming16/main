@@ -27,7 +27,7 @@ public class SaveDisplay extends UiPart<Region> {
     private void handleNewSaveResultAvailableEvent(NewSaveResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         Platform.runLater(() -> {
-            saveDisplay.setText(event.currentUser.toString());
+            saveDisplay.setText(event.currentUser.toDisplayUI());
         });
     }
 
