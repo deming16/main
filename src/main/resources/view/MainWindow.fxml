@@ -64,7 +64,7 @@
 
                         <!-- Tab Pane -->
                         <TabPane fx:id="tabPane" minWidth="300.0" tabClosingPolicy="UNAVAILABLE" styleClass="pane-with-border">
-                            <tabs >
+                            <tabs>
                                 <!-- User Tab -->
                                 <Tab fx:id="userTab" text="User">
                                     <content>

@@ -7,8 +7,6 @@ import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Label;
@@ -27,10 +25,7 @@ public class UserTab extends UiPart<Region> {
     private static final Logger logger = LogsCenter.getLogger(UserTab.class);
     private static final String FXML = "UserTab.fxml";
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-    private final StringProperty displayed = new SimpleStringProperty("");
-
-    private static Clock clock = Clock.systemDefaultZone();
+    private static final Clock clock = Clock.systemDefaultZone();
 
     @FXML
     private Label nameLabel;
