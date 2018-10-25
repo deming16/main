@@ -50,7 +50,7 @@ public abstract class User {
 
     public abstract void updatePassword (String newPassword);
 
-    public abstract String toDisplayUI ();
+    public abstract String toDisplayUi();
 
 
 }

@@ -50,7 +50,7 @@ public class GenerateCommand extends Command {
 
         NewCommandResultAvailableEvent newCommandResultAvailableEvent =
                 new NewCommandResultAvailableEvent();
-        newCommandResultAvailableEvent.toBeDisplayed = new GenerateDisplay();
+        newCommandResultAvailableEvent.setToBeDisplayed(new GenerateDisplay());
         EventsCenter.getInstance().post(newCommandResultAvailableEvent);
 
         EventsCenter.getInstance().post(new NewGenerateResultAvailableEvent(semesterList));

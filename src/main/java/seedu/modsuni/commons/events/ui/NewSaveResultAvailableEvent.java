@@ -6,7 +6,7 @@ import seedu.modsuni.model.user.User;
 /**
  * Indicates that a new result is available.
  */
-public class NewSaveResultAvailableEvent  extends BaseEvent {
+public class NewSaveResultAvailableEvent extends BaseEvent {
 
     public final User currentUser;
 

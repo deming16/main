@@ -152,8 +152,8 @@ public class MainWindow extends UiPart<Stage> {
 
         //browserPanel = new BrowserPanel();
         //browserPlaceholder.getChildren().add(browserPanel.getRoot());
-//        GenerateDisplay generateDisplay = new GenerateDisplay();
-//        browserPlaceholder.getChildren().add(new CommandDisplay().getRoot());
+        //GenerateDisplay generateDisplay = new GenerateDisplay();
+        //browserPlaceholder.getChildren().add(new CommandDisplay().getRoot());
 
         moduleListPanel = new ModuleListPanel(logic.getFilteredModuleList());
         moduleListPanelPlaceholder.getChildren().add(moduleListPanel.getRoot());
@@ -281,6 +281,6 @@ public class MainWindow extends UiPart<Stage> {
     private void handleNewCommandResultAvailableEvent(NewCommandResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         browserPlaceholder.getChildren().clear();
-        browserPlaceholder.getChildren().add(event.toBeDisplayed.getRoot());
+        browserPlaceholder.getChildren().add(event.getToBeDisplayed().getRoot());
     }
 }

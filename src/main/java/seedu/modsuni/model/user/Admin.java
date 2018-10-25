@@ -104,7 +104,10 @@ public class Admin extends User {
         return builder.toString();
     }
 
-    public String toDisplayUI() {
+    /**
+     * Returns a String used to display an Admin in the user interface.
+     */
+    public String toDisplayUi() {
         final StringBuilder builder = new StringBuilder();
         builder.append("Username: ")
                 .append(getUsername().toString())

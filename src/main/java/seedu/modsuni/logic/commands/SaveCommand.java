@@ -51,7 +51,7 @@ public class SaveCommand extends Command {
         model.saveUserFile(currentUser, savePath);
 
         NewCommandResultAvailableEvent newCommandResultAvailableEvent = new NewCommandResultAvailableEvent();
-        newCommandResultAvailableEvent.toBeDisplayed = new SaveDisplay();
+        newCommandResultAvailableEvent.setToBeDisplayed(new SaveDisplay());
         EventsCenter.getInstance().post(newCommandResultAvailableEvent);
 
         EventsCenter.getInstance().post(new NewSaveResultAvailableEvent(currentUser));
