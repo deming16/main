@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+
 /**
  * Wraps all CredentialStore data
  */
@@ -105,6 +109,15 @@ public class CredentialStore implements ReadOnlyCredentialStore {
             credentials.add(account);
         }
         return credentials;
+    }
+
+    @Override
+    public ObservableList<Username> getUsernames() {
+        List<Username> usernames = new ArrayList<>();
+        for (String username : credentialStore.keySet()) {
+            usernames.add(new Username(username));
+        }
+        return FXCollections.observableArrayList(usernames);
     }
 
     @Override

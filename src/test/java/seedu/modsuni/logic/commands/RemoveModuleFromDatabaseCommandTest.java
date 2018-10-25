@@ -253,7 +253,12 @@ public class RemoveModuleFromDatabaseCommandTest {
 
         @Override
         public Credential getCredential(Username username) {
-            throw new AssertionError("THis method should not be called.");
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Username> getUsernames() {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override

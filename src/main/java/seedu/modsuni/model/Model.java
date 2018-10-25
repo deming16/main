@@ -225,6 +225,11 @@ public interface Model {
     Password getCredentialPassword(User user);
 
     /**
+     * Returns a list of usernames.
+     */
+    ObservableList<Username> getUsernames();
+
+    /**
      * Sets the given user as the currentUser.
      */
     void setCurrentUser(User user);

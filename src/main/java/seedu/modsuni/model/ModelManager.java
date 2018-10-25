@@ -380,6 +380,11 @@ public class ModelManager extends ComponentManager implements Model {
         return credentialStore.getCredentialPassword(user.getUsername());
     }
 
+    @Override
+    public ObservableList<Username> getUsernames() {
+        return FXCollections.unmodifiableObservableList(credentialStore.getUsernames());
+    }
+
     //============= User Account Management Methods ============================
 
     @Override

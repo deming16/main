@@ -13,9 +13,11 @@ import java.util.Set;
 
 import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.commons.util.StringUtil;
+import seedu.modsuni.logic.PrereqGenerator;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Prereq;
 import seedu.modsuni.model.person.Address;
 import seedu.modsuni.model.person.Email;
 import seedu.modsuni.model.person.Phone;
@@ -252,5 +254,13 @@ public class ParserUtil {
         }
         return Paths.get(path.trim());
 
+    }
+    /**
+     * Parses a {@code String prereq} into a {@code Prereq}.
+     */
+    public static Prereq parsePrereq(String prereq) throws ParseException {
+        requireNonNull(prereq);
+        String strings = prereq.trim();
+        return new PrereqGenerator().generate(strings);
     }
 }
