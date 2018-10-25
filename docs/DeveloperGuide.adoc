@@ -860,10 +860,120 @@ A new registered `Student` would be initialized and automatically logged in whic
 // end::saveuser[]
 
 // tag::dataencryption[]
-=== [Proposed] Data Encryption
+=== Data Security Feature
+The data security feature involves mainly the encryption of the user data file when using the `save` command and the decryption of a user user data when logging in using the `login` command. +
 
-_{Explain here how the data encryption feature will be implemented}_
+[NOTE]
+Advanced Encryption Standard (AES) will be algorithm used for encryption.
 
+This section will describe in detail the current implementation and the design considerations of the data encryption & decryption feature.
+
+---
+==== Current Implementation
+The data security feature is facilitated by `DataSecurityUtil` class. +
+It implements the following operations(s):
+
+* `DataSecurityUtil#encryptFile(…​)` — Encrypts a `File` object with the specified password and overrides the original unencrypted file.
+* `DataSecurityUtil#decryptFile(…​)` — Decrypts a `File` object with the specified password and overrides the original encrypted file.
+* `DataSecurityUtil#encrypt(…​)` — Encrypts a `byte[]` with the specified password and returns the encrypted `byte[]`.
+* `DataSecurityUtil#decrypt(…​)` — Decrypts a `byte[]` with the specified password and returns the decrypted `byte[]`.
+
+`DataSecurityUtil` class utilizes `javax.crypto.cipher` and `javax.crypto.spec.SecretKeySpec` packages for the operations mentioned above.
+
+The `Hashing` class is used to generate SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which is required to generate `SecretKeySpec`.
+
+Currently, encryption is performed in `StorageManager` and decryption is performed in `LoginCommand` where the file is loaded.
+
+===== Implementation of the encryption feature
+
+The encryption feature is integrated with the save user feature (3.6). +
+Immediately after the user data file is saved onto local disk, `DataSecurityUtil#encryptFile(...)` will be called to encrypt the file.
+This is shown in the following code snippet below:
+
+[source, java]
+----
+public void handleSaveUserChangedEvent(SaveUserChangedEvent cuce) {
+    // ... logging ...
+    try {
+        userStorage.saveUser(cuce.user, cuce.filePath);
+        DataSecurityUtil.encryptFile(cuce.filePath.toFile(),
+                cuce.password.getValue());
+    } catch (IOException e) {
+        logger.warning("Unable to save or encrypt data");
+        e.printStackTrace();
+    }
+}
+----
+
+The sequence diagram shown below in Figure 1 illustrates the integration of encryption with the save user feature.
+
+image::SequenceDiagramforSaveEventHandlingWithEncryption.png[width="650"]
+_Figure 1. Sequence Diagram for the interaction between EventsCenter and Storage Components when executing SaveCommand with encryption_
+
+
+===== Implementation of the decryption feature
+The decryption feature is integrated with the login feature under user account management(3.1). +
+`LoginCommand` calls `DataSecurityUtil#decryptFile(...)` once the validation of the user is completed.
+
+This is shown in the following code snippet below:
+
+[source, java]
+----
+public CommandResult execute(Model model, CommandHistory history) throws CommandException {
+        // ... check if user logged in ... //
+        // ... check if credential is valid .. //
+
+        User toSetCurrentUser;
+        try {
+            DataSecurityUtil.decryptFile(pathToSaveFile.toFile(),
+                toLogin.getPassword().toString());
+
+            Optional<User> userFromFile = model.readUserFile(pathToSaveFile);
+            if (!userFromFile.isPresent()) {
+                throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
+            }
+            toSetCurrentUser = userFromFile.get();
+
+            DataSecurityUtil.encryptFile(pathToSaveFile.toFile(), toLogin.getPassword().getValue());
+        } catch (DataConversionException | IOException | CorruptedFileException
+            | NoSuchAlgorithmException | InvalidKeyException | InvalidPasswordException
+            | NoSuchPaddingException e) {
+            throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
+        }
+
+        model.setCurrentUser(toSetCurrentUser);
+        return new CommandResult(String.format(MESSAGE_SUCCESS,
+            toSetCurrentUser.getUsername()));
+}
+----
+
+The sequence diagram shown below in Figure 2 illustrates the integration of decryption with the login feature.
+
+image::SDforSaveCommandLogicAndModelUserDecryption.png[width="900"]
+_Figure 2. Sequence Diagram for the interaction between Logic Component and DataSecurityUtil when executing LoginCommand_
+
+
+// consideration command encryption(not user friendly) or inbuilt encryption (harder)
+
+==== Design Considerations
+
+===== Aspect: How encryption is implemented
+
+* **Alternative 1 (current choice):** Implement as in-built feature.
+** Pros: Ensures that the confidentiality of a user's data file is preserved at all times.
+** Cons: Users do not have full control.
+* **Alternative 2:** Implement as a command.
+** Pros: Users have more control.
+** Cons: Unable to enforce the data security of the application.
+
+===== Aspect: Generation of security key for encryption/decryption
+
+* **Alternative 1 (current choice):** Generate key using a user's password.
+** Pros: User do not need to supply additional information or file for encryption/decryption.
+** Cons: If a user forgets their password, they are unable to retrieve their user data file.
+* **Alternative 2:** Generate key using `KeyGenerator` and an additional file is needed to login.
+** Pros: The key will be more secured compared to the key generated from alternative 1.
+** Cons: User is unable to decrypt if the key file is lost or corrupted.
 // end::dataencryption[]
 
 === Logging
