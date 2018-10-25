@@ -731,7 +731,7 @@ A user can save their data only after they have logged in/registered an account.
 [NOTE]
 Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature.
 
-This section will describe in detail the current implementation and the design considerations of the save user feature.
+This section will describe in details the current implementation and the design considerations of the save user feature.
 
 ==== Current Implementation
 The save mechanism is facilitated by the following classes:
@@ -861,12 +861,12 @@ A new registered `Student` would be initialized and automatically logged in whic
 
 // tag::dataencryption[]
 === Data Security Feature
-The data security feature involves mainly the encryption of the user data file when using the `save` command and the decryption of a user user data when logging in using the `login` command. +
+The data security feature involves mainly the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
 
 [NOTE]
-Advanced Encryption Standard (AES) will be algorithm used for encryption.
+Advanced Encryption Standard (AES) is the algorithm used for encryption.
 
-This section will describe in detail the current implementation and the design considerations of the data encryption & decryption feature.
+This section will describe in details the current implementation and the design considerations of the data encryption & decryption feature.
 
 ---
 ==== Current Implementation
@@ -880,7 +880,7 @@ It implements the following operations(s):
 
 `DataSecurityUtil` class utilizes `javax.crypto.cipher` and `javax.crypto.spec.SecretKeySpec` packages for the operations mentioned above.
 
-The `Hashing` class is used to generate SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which is required to generate `SecretKeySpec`.
+The `Hashing` class is used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which are required to generate `SecretKeySpec`.
 
 Currently, encryption is performed in `StorageManager` and decryption is performed in `LoginCommand` where the file is loaded.
 
@@ -959,19 +959,19 @@ _Figure 2. Sequence Diagram for the interaction between Logic Component and Data
 
 ===== Aspect: How encryption is implemented
 
-* **Alternative 1 (current choice):** Implement as in-built feature.
+* **Alternative 1 (current choice):** Implement as an in-built feature.
 ** Pros: Ensures that the confidentiality of a user's data file is preserved at all times.
 ** Cons: Users do not have full control.
 * **Alternative 2:** Implement as a command.
-** Pros: Users have more control.
+** Pros: Users will have more control on the data security.
 ** Cons: Unable to enforce the data security of the application.
 
 ===== Aspect: Generation of security key for encryption/decryption
 
-* **Alternative 1 (current choice):** Generate key using a user's password.
-** Pros: User do not need to supply additional information or file for encryption/decryption.
+* **Alternative 1 (current choice):** Generate the key using a user's password.
+** Pros: User does not need to supply additional information or file for encryption/decryption.
 ** Cons: If a user forgets their password, they are unable to retrieve their user data file.
-* **Alternative 2:** Generate key using `KeyGenerator` and an additional file is needed to login.
+* **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
 ** Pros: The key will be more secured compared to the key generated from alternative 1.
 ** Cons: User is unable to decrypt if the key file is lost or corrupted.
 // end::dataencryption[]
