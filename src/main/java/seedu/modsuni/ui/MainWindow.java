@@ -18,6 +18,7 @@ import seedu.modsuni.commons.core.Config;
 import seedu.modsuni.commons.core.GuiSettings;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.ExitAppRequestEvent;
+import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.ShowDatabaseTabRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowHelpRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowStagedTabRequestEvent;
@@ -145,8 +146,11 @@ public class MainWindow extends UiPart<Stage> {
         userTabController = new UserTab();
         userTabPlaceHolder.getChildren().add(userTabController.getRoot());
 
-        browserPanel = new BrowserPanel();
-        browserPlaceholder.getChildren().add(browserPanel.getRoot());
+
+        //browserPanel = new BrowserPanel();
+        //browserPlaceholder.getChildren().add(browserPanel.getRoot());
+//        GenerateDisplay generateDisplay = new GenerateDisplay();
+//        browserPlaceholder.getChildren().add(new CommandDisplay().getRoot());
 
         moduleListPanel = new ModuleListPanel(logic.getFilteredModuleList());
         moduleListPanelPlaceholder.getChildren().add(moduleListPanel.getRoot());
@@ -266,5 +270,14 @@ public class MainWindow extends UiPart<Stage> {
     private void handleShowHelpEvent(ShowHelpRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         handleHelp();
+    }
+
+
+
+    @Subscribe
+    private void handleNewCommandResultAvailableEvent(NewCommandResultAvailableEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(event.toBeDisplayed.getRoot());
     }
 }
