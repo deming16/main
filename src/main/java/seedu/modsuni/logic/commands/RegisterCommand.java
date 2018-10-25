@@ -10,6 +10,8 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -68,6 +70,7 @@ public class RegisterCommand extends Command {
 
         model.addCredential(toRegister);
         model.setCurrentUser(user);
+        EventsCenter.getInstance().post(new UserTabChangedEvent(user));
         return new CommandResult(String.format(MESSAGE_SUCCESS, toRegister));
     }
 
