@@ -1,5 +1,6 @@
 package seedu.modsuni.model.semester;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
@@ -35,6 +36,14 @@ public class Semester {
 
     public ObservableList<Module> getModuleList() {
         return toBeTaken.asUnmodifiableObservableList();
+    }
+
+    public ObservableList<String> getModuleCodeList() {
+        ObservableList<String> codes = FXCollections.observableArrayList();
+        for (Module module : toBeTaken) {
+            codes.add(module.getCode().code);
+        }
+        return codes;
     }
 
     @Override
