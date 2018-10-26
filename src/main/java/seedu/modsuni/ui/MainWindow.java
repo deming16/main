@@ -151,6 +151,9 @@ public class MainWindow extends UiPart<Stage> {
         //browserPlaceholder.getChildren().add(browserPanel.getRoot());
 //        GenerateDisplay generateDisplay = new GenerateDisplay();
 //        browserPlaceholder.getChildren().add(new CommandDisplay().getRoot());
+        BrowserPanel loadingPanel = new BrowserPanel(BrowserPanel.LOADING_PAGE);
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(loadingPanel.getRoot());
 
         moduleListPanel = new ModuleListPanel(logic.getFilteredModuleList());
         moduleListPanelPlaceholder.getChildren().add(moduleListPanel.getRoot());
