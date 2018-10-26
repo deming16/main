@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import seedu.modsuni.commons.core.EventsCenter;
 import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.NewSaveResultAvailableEvent;
+import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -53,6 +54,9 @@ public class SaveCommand extends Command {
         NewCommandResultAvailableEvent newCommandResultAvailableEvent = new NewCommandResultAvailableEvent();
         newCommandResultAvailableEvent.setToBeDisplayed(new SaveDisplay());
         EventsCenter.getInstance().post(newCommandResultAvailableEvent);
+
+        // Update last saved
+        EventsCenter.getInstance().post(new UserTabChangedEvent(model.getCurrentUser()));
 
         EventsCenter.getInstance().post(new NewSaveResultAvailableEvent(currentUser));
 
