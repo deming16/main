@@ -46,7 +46,7 @@ public class MainWindow extends UiPart<Stage> {
     private Config config;
     private UserPrefs prefs;
     private HelpWindow helpWindow;
-    private UserTab userTabPanel;
+    private UserTab userTabController;
 
     @FXML
     private StackPane browserPlaceholder;
@@ -59,9 +59,6 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane outputDisplayPlaceholder;
-
-    @FXML
-    private StackPane statusbarPlaceholder;
 
     @FXML
     private TabPane tabPane;
@@ -146,8 +143,8 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        userTabPanel = new UserTab();
-        userTabPlaceHolder.getChildren().add(userTabPanel.getRoot());
+        userTabController = new UserTab();
+        userTabPlaceHolder.getChildren().add(userTabController.getRoot());
 
 
         //browserPanel = new BrowserPanel();
