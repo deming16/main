@@ -5,10 +5,15 @@ import java.util.logging.Logger;
 import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
 import seedu.modsuni.model.module.Module;
@@ -23,10 +28,7 @@ public class GenerateDisplay extends UiPart<Region> {
     private static final String FXML = "GenerateDisplay.fxml";
 
     @FXML
-    private TextArea generateDisplay;
-
-    @FXML
-    private ListView semesterListView;
+    private FlowPane semesters;
 
     public GenerateDisplay() {
         super(FXML);
@@ -42,15 +44,9 @@ public class GenerateDisplay extends UiPart<Region> {
     private void handleNewGenerateResultAvailableEvent(NewGenerateResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         Platform.runLater(() -> {
-            semesterListView = new ListView();
-            int count = 1;
             for (Semester semester : event.semesterList) {
-                semesterListView.getItems().add("Semester: " + count);
-                for (Module module : semester.getModuleList()) {
-                    System.out.println("added");
-                    semesterListView.getItems().add(module.getCode());
-                }
-                count++;
+                SemesterCard semesterCard = new SemesterCard(semester);
+                semesters.getChildren().add(semesterCard.getRoot());
             }
         });
     }
