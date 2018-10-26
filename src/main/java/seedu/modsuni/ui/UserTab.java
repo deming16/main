@@ -16,7 +16,6 @@ import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
-import seedu.modsuni.model.user.Salary;
 import seedu.modsuni.model.user.student.Student;
 
 /**

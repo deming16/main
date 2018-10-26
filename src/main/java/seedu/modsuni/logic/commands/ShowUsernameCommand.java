@@ -32,7 +32,7 @@ public class ShowUsernameCommand extends Command {
 
         NewCommandResultAvailableEvent newCommandResultAvailableEvent =
                 new NewCommandResultAvailableEvent();
-        newCommandResultAvailableEvent.toBeDisplayed = new UsernameDisplay();
+        newCommandResultAvailableEvent.setToBeDisplayed(new UsernameDisplay());
 
         EventsCenter.getInstance().post(newCommandResultAvailableEvent);
 
