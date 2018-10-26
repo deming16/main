@@ -24,7 +24,8 @@ public class GenerateCommand extends Command {
             + " with a student account and try again";
     public static final String MESSAGE_NO_MODULES = "Ensure that you have added module(s) that you "
             + "would like to take before running the generate command";
-    public static final String MESSAGE_ERROR = "Unable to save. Please ensure that you are registered or logged in.";
+    public static final String MESSAGE_ERROR = "Unable to generate. Please ensure that you are registered " +
+            "or logged in.";
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
