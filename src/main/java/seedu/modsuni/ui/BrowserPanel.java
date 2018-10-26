@@ -21,6 +21,8 @@ import seedu.modsuni.model.module.Module;
 public class BrowserPanel extends UiPart<Region> {
 
     public static final String DEFAULT_PAGE = "default.html";
+    public static final String EASTER_EGG_PAGE = "surprise.html";
+    public static final String LOADING_PAGE = "loading.html";
     public static final String SEARCH_PAGE_URL =
             "https://se-edu.github.io/addressbook-level4/DummySearchPage.html?name=";
 
@@ -29,7 +31,7 @@ public class BrowserPanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(getClass());
 
     @FXML
-    private WebView browser;
+    private WebView browserWebView;
 
 
     public BrowserPanel() {
@@ -37,10 +39,13 @@ public class BrowserPanel extends UiPart<Region> {
 
         // To prevent triggering events for typing inside the loaded Web page.
         getRoot().setOnKeyPressed(Event::consume);
-
         loadDefaultPage();
         registerAsAnEventHandler(this);
+    }
 
+    public BrowserPanel(String url) {
+        this();
+        loadCustomPage(url);
     }
 
     private void loadModulePage(Module module) {
@@ -48,7 +53,7 @@ public class BrowserPanel extends UiPart<Region> {
     }
 
     public void loadPage(String url) {
-        Platform.runLater(() -> browser.getEngine().load(url));
+        Platform.runLater(() -> browserWebView.getEngine().load(url));
     }
 
     /**
@@ -59,11 +64,16 @@ public class BrowserPanel extends UiPart<Region> {
         loadPage(defaultPage.toExternalForm());
     }
 
+    private void loadCustomPage(String page) {
+        URL defaultPage = MainApp.class.getResource(FXML_FILE_FOLDER + page);
+        loadPage(defaultPage.toExternalForm());
+    }
+
     /**
      * Frees resources allocated to the browser.
      */
     public void freeResources() {
-        browser = null;
+        browserWebView = null;
     }
 
     @Subscribe
