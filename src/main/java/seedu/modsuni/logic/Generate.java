@@ -48,6 +48,26 @@ public class Generate {
     }
 
     /**
+     * Checks if a schedule can be generated or not.
+     * @return
+     */
+    public static Optional<List<Code>> canGenerate(Student student) {
+        List<Code> cannotTakeCode = new ArrayList<>();
+        List<Code> codeChecklist = student.getTakenAndStageCode();
+        UniqueModuleList modulesStaged = student.getModulesStaged();
+        for (Module module : modulesStaged) {
+            if (!module.checkPrereq(codeChecklist)) {
+                cannotTakeCode.add(module.getCode());
+            }
+        }
+        if (cannotTakeCode.size() == 0) {
+            return Optional.empty();
+        } else {
+            return Optional.of(cannotTakeCode);
+        }
+    }
+
+    /**
      * Creates an edge from a module code to another module code.
      */
     public void addEdge(Code fromCode, Code toCode) {
