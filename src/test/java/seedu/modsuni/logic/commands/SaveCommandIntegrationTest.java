@@ -25,7 +25,7 @@ import seedu.modsuni.testutil.StudentBuilder;
 public class SaveCommandIntegrationTest {
 
     private static Model model;
-    private static final Path SAVE_PATH = Paths.get("/userdata.xml");
+    private static final Path SAVE_PATH = Paths.get("/test-userdata.xml");
     private CommandHistory commandHistory = new CommandHistory();
 
     @Before
