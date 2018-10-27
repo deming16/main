@@ -83,6 +83,16 @@ public class GenerateCommandTest {
     }
 
     @Test
+    public void execute_roleNullUser_throwsCommandException() throws Exception {
+        GenerateCommand generateCommand = new GenerateCommand();
+        ModelStub modelStub = new ModelStubWithNullUser();
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(GenerateCommand.MESSAGE_ERROR);
+        generateCommand.execute(modelStub, commandHistory);
+    }
+
+    @Test
     public void execute_studentNoModules_throwsCommandException() throws Exception {
         User student = new StudentBuilder()
                 .withUsername(StudentBuilder.DEFAULT_USERNAME)
@@ -349,6 +359,14 @@ public class GenerateCommandTest {
         @Override
         public boolean isStudent() {
             return getCurrentUser().getRole() == Role.STUDENT;
+        }
+    }
+
+    private class ModelStubWithNullUser extends ModelStub {
+
+        @Override
+        public User getCurrentUser() {
+            return null;
         }
     }
 }
