@@ -157,10 +157,10 @@ public class GenerateCommandTest {
         prereq.setOr(Optional.of(prereqDetailsList));
 
         Module module = new ModuleBuilder(ACC1002).withPrereq(prereq).build();
-        User student = new StudentBuilder().build();
-        ((Student) student).addModulesStaged(module);
+        Student user = new StudentBuilder().build();
+        user.addModulesStaged(module);
         GenerateCommand generateCommand = new GenerateCommand();
-        ModelStubWithUser modelStub = new ModelStubWithUser(student);
+        ModelStubWithUser modelStub = new ModelStubWithUser(user);
         CommandResult commandResult = generateCommand.execute(modelStub, commandHistory);
         assertEquals(commandResult.feedbackToUser, GenerateCommand.MESSAGE_FAILURE + "\n" + codes);
         /*
