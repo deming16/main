@@ -28,11 +28,6 @@ public class GenerateDisplay extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
-    @FXML
-    public void testClicked() {
-        System.out.println("HELIOEFJOIFQWEJOIWEQJQOIWEJ");
-    }
-
     @Subscribe
     private void handleNewGenerateResultAvailableEvent(NewGenerateResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
