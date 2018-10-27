@@ -1,6 +1,7 @@
 package seedu.modsuni.model.module;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -95,5 +96,26 @@ public class PrereqDetails {
             return false;
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof PrereqDetails)) {
+            return false;
+        }
+
+        PrereqDetails otherPrereqDetails = (PrereqDetails) other;
+        return otherPrereqDetails.getAnd().equals(getAnd())
+                && otherPrereqDetails.getOr().equals(getOr())
+                && otherPrereqDetails.getCode().equals(getCode());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(or, and, code);
     }
 }

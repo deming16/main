@@ -1,6 +1,7 @@
 package seedu.modsuni.model.module;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -65,6 +66,7 @@ public class Prereq {
                     return true;
                 }
             }
+            return false;
         } else if (and.isPresent()) {
             for (PrereqDetails element : and.get()) {
                 if (!element.checkPrereq(codeChecklist)) {
@@ -75,7 +77,6 @@ public class Prereq {
         } else {
             return false;
         }
-        return false;
     }
 
     @Override
@@ -84,5 +85,25 @@ public class Prereq {
         sb.append("Prereq - ");
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Prereq)) {
+            return false;
+        }
+
+        Prereq otherPrereq = (Prereq) other;
+        return otherPrereq.getAnd().equals(getAnd())
+                && otherPrereq.getOr().equals(getOr());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(or, and);
     }
 }
