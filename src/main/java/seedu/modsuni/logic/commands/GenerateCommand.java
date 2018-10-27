@@ -9,9 +9,13 @@ import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.Generate;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.ui.GenerateDisplay;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Generates a schedule for the current student user.
@@ -20,6 +24,7 @@ public class GenerateCommand extends Command {
 
     public static final String COMMAND_WORD = "generate";
     public static final String MESSAGE_SUCCESS = "Generate success!";
+    public static final String MESSAGE_FAILURE = "Generate failed!";
     public static final String MESSAGE_INVALID_ROLE = "Only students can generate a schedule, please login"
             + " with a student account and try again";
     public static final String MESSAGE_NO_MODULES = "Ensure that you have added module(s) that you "
@@ -43,6 +48,12 @@ public class GenerateCommand extends Command {
 
         if (!currentStudent.hasModuleToTake()) {
             throw new CommandException(MESSAGE_NO_MODULES);
+        }
+
+        Optional<List<Code>> cannotTakeCodes = Generate.canGenerate(currentStudent);
+
+        if (cannotTakeCodes.isPresent()) {
+            return new CommandResult(MESSAGE_FAILURE + "\n" + cannotTakeCodes.get().toString());
         }
 
         Generate generate = new Generate(currentStudent);
