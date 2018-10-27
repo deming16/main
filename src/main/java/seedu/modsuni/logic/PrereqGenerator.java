@@ -181,15 +181,4 @@ public class PrereqGenerator {
         }
     }
 
-    /**
-     * reset all values in the generator.
-     */
-    private void resetGenerator() {
-        stack = new Stack();
-        orStack = new Stack();
-        andStack = new Stack();
-        start = new Prereq();
-        strings = null;
-        builder.setLength(0);
-    }
 }
