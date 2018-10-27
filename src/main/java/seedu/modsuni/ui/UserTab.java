@@ -81,6 +81,7 @@ public class UserTab extends UiPart<Region> {
             dateText.setText(((Admin) event.currentUser).getEmploymentDate().toString());
             userDetailText1.setText(((Admin) event.currentUser).getSalary().toString());
             userDetailText2.setText("This is an admin account"); // hides secondary detail
+
         }
 
         lastSavedText.setText(dateFormat.format(new Date(clock.millis())));

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static seedu.modsuni.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.modsuni.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.modsuni.testutil.TypicalSavePaths.PATH_USERDATA_MAX;
 
 import java.util.Arrays;
 import java.util.List;
@@ -129,7 +130,7 @@ public class ModsUniParserTest {
         Student student = new StudentBuilder().build();
         RegisterCommand command = (RegisterCommand) parser.parseCommand(
             StudentUtil.getRegisterCommand(student));
-        assertEquals(new RegisterCommand(credential, student), command);
+        assertEquals(new RegisterCommand(credential, student, PATH_USERDATA_MAX), command);
     }
 
     @Test
