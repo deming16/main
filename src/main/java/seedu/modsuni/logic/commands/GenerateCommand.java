@@ -2,6 +2,9 @@ package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+import java.util.Optional;
+
 import seedu.modsuni.commons.core.EventsCenter;
 import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
@@ -13,9 +16,6 @@ import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.ui.GenerateDisplay;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Generates a schedule for the current student user.
