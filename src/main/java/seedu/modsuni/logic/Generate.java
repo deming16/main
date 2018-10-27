@@ -151,7 +151,7 @@ public class Generate {
                 newSem = new Semester();
             }
 
-            if (newSem.totalCredits() > 16) {
+            if (newSem.getTotalCredits() > 16) {
                 semesterList.addSemester(newSem);
                 newSem = new Semester();
             }
