@@ -5,18 +5,11 @@ import java.util.logging.Logger;
 import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
-import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.semester.Semester;
 
 /**

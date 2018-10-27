@@ -5,5 +5,5 @@
 
 <?import javafx.scene.control.TextArea?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1">
-  <WebView fx:id="browserWebView" prefWidth="500" prefHeight="1000"/>
+  <WebView fx:id="browser" prefWidth="500" prefHeight="1000"/>
 </StackPane>

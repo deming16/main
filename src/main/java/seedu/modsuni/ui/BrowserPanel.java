@@ -31,7 +31,7 @@ public class BrowserPanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(getClass());
 
     @FXML
-    private WebView browserWebView;
+    private WebView browser;
 
 
     public BrowserPanel() {
@@ -53,7 +53,7 @@ public class BrowserPanel extends UiPart<Region> {
     }
 
     public void loadPage(String url) {
-        Platform.runLater(() -> browserWebView.getEngine().load(url));
+        Platform.runLater(() -> browser.getEngine().load(url));
     }
 
     /**
@@ -73,7 +73,7 @@ public class BrowserPanel extends UiPart<Region> {
      * Frees resources allocated to the browser.
      */
     public void freeResources() {
-        browserWebView = null;
+        browser = null;
     }
 
     @Subscribe

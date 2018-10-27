@@ -1,14 +1,14 @@
 package seedu.modsuni.ui;
 
-import javax.swing.plaf.synth.Region;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import seedu.modsuni.model.semester.Semester;
 
-
+/**
+ * An UI component that displays information of a {@code Semester}.
+ */
 public class SemesterCard extends UiPart<StackPane> {
 
     private static final String FXML = "SemesterListCard.fxml";

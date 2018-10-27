@@ -11,7 +11,6 @@ import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.student.Student;
-import seedu.modsuni.ui.BrowserPanel;
 import seedu.modsuni.ui.GenerateDisplay;
 
 /**
@@ -25,8 +24,8 @@ public class GenerateCommand extends Command {
             + " with a student account and try again";
     public static final String MESSAGE_NO_MODULES = "Ensure that you have added module(s) that you "
             + "would like to take before running the generate command";
-    public static final String MESSAGE_ERROR = "Unable to generate. Please ensure that you are registered " +
-            "or logged in.";
+    public static final String MESSAGE_ERROR = "Unable to generate. Please ensure that you are registered "
+            + "or logged in.";
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
@@ -50,16 +49,15 @@ public class GenerateCommand extends Command {
         SemesterList semesterList = generate.getSchedule();
         System.out.println(semesterList.toString());
 
-//        NewCommandResultAvailableEvent newCommandResultAvailableEvent =
-//                new NewCommandResultAvailableEvent();
-//        newCommandResultAvailableEvent.toBeDisplayed = new GenerateDisplay();
-//        EventsCenter.getInstance().post(newCommandResultAvailableEvent);
-//        EventsCenter.getInstance().post(new NewGenerateResultAvailableEvent(semesterList));
+        NewCommandResultAvailableEvent newCommandResultAvailableEvent = new NewCommandResultAvailableEvent();
+        newCommandResultAvailableEvent.setToBeDisplayed(new GenerateDisplay());
+        EventsCenter.getInstance().post(newCommandResultAvailableEvent);
+        EventsCenter.getInstance().post(new NewGenerateResultAvailableEvent(semesterList));
 
-        NewCommandResultAvailableEvent armutEvent = new NewCommandResultAvailableEvent();
-        BrowserPanel browserPanel = new BrowserPanel(BrowserPanel.EASTER_EGG_PAGE);
-        armutEvent.toBeDisplayed = browserPanel;
-        EventsCenter.getInstance().post(armutEvent);
+        //NewCommandResultAvailableEvent armutEvent = new NewCommandResultAvailableEvent();
+        //BrowserPanel browserPanel = new BrowserPanel(BrowserPanel.EASTER_EGG_PAGE);
+        //armutEvent.setToBeDisplayed(browserPanel);
+        //EventsCenter.getInstance().post(armutEvent);
 
         return new CommandResult(MESSAGE_SUCCESS + "\n" + semesterList.toString());
     }
