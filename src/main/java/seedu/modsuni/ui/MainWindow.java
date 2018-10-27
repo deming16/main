@@ -146,7 +146,6 @@ public class MainWindow extends UiPart<Stage> {
         userTabController = new UserTab();
         userTabPlaceHolder.getChildren().add(userTabController.getRoot());
 
-
         //browserPanel = new BrowserPanel();
         //browserPlaceholder.getChildren().add(browserPanel.getRoot());
         //GenerateDisplay generateDisplay = new GenerateDisplay();
