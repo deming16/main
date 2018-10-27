@@ -20,22 +20,6 @@ public class XmlAdaptedPrereq {
         or = new ArrayList<>();
     }
 
-    public List<XmlAdaptedAnd> getAnd() {
-        return and;
-    }
-
-    public void setAnd(List<XmlAdaptedAnd> and) {
-        this.and = and;
-    }
-
-    public List<XmlAdaptedOr> getOr() {
-        return or;
-    }
-
-    public void setOr(List<XmlAdaptedOr> or) {
-        this.or = or;
-    }
-
     /**
      * Converts this jaxb-friendly adapted prereq object into the model's Module object.
      *
