@@ -331,7 +331,7 @@ A new `Student` would be initialized and automatically set as the `currentUser`,
 The `login` feature is facilitated by the `LoginCommand` class.
 It allows for students to log into their existing modsUni account, granting them access to their respective user data. +
 
-The `LoginCommand` extends the `Command` class. Figure 1(shown below) depicts the UML represenation of the `LoginCommand`. +
+The `LoginCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `LoginCommand`. +
 
 image::LoginCommandUML.png[width="350"]
 _Figure 1. UML Diagram of `LoginCommand`._
@@ -359,6 +359,17 @@ The `login` command will call `Model#isVerifiedCredential(...)` to determine if 
 Subseqently, the `Model#setCurrentUser(...)` will be called to set the loaded user data as the `currentUser`. +
 
 4. Should the credential not be valid or does not match an existing credential in the `CredentialStore`, the user will simply be shown a failure message.
+
+===== Implementation of the edit feature
+
+The `edit` feature is facilitated by the `EditStudentCommand` class.
+It allows for students to edit their existing modsUni account, granting them the ability
+to modify personal details. +
+
+The `EditStudentCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `EditStudentCommand`. +
+
+image::EditStudentUML.png[width="350"]
+_Figure 1. UML Diagram of `EditStudentCommand`._
 
 ==== Design Considerations
 
