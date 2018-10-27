@@ -13,6 +13,7 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 import java.nio.file.Path;
 
 import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.MainWindowClearResourceEvent;
 import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
@@ -83,6 +84,7 @@ public class RegisterCommand extends Command {
 
         EventsCenter.getInstance().post(new UserTabChangedEvent(model.getCurrentUser()));
         model.saveUserFile(model.getCurrentUser(), tempSavePath);
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, user, tempSavePath));
     }
 
