@@ -11,12 +11,9 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.NoSuchAlgorithmException;
 
 import seedu.modsuni.commons.core.EventsCenter;
 import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
-import seedu.modsuni.commons.util.DataSecurityUtil;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
