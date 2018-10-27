@@ -1,11 +1,15 @@
 package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.modsuni.testutil.TypicalModules.ACC1002;
+import static seedu.modsuni.testutil.TypicalModules.CS1010;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
 import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -19,6 +23,7 @@ import javafx.collections.ObservableList;
 
 import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.logic.CommandHistory;
+import seedu.modsuni.logic.Generate;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
@@ -32,12 +37,16 @@ import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
+import seedu.modsuni.model.module.Prereq;
+import seedu.modsuni.model.module.PrereqDetails;
 import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
+import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.testutil.AdminBuilder;
+import seedu.modsuni.testutil.ModuleBuilder;
 import seedu.modsuni.testutil.StudentBuilder;
 
 /**
@@ -114,9 +123,46 @@ public class GenerateCommandTest {
     }
 
     @Test
-    public void execute_generateSuccessful() {
+    public void execute_generateSuccessful() throws Exception {
         User student = new StudentBuilder().build();
+        ((Student) student).addModulesStaged(CS1010);
+        GenerateCommand generateCommand = new GenerateCommand();
         ModelStubWithUser modelStub = new ModelStubWithUser(student);
+        CommandResult commandResult = generateCommand.execute(modelStub, commandHistory);
+        assertEquals(commandResult.feedbackToUser, GenerateCommand.MESSAGE_SUCCESS);
+        /*
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person validPerson = new PersonBuilder().build();
+
+        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub, commandHistory);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validPerson), commandResult.feedbackToUser);
+        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
+        */
+    }
+
+    @Test
+    public void execute_generateUnsuccessful() throws Exception {
+        List<Code> codes = new ArrayList<>();
+        codes.add(ACC1002.getCode());
+
+        PrereqDetails prereqDetailsCode = new PrereqDetails();
+        prereqDetailsCode.setCode(Optional.of(CS1010.getCode()));
+
+        List<PrereqDetails> prereqDetailsList = new ArrayList<>();
+        prereqDetailsList.add(prereqDetailsCode);
+
+        Prereq prereq = new Prereq();
+        prereq.setOr(Optional.of(prereqDetailsList));
+
+        Module module = new ModuleBuilder(ACC1002).withPrereq(prereq).build();
+        User student = new StudentBuilder().build();
+        ((Student) student).addModulesStaged(module);
+        GenerateCommand generateCommand = new GenerateCommand();
+        ModelStubWithUser modelStub = new ModelStubWithUser(student);
+        CommandResult commandResult = generateCommand.execute(modelStub, commandHistory);
+        assertEquals(commandResult.feedbackToUser, GenerateCommand.MESSAGE_FAILURE + "\n" + codes);
         /*
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Person validPerson = new PersonBuilder().build();
@@ -372,6 +418,21 @@ public class GenerateCommandTest {
         @Override
         public boolean isStudent() {
             return getCurrentUser().getRole() == Role.STUDENT;
+        }
+
+        @Override
+        public Optional<List<Code>> canGenerate() {
+            if (isStudent()) {
+                return Generate.canGenerate((Student) getCurrentUser());
+            } else {
+                return Optional.empty();
+            }
+        }
+
+        @Override
+        public SemesterList generateSchedule() {
+            Generate generate = new Generate((Student) getCurrentUser());
+            return generate.getSchedule();
         }
     }
 
