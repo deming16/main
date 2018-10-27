@@ -54,31 +54,18 @@ public class RegisterCommand extends Command {
 
     private final Credential toRegister;
     private final User user;
+    private final Path tempSavePath;
 
     /**
      * Creates an RegisterCommand to add the specified {@code Credential}
      */
-    public RegisterCommand(Credential newCredential, User newUser) {
-        requireAllNonNull(newCredential, newUser);
-        toRegister = newCredential;
-        user = newUser;
+    public RegisterCommand(Credential newCredential, User newUser, Path tempSavePath) {
+        requireAllNonNull(newCredential, newUser, tempSavePath);
+        this.toRegister = newCredential;
+        this.user = newUser;
+        this.tempSavePath = tempSavePath;
     }
 
-    /**
-     * Generates a temporary save Path
-     */
-    private Path generateTempSavePath() throws CommandException {
-        StringBuilder pathBuilder = new StringBuilder();
-        pathBuilder.append(user.getUsername().getUsername());
-        pathBuilder.append("_");
-        try {
-            pathBuilder.append(DataSecurityUtil.randomSha1());
-        } catch (NoSuchAlgorithmException e) {
-            throw new CommandException(MESSAGE_REGISTER_FAILURE);
-        }
-        pathBuilder.append(".xml");
-        return Paths.get(pathBuilder.toString());
-    }
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
@@ -94,8 +81,6 @@ public class RegisterCommand extends Command {
 
         model.addCredential(toRegister);
         model.setCurrentUser(user);
-
-        Path tempSavePath = generateTempSavePath();
 
         EventsCenter.getInstance().post(new UserTabChangedEvent(model.getCurrentUser()));
         model.saveUserFile(model.getCurrentUser(), tempSavePath);
