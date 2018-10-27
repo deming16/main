@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * Represents the students schedule.
  */
@@ -18,6 +17,9 @@ public class SemesterList implements Iterable<Semester> {
         this.semesterList = new ArrayList<>();
     }
 
+    /**
+     * Adds a new semester to the semesterlist.
+     */
     public void addSemester(Semester newSemester) {
         requireNonNull(newSemester);
         semesterList.add(newSemester);

@@ -3,12 +3,11 @@ package seedu.modsuni.storage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.xml.bind.annotation.XmlElement;
 
 import seedu.modsuni.commons.exceptions.IllegalValueException;
 import seedu.modsuni.model.module.Prereq;
 import seedu.modsuni.model.module.PrereqDetails;
-
-import javax.xml.bind.annotation.XmlElement;
 
 /**
  * JAXB-friendly version of the Prereq.

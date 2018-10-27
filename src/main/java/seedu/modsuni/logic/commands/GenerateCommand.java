@@ -16,7 +16,6 @@ import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.student.Student;
-import seedu.modsuni.ui.BrowserPanel;
 import seedu.modsuni.ui.GenerateDisplay;
 
 /**
