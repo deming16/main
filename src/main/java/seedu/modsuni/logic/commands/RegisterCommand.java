@@ -79,6 +79,8 @@ public class RegisterCommand extends Command {
         model.addCredential(toRegister);
         model.setCurrentUser(user);
 
+        EventsCenter.getInstance().post(new MainWindowClearResourceEvent());
+
         EventsCenter.getInstance().post(new UserTabChangedEvent(model.getCurrentUser()));
         model.saveUserFile(model.getCurrentUser(), tempSavePath);
         return new CommandResult(String.format(MESSAGE_SUCCESS, user, tempSavePath));
