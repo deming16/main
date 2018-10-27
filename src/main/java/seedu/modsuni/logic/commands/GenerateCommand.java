@@ -73,6 +73,6 @@ public class GenerateCommand extends Command {
         //armutEvent.setToBeDisplayed(browserPanel);
         //EventsCenter.getInstance().post(armutEvent);
 
-        return new CommandResult(MESSAGE_SUCCESS + "\n" + semesterList.toString());
+        return new CommandResult(MESSAGE_SUCCESS);
     }
 }
