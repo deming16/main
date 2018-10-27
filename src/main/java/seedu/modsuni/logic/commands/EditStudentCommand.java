@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.commons.util.CollectionUtil;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
@@ -70,6 +72,7 @@ public class EditStudentCommand extends Command {
                 editStudentDescriptor);
 
         model.setCurrentUser(editedStudent);
+        EventsCenter.getInstance().post(new UserTabChangedEvent(editedStudent));
         return new CommandResult(String.format(MESSAGE_EDIT_STUDENT_SUCCESS,
             editedStudent.toString()));
     }

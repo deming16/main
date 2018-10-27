@@ -10,6 +10,10 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
+import java.nio.file.Path;
+
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -37,22 +41,28 @@ public class RegisterCommand extends Command {
         + PREFIX_STUDENT_MINOR + "MINORCODE_2";
 
     public static final String MESSAGE_SUCCESS = "New Account created added: "
-        + "%1$s";
+        + "%1$s\n"
+        + "Temp Save Path: %2$s\n";
     public static final String MESSAGE_DUPLICATE_USERNAME = "This username already exists in the database";
     public static final String MESSAGE_ALREADY_LOGGED_IN = "You are already "
         + "logged in";
+    public static final String MESSAGE_REGISTER_FAILURE = "Registering failed. "
+        + "Please try again.";
 
     private final Credential toRegister;
     private final User user;
+    private final Path tempSavePath;
 
     /**
      * Creates an RegisterCommand to add the specified {@code Credential}
      */
-    public RegisterCommand(Credential newCredential, User newUser) {
-        requireAllNonNull(newCredential, newUser);
-        toRegister = newCredential;
-        user = newUser;
+    public RegisterCommand(Credential newCredential, User newUser, Path tempSavePath) {
+        requireAllNonNull(newCredential, newUser, tempSavePath);
+        this.toRegister = newCredential;
+        this.user = newUser;
+        this.tempSavePath = tempSavePath;
     }
+
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
@@ -68,7 +78,10 @@ public class RegisterCommand extends Command {
 
         model.addCredential(toRegister);
         model.setCurrentUser(user);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toRegister));
+
+        EventsCenter.getInstance().post(new UserTabChangedEvent(model.getCurrentUser()));
+        model.saveUserFile(model.getCurrentUser(), tempSavePath);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, user, tempSavePath));
     }
 
     @Override
