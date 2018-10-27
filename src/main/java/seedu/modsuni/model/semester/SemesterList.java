@@ -1,9 +1,12 @@
 package seedu.modsuni.model.semester;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
 
 /**
  * Represents the students schedule.
@@ -16,6 +19,7 @@ public class SemesterList implements Iterable<Semester> {
     }
 
     public void addSemester(Semester newSemester) {
+        requireNonNull(newSemester);
         semesterList.add(newSemester);
     }
 
