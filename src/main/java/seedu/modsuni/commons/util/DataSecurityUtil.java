@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -36,13 +37,16 @@ public class DataSecurityUtil {
     private static final String INVALID_PASSWORD_MESSAGE = "Invalid Password";
     private static final String CORRUPTED_FILE_MESSAGE = "The encrypted file may be corrupted. Decryption failed.";
     private static final Charset CHARSET = StandardCharsets.UTF_8;
+    private static final String SECURE_RANDOM_INSTANCE = "SHA1PRNG";
+    private static final int SEED_BYTE_COUNT = 5;
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     /**
      * Encrypts the given file using a password and overwrites the original plaintext file
      *
-     * @param file The file to be encrypted
+     * @param file     The file to be encrypted
      * @param password Used to encrypt file
      */
     public static void encryptFile(File file, String password) throws IOException {
@@ -58,12 +62,12 @@ public class DataSecurityUtil {
     /**
      * Decrypts the given file using a password and overwrites the original encrypted file
      *
-     * @param file The file to be decrypted
+     * @param file     The file to be decrypted
      * @param password Used to decrypt file
      */
     public static void decryptFile(File file, String password) throws IOException,
-            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException,
-            NoSuchAlgorithmException, InvalidKeyException {
+        InvalidPasswordException, CorruptedFileException, NoSuchPaddingException,
+        NoSuchAlgorithmException, InvalidKeyException {
         requireNonNull(file);
         requireNonNull(password);
         byte[] fileContent = convertFileToByteArray(file);
@@ -77,7 +81,7 @@ public class DataSecurityUtil {
     /**
      * Encrypts the given data using a password
      *
-     * @param data The data to be encrypted
+     * @param data     The data to be encrypted
      * @param password Used to encrypt data
      * @return byte[] of the encrypted data
      */
@@ -100,13 +104,13 @@ public class DataSecurityUtil {
     /**
      * Decrypts the data using a given password
      *
-     * @param data The data to be decrypted
+     * @param data     The data to be decrypted
      * @param password Used to decrypt data
      * @return byte[] of the decrypted data
      * @throws InvalidPasswordException if an invalid password is supplied
      */
     public static byte[] decrypt(byte[] data, String password) throws InvalidPasswordException,
-            CorruptedFileException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        CorruptedFileException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         requireNonNull(data);
         requireNonNull(password);
         try {
@@ -200,5 +204,37 @@ public class DataSecurityUtil {
     private static byte[] getFirst16Bytes(byte[] password) {
         requireNonNull(password);
         return Arrays.copyOf(password, 16);
+    }
+
+    /**
+     * Generates a random string of length 7
+     */
+    public static String randomSha1() throws NoSuchAlgorithmException {
+        SecureRandom secureRandom = SecureRandom.getInstance(SECURE_RANDOM_INSTANCE);
+        byte[] seed = secureRandom.generateSeed(SEED_BYTE_COUNT);
+
+        SecureRandom sha1Random = SecureRandom.getInstance(SECURE_RANDOM_INSTANCE);
+        sha1Random.setSeed(seed);
+
+        byte[] randomBytes = new byte[128];
+        sha1Random.nextBytes(randomBytes);
+
+        return bytesToHex(randomBytes).substring(0, 7);
+    }
+
+    /**
+     * Converts bytes to a hex string
+     *
+     * @param bytes
+     * @return
+     */
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
     }
 }
