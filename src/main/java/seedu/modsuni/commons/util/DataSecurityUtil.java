@@ -226,7 +226,7 @@ public class DataSecurityUtil {
      * Converts bytes to a hex string
      *
      * @param bytes
-     * @return
+     * @return String of hex
      */
     public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
