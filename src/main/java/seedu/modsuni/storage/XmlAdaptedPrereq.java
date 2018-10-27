@@ -8,11 +8,15 @@ import seedu.modsuni.commons.exceptions.IllegalValueException;
 import seedu.modsuni.model.module.Prereq;
 import seedu.modsuni.model.module.PrereqDetails;
 
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  * JAXB-friendly version of the Prereq.
  */
 public class XmlAdaptedPrereq {
+    @XmlElement
     private List<XmlAdaptedAnd> and;
+    @XmlElement
     private List<XmlAdaptedOr> or;
 
     public XmlAdaptedPrereq() {

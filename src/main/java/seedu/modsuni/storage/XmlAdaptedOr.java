@@ -23,7 +23,6 @@ public class XmlAdaptedOr {
     private List<XmlAdaptedOr> or;
     @XmlElement
     private List<XmlAdaptedAnd> and;
-    @XmlElement
     private String code;
 
     public XmlAdaptedOr() {
