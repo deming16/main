@@ -32,6 +32,7 @@ public class GenerateDisplay extends UiPart<Region> {
     private void handleNewGenerateResultAvailableEvent(NewGenerateResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         Platform.runLater(() -> {
+            semesters.getChildren().clear();
             for (Semester semester : event.semesterList) {
                 SemesterCard semesterCard = new SemesterCard(semester);
                 semesters.getChildren().add(semesterCard.getRoot());
