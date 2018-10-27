@@ -10,8 +10,13 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+
 import seedu.modsuni.commons.core.EventsCenter;
 import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
+import seedu.modsuni.commons.util.DataSecurityUtil;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -39,10 +44,13 @@ public class RegisterCommand extends Command {
         + PREFIX_STUDENT_MINOR + "MINORCODE_2";
 
     public static final String MESSAGE_SUCCESS = "New Account created added: "
-        + "%1$s";
+        + "%1$s\n"
+        + "Temp Save Path: %2$s\n";
     public static final String MESSAGE_DUPLICATE_USERNAME = "This username already exists in the database";
     public static final String MESSAGE_ALREADY_LOGGED_IN = "You are already "
         + "logged in";
+    public static final String MESSAGE_REGISTER_FAILURE = "Registering failed. "
+        + "Please try again.";
 
     private final Credential toRegister;
     private final User user;
@@ -54,6 +62,22 @@ public class RegisterCommand extends Command {
         requireAllNonNull(newCredential, newUser);
         toRegister = newCredential;
         user = newUser;
+    }
+
+    /**
+     * Generates a temporary save Path
+     */
+    private Path generateTempSavePath() throws CommandException {
+        StringBuilder pathBuilder = new StringBuilder();
+        pathBuilder.append(user.getUsername().getUsername());
+        pathBuilder.append("_");
+        try {
+            pathBuilder.append(DataSecurityUtil.randomSha1());
+        } catch (NoSuchAlgorithmException e) {
+            throw new CommandException(MESSAGE_REGISTER_FAILURE);
+        }
+        pathBuilder.append(".xml");
+        return Paths.get(pathBuilder.toString());
     }
 
     @Override
@@ -70,8 +94,12 @@ public class RegisterCommand extends Command {
 
         model.addCredential(toRegister);
         model.setCurrentUser(user);
-        EventsCenter.getInstance().post(new UserTabChangedEvent(user));
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toRegister));
+
+        Path tempSavePath = generateTempSavePath();
+
+        EventsCenter.getInstance().post(new UserTabChangedEvent(model.getCurrentUser()));
+        model.saveUserFile(model.getCurrentUser(), tempSavePath);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, user, tempSavePath));
     }
 
     @Override
