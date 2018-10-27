@@ -19,6 +19,7 @@ import seedu.modsuni.commons.core.GuiSettings;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.ExitAppRequestEvent;
 import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
+import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.ShowDatabaseTabRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowHelpRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowStagedTabRequestEvent;
@@ -47,6 +48,9 @@ public class MainWindow extends UiPart<Stage> {
     private UserPrefs prefs;
     private HelpWindow helpWindow;
     private UserTab userTabController;
+
+    private BrowserPanel loadingPanel;
+    private GenerateDisplay generateDisplay;
 
     @FXML
     private StackPane browserPlaceholder;
@@ -147,11 +151,9 @@ public class MainWindow extends UiPart<Stage> {
         userTabController = new UserTab();
         userTabPlaceHolder.getChildren().add(userTabController.getRoot());
 
-        //browserPlaceholder.getChildren().add(browserPanel.getRoot());
-        //GenerateDisplay generateDisplay = new GenerateDisplay();
-        //browserPlaceholder.getChildren().add(new CommandDisplay().getRoot());
-        BrowserPanel loadingPanel = new BrowserPanel(BrowserPanel.LOADING_PAGE);
-        browserPlaceholder.getChildren().clear();
+        generateDisplay = new GenerateDisplay();
+
+        loadingPanel = new BrowserPanel(BrowserPanel.LOADING_PAGE);
         browserPlaceholder.getChildren().add(loadingPanel.getRoot());
 
         moduleListPanel = new ModuleListPanel(logic.getFilteredModuleList());
@@ -272,6 +274,16 @@ public class MainWindow extends UiPart<Stage> {
     private void handleShowHelpEvent(ShowHelpRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         handleHelp();
+    }
+
+    /**
+     * Updates the browserPlaceholder to the Generate UI.
+     */
+    @Subscribe
+    private void handleNewGenerateResultAvailableEvent(NewGenerateResultAvailableEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(generateDisplay.getRoot());
     }
 
     @Subscribe
