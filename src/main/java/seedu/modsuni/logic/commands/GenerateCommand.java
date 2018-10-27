@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.MainWindowClearResourceEvent;
 import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
 import seedu.modsuni.logic.CommandHistory;
@@ -15,6 +16,7 @@ import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.student.Student;
+import seedu.modsuni.ui.BrowserPanel;
 import seedu.modsuni.ui.GenerateDisplay;
 
 /**
@@ -58,12 +60,14 @@ public class GenerateCommand extends Command {
 
         Generate generate = new Generate(currentStudent);
         SemesterList semesterList = generate.getSchedule();
-        System.out.println(semesterList.toString());
+
+        EventsCenter.getInstance().post(new MainWindowClearResourceEvent());
 
         NewCommandResultAvailableEvent newCommandResultAvailableEvent = new NewCommandResultAvailableEvent();
         newCommandResultAvailableEvent.setToBeDisplayed(new GenerateDisplay());
         EventsCenter.getInstance().post(newCommandResultAvailableEvent);
         EventsCenter.getInstance().post(new NewGenerateResultAvailableEvent(semesterList));
+
 
         //NewCommandResultAvailableEvent armutEvent = new NewCommandResultAvailableEvent();
         //BrowserPanel browserPanel = new BrowserPanel(BrowserPanel.EASTER_EGG_PAGE);
