@@ -51,14 +51,13 @@ public class GenerateCommand extends Command {
             throw new CommandException(MESSAGE_NO_MODULES);
         }
 
-        Optional<List<Code>> cannotTakeCodes = Generate.canGenerate(currentStudent);
+        Optional<List<Code>> cannotTakeCodes = model.canGenerate();
 
         if (cannotTakeCodes.isPresent()) {
             return new CommandResult(MESSAGE_FAILURE + "\n" + cannotTakeCodes.get().toString());
         }
 
-        Generate generate = new Generate(currentStudent);
-        SemesterList semesterList = generate.getSchedule();
+        SemesterList semesterList = model.generateSchedule();
 
         EventsCenter.getInstance().post(new MainWindowClearResourceEvent());
 
