@@ -6,17 +6,13 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_SAVE_PATH;
 
 import java.nio.file.Path;
 
-import jdk.jfr.Event;
 import seedu.modsuni.commons.core.EventsCenter;
-import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.NewSaveResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.SaveDisplayRequestEvent;
-import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.user.User;
-import seedu.modsuni.ui.SaveDisplay;
 
 /**
  * Saves the current user.
@@ -55,15 +51,6 @@ public class SaveCommand extends Command {
 
         EventsCenter.getInstance().post(new SaveDisplayRequestEvent());
         EventsCenter.getInstance().post(new NewSaveResultAvailableEvent(model.getCurrentUser()));
-
-//        NewCommandResultAvailableEvent newCommandResultAvailableEvent = new NewCommandResultAvailableEvent();
-//        newCommandResultAvailableEvent.setToBeDisplayed(new SaveDisplay());
-//        EventsCenter.getInstance().post(newCommandResultAvailableEvent);
-//
-//        // Update last saved
-//        EventsCenter.getInstance().post(new UserTabChangedEvent(model.getCurrentUser()));
-//
-//        EventsCenter.getInstance().post(new NewSaveResultAvailableEvent(currentUser));
 
         return new CommandResult(MESSAGE_SUCCESS);
     }
