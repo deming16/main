@@ -6,8 +6,7 @@ import java.util.Optional;
 
 import seedu.modsuni.commons.exceptions.IllegalValueException;
 import seedu.modsuni.model.module.Prereq;
-import seedu.modsuni.model.module.PrereqAnd;
-import seedu.modsuni.model.module.PrereqOr;
+import seedu.modsuni.model.module.PrereqDetails;
 
 /**
  * JAXB-friendly version of the Prereq.
@@ -16,7 +15,10 @@ public class XmlAdaptedPrereq {
     private List<XmlAdaptedAnd> and;
     private List<XmlAdaptedOr> or;
 
-    public XmlAdaptedPrereq() { }
+    public XmlAdaptedPrereq() {
+        and = new ArrayList<>();
+        or = new ArrayList<>();
+    }
 
     public List<XmlAdaptedAnd> getAnd() {
         return and;
@@ -41,20 +43,20 @@ public class XmlAdaptedPrereq {
      */
     public Prereq toModelType() throws IllegalValueException {
         Prereq prereq = new Prereq();
-        List<PrereqAnd> prereqAnds = new ArrayList<>();
-        List<PrereqOr> prereqOrs = new ArrayList<>();
-        if (and != null) {
+        if (and.size() != 0) {
+            List<PrereqDetails> prereqAnds = new ArrayList<>();
             for (XmlAdaptedAnd element : and) {
                 prereqAnds.add(element.toModelType());
             }
+            prereq.setAnd(Optional.of(prereqAnds));
         }
-        if (or != null) {
+        if (or.size() != 0) {
+            List<PrereqDetails> prereqOrs = new ArrayList<>();
             for (XmlAdaptedOr element : or) {
                 prereqOrs.add(element.toModelType());
             }
+            prereq.setOr(Optional.of(prereqOrs));
         }
-        prereq.setAnd(Optional.of(prereqAnds));
-        prereq.setOr(Optional.of(prereqOrs));
         return prereq;
     }
 

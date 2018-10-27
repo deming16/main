@@ -11,8 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import seedu.modsuni.commons.exceptions.IllegalValueException;
 import seedu.modsuni.model.module.Code;
-import seedu.modsuni.model.module.PrereqAnd;
-import seedu.modsuni.model.module.PrereqOr;
+import seedu.modsuni.model.module.PrereqDetails;
 
 /**
  * JAXB-friendly version of the Or Prereq.
@@ -24,8 +23,13 @@ public class XmlAdaptedOr {
     private List<XmlAdaptedOr> or;
     @XmlElement
     private List<XmlAdaptedAnd> and;
-
+    @XmlElement
     private String code;
+
+    public XmlAdaptedOr() {
+        and = new ArrayList<>();
+        or = new ArrayList<>();
+    }
 
     public String getCode() {
         return code;
@@ -36,23 +40,21 @@ public class XmlAdaptedOr {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted PrereqAnd code
      */
-    public PrereqOr toModelType() throws IllegalValueException {
-        PrereqOr prereqOr = new PrereqOr();
+    public PrereqDetails toModelType() throws IllegalValueException {
+        PrereqDetails prereqOr = new PrereqDetails();
         if (code != null) {
             if (!Code.isValidCode(code)) {
                 throw new IllegalValueException(Code.MESSAGE_CODE_CONSTRAINTS);
             }
             prereqOr.setCode(Optional.of(new Code(code)));
-        }
-        if (and != null) {
-            ArrayList<PrereqAnd> prereqAnds = new ArrayList<>();
+        } else if (and.size() != 0) {
+            ArrayList<PrereqDetails> prereqAnds = new ArrayList<>();
             for (XmlAdaptedAnd element : and) {
                 prereqAnds.add(element.toModelType());
             }
             prereqOr.setAnd(Optional.of(prereqAnds));
-        }
-        if (or != null) {
-            ArrayList<PrereqOr> prereqOrs = new ArrayList<>();
+        } else if (or.size() != 0) {
+            ArrayList<PrereqDetails> prereqOrs = new ArrayList<>();
             for (XmlAdaptedOr element : or) {
                 prereqOrs.add(element.toModelType());
             }
