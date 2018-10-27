@@ -124,8 +124,8 @@ public class GenerateCommandTest {
 
     @Test
     public void execute_generateSuccessful() throws Exception {
-        User student = new StudentBuilder().build();
-        ((Student) student).addModulesStaged(CS1010);
+        Student student = new StudentBuilder().build();
+        student.addModulesStaged(CS1010);
         GenerateCommand generateCommand = new GenerateCommand();
         ModelStubWithUser modelStub = new ModelStubWithUser(student);
         CommandResult commandResult = generateCommand.execute(modelStub, commandHistory);
