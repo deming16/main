@@ -10,7 +10,6 @@ import seedu.modsuni.commons.events.ui.MainWindowClearResourceEvent;
 import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
 import seedu.modsuni.logic.CommandHistory;
-import seedu.modsuni.logic.Generate;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.Code;
