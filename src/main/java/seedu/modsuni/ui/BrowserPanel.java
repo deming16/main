@@ -12,6 +12,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.web.WebView;
 import seedu.modsuni.MainApp;
 import seedu.modsuni.commons.core.LogsCenter;
+import seedu.modsuni.commons.events.ui.MainWindowClearResourceEvent;
 import seedu.modsuni.commons.events.ui.ModulePanelSelectionChangedEvent;
 import seedu.modsuni.model.module.Module;
 
@@ -80,5 +81,14 @@ public class BrowserPanel extends UiPart<Region> {
     private void handleModulePanelSelectionChangedEvent(ModulePanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         loadModulePage(event.getNewSelection());
+    }
+
+    /**
+     * Clears the web view when the event is called.
+     */
+    @Subscribe
+    private void handleMainWindowClearResourceEvent(MainWindowClearResourceEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browser.getEngine().load(null);
     }
 }
