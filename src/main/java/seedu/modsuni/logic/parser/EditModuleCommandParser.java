@@ -70,11 +70,11 @@ public class EditModuleCommandParser implements Parser<EditModuleCommand> {
         }
 
         if (argMultimap.getValue(PREFIX_MODULE_AVAILABLE).isPresent()) {
-            editModuleDescriptor.setSems(getAvailableSems(argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).get()));
+            editModuleDescriptor.setSems(getAvailableSems(argMultimap.getValue(PREFIX_MODULE_AVAILABLE).get()));
         }
         if (argMultimap.getValue(PREFIX_MODULE_PREREQ).isPresent()) {
             editModuleDescriptor
-                    .setPrereq(ParserUtil.parsePrereq(argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).get()));
+                    .setPrereq(ParserUtil.parsePrereq(argMultimap.getValue(PREFIX_MODULE_PREREQ).get()));
         }
     }
     /**
@@ -83,7 +83,7 @@ public class EditModuleCommandParser implements Parser<EditModuleCommand> {
     private boolean[] getAvailableSems(String sem) {
         boolean[] sems = new boolean[4];
 
-        for (int i = 0; i < sems.length; i++) {
+        for (int i = 0; i < 4; i++) {
 
             if (sem.charAt(i) == '1') {
                 sems[i] = true;
