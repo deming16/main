@@ -245,6 +245,11 @@ public class SearchCommandTest {
         }
 
         @Override
+        public void updateModule(Module target, Module editedModule) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean isVerifiedCredential(Credential credential) {
             throw new AssertionError("This method should not be called.");
         }

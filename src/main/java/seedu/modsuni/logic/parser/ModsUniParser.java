@@ -15,6 +15,7 @@ import seedu.modsuni.logic.commands.ClearCommand;
 import seedu.modsuni.logic.commands.Command;
 import seedu.modsuni.logic.commands.DeleteCommand;
 import seedu.modsuni.logic.commands.EditAdminCommand;
+import seedu.modsuni.logic.commands.EditModuleCommand;
 import seedu.modsuni.logic.commands.EditStudentCommand;
 import seedu.modsuni.logic.commands.ExitCommand;
 import seedu.modsuni.logic.commands.FindCommand;
@@ -132,6 +133,8 @@ public class ModsUniParser {
 
         case RemoveModuleFromDatabaseCommand.COMMAND_WORD:
             return new RemoveModuleFromDatabaseCommandParser().parse(arguments);
+        case EditModuleCommand.COMMAND_WORD:
+            return new EditModuleCommandParser().parse(arguments);
 
         case ShowUsernameCommand.COMMAND_WORD:
             return new ShowUsernameCommand();

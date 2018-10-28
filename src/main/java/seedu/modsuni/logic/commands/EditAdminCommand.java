@@ -17,6 +17,7 @@ import seedu.modsuni.model.Model;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.EmployDate;
 import seedu.modsuni.model.user.Name;
+import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.Salary;
 
 /**
@@ -45,6 +46,8 @@ public class EditAdminCommand extends Command {
     public static final String MESSAGE_NOT_LOGGED_IN = "You need to be logged"
             + " in!";
 
+    public static final String MESSAGE_NOT_ADMIN = "Only an admin user can execute this command";
+
     private final EditAdminDescriptor editAdminDescriptor;
 
     public EditAdminCommand(EditAdminDescriptor editAdminDescriptor) {
@@ -58,6 +61,10 @@ public class EditAdminCommand extends Command {
 
         if (model.getCurrentUser() == null) {
             throw new CommandException(MESSAGE_NOT_LOGGED_IN);
+        }
+
+        if (model.getCurrentUser().getRole() != Role.ADMIN) {
+            throw new CommandException(MESSAGE_NOT_ADMIN);
         }
 
         Admin editedAdmin =

@@ -282,6 +282,11 @@ public class RemoveModuleFromDatabaseCommandTest {
         }
 
         @Override
+        public void updateModule(Module target, Module editedModule) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean hasCredential(Credential credential) {
             throw new AssertionError("This method should not be called.");
         }

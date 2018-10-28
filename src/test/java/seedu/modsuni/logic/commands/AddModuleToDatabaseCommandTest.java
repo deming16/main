@@ -271,6 +271,11 @@ public class AddModuleToDatabaseCommandTest {
         }
 
         @Override
+        public void updateModule(Module target, Module editedModule) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<Module> getObservableModuleList() {
             throw new AssertionError("This method should not be called.");
         }

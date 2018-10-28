@@ -247,6 +247,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public void updateModule(Module target, Module editedModule) {
+        requireAllNonNull(target, editedModule); (
+                (ModuleList) moduleList).updateModule(target, editedModule);
+    }
+
+    @Override
     public ObservableList<Module> getObservableModuleList() {
         ModuleList modList = (ModuleList) this.getModuleList();
         return modList.getModuleList();

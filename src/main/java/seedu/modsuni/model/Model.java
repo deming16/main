@@ -93,6 +93,11 @@ public interface Model {
     boolean hasModuleInDatabase(Module module);
 
     /**
+     * Replace the (@code target} module with {@code editModule}.
+     */
+    void updateModule(Module target, Module editedModule);
+
+    /**
      * Check if the user is a admin.
      */
     boolean isAdmin();
