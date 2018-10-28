@@ -34,6 +34,9 @@ public class PrereqGenerator {
      */
     public Prereq generate(String strings) {
         this.strings = strings;
+        if (strings.isEmpty()) {
+            return start;
+        }
         initialisePrereq();
         for (int i = 1; i < strings.length(); i++) {
             if (strings.charAt(i) == '(') {
