@@ -150,11 +150,12 @@ public class CommandTestUtil {
     public static final String INVALID_SALARY_DESC = " " + PREFIX_SALARY + "oneHundered";
 
     public static final String VALID_CODE_CS2109 = "CS2109";
-    public static final String VALID_CREDIT_CS2109 = "4";
+    public static final String VALID_CREDIT_CS2109 = "6";
     public static final String VALID_DESCRIPTION_CS2109 = "description cs2109";
     public static final String VALID_DEPARTMENT_CS2109 = "department";
     public static final String VALID_TITLE_CS2109 = "the cs2109 module";
     public static final String VALID_AVAILABLE_CS2109 = "1111";
+    public static final boolean[] VALID_SEMS_CS2109 = {true, true, true, true};
     public static final Code VALID_CODE_CS1010 = new Code("CS1010");
     public static final Code VALID_CODE_ACC1002 = new Code("ACC1002");
     public static final Code VALID_CODE_ACC1002X = new Code("ACC1002X");
