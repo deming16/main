@@ -34,8 +34,7 @@ public class EditModuleCommand extends Command {
             + "[" + PREFIX_MODULE_DEPARTMENT + "DEPARTMENT] "
             + "[" + PREFIX_MODULE_DESCRIPTION + "DESCRIPTION]\n";
 
-    public static final String MESSAGE_EDIT_MODULE_SUCCESS = "Edit "
-            + "Successfully!\n%1$s";
+    public static final String MESSAGE_EDIT_MODULE_SUCCESS = "Edit Successfully!%1$s";
 
     public static final String MESSAGE_NOT_EDITED = "At least one field to "
             + "edit must be provided.";
@@ -44,6 +43,7 @@ public class EditModuleCommand extends Command {
             + " in!";
 
     public static final String MESSAGE_NOT_ADMIN = "Only an admin user can execute this command";
+    public static final String MESSAGE_DUPLICATE_MODULE = "This module already exist in the database.";
 
     private final EditModuleDescriptor editModuleDescriptor;
     private final Index index;
@@ -71,6 +71,9 @@ public class EditModuleCommand extends Command {
         Module moduleToEdit = lastShownList.get(index.getZeroBased());
         Module editedModule =
                 createEditedModule(moduleToEdit, editModuleDescriptor);
+        if (!moduleToEdit.isSameModule(editedModule) && model.hasModuleInDatabase(editedModule)) {
+            throw new CommandException(MESSAGE_DUPLICATE_MODULE);
+        }
         model.updateModule(moduleToEdit, editedModule);
         model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
         return new CommandResult(String.format(MESSAGE_EDIT_MODULE_SUCCESS,
@@ -120,7 +123,7 @@ public class EditModuleCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof EditModuleDescriptor)) {
+        if (!(other instanceof EditModuleCommand)) {
             return false;
         }
 
@@ -139,7 +142,7 @@ public class EditModuleCommand extends Command {
         private String deparment;
         private String title;
         private String description;
-        private int credit;
+        private Integer credit;
         private boolean[] sems;
         private Prereq prereq;
 

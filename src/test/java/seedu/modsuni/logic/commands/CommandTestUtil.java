@@ -26,6 +26,8 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 import static seedu.modsuni.testutil.TypicalAdmins.ALICE;
 import static seedu.modsuni.testutil.TypicalAdmins.BRAD;
+import static seedu.modsuni.testutil.TypicalModules.ACC1002;
+import static seedu.modsuni.testutil.TypicalModules.CS1010;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_SEB;
 
@@ -39,9 +41,12 @@ import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.Code;
+import seedu.modsuni.model.module.CodeContainsKeywordsPredicate;
+import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.NameContainsKeywordsPredicate;
 import seedu.modsuni.model.person.Person;
 import seedu.modsuni.testutil.EditAdminDescriptorBuilder;
+import seedu.modsuni.testutil.EditModuleDescriptorBuilder;
 import seedu.modsuni.testutil.EditPersonDescriptorBuilder;
 import seedu.modsuni.testutil.EditStudentDescriptorBuilder;
 
@@ -125,6 +130,8 @@ public class CommandTestUtil {
     public static final EditStudentCommand.EditStudentDescriptor DESC_SEB;
     public static final EditAdminCommand.EditAdminDescriptor DESC_ALICE;
     public static final EditAdminCommand.EditAdminDescriptor DESC_BRAD;
+    public static final EditModuleCommand.EditModuleDescriptor DESC_CS1010;
+    public static final EditModuleCommand.EditModuleDescriptor DESC_ACC1002;
 
     public static final String VALID_SALARY_AMY = "5000";
     public static final String VALID_EMPLOY_DATE_AMY = "09/09/2018";
@@ -169,6 +176,8 @@ public class CommandTestUtil {
         DESC_SEB = new EditStudentDescriptorBuilder(STUDENT_SEB).build();
         DESC_ALICE = new EditAdminDescriptorBuilder(ALICE).build();
         DESC_BRAD = new EditAdminDescriptorBuilder(BRAD).build();
+        DESC_ACC1002 = new EditModuleDescriptorBuilder(ACC1002).build();
+        DESC_CS1010 = new EditModuleDescriptorBuilder(CS1010).build();
     }
     /**
      * Executes the given {@code command}, confirms that <br>
@@ -228,6 +237,20 @@ public class CommandTestUtil {
         model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredPersonList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the module at the given {@code targetIndex} in the
+     * {@code model}'s modsuni book.
+     */
+    public static void showModuleAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredModuleList().size());
+
+        Module module = model.getFilteredModuleList().get(targetIndex.getZeroBased());
+        final String[] splitName = module.getCode().code.split("\\s+");
+        model.updateFilteredModuleList(new CodeContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+
+        assertEquals(1, model.getFilteredModuleList().size());
     }
 
     /**

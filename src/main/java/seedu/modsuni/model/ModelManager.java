@@ -65,7 +65,7 @@ public class ModelManager extends ComponentManager implements Model {
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         this.credentialStore = (CredentialStore) credentialStore;
-        this.filteredModules = new FilteredList<>(currentModuleList.getModuleList());
+        this.filteredModules = new FilteredList<>(moduleList.getModuleList());
         this.currentUser = null;
     }
 
