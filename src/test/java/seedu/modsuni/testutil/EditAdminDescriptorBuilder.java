@@ -54,7 +54,7 @@ public class EditAdminDescriptorBuilder {
      * Sets the {@code employmentDate} of the {@code EditAdminDescriptor} that
      * we are building.
      */
-    public EditAdminDescriptorBuilder withEnrollmentDate(String employmentDate) {
+    public EditAdminDescriptorBuilder withEmploymentDate(String employmentDate) {
         descriptor.setEmploymentDate(new EmployDate(employmentDate));
         return this;
     }
