@@ -41,7 +41,14 @@ public class EditModuleCommandParser implements Parser<EditModuleCommand> {
                     EditModuleCommand.MESSAGE_USAGE), pe);
         }
         EditModuleDescriptor editModuleDescriptor = new EditModuleDescriptor();
-
+        setUpEditModuleDescriptor(editModuleDescriptor, argMultimap);
+        if (!editModuleDescriptor.isAnyFieldEdited()) {
+            throw new ParseException(EditModuleCommand.MESSAGE_NOT_EDITED);
+        }
+        return new EditModuleCommand(index, editModuleDescriptor);
+    }
+    private void setUpEditModuleDescriptor(EditModuleDescriptor editModuleDescriptor,
+                                                ArgumentMultimap argMultimap) throws ParseException {
         if (argMultimap.getValue(PREFIX_MODULE_CODE).isPresent()) {
             editModuleDescriptor.setCode(
                     new Code(ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE_CODE).get())));
@@ -69,12 +76,7 @@ public class EditModuleCommandParser implements Parser<EditModuleCommand> {
             editModuleDescriptor
                     .setPrereq(ParserUtil.parsePrereq(argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).get()));
         }
-        if (!editModuleDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditModuleCommand.MESSAGE_NOT_EDITED);
-        }
-        return new EditModuleCommand(index, editModuleDescriptor);
     }
-
     /**
      * Converts the given {@code String} of available semester into its respective booleans.
      */
