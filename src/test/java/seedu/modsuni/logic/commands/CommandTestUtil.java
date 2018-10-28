@@ -24,6 +24,8 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
+import static seedu.modsuni.testutil.TypicalAdmins.ALICE;
+import static seedu.modsuni.testutil.TypicalAdmins.BRAD;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_SEB;
 
@@ -39,6 +41,7 @@ import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.person.NameContainsKeywordsPredicate;
 import seedu.modsuni.model.person.Person;
+import seedu.modsuni.testutil.EditAdminDescriptorBuilder;
 import seedu.modsuni.testutil.EditPersonDescriptorBuilder;
 import seedu.modsuni.testutil.EditStudentDescriptorBuilder;
 
@@ -120,6 +123,8 @@ public class CommandTestUtil {
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
     public static final EditStudentCommand.EditStudentDescriptor DESC_MAX;
     public static final EditStudentCommand.EditStudentDescriptor DESC_SEB;
+    public static final EditAdminCommand.EditAdminDescriptor DESC_ALICE;
+    public static final EditAdminCommand.EditAdminDescriptor DESC_BRAD;
 
     public static final String VALID_SALARY_AMY = "5000";
     public static final String VALID_EMPLOY_DATE_AMY = "09/09/2018";
@@ -162,6 +167,8 @@ public class CommandTestUtil {
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         DESC_MAX = new EditStudentDescriptorBuilder(STUDENT_MAX).build();
         DESC_SEB = new EditStudentDescriptorBuilder(STUDENT_SEB).build();
+        DESC_ALICE = new EditAdminDescriptorBuilder(ALICE).build();
+        DESC_BRAD = new EditAdminDescriptorBuilder(BRAD).build();
     }
     /**
      * Executes the given {@code command}, confirms that <br>
