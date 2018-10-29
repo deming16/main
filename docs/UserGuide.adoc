@@ -65,8 +65,9 @@ Format: `help`
 
 === Adding a module to student's staged module list: `addModuleS`
 
-Adds a module to the student’s staged module list. It's the module list student about to take. +
-Adding is case insensitive. +
+Adds a module to the student’s staged module list.
+Staged list is the module list student about to take. +
+This command is case insensitive. +
 Format: `addModuleS <MOD_CODE> [MORE MOD_CODE]`
 
 Examples:
@@ -77,12 +78,11 @@ Both the above commands will have the same effect.
 
 * `addModuleS CS2103T CS2101 CS1010`
 
-By executing the above command, UI will display the student's staged module list.
-
 === Adding a module to student's taken module list: `addModuleT`
 
-Adds a module to the student’s taken module list. It's the module list student has taken. +
-Adding is case insensitive. +
+Adds a module to the student’s taken module list.
+Taken list is the module list student about to take. +
+This command is case insensitive. +
 Format: `addModuleT <MOD_CODE> [MORE MOD_CODE]`
 
 Examples:
@@ -95,8 +95,9 @@ Both the above commands will have the same effect.
 
 === Deleting a module from student's staged module list: `removeModuleS`
 
-Deletes a module from the student’s staged module list. It's the module list student about to take. +
-Deleting is case insensitive. +
+Deletes a module from the student’s staged module list.
+Staged list is the module list student about to take. +
+This command is case insensitive. +
 Format: `removeModuleS <MOD_CODE> [MORE MOD_CODE]`
 
 Examples:
@@ -109,8 +110,9 @@ Both the above commands will have the same effect.
 
 === Deleting a module from student's taken module list: `removeModuleT`
 
-Deletes a module form the student’s taken module list. It's the module list student has taken. +
-Deleting is case insensitive. +
+Deletes a module form the student’s taken module list.
+Taken list is the module list student about to take. +
+This command is case insensitive. +
 Format: `removeModuleT <MOD_CODE> [MORE MOD_CODE]`
 
 Examples:
@@ -120,6 +122,10 @@ Examples:
 Both the above commands will have the same effect.
 
 * `removeModuleT CS2103T CS2101 CS1010`
+
+By executing the above add/remove command, the application will display
+the respective module list.
+
 
 === Searching for a module in the database: `search`
 
@@ -133,6 +139,9 @@ Returns a list of modules that begin with CS101 or GEH.
 
 * `search cs101 gEh` +
 Returns the same result as above.
+
+By executing this command, the application will display
+the filtered database module list.
 
 === Saving user data: `save`
 
