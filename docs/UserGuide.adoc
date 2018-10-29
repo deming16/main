@@ -286,10 +286,10 @@ Removes a module with module code "CS2109" if it exists.
 == Command Summary
 
 * *Help* : `help`
-* *Add to Staged: `addModuleS <MOD_CODE> [MORE_MOD_CODES]`
-* *Add to Taken: `addModuleT <MOD_CODE> [MORE_MOD_CODES]`
-* *Delete from Staged: `removeModuleS <MOD_CODE> [MORE_MOD_CODES]`
-* *Deleter from Taken: `removeModuleT <MOD_CODE> [MORE_MOD_CODES]`
+* *Add to Staged*: `addModuleS <MOD_CODE> [MORE_MOD_CODES]`
+* *Add to Taken*: `addModuleT <MOD_CODE> [MORE_MOD_CODES]`
+* *Delete from Staged*: `removeModuleS <MOD_CODE> [MORE_MOD_CODES]`
+* *Deleter from Taken*: `removeModuleT <MOD_CODE> [MORE_MOD_CODES]`
 * *Search* : `search <KEYWORD> [MORE_KEYWORDS]`
 * *Save* : `save sp/[FILE_NAME]`
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
