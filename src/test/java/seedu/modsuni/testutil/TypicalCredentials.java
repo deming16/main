@@ -16,7 +16,7 @@ public class TypicalCredentials {
     public static final Credential CREDENTIAL_STUDENT_MAX =
         new CredentialBuilder()
             .withUsername("max33")
-            .withPassword("5ddd2cc3ae3a14b4d717e9a0eaa8b44f6d9d10d0d5edd8183d569622e29ce680")
+            .withPassword("7ecccb4114345326ec385a43f6a56ed525cdd2e4eeb9d06fbd9f9d7a8d718495")
             .build();
 
 
