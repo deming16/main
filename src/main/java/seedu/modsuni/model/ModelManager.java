@@ -25,6 +25,7 @@ import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.user.Admin;
@@ -40,33 +41,40 @@ import seedu.modsuni.storage.XmlUserStorage;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-    private static ReadOnlyModuleList currentModuleList = new ModuleList();
-    private final ReadOnlyModuleList moduleList;
+    private final ReadOnlyModuleList databaseModuleList;
+    private final ReadOnlyModuleList stagedModuleList;
+    private final ReadOnlyModuleList takenModuleList;
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
     private final CredentialStore credentialStore;
-    private FilteredList<Module> filteredModules;
+    private FilteredList<Module> filteredDatabaseModules;
+    private FilteredList<Module> filteredStagedModules;
+    private FilteredList<Module> filteredTakenModules;
     private User currentUser = null;
 
     /**
-     * Initializes a ModelManager with the given moduleList, addressBook, userPrefs, credentialStore and
+     * Initializes a ModelManager with the given databaseModuleList, addressBook, userPrefs, credentialStore and
      * configStore.
      */
-    public ModelManager(ReadOnlyModuleList moduleList, ReadOnlyAddressBook addressBook, UserPrefs userPrefs,
+    public ModelManager(ReadOnlyModuleList databseModuleList, ReadOnlyAddressBook addressBook, UserPrefs userPrefs,
                         ReadOnlyCredentialStore credentialStore) {
 
-        requireAllNonNull(moduleList, addressBook, userPrefs, credentialStore);
+        requireAllNonNull(databseModuleList, addressBook, userPrefs, credentialStore);
 
-        logger.fine("Initializing with modulelist: " + moduleList + " modsuni book: " + addressBook
+        logger.fine("Initializing with modulelist: " + databseModuleList + " modsuni book: " + addressBook
             + " and user prefs " + userPrefs);
 
 
-        this.moduleList = moduleList;
+        this.databaseModuleList = databseModuleList;
+        this.stagedModuleList = new ModuleList();
+        this.takenModuleList = new ModuleList();
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         this.credentialStore = (CredentialStore) credentialStore;
-        this.filteredModules = new FilteredList<>(currentModuleList.getModuleList());
         this.currentUser = null;
+        this.filteredDatabaseModules = new FilteredList<>(databseModuleList.getModuleList());
+        this.filteredStagedModules = new FilteredList<>(stagedModuleList.getModuleList());
+        this.filteredTakenModules = new FilteredList<>(takenModuleList.getModuleList());
     }
 
     public ModelManager() {
@@ -87,13 +95,14 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public ReadOnlyModuleList getModuleList() {
-        return moduleList;
+        return databaseModuleList;
     }
 
     @Override
-    public Optional<Module> searchModuleInModuleList(Module module) {
+    public Optional<Module> searchCodeInDatabase(Code code) {
+        requireNonNull(code);
         ModuleList moduleList = (ModuleList) getModuleList();
-        return moduleList.getModuleInformation(module);
+        return moduleList.searchCode(code);
     }
 
     /**
@@ -142,7 +151,9 @@ public class ModelManager extends ComponentManager implements Model {
 
         Student student = (Student) getCurrentUser();
         student.removeModulesTaken(module); (
-                (ModuleList) currentModuleList).setModules(student.getModulesTaken().asUnmodifiableObservableList());
+                (ModuleList) takenModuleList).removeModule(module);
+
+        updateFilteredDatabaseModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 
     @Override
@@ -154,7 +165,9 @@ public class ModelManager extends ComponentManager implements Model {
 
         Student student = (Student) getCurrentUser();
         student.addModulesTaken(module); (
-                (ModuleList) currentModuleList).setModules(student.getModulesTaken().asUnmodifiableObservableList());
+                (ModuleList) takenModuleList).addModule(module);
+
+        updateFilteredDatabaseModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 
     @Override
@@ -177,7 +190,9 @@ public class ModelManager extends ComponentManager implements Model {
 
         Student student = (Student) getCurrentUser();
         student.removeModulesStaged(module); (
-                (ModuleList) currentModuleList).setModules(student.getModulesStaged().asUnmodifiableObservableList());
+                (ModuleList) stagedModuleList).removeModule(module);
+
+        updateFilteredDatabaseModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 
     @Override
@@ -189,7 +204,9 @@ public class ModelManager extends ComponentManager implements Model {
 
         Student student = (Student) getCurrentUser();
         student.addModulesStaged(module); (
-                (ModuleList) currentModuleList).setModules(student.getModulesStaged().asUnmodifiableObservableList());
+                (ModuleList) stagedModuleList).addModule(module);
+
+        updateFilteredDatabaseModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
 
     @Override
@@ -207,7 +224,7 @@ public class ModelManager extends ComponentManager implements Model {
         if (currentUser == null) {
             return false;
         }
-        return currentUser.getRole() == Role.STUDENT;
+        return currentUser.getRole() == Role.STUDENT && currentUser instanceof Student;
     }
 
     //=========== Admin Account Management =============================================================
@@ -223,27 +240,27 @@ public class ModelManager extends ComponentManager implements Model {
      * Raise an event indicating that credential store has change
      */
     private void indicateModuleListChanged() {
-        raise(new ModuleListChangedEvent(moduleList));
+        raise(new ModuleListChangedEvent(databaseModuleList));
     }
 
     @Override
     public void addModuleToDatabase(Module module) {
         requireNonNull(module); (
-                (ModuleList) moduleList).addModule(module);
+                (ModuleList) databaseModuleList).addModule(module);
         indicateModuleListChanged();
     }
 
     @Override
     public void removeModuleFromDatabase(Module module) {
         requireNonNull(module); (
-                (ModuleList) moduleList).removeModule(module);
+                (ModuleList) databaseModuleList).removeModule(module);
         indicateModuleListChanged();
     }
 
     @Override
     public boolean hasModuleInDatabase(Module module) {
         requireNonNull(module);
-        return ((ModuleList) moduleList).hasModule(module);
+        return ((ModuleList) databaseModuleList).hasModule(module);
     }
 
     @Override
@@ -280,15 +297,24 @@ public class ModelManager extends ComponentManager implements Model {
      * Returns an unmodifiable view of the list of {@code Module} backed by the internal list of
      */
     @Override
-    public ObservableList<Module> getFilteredModuleList() {
-        return FXCollections.unmodifiableObservableList(filteredModules);
+    public ObservableList<Module> getFilteredDatabaseModuleList() {
+        return FXCollections.unmodifiableObservableList(filteredDatabaseModules);
     }
 
     @Override
-    public void updateFilteredModuleList(Predicate<Module> predicate) {
-        requireNonNull(predicate); (
-                (ModuleList) currentModuleList).resetData(moduleList);
-        filteredModules.setPredicate(predicate);
+    public ObservableList<Module> getFilteredStagedModuleList() {
+        return FXCollections.unmodifiableObservableList(filteredStagedModules);
+    }
+
+    @Override
+    public ObservableList<Module> getFilteredTakenModuleList() {
+        return FXCollections.unmodifiableObservableList(filteredTakenModules);
+    }
+
+    @Override
+    public void updateFilteredDatabaseModuleList(Predicate<Module> predicate) {
+        requireNonNull(predicate);
+        filteredDatabaseModules.setPredicate(predicate);
     }
 
     //=========== Undo/Redo =================================================================================
@@ -386,6 +412,11 @@ public class ModelManager extends ComponentManager implements Model {
     public void setCurrentUser(User user) {
         requireNonNull(user);
         currentUser = user;
+        if (isStudent()) {
+            Student student = (Student) getCurrentUser(); (
+            (ModuleList) stagedModuleList).setModules(student.getModulesStaged().asUnmodifiableObservableList()); (
+                    (ModuleList) takenModuleList).setModules(student.getModulesTaken().asUnmodifiableObservableList());
+        }
     }
 
     @Override
