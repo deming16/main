@@ -278,7 +278,7 @@ public class MainWindow extends UiPart<Stage> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         handleHelp();
     }
-  
+
     @Subscribe
     private void handleNewCommandResultAvailableEvent(NewCommandResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));

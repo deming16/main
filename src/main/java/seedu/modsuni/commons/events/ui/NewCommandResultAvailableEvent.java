@@ -31,5 +31,4 @@ public class NewCommandResultAvailableEvent extends BaseEvent {
     public String toString() {
         return getClass().getSimpleName();
     }
-  
 }

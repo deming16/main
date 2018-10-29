@@ -41,7 +41,7 @@ public class Semester {
     public ObservableList<Module> getModuleList() {
         return toBeTaken.asUnmodifiableObservableList();
     }
-  
+
     public ObservableList<String> getModuleCodeList() {
         ObservableList<String> codes = FXCollections.observableArrayList();
         for (Module module : toBeTaken) {
@@ -66,5 +66,4 @@ public class Semester {
     public String toString() {
         return toBeTaken.getAllCode().toString();
     }
-  
 }
