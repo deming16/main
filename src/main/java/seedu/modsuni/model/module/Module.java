@@ -108,6 +108,10 @@ public class Module {
         return sems;
     }
 
+    public boolean checkPrereq(List<Code> codeChecklist) {
+        return prereq.checkPrereq(codeChecklist);
+    }
+
     /**
      * Returns true if both modules of the same code.
      * This defines a weaker notion of equality between two modules.

@@ -18,7 +18,7 @@ import seedu.modsuni.commons.core.Config;
 import seedu.modsuni.commons.core.GuiSettings;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.ExitAppRequestEvent;
-import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
+import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.ShowDatabaseTabRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowHelpRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowStagedTabRequestEvent;
@@ -47,6 +47,9 @@ public class MainWindow extends UiPart<Stage> {
     private UserPrefs prefs;
     private HelpWindow helpWindow;
     private UserTab userTabController;
+
+    private BrowserPanel loadingPanel;
+    private GenerateDisplay generateDisplay;
 
     @FXML
     private StackPane browserPlaceholder;
@@ -85,6 +88,7 @@ public class MainWindow extends UiPart<Stage> {
         super(FXML, primaryStage);
 
         // Set dependencies
+        this.browserPanel = new BrowserPanel();
         this.primaryStage = primaryStage;
         this.logic = logic;
         this.config = config;
@@ -146,8 +150,10 @@ public class MainWindow extends UiPart<Stage> {
         userTabController = new UserTab();
         userTabPlaceHolder.getChildren().add(userTabController.getRoot());
 
-        browserPanel = new BrowserPanel();
-        browserPlaceholder.getChildren().add(browserPanel.getRoot());
+        generateDisplay = new GenerateDisplay();
+
+        loadingPanel = new BrowserPanel(BrowserPanel.LOADING_PAGE);
+        browserPlaceholder.getChildren().add(loadingPanel.getRoot());
 
         moduleListPanel = new ModuleListPanel(logic.getFilteredModuleList());
         moduleListPanelPlaceholder.getChildren().add(moduleListPanel.getRoot());
@@ -196,7 +202,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     void releaseResources() {
-        browserPanel.freeResources();
+        browserPlaceholder.getChildren().clear();
     }
 
     /**
@@ -269,10 +275,14 @@ public class MainWindow extends UiPart<Stage> {
         handleHelp();
     }
 
+    /**
+     * Updates the browserPlaceholder to the Generate UI.
+     */
     @Subscribe
-    private void handleNewCommandResultAvailableEvent(NewCommandResultAvailableEvent event) {
+    private void handleNewGenerateResultAvailableEvent(NewGenerateResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         browserPlaceholder.getChildren().clear();
-        browserPlaceholder.getChildren().add(event.getToBeDisplayed().getRoot());
+        browserPlaceholder.getChildren().add(generateDisplay.getRoot());
     }
+
 }

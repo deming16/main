@@ -7,16 +7,15 @@ import java.util.Stack;
 
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Prereq;
-import seedu.modsuni.model.module.PrereqAnd;
-import seedu.modsuni.model.module.PrereqOr;
+import seedu.modsuni.model.module.PrereqDetails;
 
 /**
  * This class is used to facilitate the generation of a {@code Prereq} object.
  */
 public class PrereqGenerator {
     private Stack<String> stack;
-    private Stack<Optional<List<PrereqOr>>> orStack;
-    private Stack<Optional<List<PrereqAnd>>> andStack;
+    private Stack<Optional<List<PrereqDetails>>> orStack;
+    private Stack<Optional<List<PrereqDetails>>> andStack;
     private Prereq start;
     private String strings = null;
     private StringBuilder builder;
@@ -83,14 +82,14 @@ public class PrereqGenerator {
         }
     }
 
-    private PrereqOr attachOrModule(String module) {
-        PrereqOr current = new PrereqOr();
+    private PrereqDetails attachOrModule(String module) {
+        PrereqDetails current = new PrereqDetails();
         current.setCode(Optional.of(new Code(module)));
         return current;
     }
 
-    private PrereqAnd attachAndModule(String module) {
-        PrereqAnd current = new PrereqAnd();
+    private PrereqDetails attachAndModule(String module) {
+        PrereqDetails current = new PrereqDetails();
         current.setCode(Optional.of(new Code(module)));
         return current;
     }
@@ -112,12 +111,12 @@ public class PrereqGenerator {
      */
     private void createNewOrList () {
         if (stack.peek().equals("|")) {
-            PrereqOr current = new PrereqOr();
+            PrereqDetails current = new PrereqDetails();
             attachNewOrListToOr(current);
             orStack.peek().get().add(current);
             orStack.push(current.getOr());
         } else if (stack.peek().equals("&")) {
-            PrereqAnd current = new PrereqAnd();
+            PrereqDetails current = new PrereqDetails();
             attachNewOrListToAnd(current);
             andStack.peek().get().add(current);
             orStack.push(current.getOr());
@@ -130,12 +129,12 @@ public class PrereqGenerator {
      */
     private void createNewAndList() {
         if (stack.peek().equals("|")) {
-            PrereqOr current = new PrereqOr();
+            PrereqDetails current = new PrereqDetails();
             attachNewAndListToOr(current);
             orStack.peek().get().add(current);
             andStack.push(current.getAnd());
         } else if (stack.peek().equals("&")) {
-            PrereqAnd current = new PrereqAnd();
+            PrereqDetails current = new PrereqDetails();
             attachNewAndListToAnd(current);
             andStack.peek().get().add(current);
             andStack.push(current.getAnd());
@@ -144,32 +143,32 @@ public class PrereqGenerator {
     }
 
 
-    private void attachNewOrListToOr(PrereqOr current) {
-        Optional<List<PrereqOr>> next = Optional.of(new ArrayList());
+    private void attachNewOrListToOr(PrereqDetails current) {
+        Optional<List<PrereqDetails>> next = Optional.of(new ArrayList());
         current.setOr(next);
     }
 
-    private void attachNewOrListToAnd(PrereqAnd current) {
-        Optional<List<PrereqOr>> next = Optional.of(new ArrayList());
+    private void attachNewOrListToAnd(PrereqDetails current) {
+        Optional<List<PrereqDetails>> next = Optional.of(new ArrayList());
         current.setOr(next);
     }
 
     private void attachNewOrList(Prereq start) {
-        Optional<List<PrereqOr>> next = Optional.of(new ArrayList());
+        Optional<List<PrereqDetails>> next = Optional.of(new ArrayList());
         start.setOr(next);
     }
 
-    private void attachNewAndListToOr(PrereqOr current) {
-        Optional<List<PrereqAnd>> next = Optional.of(new ArrayList());
+    private void attachNewAndListToOr(PrereqDetails current) {
+        Optional<List<PrereqDetails>> next = Optional.of(new ArrayList());
         current.setAnd(next);
     }
 
-    private void attachNewAndListToAnd(PrereqAnd current) {
-        Optional<List<PrereqAnd>> next = Optional.of(new ArrayList());
+    private void attachNewAndListToAnd(PrereqDetails current) {
+        Optional<List<PrereqDetails>> next = Optional.of(new ArrayList());
         current.setAnd(next);
     }
     private void attachNewAndList(Prereq start) {
-        Optional<List<PrereqAnd>> next = Optional.of(new ArrayList());
+        Optional<List<PrereqDetails>> next = Optional.of(new ArrayList());
         start.setAnd(next);
     }
 

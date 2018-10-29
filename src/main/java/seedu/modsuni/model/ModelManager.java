@@ -5,6 +5,7 @@ import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -20,13 +21,16 @@ import seedu.modsuni.commons.events.model.CredentialStoreChangedEvent;
 import seedu.modsuni.commons.events.model.ModuleListChangedEvent;
 import seedu.modsuni.commons.events.model.SaveUserChangedEvent;
 import seedu.modsuni.commons.exceptions.DataConversionException;
+import seedu.modsuni.logic.Generate;
 import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
+import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
@@ -402,6 +406,23 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    //============= Generate Methods ============================
+
+    @Override
+    public Optional<List<Code>> canGenerate() {
+        if (isStudent()) {
+            return Generate.canGenerate((Student) getCurrentUser());
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public SemesterList generateSchedule() {
+        Generate generate = new Generate((Student) getCurrentUser());
+        return generate.getSchedule();
     }
 
     @Override

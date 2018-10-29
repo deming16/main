@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -28,8 +29,10 @@ import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
+import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
@@ -330,6 +333,16 @@ public class RemoveUserCommandTest {
 
         @Override
         public Optional<Module> searchModuleInModuleList(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Optional<List<Code>> canGenerate() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public SemesterList generateSchedule() {
             throw new AssertionError("This method should not be called.");
         }
 
