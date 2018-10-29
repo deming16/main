@@ -297,6 +297,7 @@ Examples:
 
 * `set-theme <FILE_NAME>.xml`
 
+// tag::admincommands[]
 === Add a new administrator account: `addAdmin`
 
 Create and add a new adminstrator account. +
@@ -416,6 +417,7 @@ Examples:
 
 * `removeModuleDB CS2109` +
 Removes a module with module code "CS2109" if it exists.
+// end::admincommands[]
 
 == FAQ
 
