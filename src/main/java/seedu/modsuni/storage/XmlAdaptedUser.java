@@ -231,7 +231,7 @@ public class XmlAdaptedUser {
         if (enrollmentDate == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "enrollment"));
         }
-        if (!EnrollmentDate.isValidEmployDate(enrollmentDate)) {
+        if (!EnrollmentDate.isValidEnrollmentDate(enrollmentDate)) {
             throw new IllegalValueException(EnrollmentDate.MESSAGE_DATE_CONSTRAINTS);
         }
         if (major == null) {

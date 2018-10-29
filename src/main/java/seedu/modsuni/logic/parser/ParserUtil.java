@@ -227,7 +227,7 @@ public class ParserUtil {
     public static EnrollmentDate parseEnrollmentDate(String enrollmentDate) throws ParseException {
         requireNonNull(enrollmentDate);
         String trimmedDate = enrollmentDate.trim();
-        if (!EnrollmentDate.isValidEmployDate(trimmedDate)) {
+        if (!EnrollmentDate.isValidEnrollmentDate(trimmedDate)) {
             throw new ParseException(EnrollmentDate.MESSAGE_DATE_CONSTRAINTS);
         }
         return new EnrollmentDate(trimmedDate);
