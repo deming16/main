@@ -59,15 +59,15 @@ public class EditModuleCommandTest {
         ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
                 new UserPrefs(), new CredentialStore());
 
-        expectedModel.updateModule(model.getFilteredModuleList().get(0), editedModule);
+        expectedModel.updateModule(model.getFilteredDatabaseModuleList().get(0), editedModule);
 
         assertCommandSuccess(editModuleCommand, model, commandHistory, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
-        Index indexLastModule = Index.fromOneBased(model.getFilteredModuleList().size());
-        Module lastModule = model.getFilteredModuleList().get(indexLastModule.getZeroBased());
+        Index indexLastModule = Index.fromOneBased(model.getFilteredDatabaseModuleList().size());
+        Module lastModule = model.getFilteredDatabaseModuleList().get(indexLastModule.getZeroBased());
 
         ModuleBuilder moduleInList = new ModuleBuilder(lastModule);
         Module editedModule = moduleInList.withTitle(VALID_TITLE_CS2109).withDepartment(VALID_DEPARTMENT_CS2109)
@@ -90,7 +90,7 @@ public class EditModuleCommandTest {
     @Test
     public void execute_noFieldSpecifiedUnfilteredList_success() {
         EditModuleCommand editModuleCommand = new EditModuleCommand(INDEX_FIRST_MODULE, new EditModuleDescriptor());
-        Module editedModule = model.getFilteredModuleList().get(INDEX_FIRST_MODULE.getZeroBased());
+        Module editedModule = model.getFilteredDatabaseModuleList().get(INDEX_FIRST_MODULE.getZeroBased());
 
         String expectedMessage = String.format(EditModuleCommand.MESSAGE_EDIT_MODULE_SUCCESS, editedModule);
         ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
@@ -103,7 +103,7 @@ public class EditModuleCommandTest {
     public void execute_filteredList_success() {
         showModuleAtIndex(model, INDEX_FIRST_MODULE);
 
-        Module moduleInFilteredList = model.getFilteredModuleList().get(INDEX_FIRST_MODULE.getZeroBased());
+        Module moduleInFilteredList = model.getFilteredDatabaseModuleList().get(INDEX_FIRST_MODULE.getZeroBased());
         Module editedModule = new ModuleBuilder(moduleInFilteredList).withTitle(VALID_TITLE_CS2109).build();
         EditModuleCommand editModuleCommand = new EditModuleCommand(INDEX_FIRST_MODULE,
                 new EditModuleDescriptorBuilder().withTitle(VALID_TITLE_CS2109).build());
@@ -111,14 +111,14 @@ public class EditModuleCommandTest {
         String expectedMessage = String.format(EditModuleCommand.MESSAGE_EDIT_MODULE_SUCCESS, editedModule.toString());
         ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
                 new UserPrefs(), new CredentialStore());
-        expectedModel.updateModule(model.getFilteredModuleList().get(0), editedModule);
+        expectedModel.updateModule(model.getFilteredDatabaseModuleList().get(0), editedModule);
 
         assertCommandSuccess(editModuleCommand, model, commandHistory, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_duplicateModuleUnfilteredList_failure() {
-        Module firstModule = model.getFilteredModuleList().get(INDEX_FIRST_MODULE.getZeroBased());
+        Module firstModule = model.getFilteredDatabaseModuleList().get(INDEX_FIRST_MODULE.getZeroBased());
         EditModuleDescriptor descriptor = new EditModuleDescriptorBuilder(firstModule).build();
         EditModuleCommand editModuleCommand = new EditModuleCommand(INDEX_SECOND_MODULE, descriptor);
 

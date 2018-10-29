@@ -248,13 +248,13 @@ public class CommandTestUtil {
      * {@code model}'s modsuni book.
      */
     public static void showModuleAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredModuleList().size());
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredDatabaseModuleList().size());
 
-        Module module = model.getFilteredModuleList().get(targetIndex.getZeroBased());
+        Module module = model.getFilteredDatabaseModuleList().get(targetIndex.getZeroBased());
         final String[] splitName = module.getCode().code.split("\\s+");
-        model.updateFilteredModuleList(new CodeContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        model.updateFilteredDatabaseModuleList(new CodeContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
-        assertEquals(1, model.getFilteredModuleList().size());
+        assertEquals(1, model.getFilteredDatabaseModuleList().size());
     }
 
     /**

@@ -73,7 +73,7 @@ public class EditModuleCommand extends Command {
         if (model.getCurrentUser().getRole() != Role.ADMIN) {
             throw new CommandException(MESSAGE_NOT_ADMIN);
         }
-        List<Module> lastShownList = model.getFilteredModuleList();
+        List<Module> lastShownList = model.getFilteredDatabaseModuleList();
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_DISPLAYED_INDEX);
         }
@@ -84,7 +84,7 @@ public class EditModuleCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_MODULE);
         }
         model.updateModule(moduleToEdit, editedModule);
-        model.updateFilteredModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
+        model.updateFilteredDatabaseModuleList(Model.PREDICATE_SHOW_ALL_MODULES);
         return new CommandResult(String.format(MESSAGE_EDIT_MODULE_SUCCESS,
                 editedModule.toString()));
     }

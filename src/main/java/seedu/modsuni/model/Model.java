@@ -152,9 +152,19 @@ public interface Model {
     ObservableList<Person> getFilteredPersonList();
 
     /**
-     * Returns an unmodifiable view of the filtered module list
+     * Returns an unmodifiable view of the filtered data module list
      */
-    ObservableList<Module> getFilteredModuleList();
+    ObservableList<Module> getFilteredDatabaseModuleList();
+
+    /**
+     * Returns an unmodifiable view of the filtered staged module list
+     */
+    ObservableList<Module> getFilteredStagedModuleList();
+
+    /**
+     * Returns an unmodifiable view of the filtered taken module list
+     */
+    ObservableList<Module> getFilteredTakenModuleList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
@@ -164,11 +174,11 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     /**
-     * Updates the filter of the filtered module list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered database module list to filter by the given {@code predicate}.
      *
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredModuleList(Predicate<Module> predicate);
+    void updateFilteredDatabaseModuleList(Predicate<Module> predicate);
 
     /**
      * Returns true if the model has previous modsuni book states to restore.
@@ -258,9 +268,9 @@ public interface Model {
     Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException;
 
     /**
-     * Returns the optional of the module in the storage.
+     * Returns the optional of the module in the database.
      */
-    Optional<Module> searchModuleInModuleList(Module module);
+    Optional<Module> searchCodeInDatabase(Code code);
 
     /**
      * Returns the optional of a list of codes if unable to generate.

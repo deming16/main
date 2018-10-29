@@ -45,6 +45,9 @@ public class MainWindow extends UiPart<Stage> {
     // Independent Ui parts residing in this Ui container
     private BrowserPanel browserPanel;
     private ModuleListPanel moduleListPanel;
+    private StagedModuleListPanel stagedModuleListPanel;
+    private TakenModuleListPanel takenModuleListPanel;
+    private DatabaseModuleListPanel databaseModuleListPanel;
     private Config config;
     private UserPrefs prefs;
     private HelpWindow helpWindow;
@@ -86,6 +89,15 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane moduleListPanelPlaceholder;
+
+    @FXML
+    private StackPane stagedModuleListPanelPlaceholder;
+
+    @FXML
+    private StackPane takenModuleListPanelPlaceholder;
+
+    @FXML
+    private StackPane databaseModuleListPanelPlaceholder;
 
     public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic) {
         super(FXML, primaryStage);
@@ -159,8 +171,14 @@ public class MainWindow extends UiPart<Stage> {
         loadingPanel = new BrowserPanel(BrowserPanel.LOADING_PAGE);
         browserPlaceholder.getChildren().add(loadingPanel.getRoot());
 
-        moduleListPanel = new ModuleListPanel(logic.getFilteredModuleList());
-        moduleListPanelPlaceholder.getChildren().add(moduleListPanel.getRoot());
+        stagedModuleListPanel = new StagedModuleListPanel(logic.getFilteredStagedModuleList());
+        stagedModuleListPanelPlaceholder.getChildren().add(stagedModuleListPanel.getRoot());
+
+        takenModuleListPanel = new TakenModuleListPanel(logic.getFilteredTakenModuleList());
+        takenModuleListPanelPlaceholder.getChildren().add(takenModuleListPanel.getRoot());
+
+        databaseModuleListPanel = new DatabaseModuleListPanel(logic.getFilteredDatabaseModuleList());
+        databaseModuleListPanelPlaceholder.getChildren().add(databaseModuleListPanel.getRoot());
 
         OutputDisplay outputDisplay = new OutputDisplay();
         outputDisplayPlaceholder.getChildren().add(outputDisplay.getRoot());
@@ -203,6 +221,18 @@ public class MainWindow extends UiPart<Stage> {
 
     public ModuleListPanel getModuleListPanel() {
         return moduleListPanel;
+    }
+
+    public StagedModuleListPanel getStagedModuleListPanel() {
+        return stagedModuleListPanel;
+    }
+
+    public TakenModuleListPanel getTakenModuleListPanel() {
+        return takenModuleListPanel;
+    }
+
+    public DatabaseModuleListPanel getDatabaseModuleListPanel() {
+        return databaseModuleListPanel;
     }
 
     void releaseResources() {
