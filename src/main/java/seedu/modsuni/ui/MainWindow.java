@@ -18,7 +18,6 @@ import seedu.modsuni.commons.core.Config;
 import seedu.modsuni.commons.core.GuiSettings;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.ExitAppRequestEvent;
-import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.ShowDatabaseTabRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowHelpRequestEvent;
