@@ -14,6 +14,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
+import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.student.Student;
 
@@ -70,13 +71,17 @@ public class UserTab extends UiPart<Region> {
 
         if (event.currentUser.getRole() == Role.STUDENT) {
             userDetailLabel1.setText("Major(s):");
-            userDetailText2.setVisible(true);
+            userDetailLabel2.setText("Minor(s):");
             dateText.setText(((Student) event.currentUser).getEnrollmentDate().enrollmentDate);
             userDetailText1.setText(((Student) event.currentUser).getMajor().toString());
             userDetailText2.setText(((Student) event.currentUser).getMinor().toString());
         } else {
             userDetailLabel1.setText("Salary:");
-            userDetailText2.setVisible(false); // hides secondary detail
+            userDetailLabel2.setText("NOTE:");
+            dateText.setText(((Admin) event.currentUser).getEmploymentDate().toString());
+            userDetailText1.setText(((Admin) event.currentUser).getSalary().toString());
+            userDetailText2.setText("This is an admin account"); // hides secondary detail
+
         }
 
         lastSavedText.setText(dateFormat.format(new Date(clock.millis())));

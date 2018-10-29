@@ -325,6 +325,11 @@ public class RemoveModuleFromStudentTakenCommandTest {
         }
 
         @Override
+        public ObservableList<Username> getUsernames() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void addAdmin(Admin admin, Path savePath) {
             throw new AssertionError("This method should not be called.");
         }
@@ -341,6 +346,11 @@ public class RemoveModuleFromStudentTakenCommandTest {
         @Override
         public boolean hasModuleInDatabase(Module module) {
             return false;
+        }
+
+        @Override
+        public void updateModule(Module target, Module editedModule) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
