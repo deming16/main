@@ -2,9 +2,13 @@ package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_AVAILABLE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_CODE;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_CREDIT;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_DEPARTMENT;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_DESCRIPTION;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_PREREQ;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_TITLE;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +36,12 @@ public class EditModuleCommand extends Command {
             + "Parameters:\n"
             + "[" + PREFIX_MODULE_CODE + "CODE] "
             + "[" + PREFIX_MODULE_DEPARTMENT + "DEPARTMENT] "
-            + "[" + PREFIX_MODULE_DESCRIPTION + "DESCRIPTION]\n";
+            + "[" + PREFIX_MODULE_DESCRIPTION + "DESCRIPTION] "
+            + "[" + PREFIX_MODULE_TITLE + "TITLE] "
+            + "[" + PREFIX_MODULE_CREDIT + "CREDIT] "
+            + "[" + PREFIX_MODULE_AVAILABLE + "AVAILABLE_STRING] "
+            + "[" + PREFIX_MODULE_PREREQ + "PREREQ_STRING]\n"
+            + "Refer to the user guide for information on the example usages.\n";
 
     public static final String MESSAGE_EDIT_MODULE_SUCCESS = "Edit Successfully!%1$s";
 
