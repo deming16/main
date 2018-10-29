@@ -80,9 +80,8 @@ public class Admin extends User {
 
         Admin otherPerson = (Admin) other;
         return otherPerson.getName().equals(getName())
-                && otherPerson.getSalary() == getSalary()
+                && otherPerson.getSalary().equals(getSalary())
                 && otherPerson.getEmploymentDate().equals(getEmploymentDate())
-                && otherPerson.getPathToProfilePic().equals(getPathToProfilePic())
                 && otherPerson.getRole().equals(getRole());
     }
 

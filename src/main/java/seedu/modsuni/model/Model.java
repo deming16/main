@@ -2,6 +2,7 @@ package seedu.modsuni.model;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -12,8 +13,10 @@ import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
+import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.User;
 
@@ -91,6 +94,11 @@ public interface Model {
      * Returns true if the given {@code module} already exists in the database.
      */
     boolean hasModuleInDatabase(Module module);
+
+    /**
+     * Replace the (@code target} module with {@code editModule}.
+     */
+    void updateModule(Module target, Module editedModule);
 
     /**
      * Check if the user is a admin.
@@ -225,6 +233,11 @@ public interface Model {
     Password getCredentialPassword(User user);
 
     /**
+     * Returns a list of usernames.
+     */
+    ObservableList<Username> getUsernames();
+
+    /**
      * Sets the given user as the currentUser.
      */
     void setCurrentUser(User user);
@@ -248,5 +261,16 @@ public interface Model {
      * Returns the optional of the module in the storage.
      */
     Optional<Module> searchModuleInModuleList(Module module);
+
+    /**
+     * Returns the optional of a list of codes if unable to generate.
+     */
+    Optional<List<Code>> canGenerate();
+
+    /**
+     * Returns a semester list from the generated schedule.
+     * @return
+     */
+    SemesterList generateSchedule();
 
 }

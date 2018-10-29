@@ -5,12 +5,11 @@ import seedu.modsuni.commons.events.BaseEvent;
 import seedu.modsuni.ui.UiPart;
 
 /**
- * Indicates that a new command event is available.
+ * Generic event to trigger displaying of other commands ui.
  */
 public class NewCommandResultAvailableEvent extends BaseEvent {
     private UiPart<Region> toBeDisplayed;
     private BaseEvent baseEvent;
-
 
     public UiPart<Region> getToBeDisplayed() {
         return toBeDisplayed;
@@ -32,5 +31,5 @@ public class NewCommandResultAvailableEvent extends BaseEvent {
     public String toString() {
         return getClass().getSimpleName();
     }
-
+  
 }

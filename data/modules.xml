@@ -1,0 +1,76 @@
+<ModuleList>
+    <modules>
+        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
+        <code>CS2030</code><isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1><prerequisite>CS1010 or its equivalent</prerequisite><description>This module is a follow up to CS1010. It explores two modern programming paradigms, object-oriented programming and functional programming. Through a series of integrated assignments, students will learn to develop medium-scale software programs in the order of thousands of lines of code and tens of classes using objectoriented design principles and advanced programming constructs available in the two paradigms. Topics include objects and classes, composition, association, inheritance, interface, polymorphism, abstract classes, dynamic binding, lambda expression, effect-free programming, first class functions, closures, continuations, monad, etc.</description><title>Programming Methodology II</title><preclusion>CS1020 or its equivalent</preclusion><isAvailableInSem2>false</isAvailableInSem2><isAvailableInSem1>false</isAvailableInSem1><lockedModules>BT3102</lockedModules><lockedModules>CS2102</lockedModules><lockedModules>CS2103T</lockedModules><lockedModules>CS2104</lockedModules><lockedModules>CS2105</lockedModules><lockedModules>CS2113</lockedModules><lockedModules>CS2113T</lockedModules><lockedModules>CS2309</lockedModules><lockedModules>CS3240</lockedModules><lockedModules>CS3241</lockedModules><lockedModules>CS4243</lockedModules><lockedModules>CS5239</lockedModules><lockedModules>IS2102</lockedModules><lockedModules>IS2103</lockedModules><lockedModules>IS3261</lockedModules><lockedModules>BT4222</lockedModules><lockedModules>CS2108</lockedModules><lockedModules>CS3245</lockedModules><lockedModules>CS4215</lockedModules><lockedModules>IS4241</lockedModules><lockedModules>IS4302</lockedModules><department>Computer Science</department><credit>4</credit>
+        <parsedPrereq><or><code>CS1010</code></or></parsedPrereq>
+    </modules>
+    <modules>
+        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
+        <code>ACC1002</code>
+        <isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1><prerequisite/><description>The course provides an introduction to financial accounting. It examines accounting from an external user&apos;s perspective: an external user being an investor or a creditor. Such users would need to understand financial accounting in order to make investing or lending decisions. However, to attain a good understanding, it is also necessary to be familiar with how the information is derived. Therefore, students would learn how to prepare the reports or statements resulting from financial accounting and how to use them for decision-making.</description><title>Financial Accounting</title><preclusion>Students who have passed FNA1002 are not allowed to take ACC1002.</preclusion><isAvailableInSem2>false</isAvailableInSem2><isAvailableInSem1>true</isAvailableInSem1><lockedModules>ACC1006</lockedModules><lockedModules>ACC2002</lockedModules><lockedModules>ACC3603</lockedModules><lockedModules>ACC3605</lockedModules><lockedModules>ACC3616</lockedModules><lockedModules>FIN2004</lockedModules><lockedModules>FIN2004X</lockedModules><lockedModules>FIN3113</lockedModules><lockedModules>FIN3130</lockedModules><lockedModules>FIN3132</lockedModules><lockedModules>FIN4115</lockedModules><lockedModules>ACC3601</lockedModules><department>Accounting</department><credit>4</credit>
+        <parsedPrereq>
+        </parsedPrereq>
+    </modules>
+    <modules>
+        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
+        <code>ACC1002X</code><isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1><prerequisite/><description>The course provides an introduction to financial accounting. It examines accounting from an external user&apos;s perspective: an external user being an investor or a creditor. Such users would need to understand financial accounting in order to make investing or lending decisions. However, to attain a good understanding, it is also necessary to be familiar with how the information are derived. Therefore, students would learn how to prepare the reports or statements resulting from financial accounting and how to use them for decision-making.</description><title>Financial Accounting</title><preclusion>Students who have passed CS1304 or EC3212 or BK1003 or BZ1002 or BH1002 or BZ1002E or BH1002E or FNA1002E or FNA1002X are not allowed to take ACC1002X.</preclusion><isAvailableInSem2>false</isAvailableInSem2><isAvailableInSem1>false</isAvailableInSem1><lockedModules>ACC2002</lockedModules><lockedModules>ACC2707</lockedModules><lockedModules>FIN2004</lockedModules><lockedModules>FIN2004X</lockedModules><lockedModules>FIN3113</lockedModules><department>Accounting</department><credit>4</credit>
+        <parsedPrereq>
+            <or>
+                <or><code>cs1234</code></or>
+                <or><code>CS1020E</code></or>
+                <or><code>CS1020E</code></or>
+            </or>
+            <or>
+                <and><code>CS1020E</code></and>
+                <and>
+                    <or><code>CS1020E</code></or>
+                    <or><code>CS2040C</code></or>
+                </and>
+            </or>
+        </parsedPrereq>
+    </modules>
+    <modules>
+        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
+        <code>CS1231</code><isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1><prerequisite>A-level Mathematics or H2 Mathematics or MA1301 or MA1301FC or MA1301X</prerequisite><description>This module introduces mathematical tools required in the study of computer science. Topics include: (1) Logic and proof techniques: propositions, conditionals, quantifications. (2) Relations and Functions: Equivalence relations and partitions. Partially ordered sets. Well-Ordering Principle. Function equality. Boolean/identity/inverse functions. Bijection. (3) Mathematical formulation of data models (linear model, trees, graphs). (4) Counting and Combinatoric: Pigeonhole Principle. Inclusion-Exclusion Principle. Number of relations on a set, number of injections from one finite set to another, Diagonalisation proof: An infinite countable set has an uncountable power set; Algorithmic proof: An infinite set has a countably infinite subset. Subsets of countable sets are countable.</description><title>Discrete Structures</title><preclusion>MA1100</preclusion><isAvailableInSem2>false</isAvailableInSem2><isAvailableInSem1>false</isAvailableInSem1><lockedModules>CS2102</lockedModules><lockedModules>CS2309</lockedModules><lockedModules>CS3230</lockedModules><lockedModules>CS4232</lockedModules><lockedModules>CS4236</lockedModules><lockedModules>CS4261</lockedModules><lockedModules>MA2202</lockedModules><lockedModules>MA2202S</lockedModules><lockedModules>MA2214</lockedModules><lockedModules>MA3205</lockedModules><lockedModules>CS2102R</lockedModules><lockedModules>CS3234</lockedModules><lockedModules>CS3236</lockedModules><lockedModules>CS3243</lockedModules><lockedModules>CS5232</lockedModules><lockedModules>MA2219</lockedModules><department>Computer Science</department><credit>4</credit>
+        <parsedPrereq></parsedPrereq>
+    </modules>
+    <modules>
+        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
+        <code>CS1010</code><isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1><prerequisite/><description>This module introduces the fundamental concepts of problem solving by computing and programming using an imperative programming language. It is the first and foremost introductory course to computing. It is also the first part of a three-part series on introductory programming and problem solving by computing, which also includes CS1020 and CS2010. Topics covered include problem solving by computing, writing pseudo-codes, basic problem formulation and problem solving, program development, coding, testing and debugging, fundamental programming constructs (variables, types, expressions, assignments, functions, control structures, etc.), fundamental data structures: arrays, strings and structures, simple file processing, and basic recursion. This module is appropriate for SoC students.</description><title>Programming Methodology</title><preclusion>CG1101, CS1010E, CS1010FC, CS1010S, CS1101, CS1101C, CS1101S. Engineering and Science students who require this module for their majors/minors are not allowed to read it as ULR-Breadth.</preclusion><isAvailableInSem2>false</isAvailableInSem2><isAvailableInSem1>false</isAvailableInSem1><lockedModules>BT2101</lockedModules><lockedModules>BT2102</lockedModules><lockedModules>CG2028</lockedModules><lockedModules>CP2106</lockedModules><lockedModules>CS1020</lockedModules><lockedModules>CS2030</lockedModules><lockedModules>CS2040</lockedModules><lockedModules>CS2040C</lockedModules><lockedModules>CS2100</lockedModules><lockedModules>CS2107</lockedModules><lockedModules>DSA3102</lockedModules><lockedModules>MA3269</lockedModules><lockedModules>CG1112</lockedModules><lockedModules>ST3247</lockedModules><department>Computer Science</department><credit>4</credit>
+        <parsedPrereq></parsedPrereq>
+    </modules>
+    <modules><isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
+        <code>CS2040</code><isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1><prerequisite>CS1010 or its equivalent</prerequisite><description>This module introduces students to the design and implementation of fundamental data structures and algorithms. The module covers basic data structures (linked lists, stacks, queues, hash tables, binary heaps, trees, and graphs), searching and sorting algorithms, and basic analysis of algorithms.</description><title>Data Structures and Algorithms</title><preclusion>CS1020, CS1020E, CS2020, CS2010</preclusion><isAvailableInSem2>false</isAvailableInSem2><isAvailableInSem1>false</isAvailableInSem1><lockedModules>BT4221</lockedModules><lockedModules>CG2271</lockedModules><lockedModules>CS2102</lockedModules><lockedModules>CS2103T</lockedModules><lockedModules>CS2105</lockedModules><lockedModules>CS2113</lockedModules><lockedModules>CS2113T</lockedModules><lockedModules>CS2220</lockedModules><lockedModules>CS2309</lockedModules><lockedModules>CS3230</lockedModules><lockedModules>CS3241</lockedModules><lockedModules>CS3244</lockedModules><lockedModules>CS4236</lockedModules><lockedModules>CS4243</lockedModules><lockedModules>CS4261</lockedModules><lockedModules>CS5240</lockedModules><lockedModules>IS3261</lockedModules><lockedModules>CS2108</lockedModules><lockedModules>CS3223</lockedModules><lockedModules>CS3243</lockedModules><lockedModules>CS3245</lockedModules><lockedModules>CS4215</lockedModules><lockedModules>CS5332</lockedModules><lockedModules>CS5346</lockedModules><department>Computer Science</department><credit>4</credit>
+        <parsedPrereq><or><code>CS1010</code></or></parsedPrereq>
+    </modules>
+    <modules>
+        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
+        <code>CS2103T</code>
+        <isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1>
+        <prerequisite>For SoC students only. (CS1020 or CS1020E or CS2020) or (CS2030 and (CS2040 or CS2040C))</prerequisite>
+        <description>This module introduces the necessary conceptual and analytical tools for systematic and rigorous development of software systems. It covers four main areas of software development, namely object-oriented system analysis, object-oriented system modelling and design, implementation, and testing, with emphasis on system modelling and design and implementation of software modules that work cooperatively to fulfill the requirements of the system. Tools and techniques for software development, such as Unified Modelling Language (UML), program specification, and testing methods, will be taught. Major software engineering issues such as modularisation criteria, program correctness, and software quality will also be covered.</description>
+        <title>Software Engineering</title>
+        <preclusion>CS2103, CS2113, CS2113T, IS2101 or its equivalent.</preclusion>
+        <isAvailableInSem2>false</isAvailableInSem2>
+        <isAvailableInSem1>false</isAvailableInSem1>
+        <lockedModules>BT3102</lockedModules>
+        <lockedModules>CP3880</lockedModules>
+        <lockedModules>CS3203</lockedModules>
+        <lockedModules>IS4234</lockedModules><lockedModules>BT4222</lockedModules><lockedModules>IS4241</lockedModules><lockedModules>IS4302</lockedModules><department>Computer Science</department><credit>4</credit>
+        <parsedPrereq>
+            <or>
+                <or><code>CS1020</code></or>
+                <or><code>CS1020E</code></or>
+                <or><code>CS2020</code></or>
+            </or>
+            <or>
+                <and><code>CS2030</code></and>
+                <and>
+                    <or><code>CS2040</code></or>
+                    <or><code>CS2040C</code></or>
+                </and>
+            </or>
+        </parsedPrereq>
+    </modules>
+</ModuleList>
+

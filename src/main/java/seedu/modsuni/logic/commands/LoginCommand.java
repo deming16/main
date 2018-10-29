@@ -15,6 +15,7 @@ import java.util.Optional;
 import javax.crypto.NoSuchPaddingException;
 
 import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.MainWindowClearResourceEvent;
 import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
@@ -91,6 +92,7 @@ public class LoginCommand extends Command {
         }
 
         model.setCurrentUser(toSetCurrentUser);
+        EventsCenter.getInstance().post(new MainWindowClearResourceEvent());
         EventsCenter.getInstance().post(new UserTabChangedEvent(model.getCurrentUser()));
 
         return new CommandResult(String.format(MESSAGE_SUCCESS,

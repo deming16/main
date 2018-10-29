@@ -1,9 +1,11 @@
 package seedu.modsuni.model.user.student;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
 import seedu.modsuni.model.user.Name;
@@ -137,6 +139,16 @@ public class Student extends User {
      */
     public boolean hasModuleToTake() {
         return modulesStaged.hasModules();
+    }
+
+    /**
+     * Returns a list of code containing modules to be taken and staged.
+     */
+    public List<Code> getTakenAndStageCode() {
+        List<Code> codeChecklist = new ArrayList<>();
+        codeChecklist.addAll(modulesTaken.getAllCode());
+        codeChecklist.addAll(modulesStaged.getAllCode());
+        return codeChecklist;
     }
 
     @Override
