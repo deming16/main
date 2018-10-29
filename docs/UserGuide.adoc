@@ -194,7 +194,7 @@ Examples:
   ** Major(s) : `CS`
   ** Minor(s) : `MA`
 
-=== Edit Student Account : `editStudent`
+=== Edit Student Account : `edit`
 
 Edits the Student specific information as specified in the input parameters. +
 Format: `editStudent [OPTION]/[INPUT]...` +
@@ -206,7 +206,6 @@ Available Options:
 * Edit Enrollment Date: `enroll/[ENROLLMENT_DATE]`
 * Edit Major : `maj/[MAJOR_CODE]`
 * Edit Minor : `min/[MINOR_CODE]`
-* Edit Modules Taken : `modules/[MODULE_CODE]`
 
 === Data Encryption
 
@@ -296,7 +295,7 @@ Removes a module with module code "CS2109" if it exists.
 * *Save* : `save sp/[FILE_NAME]`
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
 * *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
-* *Edit Student* : `editStudent [OPTION]/[INPUT]...`
+* *Edit Student* : `edit [OPTION]/[INPUT]...`
 * *Add Admin* : `addAdmin user\<USERNAME> pass\<PASSWORD> n\<NAME> ptp\<PATH_TO_PIC> salary\<SALARY> date\<EMPLOYMENT_DATE>`
 * *Add Module to Database* : `addModuleDB code\<MODULE_CODE> department\<DEPARTMENT> title\<TITLE> credit\<CREDIT> available\<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2> description\<DESCRIPTION>`
 * *Remove Module from Database* : `removeModuleDB <MODULE_CODE>`
