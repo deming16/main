@@ -20,10 +20,13 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MINOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_PASSWORD;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_PATH_TO_PIC;
+import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_USERDATA;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_USERNAME;
 import static seedu.modsuni.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.modsuni.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import org.junit.Test;
@@ -66,7 +69,10 @@ public class RegisterCommandParserTest {
             Arrays.asList(VALID_MAJOR),
             Arrays.asList(VALID_MINOR));
 
-        RegisterCommand expectedCommand = new RegisterCommand(toVerify, newUser);
+        Path dummyPath = Paths.get(VALID_USERDATA);
+
+        RegisterCommand expectedCommand = new RegisterCommand(toVerify,
+            newUser, dummyPath);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }

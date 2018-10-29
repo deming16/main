@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -33,6 +34,7 @@ import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
+import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
@@ -260,6 +262,11 @@ public class AddModuleToDatabaseCommandTest {
         }
 
         @Override
+        public ObservableList<Username> getUsernames() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void addAdmin(Admin admin, Path savePath) {
             throw new AssertionError("This method should not be called.");
         }
@@ -276,7 +283,12 @@ public class AddModuleToDatabaseCommandTest {
 
         @Override
         public boolean hasModuleInDatabase(Module module) {
-            return false;
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateModule(Module target, Module editedModule) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -336,6 +348,17 @@ public class AddModuleToDatabaseCommandTest {
         public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public Optional<List<Code>> canGenerate() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public SemesterList generateSchedule() {
+            throw new AssertionError("This method should not be called.");
+        }
+
     }
 
     /**

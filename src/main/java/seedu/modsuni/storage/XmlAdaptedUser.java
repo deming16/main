@@ -121,7 +121,7 @@ public class XmlAdaptedUser {
                 modulesTaken.add(new XmlAdaptedModule(module));
             }
             for (Module module : student.getModulesStaged()) {
-                modulesTaken.add(new XmlAdaptedModule(module));
+                modulesStaged.add(new XmlAdaptedModule(module));
             }
         }
     }

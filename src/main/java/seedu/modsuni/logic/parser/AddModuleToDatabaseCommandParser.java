@@ -6,6 +6,7 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_CODE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_CREDIT;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_DEPARTMENT;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_DESCRIPTION;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_PREREQ;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_TITLE;
 
 import java.util.ArrayList;
@@ -31,10 +32,10 @@ public class AddModuleToDatabaseCommandParser implements Parser<AddModuleToDatab
     public AddModuleToDatabaseCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_MODULE_CODE, PREFIX_MODULE_DEPARTMENT, PREFIX_MODULE_TITLE,
-                        PREFIX_MODULE_DESCRIPTION, PREFIX_MODULE_CREDIT, PREFIX_MODULE_AVAILABLE);
+                        PREFIX_MODULE_DESCRIPTION, PREFIX_MODULE_CREDIT, PREFIX_MODULE_AVAILABLE, PREFIX_MODULE_PREREQ);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_MODULE_CODE, PREFIX_MODULE_DEPARTMENT, PREFIX_MODULE_TITLE,
-                PREFIX_MODULE_DESCRIPTION, PREFIX_MODULE_CREDIT, PREFIX_MODULE_AVAILABLE)
+                PREFIX_MODULE_DESCRIPTION, PREFIX_MODULE_CREDIT, PREFIX_MODULE_AVAILABLE, PREFIX_MODULE_PREREQ)
             || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     AddModuleToDatabaseCommand.MESSAGE_USAGE));
@@ -47,9 +48,10 @@ public class AddModuleToDatabaseCommandParser implements Parser<AddModuleToDatab
         String description = argMultimap.getValue(PREFIX_MODULE_DESCRIPTION).get();
         int credit = Integer.parseInt(argMultimap.getValue(PREFIX_MODULE_CREDIT).get());
         boolean[] sems = getAvailableSems(argMultimap.getValue(PREFIX_MODULE_AVAILABLE).get());
+        Prereq prereq = ParserUtil.parsePrereq(argMultimap.getValue(PREFIX_MODULE_PREREQ).get());
 
         Module module = new Module(code, department, title, description, credit,
-                sems[0], sems[1], sems[2], sems[3], new ArrayList<Code>(), new Prereq());
+                sems[0], sems[1], sems[2], sems[3], new ArrayList<Code>(), prereq);
 
         return new AddModuleToDatabaseCommand(module);
     }

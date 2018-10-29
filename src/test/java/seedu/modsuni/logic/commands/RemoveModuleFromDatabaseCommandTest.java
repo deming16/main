@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -31,6 +32,7 @@ import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
+import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
@@ -263,7 +265,12 @@ public class RemoveModuleFromDatabaseCommandTest {
 
         @Override
         public Credential getCredential(Username username) {
-            throw new AssertionError("THis method should not be called.");
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Username> getUsernames() {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -284,6 +291,11 @@ public class RemoveModuleFromDatabaseCommandTest {
         @Override
         public boolean hasModuleInDatabase(Module module) {
             return false;
+        }
+
+        @Override
+        public void updateModule(Module target, Module editedModule) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -341,6 +353,16 @@ public class RemoveModuleFromDatabaseCommandTest {
 
         @Override
         public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Optional<List<Code>> canGenerate() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public SemesterList generateSchedule() {
             throw new AssertionError("This method should not be called.");
         }
     }

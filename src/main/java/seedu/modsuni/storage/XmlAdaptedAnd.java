@@ -11,8 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import seedu.modsuni.commons.exceptions.IllegalValueException;
 import seedu.modsuni.model.module.Code;
-import seedu.modsuni.model.module.PrereqAnd;
-import seedu.modsuni.model.module.PrereqOr;
+import seedu.modsuni.model.module.PrereqDetails;
 
 /**
  * JAXB-friendly version of the And Prereq.
@@ -28,6 +27,11 @@ public class XmlAdaptedAnd {
 
     private String code;
 
+    public XmlAdaptedAnd() {
+        and = new ArrayList<>();
+        or = new ArrayList<>();
+    }
+
     public String getCode() {
         return code;
     }
@@ -37,23 +41,21 @@ public class XmlAdaptedAnd {
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted PrereqAnd code
      */
-    public PrereqAnd toModelType() throws IllegalValueException {
-        PrereqAnd prereqAnd = new PrereqAnd();
+    public PrereqDetails toModelType() throws IllegalValueException {
+        PrereqDetails prereqAnd = new PrereqDetails();
         if (code != null) {
             if (!Code.isValidCode(code)) {
                 throw new IllegalValueException(Code.MESSAGE_CODE_CONSTRAINTS);
             }
             prereqAnd.setCode(Optional.of(new Code(code)));
-        }
-        if (and != null) {
-            ArrayList<PrereqAnd> prereqAnds = new ArrayList<>();
+        } else if (and.size() != 0) {
+            ArrayList<PrereqDetails> prereqAnds = new ArrayList<>();
             for (XmlAdaptedAnd element : and) {
                 prereqAnds.add(element.toModelType());
             }
             prereqAnd.setAnd(Optional.of(prereqAnds));
-        }
-        if (or != null) {
-            ArrayList<PrereqOr> prereqOrs = new ArrayList<>();
+        } else if (or.size() != 0) {
+            ArrayList<PrereqDetails> prereqOrs = new ArrayList<>();
             for (XmlAdaptedOr element : or) {
                 prereqOrs.add(element.toModelType());
             }

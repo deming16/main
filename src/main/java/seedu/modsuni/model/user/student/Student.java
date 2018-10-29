@@ -1,9 +1,11 @@
 package seedu.modsuni.model.user.student;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
 import seedu.modsuni.model.user.Name;
@@ -139,6 +141,16 @@ public class Student extends User {
         return modulesStaged.hasModules();
     }
 
+    /**
+     * Returns a list of code containing modules to be taken and staged.
+     */
+    public List<Code> getTakenAndStageCode() {
+        List<Code> codeChecklist = new ArrayList<>();
+        codeChecklist.addAll(modulesTaken.getAllCode());
+        codeChecklist.addAll(modulesStaged.getAllCode());
+        return codeChecklist;
+    }
+
     @Override
     public void updatePassword(String newPassword) {
         //TODO
@@ -179,6 +191,32 @@ public class Student extends User {
         final StringBuilder builder = new StringBuilder();
         builder.append("Student Username: ")
             .append(getUsername().getUsername());
+        return builder.toString();
+    }
+
+    /**
+     * Returns a String used to display an Student in the user interface.
+     */
+    public String toDisplayUi() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Username: ")
+                .append(getUsername().toString())
+                .append("\nName: ")
+                .append(getName().toString())
+                .append("\nRole: ")
+                .append(getRole().toString())
+                .append("\nPath to profile picture: ")
+                .append(getPathToProfilePic().toString())
+                .append("\nEnrollment date: ")
+                .append(enrollmentDate.toString())
+                .append("\nMajor: ")
+                .append(major.toString())
+                .append("\nMinor: ")
+                .append(minor.toString())
+                .append("\nModules taken: ")
+                .append(modulesTaken.toString())
+                .append("\nModules staged: ")
+                .append(modulesStaged.toString());
         return builder.toString();
     }
 }
