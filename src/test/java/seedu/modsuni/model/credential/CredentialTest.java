@@ -98,7 +98,7 @@ public class CredentialTest {
         assertTrue(CREDENTIAL_STUDENT_MAX.hashCode() == (maxCopy.hashCode()));
 
         // diff credential
-        assertFalse(CREDENTIAL_STUDENT_MAX.hashCode() ==
-            (CREDENTIAL_STUDENT_SEB.hashCode()));
+        assertFalse(
+            CREDENTIAL_STUDENT_MAX.hashCode() == (CREDENTIAL_STUDENT_SEB.hashCode()));
     }
 }

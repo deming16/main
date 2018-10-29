@@ -7,7 +7,6 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_USERNAME;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
 
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -21,8 +20,7 @@ public class UsernameTest {
     @Test
     public void isValidUsername() {
         // null username
-        Assert.assertThrows(NullPointerException.class,
-            () -> Username.isValidUsername(null));
+        Assert.assertThrows(NullPointerException.class, () -> Username.isValidUsername(null));
 
         // valid username -> returns true
         assertTrue(Username.isValidUsername(VALID_USERNAME));
@@ -63,7 +61,7 @@ public class UsernameTest {
         assertTrue(maxUsername.hashCode() == (maxCopy.hashCode()));
 
         // diff credential
-        assertFalse(maxUsername.hashCode() ==
-            (CREDENTIAL_STUDENT_SEB.getUsername().hashCode()));
+        assertFalse(
+            maxUsername.hashCode() == (CREDENTIAL_STUDENT_SEB.getUsername().hashCode()));
     }
 }

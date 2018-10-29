@@ -21,8 +21,7 @@ public class PasswordTest {
     public void isValidPassword() {
 
         // null password
-        Assert.assertThrows(NullPointerException.class,
-            () -> Password.isValidPassword(null));
+        Assert.assertThrows(NullPointerException.class, () -> Password.isValidPassword(null));
 
         // valid password -> returns true
         assertTrue(Password.isValidPassword(VALID_PASSWORD));
@@ -62,7 +61,7 @@ public class PasswordTest {
         assertTrue(maxPassword.hashCode() == (maxCopy.hashCode()));
 
         // diff credential
-        assertFalse(maxPassword.hashCode() ==
-            (CREDENTIAL_STUDENT_SEB.getPassword().hashCode()));
+        assertFalse(
+            maxPassword.hashCode() == (CREDENTIAL_STUDENT_SEB.getPassword().hashCode()));
     }
 }

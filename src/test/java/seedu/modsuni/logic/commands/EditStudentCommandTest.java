@@ -2,7 +2,6 @@ package seedu.modsuni.logic.commands;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.modsuni.testutil.TypicalCredentials.getTypicalCredentialStore;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;

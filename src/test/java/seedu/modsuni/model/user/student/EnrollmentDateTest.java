@@ -20,8 +20,7 @@ public class EnrollmentDateTest {
     @Test
     public void isValidEnrollmentDate() {
         // null enrollment date
-        Assert.assertThrows(NullPointerException.class,
-            () -> EnrollmentDate.isValidEnrollmentDate(null));
+        Assert.assertThrows(NullPointerException.class, () -> EnrollmentDate.isValidEnrollmentDate(null));
 
         // valid enrollment date -> returns true
         assertTrue(EnrollmentDate.isValidEnrollmentDate(VALID_ENROLLMENT));
@@ -39,7 +38,6 @@ public class EnrollmentDateTest {
         assertTrue(maxEnrollment.hashCode() == (maxEnrollmentCopy.hashCode()));
 
         // diff credential
-        assertFalse(maxEnrollment.hashCode() ==
-            (STUDENT_SEB.getEnrollmentDate().hashCode()));
+        assertFalse(maxEnrollment.hashCode() == (STUDENT_SEB.getEnrollmentDate().hashCode()));
     }
 }
