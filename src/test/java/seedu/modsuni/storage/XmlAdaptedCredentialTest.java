@@ -1,7 +1,9 @@
 package seedu.modsuni.storage;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static seedu.modsuni.storage.XmlAdaptedCredential.MISSING_FIELD_MESSAGE_FORMAT;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
 
 import org.junit.Test;
@@ -55,4 +57,29 @@ public class XmlAdaptedCredentialTest {
             credential::toModelType);
     }
 
+    @Test
+    public void equals() {
+        XmlAdaptedCredential maxCredential =
+            new XmlAdaptedCredential(CREDENTIAL_STUDENT_MAX);
+
+        // same object -> returns true
+        assertEquals(maxCredential, maxCredential);
+
+        // same values -> returns true
+        XmlAdaptedCredential copyMaxCredential =
+            new XmlAdaptedCredential(
+                CREDENTIAL_STUDENT_MAX.getUsername().getUsername(),
+                CREDENTIAL_STUDENT_MAX.getPassword().getValue()
+            );
+        assertEquals(maxCredential, copyMaxCredential);
+
+        // different types -> returns false
+        assertFalse(maxCredential.equals(5));
+
+        // null -> returns false
+        assertFalse(maxCredential.equals(null));
+
+        // different credential -> returns false
+        assertFalse(maxCredential.equals(new XmlAdaptedCredential(CREDENTIAL_STUDENT_SEB)));
+    }
 }
