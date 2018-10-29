@@ -146,9 +146,9 @@ image::LogicClassDiagram.png[width="800"]
 [discrete]
 ==== Events-Driven nature of the design
 
-The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the register command.
 
-.Component interactions for `delete 1` command (part 1)
+.Component interactions for `register` command (part 1)
 image::SDforDeletePerson.png[width="800"]
 
 [NOTE]
@@ -156,7 +156,7 @@ Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address 
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
-.Component interactions for `delete 1` command (part 2)
+.Component interactions for `register` command (part 2)
 image::SDforDeletePersonEventHandling.png[width="800"]
 
 [NOTE]
@@ -170,7 +170,7 @@ The sections below give more details of each component.
 .Structure of the UI Component
 image::UiClassDiagram.png[width="800"]
 
-*API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
+*API* : link:{repoURL}/src/main/java/seedu/modsuni/address/ui/Ui.java[`Ui.java`]
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
@@ -190,7 +190,7 @@ The `UI` component,
 image::LogicClassDiagram.png[width="800"]
 
 *API* :
-link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
+link:{repoURL}/src/main/java/seedu/modsuni/logic/Logic.java[`Logic.java`]
 
 .  `Logic` uses the `AddressBookParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
@@ -208,7 +208,7 @@ image::DeletePersonSdForLogic.png[width="800"]
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
 
-*API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
+*API* : link:{repoURL}/src/main/java/seedu/modsuni/model/Model.java[`Model.java`]
 
 The `Model`,
 
@@ -217,18 +217,13 @@ The `Model`,
 * exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
-[NOTE]
-As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object. An example of how such a model may look like is given below. +
- +
-image:ModelClassBetterOopDiagram.png[width="800"]
-
 [[Design-Storage]]
 === Storage component
 
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
 
-*API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
+*API* : link:{repoURL}/src/main/java/seedu/modsuni/storage/Storage.java[`Storage.java`]
 
 The `Storage` component,
 
@@ -238,7 +233,7 @@ The `Storage` component,
 [[Design-Commons]]
 === Common classes
 
-Classes used by multiple components are in the `seedu.addressbook.commons` package.
+Classes used by multiple components are in the `seedu.modsuni.commons` package.
 
 == Implementation
 
@@ -374,18 +369,30 @@ _Figure 1. UML Diagram of `EditStudentCommand`._
 Parsing the command is performed by `EditStudentCommandParser`, which returns a `EditCommand` after parsing the user input.
 The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `EditStudentCommand` is being executed.
 
-image::SDforEditStudentCommandLogicAndModel.png
+image::SDforEditStudentCommandLogicAndModel.png[width="900"]
+
 _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `EditStudentCommand`._
 
 Figure 3 below shows the high-level sequence diagram of the command execution
 
-image::SDforEditStudentCommandOverview.png
+image::SDforEditStudentCommand.png[width="800"]
 _Figure 3. High-Level Sequence Diagram of the edit process._
 
 Given below is an example usage scenario and how the edit mechanism behaves at each step:
 
 1. The user launches the application. Depending on whether the user already has an account registered, he would proceed to login. +
-2. Now that the `currentUser` is being loaded. The student can proceed to execute an edit command `edit `
+2. Now that the `currentUser` is being loaded. The student can proceed to execute an edit command `edit n/demo enroll/03/08/2017` +
+At this point,`ModsUniParser` would instantiate `EditStudentCommandParser` which would parse the `edit` command.
+3. `EditStudentCommandParser` would instantiate `EditStudentDescriptor`. `EditStudentDescriptor` contains the respective user details that is provided in the user input. +
+[NOTE]
+`EditStudentDescriptor` contains *only* the details as provided in the user input and will be used in `EditCommand#execute()` to update `currentUser`
+
+4. `EditStudentCommandParser` would return a `EditCommand` with the descriptor class. Subsequently, `EditCommand#execute()` would be called.
+5. At this point, `EditCommand#createEditedStudent(...)` would be called constructing a new Student object, with the `currentUser` and the descriptor.
+6. Finally, `Model#setCurrentUser(...)` would be called to update `currentUser` with the new details.
+[NOTE]
+Upon the successful execute of the `edit` command, `UserTab` would also be updated with the new user details.
+
 
 
 ==== Design Considerations
