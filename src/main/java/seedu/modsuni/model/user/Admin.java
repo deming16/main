@@ -103,4 +103,24 @@ public class Admin extends User {
         return builder.toString();
     }
 
+    /**
+     * Returns a String used to display an Admin in the user interface.
+     */
+    public String toDisplayUi() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Username: ")
+                .append(getUsername().toString())
+                .append("\nName: ")
+                .append(getName().toString())
+                .append("\nRole: ")
+                .append(getRole().toString())
+                .append("\nPath to profile picture: ")
+                .append(getPathToProfilePic().toString())
+                .append("\nSalary: ")
+                .append(getSalary())
+                .append("\nEmployment date: ")
+                .append(getEmploymentDate());
+        return builder.toString();
+    }
+
 }

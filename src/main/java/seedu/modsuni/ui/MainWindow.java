@@ -18,7 +18,9 @@ import seedu.modsuni.commons.core.Config;
 import seedu.modsuni.commons.core.GuiSettings;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.ExitAppRequestEvent;
+import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
+import seedu.modsuni.commons.events.ui.SaveDisplayRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowDatabaseTabRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowHelpRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowStagedTabRequestEvent;
@@ -47,6 +49,7 @@ public class MainWindow extends UiPart<Stage> {
     private UserPrefs prefs;
     private HelpWindow helpWindow;
     private UserTab userTabController;
+    private SaveDisplay saveDisplay;
 
     private BrowserPanel loadingPanel;
     private GenerateDisplay generateDisplay;
@@ -150,6 +153,7 @@ public class MainWindow extends UiPart<Stage> {
         userTabController = new UserTab();
         userTabPlaceHolder.getChildren().add(userTabController.getRoot());
 
+        saveDisplay = new SaveDisplay();
         generateDisplay = new GenerateDisplay();
 
         loadingPanel = new BrowserPanel(BrowserPanel.LOADING_PAGE);
@@ -273,6 +277,20 @@ public class MainWindow extends UiPart<Stage> {
     private void handleShowHelpEvent(ShowHelpRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         handleHelp();
+    }
+
+    @Subscribe
+    private void handleNewCommandResultAvailableEvent(NewCommandResultAvailableEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(event.getToBeDisplayed().getRoot());
+    }
+
+    @Subscribe
+    private void handleSaveDisplayRequestEvent(SaveDisplayRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(saveDisplay.getRoot());
     }
 
     /**
