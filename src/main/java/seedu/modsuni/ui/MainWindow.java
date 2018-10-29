@@ -286,10 +286,4 @@ public class MainWindow extends UiPart<Stage> {
         browserPlaceholder.getChildren().add(generateDisplay.getRoot());
     }
 
-    @Subscribe
-    private void handleNewCommandResultAvailableEvent(NewCommandResultAvailableEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        browserPlaceholder.getChildren().clear();
-        browserPlaceholder.getChildren().add(event.getToBeDisplayed().getRoot());
-    }
 }

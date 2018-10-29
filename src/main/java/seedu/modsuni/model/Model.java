@@ -96,6 +96,11 @@ public interface Model {
     boolean hasModuleInDatabase(Module module);
 
     /**
+     * Replace the (@code target} module with {@code editModule}.
+     */
+    void updateModule(Module target, Module editedModule);
+
+    /**
      * Check if the user is a admin.
      */
     boolean isAdmin();
@@ -226,6 +231,11 @@ public interface Model {
      * Returns the Password of the given user
      */
     Password getCredentialPassword(User user);
+
+    /**
+     * Returns a list of usernames.
+     */
+    ObservableList<Username> getUsernames();
 
     /**
      * Sets the given user as the currentUser.

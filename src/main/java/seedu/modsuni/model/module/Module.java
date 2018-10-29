@@ -88,6 +88,25 @@ public class Module {
     public Prereq getPrereq() {
         return prereq;
     }
+    public boolean[] getSems() {
+        boolean[] sems = new boolean[4];
+        for (int i = 0; i < 4; i++) {
+            sems[i] = false;
+        }
+        if (isAvailableInSem1) {
+            sems[0] = true;
+        }
+        if (isAvailableInSem2) {
+            sems[1] = true;
+        }
+        if (isAvailableInSpecialTerm1) {
+            sems[2] = true;
+        }
+        if (isAvailableInSpecialTerm2) {
+            sems[3] = true;
+        }
+        return sems;
+    }
 
     public boolean checkPrereq(List<Code> codeChecklist) {
         return prereq.checkPrereq(codeChecklist);

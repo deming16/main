@@ -69,7 +69,7 @@ public class ModelManager extends ComponentManager implements Model {
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         this.credentialStore = (CredentialStore) credentialStore;
-        this.filteredModules = new FilteredList<>(currentModuleList.getModuleList());
+        this.filteredModules = new FilteredList<>(moduleList.getModuleList());
         this.currentUser = null;
     }
 
@@ -251,6 +251,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public void updateModule(Module target, Module editedModule) {
+        requireAllNonNull(target, editedModule); (
+                (ModuleList) moduleList).updateModule(target, editedModule);
+    }
+
+    @Override
     public ObservableList<Module> getObservableModuleList() {
         ModuleList modList = (ModuleList) this.getModuleList();
         return modList.getModuleList();
@@ -382,6 +388,11 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public Password getCredentialPassword(User user) {
         return credentialStore.getCredentialPassword(user.getUsername());
+    }
+
+    @Override
+    public ObservableList<Username> getUsernames() {
+        return FXCollections.unmodifiableObservableList(credentialStore.getUsernames());
     }
 
     //============= User Account Management Methods ============================

@@ -1,86 +1,124 @@
 package seedu.modsuni.logic.commands;
 
+import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static seedu.modsuni.commons.core.Messages.MESSAGE_MODULE_LISTED_OVERVIEW;
-import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.modsuni.testutil.TypicalModules.ACC1002;
-import static seedu.modsuni.testutil.TypicalModules.ACC1002X;
-import static seedu.modsuni.testutil.TypicalModules.CS1010;
-import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
 
 import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.logic.CommandHistory;
+import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.ReadOnlyAddressBook;
 import seedu.modsuni.model.ReadOnlyModuleList;
-import seedu.modsuni.model.UserPrefs;
 import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
-import seedu.modsuni.model.module.Code;
-import seedu.modsuni.model.module.CodeStartsKeywordsPredicate;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
-import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
+import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
+import seedu.modsuni.testutil.AdminBuilder;
+import seedu.modsuni.testutil.CredentialBuilder;
 
-/**
- * Contains integration tests (interaction with the Model) for {@code FindCommand}.
- */
-public class SearchCommandTest {
-    private Model model = new ModelManager(
-            getTypicalModuleList(),
-            getTypicalAddressBook(),
-            new UserPrefs(),
-            new CredentialStore());
-    private Model expectedModel = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new
-            UserPrefs(), new CredentialStore());
+public class RemoveUserCommandTest {
+
+    private static final String ABSENT_USERNAME = "absent";
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
-    public void equals() {
-        CodeStartsKeywordsPredicate firstPredicate =
-                new CodeStartsKeywordsPredicate(Collections.singletonList("first"));
-        CodeStartsKeywordsPredicate secondPredicate =
-                new CodeStartsKeywordsPredicate(Collections.singletonList("second"));
+    public void constructor_nullModule_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        new RemoveUserCommand(null);
+    }
 
-        SearchCommand searchFirstCommand = new SearchCommand(firstPredicate);
-        SearchCommand searchSecondCommand = new SearchCommand(secondPredicate);
+    @Test
+    public void notAdmin_throwsCommandException() throws Exception {
+        RemoveUserCommand removeUserCommand =
+                new RemoveUserCommand(new Username("dummy"));
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(RemoveUserCommand.MESSAGE_NOT_ADMIN);
+        Model model = new ModelManager();
+        User fakeAdmin = new AdminBuilder().withRole(Role.STUDENT).build();
+        model.setCurrentUser(fakeAdmin);
+
+        removeUserCommand.execute(model, commandHistory);
+    }
+
+    @Test
+    public void execute_credentialExist_removeSuccessful() throws Exception {
+        Credential validCredential = new CredentialBuilder().build();
+        ModelStub modelStub = new ModelStubWithCredential(validCredential);
+
+        CommandResult commandResult =
+                new RemoveUserCommand(validCredential.getUsername()).execute(modelStub,
+                        commandHistory);
+
+        assertEquals(String.format(RemoveUserCommand.MESSAGE_DELETE_USER_SUCCESS,
+                validCredential.getUsername()), commandResult.feedbackToUser);
+        assertFalse(modelStub.hasCredential(validCredential));
+    }
+
+    @Test
+    public void execute_credentialDoesNotExist_throwsCommandException() throws Exception {
+        Credential validCredential = new CredentialBuilder().build();
+        ModelStub modelStub = new ModelStubWithCredential(validCredential);
+
+        RemoveUserCommand removeUserCommand =
+                new RemoveUserCommand(new CredentialBuilder().withUsername(ABSENT_USERNAME).build().getUsername());
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(String.format(RemoveUserCommand.MESSAGE_USER_NOT_FOUND, ABSENT_USERNAME));
+
+        removeUserCommand.execute(modelStub, commandHistory);
+    }
+
+    @Test
+    public void equals() {
+        Username username1 = new Username("user1");
+        Username username2 = new Username("user2");
+        RemoveUserCommand removeUser1Command =
+                new RemoveUserCommand(username1);
+        RemoveUserCommand removeUser2Command =
+                new RemoveUserCommand(username2);
+
 
         // same object -> returns true
-        assertTrue(searchFirstCommand.equals(searchFirstCommand));
+        assertTrue(removeUser1Command.equals(removeUser1Command));
 
         // same values -> returns true
-        SearchCommand searchFirstCommandCopy = new SearchCommand(firstPredicate);
-        assertTrue(searchFirstCommand.equals(searchFirstCommandCopy));
+        RemoveUserCommand removeUser1CommandCopy =
+                new RemoveUserCommand(username1);
+        assertTrue(removeUser1Command.equals(removeUser1CommandCopy));
 
         // different types -> returns false
-        assertFalse(searchFirstCommand.equals(1));
+        assertFalse(removeUser1Command.equals(1));
 
         // null -> returns false
-        assertFalse(searchFirstCommand.equals(null));
+        assertFalse(removeUser1Command.equals(null));
 
-        // different predicate -> returns false
-        assertFalse(searchFirstCommand.equals(searchSecondCommand));
+        // different module -> returns false
+        assertFalse(removeUser1Command.equals(removeUser2Command));
     }
 
     /**
@@ -99,21 +137,6 @@ public class SearchCommandTest {
 
         @Override
         public void removeModuleTaken(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void removeModuleFromDatabase(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasModuleInDatabase(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Module> getObservableModuleList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -149,6 +172,11 @@ public class SearchCommandTest {
 
         @Override
         public ReadOnlyModuleList getModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getObservableModuleList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -215,7 +243,6 @@ public class SearchCommandTest {
         @Override
         public void addCredential(Credential credential) {
             throw new AssertionError("This method should not be called.");
-
         }
 
         @Override
@@ -225,7 +252,7 @@ public class SearchCommandTest {
 
         @Override
         public Credential getCredential(Username username) {
-            throw new AssertionError("THis method should not be called.");
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -237,18 +264,29 @@ public class SearchCommandTest {
         public void addAdmin(Admin admin, Path savePath) {
             throw new AssertionError("This method should not be called.");
         }
+
         @Override
         public void addModuleToDatabase(Module module) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public boolean hasCredential(Credential credential) {
+        public void removeModuleFromDatabase(Module module) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
+        public boolean hasModuleInDatabase(Module module) {
+            return false;
+        }
+
+        @Override
         public void updateModule(Module target, Module editedModule) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasCredential(Credential credential) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -289,6 +327,7 @@ public class SearchCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+
         @Override
         public Optional<Module> searchModuleInModuleList(Module module) {
             throw new AssertionError("This method should not be called.");
@@ -303,46 +342,49 @@ public class SearchCommandTest {
         public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
             throw new AssertionError("This method should not be called.");
         }
+    }
 
-        @Override
-        public Optional<List<Code>> canGenerate() {
-            throw new AssertionError("This method should not be called.");
+    private class ModelStubWithCredential extends ModelStub {
+
+        private CredentialStore credentialStore = new CredentialStore();
+        private User currentUser = new AdminBuilder().build();
+
+        ModelStubWithCredential(Credential credential) {
+            requireNonNull(credential);
+            credentialStore.addCredential(credential);
         }
 
         @Override
-        public SemesterList generateSchedule() {
-            throw new AssertionError("This method should not be called.");
+        public void removeCredential(Credential credential) {
+            requireNonNull(credential);
+            credentialStore.removeCredential(credential);
+        }
+
+        @Override
+        public boolean hasCredential(Credential credential) {
+            requireNonNull(credential);
+            return credentialStore.hasCredential(credential);
+        }
+
+        @Override
+        public Credential getCredential(Username username) {
+            return credentialStore.getCredential(username);
+        }
+
+        @Override
+        public User getCurrentUser() {
+            return currentUser;
+        }
+
+        @Override
+        public void setCurrentUser(User user) {
+            currentUser = user;
+        }
+
+        @Override
+        public boolean isAdmin() {
+            return true;
         }
     }
 
-    @Test
-    public void execute_zeroKeywords_noModuleFound() {
-        String expectedMessage = String.format(MESSAGE_MODULE_LISTED_OVERVIEW, 0);
-        CodeStartsKeywordsPredicate predicate = preparePredicate(" ");
-        SearchCommand command = new SearchCommand(predicate);
-
-        expectedModel.updateFilteredModuleList(predicate);
-        assertCommandSuccess(command, model, commandHistory, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredModuleList());
-    }
-
-    @Test
-    public void execute_multipleKeywords_multipleModulesFound() {
-        String expectedMessage = String.format(MESSAGE_MODULE_LISTED_OVERVIEW, 3);
-        CodeStartsKeywordsPredicate predicate = preparePredicate("ACC CS");
-        SearchCommand command = new SearchCommand(predicate);
-        model.addModuleToDatabase(CS1010);
-        expectedModel.addModuleToDatabase(CS1010);
-        expectedModel.updateFilteredModuleList(predicate);
-        assertCommandSuccess(command, model, commandHistory, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ACC1002, ACC1002X, CS1010), model.getFilteredModuleList());
-    }
-
-    /**
-     * Parses {@code userInput} into a {@code CodeStartsKeywordsPredicate}.
-     */
-    private CodeStartsKeywordsPredicate preparePredicate(String userInput) {
-        return new CodeStartsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
-    }
 }
-
