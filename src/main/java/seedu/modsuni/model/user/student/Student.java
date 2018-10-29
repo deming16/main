@@ -65,18 +65,6 @@ public class Student extends User {
         this.modulesStaged = modulesStaged;
     }
 
-    public void updateEnrollmentDate(EnrollmentDate enrollmentDate) {
-        this.enrollmentDate = enrollmentDate;
-    }
-
-    public void updateMajors(List<String> newMajors) {
-        this.major = newMajors;
-    }
-
-    public void updateMinors(List<String> newMinors) {
-        this.minor = newMinors;
-    }
-
     /**
      * Returns true if both student's profile contains the module and false otherwise.
      */
@@ -149,21 +137,6 @@ public class Student extends User {
         codeChecklist.addAll(modulesTaken.getAllCode());
         codeChecklist.addAll(modulesStaged.getAllCode());
         return codeChecklist;
-    }
-
-    @Override
-    public void updatePassword(String newPassword) {
-        //TODO
-    }
-
-    @Override
-    public void updateName(String newName) {
-        //TODO
-    }
-
-    @Override
-    public void updateProfilePic(String newPath) {
-        //TODO
     }
 
     @Override
