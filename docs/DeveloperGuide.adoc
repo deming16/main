@@ -373,7 +373,7 @@ image::SDforEditStudentCommandLogicAndModel.png[width="900"]
 
 _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `EditStudentCommand`._
 
-Figure 3 below shows the high-level sequence diagram of the command execution
+Figure 3 below shows the high-level sequence diagram of the command execution:
 
 image::SDforEditStudentCommand.png[width="800"]
 _Figure 3. High-Level Sequence Diagram of the edit process._
