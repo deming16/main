@@ -47,7 +47,7 @@ Some example commands you can try:
 * **`removeModuleS`**`CS2103T` : removes the module CS2103T to the staged module configuration
 * **`exit`** : exits the app
 
-.  Refer to <<Features>> for details of each command.
+Refer to <<Features>> for details of each command.
 
 [[Features]]
 == Features
@@ -170,7 +170,7 @@ Examples:
   ** Userdata : `demo.xml`
 
 [NOTE]
-Specified `userdata/` option should specify a relative filepath
+Specified `userdata/` option should specify a relative filepath.
 
 The image displays the changes to expect after the successful execution of the login command.
 
