@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -34,9 +35,11 @@ import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.CodeStartsKeywordsPredicate;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.Person;
+import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.User;
 
@@ -100,21 +103,6 @@ public class SearchCommandTest {
         }
 
         @Override
-        public void removeModuleFromDatabase(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasModuleInDatabase(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Module> getObservableModuleList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void addModuleTaken(Module module) {
             throw new AssertionError("This method should not be called.");
         }
@@ -150,6 +138,11 @@ public class SearchCommandTest {
         }
 
         @Override
+        public ObservableList<Module> getObservableModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean hasPerson(Person person) {
             throw new AssertionError("This method should not be called.");
         }
@@ -170,7 +163,17 @@ public class SearchCommandTest {
         }
 
         @Override
-        public ObservableList<Module> getFilteredModuleList() {
+        public ObservableList<Module> getFilteredStagedModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredTakenModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredDatabaseModuleList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -180,7 +183,7 @@ public class SearchCommandTest {
         }
 
         @Override
-        public void updateFilteredModuleList(Predicate<Module> predicate) {
+        public void updateFilteredDatabaseModuleList(Predicate<Module> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -212,7 +215,6 @@ public class SearchCommandTest {
         @Override
         public void addCredential(Credential credential) {
             throw new AssertionError("This method should not be called.");
-
         }
 
         @Override
@@ -226,16 +228,37 @@ public class SearchCommandTest {
         }
 
         @Override
+        public ObservableList<Username> getUsernames() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void addAdmin(Admin admin, Path savePath) {
             throw new AssertionError("This method should not be called.");
         }
+
         @Override
         public void addModuleToDatabase(Module module) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
+        public void removeModuleFromDatabase(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasModuleInDatabase(Module module) {
+            return false;
+        }
+
+        @Override
         public boolean hasCredential(Credential credential) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateModule(Module target, Module editedModule) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -276,8 +299,9 @@ public class SearchCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+
         @Override
-        public Optional<Module> searchModuleInModuleList(Module module) {
+        public Optional<Module> searchCodeInDatabase(Code code) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -290,6 +314,16 @@ public class SearchCommandTest {
         public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public Optional<List<Code>> canGenerate() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public SemesterList generateSchedule() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     @Test
@@ -298,9 +332,9 @@ public class SearchCommandTest {
         CodeStartsKeywordsPredicate predicate = preparePredicate(" ");
         SearchCommand command = new SearchCommand(predicate);
 
-        expectedModel.updateFilteredModuleList(predicate);
+        expectedModel.updateFilteredDatabaseModuleList(predicate);
         assertCommandSuccess(command, model, commandHistory, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredModuleList());
+        assertEquals(Collections.emptyList(), model.getFilteredDatabaseModuleList());
     }
 
     @Test
@@ -310,9 +344,9 @@ public class SearchCommandTest {
         SearchCommand command = new SearchCommand(predicate);
         model.addModuleToDatabase(CS1010);
         expectedModel.addModuleToDatabase(CS1010);
-        expectedModel.updateFilteredModuleList(predicate);
+        expectedModel.updateFilteredDatabaseModuleList(predicate);
         assertCommandSuccess(command, model, commandHistory, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ACC1002, ACC1002X, CS1010), model.getFilteredModuleList());
+        assertEquals(Arrays.asList(ACC1002, ACC1002X, CS1010), model.getFilteredDatabaseModuleList());
     }
 
     /**

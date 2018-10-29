@@ -7,6 +7,8 @@ import static seedu.modsuni.testutil.TypicalModules.ACC1002;
 import static seedu.modsuni.testutil.TypicalModules.CS1010;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,6 +31,24 @@ public class ModuleTest {
         // different code -> returns false
         Module editedCs1010 = new ModuleBuilder(CS1010).withCode(VALID_CODE_ACC1002).build();
         assertFalse(CS1010.isSameModule(editedCs1010));
+    }
+
+    @Test
+    public void checkPrereq() {
+        List<Code> codes = new ArrayList<>();
+        codes.add(CS1010.getCode());
+
+        Prereq prereq = new Prereq();
+
+        PrereqDetails prereqDetails = new PrereqDetails();
+        prereqDetails.setCode(Optional.of(CS1010.getCode()));
+        List<PrereqDetails> prereqOr = new ArrayList<>();
+        prereqOr.add(prereqDetails);
+
+        prereq.setOr(Optional.of(prereqOr));
+
+        Module acc1002 = new ModuleBuilder(ACC1002).withPrereq(prereq).build();
+        assertTrue(acc1002.checkPrereq(codes));
     }
 
     @Test

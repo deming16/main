@@ -5,6 +5,9 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalCredentials.getTypicalCredentialStore;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,9 +62,15 @@ public class RegisterCommandIntegrationTest {
             getTypicalCredentialStore());
         expectedModel.addCredential(validCredential);
 
-        assertCommandSuccess(new RegisterCommand(validCredential, dummyUser), model,
+        Path dummyPath = Paths.get("dummy.xml");
+
+        RegisterCommand toExecute = new RegisterCommand(validCredential,
+            dummyUser, dummyPath);
+
+        assertCommandSuccess(toExecute, model,
             commandHistory,
-            String.format(RegisterCommand.MESSAGE_SUCCESS, validCredential), expectedModel);
+            String.format(RegisterCommand.MESSAGE_SUCCESS, dummyUser, dummyPath),
+            expectedModel);
     }
 
     @Test
@@ -72,8 +81,10 @@ public class RegisterCommandIntegrationTest {
             new UserPrefs(),
             getTypicalCredentialStore());
 
+        Path dummyPath = Paths.get("dummy.xml");
+
         assertCommandFailure(new RegisterCommand(CREDENTIAL_STUDENT_MAX,
-                new StudentBuilder().build()),
+                new StudentBuilder().build(), dummyPath),
             model,
             commandHistory,
             RegisterCommand.MESSAGE_DUPLICATE_USERNAME);

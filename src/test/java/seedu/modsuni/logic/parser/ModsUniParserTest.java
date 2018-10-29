@@ -4,7 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static seedu.modsuni.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.modsuni.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_USERNAME;
 import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.modsuni.testutil.TypicalSavePaths.PATH_USERDATA_MAX;
+import static seedu.modsuni.testutil.TypicalSavePaths.PATH_USERDATA_SEB;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +17,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.modsuni.logic.commands.AddAdminCommand;
 import seedu.modsuni.logic.commands.AddCommand;
+import seedu.modsuni.logic.commands.AddModuleToDatabaseCommand;
 import seedu.modsuni.logic.commands.ClearCommand;
 import seedu.modsuni.logic.commands.DeleteCommand;
 import seedu.modsuni.logic.commands.EditStudentCommand;
@@ -28,15 +33,23 @@ import seedu.modsuni.logic.commands.ListCommand;
 import seedu.modsuni.logic.commands.RedoCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromDatabaseCommand;
+import seedu.modsuni.logic.commands.RemoveUserCommand;
 import seedu.modsuni.logic.commands.SelectCommand;
 import seedu.modsuni.logic.commands.UndoCommand;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.credential.Credential;
+import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.NameContainsKeywordsPredicate;
 import seedu.modsuni.model.person.Person;
+import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.student.Student;
+import seedu.modsuni.testutil.AdminBuilder;
+import seedu.modsuni.testutil.AdminUtil;
 import seedu.modsuni.testutil.CredentialBuilder;
 import seedu.modsuni.testutil.EditStudentDescriptorBuilder;
+import seedu.modsuni.testutil.ModuleBuilder;
+import seedu.modsuni.testutil.ModuleUtil;
 import seedu.modsuni.testutil.PersonBuilder;
 import seedu.modsuni.testutil.PersonUtil;
 import seedu.modsuni.testutil.StudentBuilder;
@@ -129,7 +142,7 @@ public class ModsUniParserTest {
         Student student = new StudentBuilder().build();
         RegisterCommand command = (RegisterCommand) parser.parseCommand(
             StudentUtil.getRegisterCommand(student));
-        assertEquals(new RegisterCommand(credential, student), command);
+        assertEquals(new RegisterCommand(credential, student, PATH_USERDATA_MAX), command);
     }
 
     @Test
@@ -137,6 +150,29 @@ public class ModsUniParserTest {
         SelectCommand command = (SelectCommand) parser.parseCommand(
                 SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new SelectCommand(INDEX_FIRST_PERSON), command);
+    }
+
+    @Test
+    public void parseCommand_addAdmin() throws Exception {
+        Credential credential = new CredentialBuilder().build();
+        Admin admin = new AdminBuilder().build();
+        AddAdminCommand command = (AddAdminCommand) parser.parseCommand(AdminUtil.getAddAdminCommand(admin));
+        assertEquals(new AddAdminCommand(admin, credential, PATH_USERDATA_SEB), command);
+    }
+
+    @Test
+    public void parseCommand_removeUser() throws Exception {
+        RemoveUserCommand command = (RemoveUserCommand) parser.parseCommand(
+                RemoveUserCommand.COMMAND_WORD + " " + VALID_USERNAME);
+        assertEquals(new RemoveUserCommand(new Username(VALID_USERNAME)), command);
+    }
+
+    @Test
+    public void parseCommand_addModuleDb() throws Exception {
+        Module module = new ModuleBuilder().build();
+        AddModuleToDatabaseCommand command = (AddModuleToDatabaseCommand) parser.parseCommand(
+                ModuleUtil.getAddModuleToDatabase(module));
+        assertEquals(new AddModuleToDatabaseCommand(module), command);
     }
 
     @Test

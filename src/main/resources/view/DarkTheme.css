@@ -6,8 +6,8 @@
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: #555555;
-    -fx-opacity: 0.9;
+    -fx-text-fill: white;
+    -fx-opacity: 1;
 }
 
 .label-bright {
@@ -18,7 +18,7 @@
 }
 
 .label-header {
-    -fx-font-size: 32pt;
+    -fx-font-size: 14pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 1;
@@ -152,6 +152,7 @@
 
 .tab{
     -fx-background-insets: 0 1 0 1,0,0;
+    -fx-pref-height: 30;
 }
 .tab-pane .tab
 {
@@ -167,7 +168,7 @@
 .tab .tab-label {
     -fx-alignment: CENTER;
     -fx-text-fill: WHITE;
-    -fx-font-size: 13px;
+    -fx-font-size: 13pt;
     /*-fx-font-weight: bold;*/
 }
 
@@ -356,7 +357,7 @@
     -fx-text-fill: #F70D1A;
 }
 
-#commandTextField, #commandText {
+#commandTextField, #commandText, #userNameText, #dateText, #userDetailText1, #userDetailText2, #lastSavedText{
     -fx-background-color: transparent #383838 transparent #383838;
     -fx-background-insets: 0;
     -fx-border-color: #383838 #383838 #ffffff #383838;
@@ -366,7 +367,10 @@
     -fx-font-size: 13pt;
     -fx-text-fill: white;
     -text: white;
+    -fx-fill: white;
 }
+
+
 
 #filterField, #moduleListPanel, #moduleWebpage {
     -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);

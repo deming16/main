@@ -9,10 +9,15 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Stream;
 
+import seedu.modsuni.commons.util.DataSecurityUtil;
 import seedu.modsuni.logic.commands.RegisterCommand;
+import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.Password;
@@ -60,14 +65,37 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
         User newUser = new Student(username, name, Role.STUDENT, pathToPic,
             enrollmentDate, majors, minors);
 
-        //TODO key to be replaced
+        Path tempSavePath;
+        try {
+            tempSavePath = generateTempSavePath(newUser);
+        } catch (CommandException e) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
+        }
+
+        //TODO key to be removed
         Credential credential = new Credential(
             username,
             password,
             password.getValue());
 
-        return new RegisterCommand(credential, newUser);
+        return new RegisterCommand(credential, newUser, tempSavePath);
 
+    }
+
+    /**
+     * Generates a temporary save Path
+     */
+    public Path generateTempSavePath(User user) throws CommandException {
+        StringBuilder pathBuilder = new StringBuilder();
+        pathBuilder.append(user.getUsername().getUsername());
+        pathBuilder.append("_");
+        try {
+            pathBuilder.append(DataSecurityUtil.randomSha1());
+        } catch (NoSuchAlgorithmException e) {
+            throw new CommandException(RegisterCommand.MESSAGE_REGISTER_FAILURE);
+        }
+        pathBuilder.append(".xml");
+        return Paths.get(pathBuilder.toString());
     }
 
     /**

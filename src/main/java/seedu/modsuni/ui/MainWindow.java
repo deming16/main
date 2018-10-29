@@ -18,6 +18,9 @@ import seedu.modsuni.commons.core.Config;
 import seedu.modsuni.commons.core.GuiSettings;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.ExitAppRequestEvent;
+import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
+import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
+import seedu.modsuni.commons.events.ui.SaveDisplayRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowDatabaseTabRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowHelpRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowStagedTabRequestEvent;
@@ -42,10 +45,17 @@ public class MainWindow extends UiPart<Stage> {
     // Independent Ui parts residing in this Ui container
     private BrowserPanel browserPanel;
     private ModuleListPanel moduleListPanel;
+    private StagedModuleListPanel stagedModuleListPanel;
+    private TakenModuleListPanel takenModuleListPanel;
+    private DatabaseModuleListPanel databaseModuleListPanel;
     private Config config;
     private UserPrefs prefs;
     private HelpWindow helpWindow;
-    private UserTab userTabPanel;
+    private UserTab userTabController;
+    private SaveDisplay saveDisplay;
+
+    private BrowserPanel loadingPanel;
+    private GenerateDisplay generateDisplay;
 
     @FXML
     private StackPane browserPlaceholder;
@@ -58,9 +68,6 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane outputDisplayPlaceholder;
-
-    @FXML
-    private StackPane statusbarPlaceholder;
 
     @FXML
     private TabPane tabPane;
@@ -83,10 +90,20 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane moduleListPanelPlaceholder;
 
+    @FXML
+    private StackPane stagedModuleListPanelPlaceholder;
+
+    @FXML
+    private StackPane takenModuleListPanelPlaceholder;
+
+    @FXML
+    private StackPane databaseModuleListPanelPlaceholder;
+
     public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic) {
         super(FXML, primaryStage);
 
         // Set dependencies
+        this.browserPanel = new BrowserPanel();
         this.primaryStage = primaryStage;
         this.logic = logic;
         this.config = config;
@@ -145,14 +162,23 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        userTabPanel = new UserTab();
-        userTabPlaceHolder.getChildren().add(userTabPanel.getRoot());
+        userTabController = new UserTab();
+        userTabPlaceHolder.getChildren().add(userTabController.getRoot());
 
-        browserPanel = new BrowserPanel();
-        browserPlaceholder.getChildren().add(browserPanel.getRoot());
+        saveDisplay = new SaveDisplay();
+        generateDisplay = new GenerateDisplay();
 
-        moduleListPanel = new ModuleListPanel(logic.getFilteredModuleList());
-        moduleListPanelPlaceholder.getChildren().add(moduleListPanel.getRoot());
+        loadingPanel = new BrowserPanel(BrowserPanel.LOADING_PAGE);
+        browserPlaceholder.getChildren().add(loadingPanel.getRoot());
+
+        stagedModuleListPanel = new StagedModuleListPanel(logic.getFilteredStagedModuleList());
+        stagedModuleListPanelPlaceholder.getChildren().add(stagedModuleListPanel.getRoot());
+
+        takenModuleListPanel = new TakenModuleListPanel(logic.getFilteredTakenModuleList());
+        takenModuleListPanelPlaceholder.getChildren().add(takenModuleListPanel.getRoot());
+
+        databaseModuleListPanel = new DatabaseModuleListPanel(logic.getFilteredDatabaseModuleList());
+        databaseModuleListPanelPlaceholder.getChildren().add(databaseModuleListPanel.getRoot());
 
         OutputDisplay outputDisplay = new OutputDisplay();
         outputDisplayPlaceholder.getChildren().add(outputDisplay.getRoot());
@@ -197,8 +223,20 @@ public class MainWindow extends UiPart<Stage> {
         return moduleListPanel;
     }
 
+    public StagedModuleListPanel getStagedModuleListPanel() {
+        return stagedModuleListPanel;
+    }
+
+    public TakenModuleListPanel getTakenModuleListPanel() {
+        return takenModuleListPanel;
+    }
+
+    public DatabaseModuleListPanel getDatabaseModuleListPanel() {
+        return databaseModuleListPanel;
+    }
+
     void releaseResources() {
-        browserPanel.freeResources();
+        browserPlaceholder.getChildren().clear();
     }
 
     /**
@@ -270,4 +308,29 @@ public class MainWindow extends UiPart<Stage> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         handleHelp();
     }
+
+    @Subscribe
+    private void handleNewCommandResultAvailableEvent(NewCommandResultAvailableEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(event.getToBeDisplayed().getRoot());
+    }
+
+    @Subscribe
+    private void handleSaveDisplayRequestEvent(SaveDisplayRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(saveDisplay.getRoot());
+    }
+
+    /**
+     * Updates the browserPlaceholder to the Generate UI.
+     */
+    @Subscribe
+    private void handleNewGenerateResultAvailableEvent(NewGenerateResultAvailableEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(generateDisplay.getRoot());
+    }
+
 }

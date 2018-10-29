@@ -1,11 +1,16 @@
 package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.modsuni.testutil.TypicalModules.ACC1002;
+import static seedu.modsuni.testutil.TypicalModules.CS1010;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
 import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -18,6 +23,7 @@ import javafx.collections.ObservableList;
 
 import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.logic.CommandHistory;
+import seedu.modsuni.logic.Generate;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
@@ -29,12 +35,18 @@ import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
+import seedu.modsuni.model.module.Prereq;
+import seedu.modsuni.model.module.PrereqDetails;
 import seedu.modsuni.model.person.Person;
+import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
+import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.testutil.AdminBuilder;
+import seedu.modsuni.testutil.ModuleBuilder;
 import seedu.modsuni.testutil.StudentBuilder;
 
 /**
@@ -83,6 +95,16 @@ public class GenerateCommandTest {
     }
 
     @Test
+    public void execute_roleNullUser_throwsCommandException() throws Exception {
+        GenerateCommand generateCommand = new GenerateCommand();
+        ModelStub modelStub = new ModelStubWithNullUser();
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(GenerateCommand.MESSAGE_ERROR);
+        generateCommand.execute(modelStub, commandHistory);
+    }
+
+    @Test
     public void execute_studentNoModules_throwsCommandException() throws Exception {
         User student = new StudentBuilder()
                 .withUsername(StudentBuilder.DEFAULT_USERNAME)
@@ -101,9 +123,46 @@ public class GenerateCommandTest {
     }
 
     @Test
-    public void execute_generateSuccessful() {
-        User student = new StudentBuilder().build();
+    public void execute_generateSuccessful() throws Exception {
+        Student student = new StudentBuilder().build();
+        student.addModulesStaged(CS1010);
+        GenerateCommand generateCommand = new GenerateCommand();
         ModelStubWithUser modelStub = new ModelStubWithUser(student);
+        CommandResult commandResult = generateCommand.execute(modelStub, commandHistory);
+        assertEquals(commandResult.feedbackToUser, GenerateCommand.MESSAGE_SUCCESS);
+        /*
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person validPerson = new PersonBuilder().build();
+
+        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub, commandHistory);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validPerson), commandResult.feedbackToUser);
+        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
+        */
+    }
+
+    @Test
+    public void execute_generateUnsuccessful() throws Exception {
+        List<Code> codes = new ArrayList<>();
+        codes.add(ACC1002.getCode());
+
+        PrereqDetails prereqDetailsCode = new PrereqDetails();
+        prereqDetailsCode.setCode(Optional.of(CS1010.getCode()));
+
+        List<PrereqDetails> prereqDetailsList = new ArrayList<>();
+        prereqDetailsList.add(prereqDetailsCode);
+
+        Prereq prereq = new Prereq();
+        prereq.setOr(Optional.of(prereqDetailsList));
+
+        Module module = new ModuleBuilder(ACC1002).withPrereq(prereq).build();
+        Student user = new StudentBuilder().build();
+        user.addModulesStaged(module);
+        GenerateCommand generateCommand = new GenerateCommand();
+        ModelStubWithUser modelStub = new ModelStubWithUser(user);
+        CommandResult commandResult = generateCommand.execute(modelStub, commandHistory);
+        assertEquals(commandResult.feedbackToUser, GenerateCommand.MESSAGE_FAILURE + "\n" + codes);
         /*
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Person validPerson = new PersonBuilder().build();
@@ -122,6 +181,36 @@ public class GenerateCommandTest {
     private class ModelStub implements Model {
         @Override
         public void addPerson(Person person) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasModuleTaken(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeModuleTaken(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addModuleTaken(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasModuleStaged(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeModuleStaged(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addModuleStaged(Module module) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -166,8 +255,18 @@ public class GenerateCommandTest {
         }
 
         @Override
-        public ObservableList<Module> getFilteredModuleList() {
-            return null;
+        public ObservableList<Module> getFilteredStagedModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredTakenModuleList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Module> getFilteredDatabaseModuleList() {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -176,8 +275,8 @@ public class GenerateCommandTest {
         }
 
         @Override
-        public void updateFilteredModuleList(Predicate<Module> predicate) {
-
+        public void updateFilteredDatabaseModuleList(Predicate<Module> predicate) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -208,7 +307,6 @@ public class GenerateCommandTest {
         @Override
         public void addCredential(Credential credential) {
             throw new AssertionError("This method should not be called.");
-
         }
 
         @Override
@@ -219,6 +317,11 @@ public class GenerateCommandTest {
         @Override
         public Credential getCredential(Username username) {
             throw new AssertionError("THis method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Username> getUsernames() {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -238,6 +341,11 @@ public class GenerateCommandTest {
 
         @Override
         public boolean hasModuleInDatabase(Module module) {
+            return false;
+        }
+
+        @Override
+        public void updateModule(Module target, Module editedModule) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -247,37 +355,17 @@ public class GenerateCommandTest {
         }
 
         @Override
+        public boolean isVerifiedCredential(Credential credential) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Password getCredentialPassword(User user) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean isAdmin() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasModuleTaken(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void removeModuleTaken(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addModuleTaken(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasModuleStaged(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void removeModuleStaged(Module module) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addModuleStaged(Module module) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -293,19 +381,20 @@ public class GenerateCommandTest {
         }
 
         @Override
-        public boolean isVerifiedCredential(Credential credential) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public Password getCredentialPassword(User user) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public User getCurrentUser() {
             throw new AssertionError("This method should not be called.");
 
+        }
+
+        @Override
+        public void setCurrentUser(User user) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+
+        @Override
+        public Optional<Module> searchCodeInDatabase(Code code) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -319,17 +408,15 @@ public class GenerateCommandTest {
         }
 
         @Override
-        public void setCurrentUser(User user) {
+        public Optional<List<Code>> canGenerate() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public Optional<Module> searchModuleInModuleList(Module module) {
+        public SemesterList generateSchedule() {
             throw new AssertionError("This method should not be called.");
         }
-
     }
-
     /**
      * A Model stub with a user.
      */
@@ -349,6 +436,29 @@ public class GenerateCommandTest {
         @Override
         public boolean isStudent() {
             return getCurrentUser().getRole() == Role.STUDENT;
+        }
+
+        @Override
+        public Optional<List<Code>> canGenerate() {
+            if (isStudent()) {
+                return Generate.canGenerate((Student) getCurrentUser());
+            } else {
+                return Optional.empty();
+            }
+        }
+
+        @Override
+        public SemesterList generateSchedule() {
+            Generate generate = new Generate((Student) getCurrentUser());
+            return generate.getSchedule();
+        }
+    }
+
+    private class ModelStubWithNullUser extends ModelStub {
+
+        @Override
+        public User getCurrentUser() {
+            return null;
         }
     }
 }

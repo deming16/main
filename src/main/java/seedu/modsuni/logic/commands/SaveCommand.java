@@ -6,6 +6,9 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_SAVE_PATH;
 
 import java.nio.file.Path;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.NewSaveResultAvailableEvent;
+import seedu.modsuni.commons.events.ui.SaveDisplayRequestEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -18,13 +21,13 @@ public class SaveCommand extends Command {
 
     public static final String COMMAND_WORD = "save";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Saves current user to a specific path. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Saves current user data to a specific path. "
             + "Parameters: "
             + PREFIX_SAVE_PATH + "FILEPATH\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_SAVE_PATH + "userconfig.xml";
+            + PREFIX_SAVE_PATH + "userdata.xml";
 
-    public static final String MESSAGE_SUCCESS = "Current user configuration has be saved!";
+    public static final String MESSAGE_SUCCESS = "Current user data has be saved!";
 
     public static final String MESSAGE_ERROR = "Unable to save. Please ensure that you are registered or logged in.";
 
@@ -45,6 +48,10 @@ public class SaveCommand extends Command {
         }
 
         model.saveUserFile(currentUser, savePath);
+
+        EventsCenter.getInstance().post(new SaveDisplayRequestEvent());
+        EventsCenter.getInstance().post(new NewSaveResultAvailableEvent(model.getCurrentUser()));
+
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

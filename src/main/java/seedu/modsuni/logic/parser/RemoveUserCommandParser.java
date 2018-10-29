@@ -9,7 +9,7 @@ import seedu.modsuni.model.credential.Username;
 /**
  * Parses input arguments and creates a new RemoveUserCommand.
  */
-public class RemoveUserCommandParser {
+public class RemoveUserCommandParser implements Parser<RemoveUserCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the RemoveModuleFromDatabaseCommand

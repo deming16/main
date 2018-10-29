@@ -26,7 +26,6 @@ import seedu.modsuni.commons.util.XmlUtil;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.storage.XmlSerializableModuleList;
 
-
 public class ModuleListPanelTest extends GuiUnitTest {
     private static final ObservableList<Module> TYPICAL_MODULES =
             FXCollections.observableList(getTypicalModules());
