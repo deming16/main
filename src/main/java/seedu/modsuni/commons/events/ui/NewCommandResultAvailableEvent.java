@@ -5,7 +5,7 @@ import seedu.modsuni.commons.events.BaseEvent;
 import seedu.modsuni.ui.UiPart;
 
 /**
- * Generic event to ttrigger displaying of other commands ui.
+ * Generic event to trigger displaying of other commands ui.
  */
 public class NewCommandResultAvailableEvent extends BaseEvent {
     private UiPart<Region> toBeDisplayed;
