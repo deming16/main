@@ -139,6 +139,7 @@ Returns a list of modules that begin with CS101 or GEH.
 * `search cs101 gEh` +
 Returns the same result as above.
 
+[[save]]
 === Saving user data: `save`
 
 Save current module configurations for future usage. +
@@ -171,6 +172,12 @@ Examples:
 [NOTE]
 Specified `userdata/` option should specify a relative filepath
 
+The image displays the changes to expect after the successful execution of the login command.
+
+image::LoginCommandExample.png[width="790"]
+
+[NOTE]
+Note that your details will automatically be displayed in the User Tab and a simple successful message is displayed on the bottom right window.
 
 === Register a Student Account : `register`
 
@@ -187,17 +194,26 @@ Available Option:
 * Major(s) : `maj/[MAJOR_CODE] maj/[MAJOR_CODE]`
 * Minor(s) : `min/[MINOR_CODE] min/[MINOR_CODE]`
 
-Examples:
+Example:
 
-* `register user/demo pass/#Qwerty123 name/Daniel Demo pic/path.img enroll/02/08/2017 maj/CS min/MA` +
+* `register user/demo pass/#Qwerty123 n/Demo pic/path.img enroll/02/08/2017 maj/CS min/MA` +
   The above command creates a student account with the following details:
   ** Username : `demo`
   ** Password : `#Qwerty123`
-  ** Name : `Daniel Demo`
+  ** Name : `Demo`
   ** Path To Picture: `path.img`
   ** Enrollment Date: `02/08/2017>`
   ** Major(s) : `CS`
   ** Minor(s) : `MA`
+
+The image displays the changes to expect after the successful execution of the register command.
+
+image::RegisterCommandExample.png[width="790"]
+
+[NOTE]
+A temporary save file path is generated and used to save the details of the newly
+registered user. Do remember the location of the save file. You may choose to save
+the file in another location by executing the `save` command as detailed in <<save>>.
 
 === Edit Student Account : `edit`
 
@@ -211,6 +227,19 @@ Available Options:
 * Edit Enrollment Date: `enroll/[ENROLLMENT_DATE]`
 * Edit Major : `maj/[MAJOR_CODE]`
 * Edit Minor : `min/[MINOR_CODE]`
+
+Example:
+
+* `edit n/Demo Lition` +
+  The above command edits the `Name` of the current student with the new details:
+  ** Name : `Demo Lition`
+
+The image displays the changes to expect after the successful execution of the edit command.
+
+image::EditCommandExample.png[width="790"]
+
+[NOTE]
+Notice that the Name in the User Tab has changed.
 
 === Data Encryption
 
