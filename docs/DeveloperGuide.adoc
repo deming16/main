@@ -428,9 +428,15 @@ generate feature.
 
 ==== Current Implementation
 
-The generate command is facilitated by `GenerateCommand` class. It attempts to generate a schedule based on
- the student's staged modules. It makes use of the `Generate` class from the `Logic` package to create a
- schedule.
+The generate command is facilitated by the `GenerateCommand` class and the following methods in the Model
+class:
+
+* `Model#isStudent()` -- This method checks if the current user is a student.
+* `Model#canGenerate()` -- This method checks if it is possible to generate a schedule.
+* `Model#generateSchedule()` -- This method generates a schedule.
+
+It generates a schedule based on the student’s staged modules. It also makes use of the `Generate`
+class from the `Logic` package to create a schedule.
 
 The `GenerateCommand` class extends from the `Command` class. Figure 1 as shown below depicts the UML
 diagram for the `GenerateCommand` class.
@@ -438,13 +444,25 @@ diagram for the `GenerateCommand` class.
 image::GenerateCommandUML.png[width="250]
 _Figure 1. GenerateCommand UML Diagram_
 
-`GenerateCommand` uses multiple components of the modsUni application. The sequence diagram shown below in
- Figure 2 illustrates the interactions between some of these components.
+In the execute method of the Generate command, it will first check if the current user is a Student. Next
+it will proceed on to check if all prerequisites of the student’s staged modules have been met. It does the
+ prerequisite checks using the student’s taken module list. If the conditions are satisfactory, it will
+ generate a schedule. Figure 2(shown below) shows the sequence diagram when executing the `GenerateCommand`.
+
+image::SDforGenerateCommandLogicAndModel.png[width="250]
+_Figure 2. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
+ `GenerateCommand`._
+
+`GenerateCommand` uses multiple components of the modsUni application. Upon completion of generating the
+schedule, two events will be posted. The first event is `MainWindowClearResourceEvent`. It will be posted to
+inform the current UI that is in the main window to clear it's resources. The second event is
+`NewGenerateResultAvailableEvent`. This event will show the UI for the schedule in the main window.
+The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
 
 image::SequenceDiagramforGenerate.png[width="250]
-_Figure 2. High Level Sequence Diagram for the `generate` command_
+_Figure 3. High Level Sequence Diagram for the `generate` command_
 
-===== Implementation of the generate command
+===== Example scenario of the generate command
 Given below is an example usage scenario of how the generate command behaves:
 
 The user launches the application for the first time and the `currentUser` will at this point be `null`.
