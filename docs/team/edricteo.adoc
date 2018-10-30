@@ -13,25 +13,34 @@ modsUni is a desktop timetable management application created by students for st
 
 == Summary of contributions
 
-* *Major enhancement*:
+* *Major enhancement*: Added Save user (Admin/Student) data feature
+
 ** What it does:
-** Justification:
-** Highlights:
-** Credits:
+*** Allows a user to save their information as a file locally.
+*** Saved information are encrypted.
+*** Displays the saved information upon issue the save command.
+
+** Justification: This feature improves the user experience of modsUni significantly by having the ability to save their information locally, allowing them to restore their information during the login process.
+
+** Highlights: This enhancement puts confidentiality in high regard. Multiple security concerns were brought up and discussed prior to implementation. Security feature was made robust to prevent frustrating the users.
 
 * *Minor enhancement*:
+** Provided methods to decrypt an encrypted file given the correct credential.
+** Provided methods to load a user from a local file into modsUni. This is used by used by Login to restore a user's information to the application.
 
 * *Code contributed*:
 
 * *Other contributions*:
 
 ** Project management:
+*** Managed releases v1.3 - v1.5rc (4 releases) on GitHub
 
 ** Documentation:
+*** Maintained the Glossary section of the Developer Guide (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/83)
+*** Updated User Guide and Developer Guide feedback (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/83)
 
 ** Community:
-
-** Tools:
+*** PRs reviewed (with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-2/main/pull/189, https://github.com/CS2103-AY1819S1-W17-2/main/pull/127
 
 == Contributions to the User Guide
 
