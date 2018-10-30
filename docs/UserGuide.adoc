@@ -407,6 +407,8 @@ Example:
 Change the module code of module with index "1" to "CS2105".
 * `editModule 4 code/CS2103 credit/4` +
 Change the module code and credit of module with index "4" to "CS2103" and "4" respectively.
++
+image::EditModuleCommandExample.png[width="800"]
 
 === Remove a existing module from database: `removeModuleDB`
 
@@ -417,6 +419,8 @@ Examples:
 
 * `removeModuleDB CS2109` +
 Removes a module with module code "CS2109" if it exists.
++
+image::RemoveModuleFromDatabaseCommandExample.png[width="800"]
 // end::admincommands[]
 
 == FAQ
