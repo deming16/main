@@ -824,7 +824,7 @@ public void saveUser(User user, Path filePath) throws IOException {
     XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
 }
 ----
-The converted newly created `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)` as shown in the code snipplets below:
+The newly created `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)` as shown in the code snipplets below:
 
 [source, java]
 ----
@@ -849,7 +849,7 @@ Given below is an example usage scenario and how the save mechanism behaves:
 
 
 [TIP]
-A new registered `Student` would be initialized and automatically logged in which enabling the student to perform save command. +
+A new registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
 
 
 ==== Design Considerations
@@ -866,7 +866,7 @@ A new registered `Student` would be initialized and automatically logged in whic
 
 // tag::dataencryption[]
 === Data Security Feature
-The data security feature involves mainly the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
+The data security feature mainly involves the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
 
 [NOTE]
 Advanced Encryption Standard (AES) is the algorithm used for encryption.
