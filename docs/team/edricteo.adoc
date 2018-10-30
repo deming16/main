@@ -49,6 +49,26 @@ modsUni is a desktop timetable management application created by students for st
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
+=== Saving user data: `save`
+
+Save current module configurations for future usage. +
+Format: `save sp/<FILE_NAME>.xml`
+
+Examples:
+
+* `save sp/userdata.xml` +
+Saves the current user data to the file name `userdata.xml`
+
+include::../UserGuide.adoc[tag=undoredo]
+
+include::../UserGuide.adoc[tag=dataencryption]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
 // tag::saveuser[]
 === Save User Feature
 The save user feature involves mainly the saving process of a user's attributes.
@@ -301,16 +321,6 @@ _Figure 2. Sequence Diagram for the interaction between Logic Component and Data
 ** Pros: The key will be more secured compared to the key generated from alternative 1.
 ** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
 // end::dataencryption[]
-
-include::../UserGuide.adoc[tag=undoredo]
-
-include::../UserGuide.adoc[tag=dataencryption]
-
-== Contributions to the Developer Guide
-
-|===
-|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
-|===
 
 include::../DeveloperGuide.adoc[tag=undoredo]
 
