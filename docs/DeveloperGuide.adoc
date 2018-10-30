@@ -592,6 +592,14 @@ the module database up to date, or to cater to their own needs.
 [NOTE]
 The commands pertaining to module database administration can only be executed by users of type `Admin`.
 
+Administrators can choose to add, remove or edit a module using `addModuleDB`, `removeModuleDB` and `editModule` respectively.
+The changes will then be reflected
+in both the module list in memory and in storage. Figure 1(shown below) describes the general flow of the administration
+of the module database in an activity diagram.
+
+image::ADforModuleDatabaseAdministration.png[width="800]
+_Figure 1. Activity diagram for module database administration._
+
 ==== Current Implementation
 
 The Module database administration mechanism is facilitated by `ModuleList` in `Model` via the following operations:
@@ -611,27 +619,30 @@ Module database administration mechanism is facilitated by several command class
 
 `addModuleDB` mechanism is facilitated by `AddModuleToDatabaseCommand`. It allows the addition of modules to database.
 
-The `AddModuleToDatabaseCommand` extends for `Command`. Figure 1(shown below) depicts the UML representation of the
+The `AddModuleToDatabaseCommand` extends for `Command`. Figure 2(shown below) depicts the UML representation of the
 `AddModuleToDatabaseCommand`.
 
 image::AddModuleToDatabaseCommandUML.png[width="400"]
-_Figure 1 UML diagram of `AddModuleToDatabaseCommand`._
+_Figure 2. UML diagram of `AddModuleToDatabaseCommand`._
 
 Parsing of command is performed by `AddModuleToDatabaseCommandParser`, which returns a `AddModuleToDatabaseCommand`
-object after parsing ModuleCode, Title, Credit, Department, Description, AvailableSem and Prereq. Figure 2(shown below)
+object after parsing ModuleCode, Title, Credit, Department, Description, AvailableSem and Prereq. Figure 3(shown below)
  shows the
 sequence diagram of the `AddModuleToDatabaseCommandParser`.
 
 image::SDforAddModuleToDatabaseCommandLogicAndModel.png[width="800"]
-_Figure 2. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
+_Figure 3. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
 `AddModuleToDatabaseCommand`._
 
-Figure 3(shown below) shows the high-level sequence diagram of the command execution.
+Figure 4(shown below) shows the high-level sequence diagram of the command execution.
 
 image::SDforAddModuleToDatabaseCommand.png[width="800"]
-_Figure 3. High-Level Sequence diagram of adding a module to database._
+_Figure 4. High-Level Sequence diagram of adding a module to database._
 
 Given below is an example usage scenario and how the `addModuleDB` mechanism behaves at each step:
+
+[NOTE]
+For this example usage scenario, we assume that module "CS2109" did not exist in initially.
 
 . An admin executes `addAdminDB` with valid arguments to add a module with module code “CS2109” to the module list.
 The `addModuleDB` command calls `Model#addModuleToDatabase(...)`, causing the new model to be added to `ModuleList`
@@ -641,32 +652,28 @@ and subsequently update the `moduleList.xml` file with the new list.
 `addModuleDB`. The `addModuleDB` command calls `Model#hasModuleInDatabase(...)`, causing a feedback to return,
 informing the admin that the module already exists, and the module is not added.
 
-[NOTE]
-For this example usage scenario, we assume that module "CS2109" did not exist in initially.
-
-
 **Deleting module from database**
 
 `removeModuleDB` mechanism is facilitated by the `RemoveModuleFromDatabaseCommand` class. It allows `Admin` to remove
 `Module` from the database.
 
-The `RemoveModuleFromDatabaseCommand` extends for `Command`. Figure 4(shown below) depicts the UML representation of the
+The `RemoveModuleFromDatabaseCommand` extends for `Command`. Figure 5(shown below) depicts the UML representation of the
 `RemoveModuleFromDatabaseCommand`.
 
 image::RemoveModuleFromDatabaseCommandUML.png[width="400"]
-_Figure 4 UML diagram of `RemoveModuleFromDatabaseCommand`._
+_Figure 5. UML diagram of `RemoveModuleFromDatabaseCommand`._
 
 Parsing of command is performed by `RemoveModuleFromDatabaseParser`, which returns a `RemoveModuleFromDatabase` object
-after parsing moduleCode object. Figure 5(shown below) shows the sequence diagram of the `RemoveModuleFromDatabaseCommandParser`.
+after parsing moduleCode object. Figure 6(shown below) shows the sequence diagram of the `RemoveModuleFromDatabaseCommandParser`.
 
 image::SDforRemoveModuleFromDatabaseCommandLogicAndModel.png[width="800"]
-_Figure 5. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
+_Figure 6. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
 `RemoveModuleFromDatabase`._
 
-Figure 6(shown below) shows the high-level sequence diagram of the command execution.
+Figure 7(shown below) shows the high-level sequence diagram of the command execution.
 
 image::SDforRemoveModuleFromDatabaseCommand.png[width="800"]
-_Figure 6. High-Level sequence diagram of removing a module from database._
+_Figure 7. High-Level sequence diagram of removing a module from database._
 
 Given below is an example usage scenario and how the `removeModuleDB` mechanism behaves at each step:
 
@@ -686,22 +693,22 @@ executing `removeModuleDB CS2109`. The `removeModuleDB` command returns a feedba
 `editModule` mechanism is facilitated by the `EditModuleCommand` class. It allows `Admin` to edit `Module` from the
 database.
 
-The `EditModuleCommand` extends for `Command`. Figure 7(shown below) depicts the UML representation of the `EditModuleCommand`.
+The `EditModuleCommand` extends for `Command`. Figure 8(shown below) depicts the UML representation of the `EditModuleCommand`.
 
 image::EditModuleCommandUML.png[width="400"]
-_Figure 7. UML diagram of `EditModuleCommand`._
+_Figure 8. UML diagram of `EditModuleCommand`._
 
 Parsing of command is performed by the `EditModuleCommandParser`, which returns a `EditModuleCommand` object after parsing
-ModuleCode, Title, Credit, Department, Description, AvailableSem and Prereq. Figure 8(shown below) shows the sequence
+ModuleCode, Title, Credit, Department, Description, AvailableSem and Prereq. Figure 9(shown below) shows the sequence
 diagram of the `EditModuleCommandParser`.
 
 image::SDforEditModuleCommandLogicAndModel.png[width="800]
-_Figure 8. Sequence diagram for the interaction between `Logic` and `Model` Components when executing `EditModule`._
+_Figure 9. Sequence diagram for the interaction between `Logic` and `Model` Components when executing `EditModule`._
 
-Figure 9(shown below) shows the high-level sequence diagram of the command execution.
+Figure 10(shown below) shows the high-level sequence diagram of the command execution.
 
 image::SDforEditModuleCommand.png[width="800"]
-_Figure 9. High-level sequence diagram of editing a module from database._
+_Figure 10. High-level sequence diagram of editing a module from database._
 
 ==== Design Considerations
 
