@@ -18,7 +18,11 @@ modsUni is a desktop timetable management application created by students for st
 ** Justification: This feature allows students to easily plan their candidature and it is also one of the
 core features of modsUni.
 
-* *Minor enhancement*: Loading in of modules as the database from a `XML` file.
+* *Minor enhancement*: Loading in of modules from a `XML` file.
+** What it does: It reads an `XML` file containing the list of modules that are available for students to
+take.
+** Justification: This feature allows students to view the module information and add it to their
+staged/taken list for the generating of their schedule.
 
 * *Code contributed*:
 
