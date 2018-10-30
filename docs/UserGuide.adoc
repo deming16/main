@@ -30,19 +30,24 @@ Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 .  Ensure you have Java version `9` or later installed in your Computer.
 .  Download the latest `modsUni.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for modsUni.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Create a `data` folder in the home folder.
+.  Download the latest `modules.xml` link:{repoURL}/tree/master/data[here]
+.  Copy the XML file to the `data` folder.
+.  Double-click `modsUni.jar` to start the app. The GUI should appear in a few seconds.
 +
 image::Ui.png[width="790"]
-+
-.  Type the command in the command box and press kbd:[Enter] to execute it. +
-e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
-.  Some example commands you can try:
 
-* **`add`**`CS2103T` : adds the module CS2103T to the module configuration
-* **`remove`**`CS2103T` : removes the module CS2103T to the module configuration
+
+Type the command in the command box and press kbd:[Enter] to execute it. +
+e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
+
+Some example commands you can try:
+
+* **`addModuleS`**`CS2103T` : adds the module CS2103T to the staged modules configuration
+* **`removeModuleS`**`CS2103T` : removes the module CS2103T to the staged module configuration
 * **`exit`** : exits the app
 
-.  Refer to <<Features>> for details of each command.
+Refer to <<Features>> for details of each command.
 
 [[Features]]
 == Features
@@ -134,10 +139,11 @@ Returns a list of modules that begin with CS101 or GEH.
 * `search cs101 gEh` +
 Returns the same result as above.
 
+[[save]]
 === Saving user data: `save`
 
 Save current module configurations for future usage. +
-Format: `save sp/[FILE_NAME]`
+Format: `save sp/[FILE_NAME].xml`
 
 Examples:
 
@@ -157,13 +163,21 @@ Format: `login user/<USERNAME> pass/<PASSWORD> userData/[PATH_TO_DATA_FILE]`
 
 Examples:
 
-* `login user/demo pass/#Qwerty123`
+* `login user/demo pass/#Qwerty123 userdata/demo.xml`
   The above command essentially sends a login request to `CredentialStore` with the following credential details:
   ** Username : `demo`
   ** Password : `#Qwerty123`
+  ** Userdata : `demo.xml`
 
 [NOTE]
-Option to include `userData` is currently unavailable. [coming in v1.3]
+Specified `userdata/` option should specify a relative filepath.
+
+The image displays the changes to expect after the successful execution of the login command.
+
+image::LoginCommandExample.png[width="790"]
+
+[NOTE]
+Note that your details will automatically be displayed in the User Tab and a simple successful message is displayed on the bottom right window.
 
 === Register a Student Account : `register`
 
@@ -174,41 +188,62 @@ Available Option:
 
 * Username : `user/<USERNAME>`
 * Password : `pass/<PASSWORD>`
-* Name : `name/[NAME]`
+* Name : `n/[NAME]`
 * Path To Picture: `pic/<PATH_TO_PIC>`
 * Enrollment Date: `enroll/<ENROLLMENT_DATE>`
 * Major(s) : `maj/[MAJOR_CODE] maj/[MAJOR_CODE]`
 * Minor(s) : `min/[MINOR_CODE] min/[MINOR_CODE]`
 
-Examples:
+Example:
 
-* `register user/demo pass/#Qwerty123 name/Daniel Demo pic/path.img enroll/02/08/2017 maj/CS min/MA` +
+* `register user/demo pass/#Qwerty123 n/Demo pic/path.img enroll/02/08/2017 maj/CS min/MA` +
   The above command creates a student account with the following details:
   ** Username : `demo`
   ** Password : `#Qwerty123`
-  ** Name : `Daniel Demo`
+  ** Name : `Demo`
   ** Path To Picture: `path.img`
   ** Enrollment Date: `02/08/2017>`
   ** Major(s) : `CS`
   ** Minor(s) : `MA`
 
-=== Edit Student Account : `editStudent` `[coming in v1.3]`
+The image displays the changes to expect after the successful execution of the register command.
+
+image::RegisterCommandExample.png[width="790"]
+
+[NOTE]
+A temporary save file path is generated and used to save the details of the newly
+registered user. Do remember the location of the save file. You may choose to save
+the file in another location by executing the `save` command as detailed in <<save>>.
+
+=== Edit Student Account : `edit`
 
 Edits the Student specific information as specified in the input parameters. +
-Format: `editStudent [OPTION]/[INPUT]...` +
+Format: `edit [OPTION]/[INPUT]...` +
 
 Available Options:
 
-* Edit Name : `name/[NAME]`
+* Edit Name : `n/[NAME]`
 * Edit Profile Picture: `pic/[PATH_TO_PIC]`
 * Edit Enrollment Date: `enroll/[ENROLLMENT_DATE]`
 * Edit Major : `maj/[MAJOR_CODE]`
 * Edit Minor : `min/[MINOR_CODE]`
-* Edit Modules Taken : `modules/[MODULE_CODE]`
 
-=== Encryption `[coming in v1.3]`
+Example:
 
-Encryption of information is enabled by default.
+* `edit n/Demo Lition` +
+  The above command edits the `Name` of the current student with the new details:
+  ** Name : `Demo Lition`
+
+The image displays the changes to expect after the successful execution of the edit command.
+
+image::EditCommandExample.png[width="790"]
+
+[NOTE]
+Notice that the Name in the User Tab has changed.
+
+=== Data Encryption
+
+Data stored using the `save` command is encrypted by default.
 
 === Set module preference: `set-mod`
 
@@ -293,10 +328,8 @@ Removes a module with module code "CS2109" if it exists.
 * *Search* : `search <KEYWORD> [MORE_KEYWORDS]`
 * *Save* : `save sp/[FILE_NAME]`
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
-* *Register* : `register user/[USERNAME] pass/[PASSWORD] name/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
-* *Edit Student* : `editStudent [OPTION]/[INPUT]...`
-* *Encryption* : `no-encrypt`
+* *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
+* *Edit Student* : `edit [OPTION]/[INPUT]...`
 * *Add Admin* : `addAdmin user\<USERNAME> pass\<PASSWORD> n\<NAME> ptp\<PATH_TO_PIC> salary\<SALARY> date\<EMPLOYMENT_DATE>`
 * *Add Module to Database* : `addModuleDB code\<MODULE_CODE> department\<DEPARTMENT> title\<TITLE> credit\<CREDIT> available\<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2> description\<DESCRIPTION>`
 * *Remove Module from Database* : `removeModuleDB <MODULE_CODE>`
-
