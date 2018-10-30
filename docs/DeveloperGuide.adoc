@@ -615,10 +615,10 @@ The `AddModuleToDatabaseCommand` extends for `Command`. Figure 1(shown below) de
 `AddModuleToDatabaseCommand`.
 
 image::AddModuleToDatabaseCommandUML.png[width="400"]
-_Figure 1 UML Diagram of `AddModuleToDatabaseCommand`._
+_Figure 1 UML diagram of `AddModuleToDatabaseCommand`._
 
 Parsing of command is performed by `AddModuleToDatabaseCommandParser`, which returns a `AddModuleToDatabaseCommand`
-object after parsing ModuleCode, Title, Credit, Department, Description, and AvailableSem. Figure 2(shown below)
+object after parsing ModuleCode, Title, Credit, Department, Description, AvailableSem and Prereq. Figure 2(shown below)
  shows the
 sequence diagram of the `AddModuleToDatabaseCommandParser`.
 
@@ -654,7 +654,7 @@ The `RemoveModuleFromDatabaseCommand` extends for `Command`. Figure 4(shown belo
 `RemoveModuleFromDatabaseCommand`.
 
 image::RemoveModuleFromDatabaseCommandUML.png[width="400"]
-_Figure 4 UML Diagram of `RemoveModuleFromDatabase._
+_Figure 4 UML diagram of `RemoveModuleFromDatabaseCommand`._
 
 Parsing of command is performed by `RemoveModuleFromDatabaseParser`, which returns a `RemoveModuleFromDatabase` object
 after parsing moduleCode object. Figure 5(shown below) shows the sequence diagram of the `RemoveModuleFromDatabaseCommandParser`.
@@ -666,9 +666,12 @@ _Figure 5. Sequence diagram for the interaction between `Logic` and `Model` Comp
 Figure 6(shown below) shows the high-level sequence diagram of the command execution.
 
 image::SDforRemoveModuleFromDatabaseCommand.png[width="800"]
-_Figure 6. High-Level Sequence diagram of removing a module from database._
+_Figure 6. High-Level sequence diagram of removing a module from database._
 
 Given below is an example usage scenario and how the `removeModuleDB` mechanism behaves at each step:
+
+[NOTE]
+For this example usage scenario, we assume that module "CS2109" already existed.
 
 . An admin executes `removeAdminDB CS2109` to remove the module with module code “CS2109” from the module list.
 The `removeModuleDB` command calls `Model#removeModuleFromDatabase(...)`, causing the module with module code “CS2109”
@@ -678,8 +681,27 @@ to be removed from the module list and subsequently update the `moduleList.xml` 
 executing `removeModuleDB CS2109`. The `removeModuleDB` command returns a feedback informing the admin that the module
 “CS2109” does not exist, and no changes is made to `ModuleList` and `moduleList.xml`.
 
-[NOTE]
-For this example usage scenario, we assume that module "CS2109" already existed.
+**Editing module from database**
+
+`editModule` mechanism is facilitated by the `EditModuleCommand` class. It allows `Admin` to edit `Module` from the
+database.
+
+The `EditModuleCommand` extends for `Command`. Figure 7(shown below) depicts the UML representation of the `EditModuleCommand`.
+
+image::EditModuleCommandUML.png[width="400"]
+_Figure 7. UML diagram of `EditModuleCommand`._
+
+Parsing of command is performed by the `EditModuleCommandParser`, which returns a `EditModuleCommand` object after parsing
+ModuleCode, Title, Credit, Department, Description, AvailableSem and Prereq. Figure 8(shown below) shows the sequence
+diagram of the `EditModuleCommandParser`.
+
+image::SDforEditModuleCommandLogicAndModel.png[width="800]
+_Figure 8. Sequence diagram for the interaction between `Logic` and `Model` Components when executing `EditModule`._
+
+Figure 9(shown below) shows the high-level sequence diagram of the command execution.
+
+image::SDforEditModuleCommand.png[width="800"]
+_Figure 9. High-level sequence diagram of editing a module from database._
 
 ==== Design Considerations
 
