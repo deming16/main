@@ -218,7 +218,7 @@ the file in another location by executing the `save` command as detailed in <<sa
 === Edit Student Account : `edit`
 
 Edits the Student specific information as specified in the input parameters. +
-Format: `editStudent [OPTION]/[INPUT]...` +
+Format: `edit [OPTION]/[INPUT]...` +
 
 Available Options:
 
