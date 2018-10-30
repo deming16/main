@@ -16,12 +16,12 @@ public class EnrollmentDate {
 
     public EnrollmentDate(String enrollmentDate) {
         requireNonNull(enrollmentDate);
-        checkArgument(isValidEmployDate(enrollmentDate),
+        checkArgument(isValidEnrollmentDate(enrollmentDate),
             MESSAGE_DATE_CONSTRAINTS);
         this.enrollmentDate = enrollmentDate;
     }
 
-    public static boolean isValidEmployDate(String test) {
+    public static boolean isValidEnrollmentDate(String test) {
         return test.matches(DATE_VALIDATION_REGEX);
     }
 
