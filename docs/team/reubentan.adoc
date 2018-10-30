@@ -13,12 +13,12 @@ modsUni is a desktop timetable management application created by students for st
 
 == Summary of contributions
 
-* *Major enhancement*:
-** Justification:
-** Highlights:
-** Credits:
+* *Major enhancement*: **Generating** of a student's schedule was added.
+** What it does: It allows students to generate a list of modules to take in each semester.
+** Justification: This feature allows students to easily plan their candidature and it is also one of the
+core features of modsUni.
 
-* *Minor enhancement*:
+* *Minor enhancement*: Loading in of modules as the database from a `XML` file.
 
 * *Code contributed*:
 
@@ -39,9 +39,7 @@ _{you can add/remove categories in the list above}_
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=undoredo]
-
-include::../UserGuide.adoc[tag=dataencryption]
+include::../UserGuide.adoc[tag=generate]
 
 == Contributions to the Developer Guide
 
@@ -49,5 +47,4 @@ include::../UserGuide.adoc[tag=dataencryption]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=undoredo]
-include::../DeveloperGuide.adoc[tag=dataencryption]
+include::../DeveloperGuide.adoc[tag=generate]

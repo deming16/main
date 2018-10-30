@@ -151,10 +151,24 @@ Examples:
 Saves the current user data to the file name `userdata.xml`
 
 
+// tag::generate[]
 === Generate module plan: `generate`
 
 Generates a schedule based on the modules that have been added by the `addModuleS` command. +
 Format: `generate`
+
+Examples:
+
+* `generate` with missing prerequisites +
+List of modules with missing prerequisites would be shown to the user.
+
+[NOTE]
+Only `Student` user accounts can execute the `generate` command.
+
+[NOTE]
+To generate successfully, modules and it's prerequisites should be added to the staged/taken list before
+executing.
+// end::generate[]
 
 === Login to User Account : `login`
 
