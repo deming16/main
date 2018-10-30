@@ -408,7 +408,7 @@ Change the module code of module with index "1" to "CS2105".
 * `editModule 4 code/CS2103 credit/4` +
 Change the module code and credit of module with index "4" to "CS2103" and "4" respectively.
 +
-[NOTE[
+[NOTE]
 After editing, the database panel will display the updated list as shown below.
 +
 image::EditModuleCommandExample.png[width="700"]
