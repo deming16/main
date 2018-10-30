@@ -305,16 +305,16 @@ Format: `addAdmin OPTION/INPUT...` +
 
 Input fields:
 
-* Username : `user/<USERNAME>`
-* Password : `pass/<PASSWORD>`
-* Name : `n/<NAME>`
-* Save path : `sp/<SAVE_PATH>`
-* Salary : `salary/<SALARY>`
-* Employment date : `date/<EMPLOYMENTDATE>`
+* Username : `user/<USERNAME>` -- It should contain only alphanumeric characters and should not be blank.
+* Password : `pass/<PASSWORD>` -- It should contain alphanumeric and special characters
+* Name : `n/<NAME>` -- It should contain only alphanumeric characters and spaces and should not be blank.
+* Save path : `sp/<SAVE_PATH>` -- It should be a relative save path.
+* Salary : `salary/<SALARY>` -- It should contain only integers.
+* Employment date : `date/<EMPLOYMENTDATE>` -- it should be in the format DD/MM/YYYY
 
 Example:
 
-* `addAdmin user/master pass/myPass#1 n/John Doe sp/userconfig.xml salary/4000 date/01/01/2018` +
+* `addAdmin user/master pass/myPass#1 n/John Doe sp/userdata.xml salary/4000 date/01/01/2018` +
 Creates a new administrator account with the following stated details.
 
 === Edit the currently logged in administrator account: `editAdmin`
@@ -324,9 +324,9 @@ Format: `editAdmin OPTION/INPUT...` +
 
 Input fields:
 
-* Name : `n/[NAME]`
-* Salary : `salary/[SALARY]`
-* Employment date : `employ/[EMPLOYMENT_DATE]`
+* Name : `n/[NAME]` -- It should contain only alphanumeric characters and spaces and should not be blank.
+* Salary : `salary/[SALARY]` -- It should contain only integers.
+* Employment date : `employ/[EMPLOYMENT_DATE]` -- it should be in the format DD/MM/YYYY
 
 Examples:
 
@@ -355,7 +355,7 @@ Format: `showUser`
 Creates a new module and add it to the module database. +
 Format: `addModuleDB OPTION/INPUT...` +
 
-Input fields:
+Input fields `(Input restriction and validation coming in v1.4)`:
 
 * Module code : `code/<MODULE_CODE>`
 * Department : `department/<DEPARTMENT>`
@@ -365,12 +365,14 @@ Input fields:
 * Available semesters : `available/<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2>`
 +
 [NOTE]
-For each entry enter '1' if available, '0' if not
+For each entry enter '1' if the module will be available. Otherwise, enter '0'.
 * Prerequisites : `prereq/<PREREQ_STRING>`
 +
 [NOTE]
 Format for PREREQ_STRING: `<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]` +
-Format for BRANCH: `(<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])`
+Format for BRANCH: `(<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])` +
+Every branch should be enclosed in parentheses followed by `&` or `|`, then the list of module codes or branches.
+The end of a module code should be indicated with a `,`.
 
 Example:
 
@@ -384,7 +386,7 @@ Create and add a new module with module code "CS2103T" and the stated details to
 Edit the details of a module specified by its index in database panel in database. +
 Format: `editModule <INDEX> OPTION/INPUT...` +
 
-Input fields:
+Input fields `(Input restriction and validation coming in v1.4)`:
 
 * Module code : `code/[MODULE_CODE]`
 * Department : `department/[DEPARTMENT]`
@@ -399,7 +401,9 @@ For each entry enter '1' if available, '0' if not
 +
 [NOTE]
 Format for PREREQ_STRING: `<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]` +
-Format for BRANCH: `(<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])`
+Format for BRANCH: `(<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])` +
+Every branch should be enclosed in parentheses followed by `&` or `|`, then the list of module codes or branches.
+The end of a module code should be indicated with a `,`.
 
 Example:
 
