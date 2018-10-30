@@ -599,11 +599,11 @@ The Module database administration mechanism is facilitated by `ModuleList` in `
 * `ModuleList#addModule(...)` -- This method adds a module to the module list.
 * `ModuleList#removeModule(...)` -- This method removes a module from the module list.
 * `ModuleList#hasModule(...)` -- This method checks if the given module already exists.
+* `ModuleList#updateModule(...)` -- This method replace the specified target module with the given edited module.
 
 [NOTE]
 These operations are exposed in the `Model` interface as `Model#addModuleToDatabase(...)`,
-`Model#removeModuleFromDatabase(...)` and `Model#hasModuleInDatabase(...)` respectively.
-
+`Model#removeModuleFromDatabase(...)`, `Model#hasModuleInDatabase(...)` and `Model#updateModule(...)` respectively.
 
 Module database administration mechanism is facilitated by several command classes in modsUni.
 
