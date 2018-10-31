@@ -16,10 +16,12 @@ import org.junit.rules.ExpectedException;
 
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.EditAdminCommand.EditAdminDescriptor;
+import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.UserPrefs;
 import seedu.modsuni.model.user.Admin;
+import seedu.modsuni.model.user.Role;
 import seedu.modsuni.testutil.AdminBuilder;
 import seedu.modsuni.testutil.EditAdminDescriptorBuilder;
 
@@ -44,6 +46,31 @@ public class EditAdminCommandTest {
     public void constructorNullDescriptorThrowsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new EditAdminCommand(null);
+    }
+
+    @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        EditAdminCommand editAdminCommand =
+                new EditAdminCommand(new EditAdminDescriptorBuilder().build());
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(EditAdminCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        editAdminCommand.execute(model, commandHistory);
+    }
+
+    @Test
+    public void notAdmin_throwsCommandException() throws Exception {
+        EditAdminCommand editAdminCommand =
+                new EditAdminCommand(new EditAdminDescriptorBuilder().build());
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(EditAdminCommand.MESSAGE_NOT_ADMIN);
+        Model model = new ModelManager();
+        model.setCurrentUser(new AdminBuilder().withRole(Role.STUDENT).build());
+
+        editAdminCommand.execute(model, commandHistory);
     }
 
     @Test

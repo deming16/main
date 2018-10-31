@@ -57,12 +57,24 @@ public class AddModuleToDatabaseCommandTest {
     }
 
     @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        AddModuleToDatabaseCommand addModuleToDatabaseCommand =
+                new AddModuleToDatabaseCommand(new ModuleBuilder().build());
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(AddModuleToDatabaseCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        addModuleToDatabaseCommand.execute(model, commandHistory);
+    }
+
+    @Test
     public void notAdmin_throwsCommandException() throws Exception {
         AddModuleToDatabaseCommand addModuleToDatabaseCommand =
                 new AddModuleToDatabaseCommand(new ModuleBuilder().build());
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(AddAdminCommand.MESSAGE_NOT_ADMIN);
+        thrown.expectMessage(AddModuleToDatabaseCommand.MESSAGE_NOT_ADMIN);
         Model model = new ModelManager();
         User fakeAdmin = new AdminBuilder().withRole(Role.STUDENT).build();
         model.setCurrentUser(fakeAdmin);

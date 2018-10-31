@@ -55,6 +55,18 @@ public class RemoveUserCommandTest {
     }
 
     @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        RemoveUserCommand removeUserCommand =
+                new RemoveUserCommand(new Username("dummy"));
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(RemoveUserCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        removeUserCommand.execute(model, commandHistory);
+    }
+
+    @Test
     public void notAdmin_throwsCommandException() throws Exception {
         RemoveUserCommand removeUserCommand =
                 new RemoveUserCommand(new Username("dummy"));

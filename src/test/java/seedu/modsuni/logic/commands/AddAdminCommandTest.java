@@ -20,6 +20,7 @@ import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
 import seedu.modsuni.testutil.AdminBuilder;
+import seedu.modsuni.testutil.CredentialBuilder;
 
 public class AddAdminCommandTest {
 
@@ -29,6 +30,19 @@ public class AddAdminCommandTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private CommandHistory commandHistory = new CommandHistory();
+
+
+    @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        AddAdminCommand addAdminCommand = new AddAdminCommand(new AdminBuilder().build(),
+                new CredentialBuilder().build(), Paths.get("dummyconfig"));
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(AddAdminCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        addAdminCommand.execute(model, commandHistory);
+    }
 
     @Test
     public void constructor_nullCredential_throwsNullPointerException() {
@@ -40,9 +54,7 @@ public class AddAdminCommandTest {
     public void constructor_nullAdmin_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new AddAdminCommand(null,
-                new Credential(
-                    new Username("username"),
-                    new Password("#Qwerty123"), "key"), Paths.get("dummyconfig"));
+                new CredentialBuilder().build(), Paths.get("dummyconfig"));
     }
 
     @Test
@@ -55,10 +67,7 @@ public class AddAdminCommandTest {
     public void notAdmin_throwsCommandException() throws Exception {
         AddAdminCommand addAdminCommand =
             new AddAdminCommand(new AdminBuilder().build(),
-            new Credential(
-                new Username("u"),
-                new Password("#Qwerty123"),
-                "k"), Paths.get("dummyconfig"));
+            new CredentialBuilder().build(), Paths.get("dummyconfig"));
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(AddAdminCommand.MESSAGE_NOT_ADMIN);

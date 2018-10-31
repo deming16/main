@@ -56,12 +56,24 @@ public class RemoveModuleFromDatabaseCommandTest {
     }
 
     @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        RemoveModuleFromDatabaseCommand removeModuleFromDatabaseCommand =
+                new RemoveModuleFromDatabaseCommand("CS1010");
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(RemoveModuleFromDatabaseCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        removeModuleFromDatabaseCommand.execute(model, commandHistory);
+    }
+
+    @Test
     public void notAdmin_throwsCommandException() throws Exception {
         RemoveModuleFromDatabaseCommand removeModuleFromDatabaseCommand =
                 new RemoveModuleFromDatabaseCommand("CS1010");
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(AddAdminCommand.MESSAGE_NOT_ADMIN);
+        thrown.expectMessage(RemoveModuleFromDatabaseCommand.MESSAGE_NOT_ADMIN);
         Model model = new ModelManager();
         User fakeAdmin = new AdminBuilder().withRole(Role.STUDENT).build();
         model.setCurrentUser(fakeAdmin);
