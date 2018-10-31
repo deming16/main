@@ -11,6 +11,8 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import java.nio.file.Path;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.NewShowUsernameResultAvailableEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -35,7 +37,7 @@ public class AddAdminCommand extends Command {
             + PREFIX_USERNAME + "myUsername "
             + PREFIX_PASSWORD + "Password#1 "
             + PREFIX_NAME + "John Doe "
-            + PREFIX_SAVE_PATH + "config "
+            + PREFIX_SAVE_PATH + "exampleconfig "
             + PREFIX_SALARY + "3000 "
             + PREFIX_EMPLOYMENT_DATE + "30/09/2018\n";
 
@@ -75,6 +77,8 @@ public class AddAdminCommand extends Command {
         model.addCredential(credential);
 
         model.addAdmin(toAdd, savePath);
+
+        EventsCenter.getInstance().post(new NewShowUsernameResultAvailableEvent(model.getUsernames()));
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }

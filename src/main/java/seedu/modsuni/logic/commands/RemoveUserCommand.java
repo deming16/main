@@ -2,6 +2,8 @@ package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.NewShowUsernameResultAvailableEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -60,6 +62,9 @@ public class RemoveUserCommand extends Command {
         if (model.hasCredential(new Credential(username, dummyPass))) {
             Credential toRemove = model.getCredential(username);
             model.removeCredential(toRemove);
+
+            EventsCenter.getInstance().post(new NewShowUsernameResultAvailableEvent(model.getUsernames()));
+
             return new CommandResult(String.format(MESSAGE_DELETE_USER_SUCCESS, toRemove.getUsername().toString()));
         } else {
             throw new CommandException(String.format(MESSAGE_USER_NOT_FOUND, username.toString()));

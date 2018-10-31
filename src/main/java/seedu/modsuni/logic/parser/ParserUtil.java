@@ -234,9 +234,7 @@ public class ParserUtil {
     }
     /**
      * TODO check if moduleCode is valid
-     * @param moduleCode
-     * @return
-     * @throws ParseException
+     * Parses a {@code String moduleCode} into a {@code Code}.
      */
     public static String parseModuleCode(String moduleCode) throws ParseException {
         requireNonNull(moduleCode);
