@@ -18,6 +18,8 @@ public class RemoveUserCommand extends Command {
 
     public static final String MESSAGE_NOT_ADMIN = "Only an admin user can execute this command";
 
+    public static final String MESSAGE_NOT_LOGGED_IN = "Unable to remove user, please log in first.";
+
     public static final String MESSAGE_CANNNOT_DELETE_MASTER = "The master account cannot be deleted.";
     public static final String MESSAGE_CANNNOT_DELETE_YOURSELF = "You cannot delete yourself";
     public static final String MESSAGE_USER_NOT_FOUND = "The user %1$s does not exist";
@@ -39,6 +41,9 @@ public class RemoveUserCommand extends Command {
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
+        if (model.getCurrentUser() == null) {
+            throw new CommandException(MESSAGE_NOT_LOGGED_IN);
+        }
 
         if (!model.isAdmin()) {
             throw new CommandException(MESSAGE_NOT_ADMIN);

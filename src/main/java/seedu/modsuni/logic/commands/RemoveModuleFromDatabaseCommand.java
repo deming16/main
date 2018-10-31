@@ -27,6 +27,7 @@ public class RemoveModuleFromDatabaseCommand extends Command {
     public static final String MESSAGE_MODULE_NOT_FOUND = "module does not exist";
 
     public static final String MESSAGE_NOT_ADMIN = "Only an admin user can execute this command";
+    public static final String MESSAGE_NOT_LOGGED_IN = "Unable to remove. please log in first.";
 
     private final String code;
 
@@ -37,6 +38,9 @@ public class RemoveModuleFromDatabaseCommand extends Command {
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
+        if (model.getCurrentUser() == null) {
+            throw new CommandException(MESSAGE_NOT_LOGGED_IN);
+        }
 
         if (!model.isAdmin()) {
             throw new CommandException(MESSAGE_NOT_ADMIN);
