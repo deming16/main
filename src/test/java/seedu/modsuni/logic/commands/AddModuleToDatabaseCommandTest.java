@@ -366,6 +366,7 @@ public class AddModuleToDatabaseCommandTest {
      */
     private class ModelStubWithModule extends ModelStub {
         private final Module module;
+        private User currentUser = new AdminBuilder().build();
 
         ModelStubWithModule(Module module) {
             requireNonNull(module);
@@ -373,10 +374,14 @@ public class AddModuleToDatabaseCommandTest {
         }
 
         @Override
-
         public boolean hasModuleInDatabase(Module module) {
             requireNonNull(module);
             return this.module.isSameModule(module);
+        }
+
+        @Override
+        public User getCurrentUser() {
+            return currentUser;
         }
 
         @Override
@@ -390,6 +395,7 @@ public class AddModuleToDatabaseCommandTest {
      */
     private class ModelStubAcceptingModuleAdded extends ModelStub {
         final ArrayList<Module> modulesAdded = new ArrayList<>();
+        private User currentUser = new AdminBuilder().build();
 
         @Override
         public boolean hasModuleInDatabase(Module module) {
@@ -411,6 +417,11 @@ public class AddModuleToDatabaseCommandTest {
         @Override
         public ReadOnlyModuleList getModuleList() {
             return new ModuleList();
+        }
+
+        @Override
+        public User getCurrentUser() {
+            return currentUser;
         }
 
         @Override

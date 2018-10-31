@@ -373,6 +373,7 @@ public class RemoveModuleFromDatabaseCommandTest {
     private class ModelStubWithModule extends ModelStub {
 
         private ModuleList moduleList = new ModuleList();
+        private User currentUser = new AdminBuilder().build();
 
         ModelStubWithModule(Module module) {
             requireNonNull(module);
@@ -402,6 +403,10 @@ public class RemoveModuleFromDatabaseCommandTest {
             return modList.getModuleList();
         }
 
+        @Override
+        public User getCurrentUser() {
+            return currentUser;
+        }
 
         @Override
         public boolean isAdmin() {
