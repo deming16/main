@@ -8,19 +8,12 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
-
-import javax.crypto.NoSuchPaddingException;
 
 import seedu.modsuni.commons.core.EventsCenter;
 import seedu.modsuni.commons.events.ui.MainWindowClearResourceEvent;
 import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
-import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
-import seedu.modsuni.commons.exceptions.InvalidPasswordException;
-import seedu.modsuni.commons.util.DataSecurityUtil;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -79,7 +72,7 @@ public class LoginCommand extends Command {
                 throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
             }
             toSetCurrentUser = userFromFile.get();
-        } catch (DataConversionException | IOException  e) {
+        } catch (DataConversionException | IOException e) {
             throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
         }
 

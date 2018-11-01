@@ -140,10 +140,11 @@ public class XmlAdaptedUser {
      */
     public XmlAdaptedUser(User user, String password) {
         requireNonNull(user);
+        requireNonNull(password);
 
         // All users
         this.username = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
-                user.getUsername().toString().getBytes(),password));
+                user.getUsername().toString().getBytes(), password));
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
         this.pathToProfilePic = user.getPathToProfilePic().toString();
@@ -152,7 +153,7 @@ public class XmlAdaptedUser {
         if (user.getRole() == Role.ADMIN) {
             Admin admin = (Admin) user;
             this.salary = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
-                    admin.getSalary().toString().getBytes(),password));
+                    admin.getSalary().toString().getBytes(), password));
             this.employmentDate = admin.getEmploymentDate().toString();
         }
 
@@ -212,23 +213,33 @@ public class XmlAdaptedUser {
         return user;
     }
 
+    /**
+     * Decrypts Username
+     * @param password
+     * @return a string of decrypted username
+     */
     private String decryptUsername(String password) {
         try {
             return new String(DataSecurityUtil.decrypt(
                     DataSecurityUtil.hexToBytes(username), password), StandardCharsets.UTF_8);
-        } catch (InvalidPasswordException | CorruptedFileException |
-                NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
+        } catch (InvalidPasswordException | CorruptedFileException
+                | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * Decrypts Salary
+     * @param password
+     * @return a string of decrypted salary
+     */
     private String decryptSalary(String password) {
         try {
             return new String(DataSecurityUtil.decrypt(
                     DataSecurityUtil.hexToBytes(salary), password), StandardCharsets.UTF_8);
-        } catch (InvalidPasswordException | CorruptedFileException |
-                NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
+        } catch (InvalidPasswordException | CorruptedFileException
+                | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
         }
         return null;
