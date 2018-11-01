@@ -440,9 +440,9 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void resetCurrentUser() {
-        currentUser = null;
-        ((ModuleList) stagedModuleList).resetData(new ModuleList());
-        ((ModuleList) takenModuleList).resetData(new ModuleList());
+        currentUser = null; (
+        (ModuleList) stagedModuleList).resetData(new ModuleList()); (
+                (ModuleList) takenModuleList).resetData(new ModuleList());
     }
 
     //============= Generate Methods ============================

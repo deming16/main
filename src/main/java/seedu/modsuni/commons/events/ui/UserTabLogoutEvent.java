@@ -1,6 +1,5 @@
 package seedu.modsuni.commons.events.ui;
 
-
 import seedu.modsuni.commons.events.BaseEvent;
 
 /**
