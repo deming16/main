@@ -178,7 +178,7 @@ public class PrereqGenerator {
             if (current == '(') {
                 openParenthesis++;
             } else if (current == ')') {
-                checkParenPosition(current, prev, builder);
+                checkParenPosition(prev, builder);
                 openParenthesis--;
             }
             if (openParenthesis < 0) {
@@ -228,7 +228,7 @@ public class PrereqGenerator {
     /**
      * Check if there are empty parenthesis or empty list or empty module.
      */
-    private static void checkParenPosition(char current, char prev, StringBuilder builder) throws ParseException {
+    private static void checkParenPosition(char prev, StringBuilder builder) throws ParseException {
         if (builder.length() != 0) {
             throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
         }
