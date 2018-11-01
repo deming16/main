@@ -172,44 +172,75 @@ public class PrereqGenerator {
             char current = string.charAt(i);
             char prev = string.charAt(i - 1);
 
-            // No consecutive & or | check.
-            if ((current == '&' || current == '|') && prev != '(') {
-                throw new ParseException(MESSAGE_WRONG_ORDER_PREFIX);
-            }
+            checkConsecutiveAndOr(current, prev);
+
             // Paren check count.
             if (current == '(') {
                 openParenthesis++;
             } else if (current == ')') {
-                if (builder.length() != 0) {
-                    throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
-                }
-                if (prev == '(' || prev == '&' || prev == '|') {
-                    throw new ParseException("Empty paren");
-                }
+                checkParenPosition(current, prev, builder);
                 openParenthesis--;
             }
             if (openParenthesis < 0) {
                 throw new ParseException(MESSAGE_PAREN_NOT_CLOSED);
             }
-            // Module and comma check
-            if (current == ',' && (prev == '&' || prev == '|' || prev == ',' || prev == '(' || prev == ')')) {
-                throw new ParseException(MESSAGE_COMMA_WRONG_POSITION);
-            } else {
-                String code = builder.toString();
-                if (!Code.isValidCode(code)) {
-                    throw new ParseException(Code.MESSAGE_CODE_CONSTRAINTS);
-                }
-                builder.setLength(0);
+            checkCommaPosition(current, prev, builder);
+            checkCodePosition(current, prev, builder);
+        }
+        checkClosing(openParenthesis, builder);
+    }
+    private static void checkConsecutiveAndOr(char current, char prev) throws ParseException {
+        if ((current == '&' || current == '|') && prev != '(') {
+            throw new ParseException(MESSAGE_WRONG_ORDER_PREFIX);
+        }
+    }
+
+    /**
+     * Check that module code start at the correct place.
+     */
+    private static void checkCodePosition(char current, char prev, StringBuilder builder) throws ParseException {
+        if ((current >= 'a' && current <= 'z') || (current >= 'A' && current <= 'Z')
+                || (current >= '0' && current <= '9')) {
+            if (builder.length() == 0 && (prev == '(' || prev == ')')) {
+                throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
             }
-            if ((current >= 'a' && current <= 'z') || (current >= 'A' && current <= 'Z')
-                    || (current >= '0' && current <= '9')) {
-                if (builder.length() == 0 && (prev == '(' || prev == ')')) {
-                    throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
-                }
-                builder.append(current);
-            }
+            builder.append(current);
         }
 
+    }
+
+    /**
+     * Check that comma is placed correctly.
+     */
+    private static void checkCommaPosition(char current, char prev, StringBuilder builder) throws ParseException {
+        if (current == ',' && (prev == '&' || prev == '|' || prev == ',' || prev == '(' || prev == ')')) {
+            throw new ParseException(MESSAGE_COMMA_WRONG_POSITION);
+        } else {
+            String code = builder.toString();
+            if (!Code.isValidCode(code)) {
+                throw new ParseException(Code.MESSAGE_CODE_CONSTRAINTS);
+            }
+            builder.setLength(0);
+        }
+
+    }
+
+    /**
+     * Check if there are empty parenthesis or empty list or empty module.
+     */
+    private static void checkParenPosition(char current, char prev, StringBuilder builder) throws ParseException {
+        if (builder.length() != 0) {
+            throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
+        }
+        if (prev == '(' || prev == '&' || prev == '|') {
+            throw new ParseException("Empty paren");
+        }
+    }
+
+    /**
+     * Check if there are still open parenthesis or remaining code at the end of the string.
+     */
+    private static void checkClosing(int openParenthesis, StringBuilder builder) throws ParseException {
         if (builder.length() != 0) {
             throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
         }
@@ -217,5 +248,4 @@ public class PrereqGenerator {
             throw new ParseException(MESSAGE_PAREN_NOT_CLOSED);
         }
     }
-
 }
