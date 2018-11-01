@@ -47,6 +47,7 @@ public class XmlUserStorage implements UserStorage {
      * @param filePath location of the data. Cannot be null
      * @throws DataConversionException if the file is not in the correct format.
      */
+    @Override
     public Optional<User> readUser(Path filePath, String password)
             throws DataConversionException, FileNotFoundException {
         requireNonNull(filePath);

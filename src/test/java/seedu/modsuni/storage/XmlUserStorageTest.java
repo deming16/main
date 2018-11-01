@@ -3,13 +3,11 @@ package seedu.modsuni.storage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,15 +22,18 @@ public class XmlUserStorageTest {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data",
             "XmlUserStorageTest");
 
+    private static final String TEST_VALID_PASSWORD = "Pass#123";
+    private static final String TEST_USER_DATA = "TempUserData.xml";
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 
-    private Optional<User> readUser(Path filePath)
+    private Optional<User> readUser(Path filePath, String password)
             throws DataConversionException, IOException {
-        return new XmlUserStorage(filePath).readUser(addToTestDataPathIfNotNull(filePath.toString()));
+        return new XmlUserStorage(filePath).readUser(addToTestDataPathIfNotNull(filePath.toString()), password);
     }
 
     private Path addToTestDataPathIfNotNull(String prefsFileInTestDataFolder) {
@@ -44,45 +45,41 @@ public class XmlUserStorageTest {
     @Test
     public void readUser_nullFilePath_throwsNullPointerException() throws Exception {
         thrown.expect(NullPointerException.class);
-        readUser(null);
+        readUser(null, null);
     }
 
-    @Ignore
     @Test
     public void read_missingFile_emptyResult() throws Exception {
-        assertFalse(readUser(Paths.get("NonExistentFile.xml")).isPresent());
+        assertFalse(readUser(Paths.get("NonExistentFile.xml"), "").isPresent());
     }
 
-    @Ignore
     @Test
     public void read_notXmlFormat_exceptionThrown() throws Exception {
         thrown.expect(DataConversionException.class);
-        readUser(Paths.get("NotXmlFormatUserData.xml"));
+        readUser(Paths.get("NotXmlFormatUserData.xml"), "");
     }
 
-    @Ignore("Test is ignored as the object does not match as intended")
     @Test
     public void readAndSaveAdmin_allInOrder_success() throws Exception {
-        Path filePath = testFolder.getRoot().toPath().resolve("TempUserData.xml");
+        Path filePath = testFolder.getRoot().toPath().resolve(TEST_USER_DATA);
         XmlUserStorage xmlUserStorage = new XmlUserStorage(filePath);
         User admin = new AdminBuilder().build();
 
         // Save and read back
-        xmlUserStorage.saveUser(admin, filePath);
-        Optional<User> readBackUser = xmlUserStorage.readUser(filePath);
+        xmlUserStorage.saveUser(admin, filePath, TEST_VALID_PASSWORD);
+        Optional<User> readBackUser = xmlUserStorage.readUser(filePath, TEST_VALID_PASSWORD);
         assertEquals(admin, readBackUser.get());
     }
 
-    @Ignore
     @Test
     public void readAndSaveStudent_allInOrder_success() throws Exception {
-        Path filePath = testFolder.getRoot().toPath().resolve("TempUserData.xml");
+        Path filePath = testFolder.getRoot().toPath().resolve(TEST_USER_DATA);
         XmlUserStorage xmlUserStorage = new XmlUserStorage(filePath);
         User student = new StudentBuilder().build();
 
         // Save and read back
-        xmlUserStorage.saveUser(student, filePath);
-        Optional<User> readBackUser = xmlUserStorage.readUser(filePath);
+        xmlUserStorage.saveUser(student, filePath, TEST_VALID_PASSWORD);
+        Optional<User> readBackUser = xmlUserStorage.readUser(filePath, TEST_VALID_PASSWORD);
         assertEquals(student, readBackUser.get());
     }
 }
