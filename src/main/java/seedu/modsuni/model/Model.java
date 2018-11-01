@@ -258,6 +258,11 @@ public interface Model {
     User getCurrentUser();
 
     /**
+     * Reset user details
+     */
+    void resetCurrentUser();
+
+    /**
      * Saves the current user.
      */
     void saveUserFile(User user, Path savePath);
