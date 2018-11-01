@@ -2,6 +2,8 @@ package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.UserTabLogoutEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -29,6 +31,7 @@ public class LogoutCommand extends Command {
             throw new CommandException(MESSAGE_NOT_LOGGED_IN);
         }
         model.resetCurrentUser();
+        EventsCenter.getInstance().post(new UserTabLogoutEvent());
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
