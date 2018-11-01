@@ -242,6 +242,7 @@ To generate successfully, modules and it's prerequisites should be added to the 
 executing.
 // end::generate[]
 
+// tag::useraccountmanagement[]
 === Login to User Account : `login`
 
 Login to the User Account with the corresponding credentials. +
@@ -260,7 +261,7 @@ Specified `userdata/` option should specify a relative filepath.
 
 The image displays the changes to expect after the successful execution of the login command.
 
-image::LoginCommandExample.png[width="790"]
+image::LoginCommandExample.png[width="500"]
 
 [NOTE]
 Note that your details will automatically be displayed in the User Tab and a simple successful message is displayed on the bottom right window.
@@ -294,7 +295,7 @@ Example:
 
 The image displays the changes to expect after the successful execution of the register command.
 
-image::RegisterCommandExample.png[width="790"]
+image::RegisterCommandExample.png[width="500"]
 
 [NOTE]
 A temporary save file path is generated and used to save the details of the newly
@@ -322,10 +323,11 @@ Example:
 
 The image displays the changes to expect after the successful execution of the edit command.
 
-image::EditCommandExample.png[width="790"]
+image::EditCommandExample.png[width="500"]
 
 [NOTE]
 Notice that the Name in the User Tab has changed.
+// end::useraccountmanagement[]
 
 === Logout from User Account : `logout`
 
