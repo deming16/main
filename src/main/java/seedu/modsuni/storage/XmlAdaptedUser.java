@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.modsuni.commons.exceptions.IllegalValueException;
+import seedu.modsuni.commons.util.DataSecurityUtil;
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
@@ -133,7 +134,7 @@ public class XmlAdaptedUser {
      */
     public XmlAdaptedUser(User user, String password) {
         requireNonNull(user);
-        this.username = user.getUsername().toString();
+        this.username = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(user.getUsername().toString().getBytes(),password));
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
         this.pathToProfilePic = user.getPathToProfilePic().toString();
