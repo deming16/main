@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.crypto.Data;
 
 import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
@@ -153,7 +152,8 @@ public class XmlAdaptedUser {
 
         if (user.getRole() == Role.ADMIN) {
             Admin admin = (Admin) user;
-            this.salary = admin.getSalary().toString();
+            this.salary = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
+                    admin.getSalary().toString().getBytes(),password));
             this.employmentDate = admin.getEmploymentDate().toString();
         }
 
@@ -179,15 +179,27 @@ public class XmlAdaptedUser {
     public User toModelType(String password) throws IllegalValueException {
         User user = null;
         checkMandatoryFields();
+
         String decryptedUsername = decryptUsername(password);
 
+        System.out.println("master:" +DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
+                "master".getBytes(),"2b005cc8b610fa5899a9f9e592671bba9776a0e778c7f88db9b54eef48490e94")));
+
+        System.out.println("salary:" +DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
+                "9999".getBytes(),"2b005cc8b610fa5899a9f9e592671bba9776a0e778c7f88db9b54eef48490e94")));
+
         if ("ADMIN".equals(role)) {
+            System.out.println("IN ADMIN");
             checkAdminFields();
-            user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(salary),
+            System.out.println("CURRENT SALARY:"+salary);
+            String decryptedSalary = decryptSalary(password);
+            System.out.println("Decrypted salary:" + decryptedSalary);
+            user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary),
                     new EmployDate(employmentDate));
         }
 
         if ("STUDENT".equals(role)) {
+            System.out.println("IN STUDENT");
             checkStudentFields();
             List<String> majorConverted = Arrays.asList(major.substring(1, major.length() - 1).split(", "));
             List<String> minorConverted = Arrays.asList(minor.substring(1, minor.length() - 1).split(", "));
@@ -214,15 +226,19 @@ public class XmlAdaptedUser {
         try {
             return new String(DataSecurityUtil.decrypt(
                     DataSecurityUtil.hexToBytes(username), password), StandardCharsets.UTF_8);
-        } catch (InvalidPasswordException e) {
+        } catch (InvalidPasswordException | CorruptedFileException |
+                NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
-        } catch (CorruptedFileException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
+        }
+        return null;
+    }
+
+    private String decryptSalary(String password) {
+        try {
+            return new String(DataSecurityUtil.decrypt(
+                    DataSecurityUtil.hexToBytes(salary), password), StandardCharsets.UTF_8);
+        } catch (InvalidPasswordException | CorruptedFileException |
+                NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
         }
         return null;
@@ -273,9 +289,6 @@ public class XmlAdaptedUser {
         // Salary
         if (salary == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "salary"));
-        }
-        if (!Salary.isValidSalary(salary)) {
-            throw new IllegalValueException(Salary.MESSAGE_SALARY_CONSTRAINTS);
         }
 
         // employment date
