@@ -327,6 +327,12 @@ image::EditCommandExample.png[width="790"]
 [NOTE]
 Notice that the Name in the User Tab has changed.
 
+=== Logout from User Account : `logout`
+
+Logouts from the current user account. Running this command also resets the application
+to its original state.
+Format: `logout`
+
 === Data Encryption
 
 Data stored using the `save` command is encrypted by default.
