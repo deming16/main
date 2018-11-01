@@ -363,10 +363,10 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
+    public Optional<User> readUserFile(Path filePath, String password) throws IOException, DataConversionException {
         logger.fine("Attempting to read data from file: " + filePath);
         UserStorage userStorage = new XmlUserStorage(filePath);
-        return userStorage.readUser(filePath);
+        return userStorage.readUser(filePath, password);
     }
 
     //============ Credential Store Methods ====================================

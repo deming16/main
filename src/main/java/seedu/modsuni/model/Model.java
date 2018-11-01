@@ -265,7 +265,7 @@ public interface Model {
     /**
      * Read a user with the given file path.
      */
-    Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException;
+    Optional<User> readUserFile(Path filePath, String password) throws IOException, DataConversionException;
 
     /**
      * Returns the optional of the module in the database.

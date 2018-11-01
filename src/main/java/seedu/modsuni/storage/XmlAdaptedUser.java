@@ -2,14 +2,21 @@ package seedu.modsuni.storage;
 
 import static java.util.Objects.requireNonNull;
 
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.crypto.Data;
 
+import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
+import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 import seedu.modsuni.commons.util.DataSecurityUtil;
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Module;
@@ -31,6 +38,8 @@ public class XmlAdaptedUser {
 
     private static final String MISSING_FIELD_MESSAGE_FORMAT = "User's "
             + "%s field is missing!";
+
+    private String userPassword = null;
 
     // Must have for all users
     @XmlElement(required = true)
@@ -133,8 +142,11 @@ public class XmlAdaptedUser {
      * @param user future changes to this will not affect the created XmlAdaptedUser
      */
     public XmlAdaptedUser(User user, String password) {
+        this.userPassword = password;
+
         requireNonNull(user);
-        this.username = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(user.getUsername().toString().getBytes(),password));
+        this.username = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
+                user.getUsername().toString().getBytes(),password));
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
         this.pathToProfilePic = user.getPathToProfilePic().toString();
@@ -164,12 +176,14 @@ public class XmlAdaptedUser {
      *
      * @throws IllegalValueException if there were any data constraints violated
      */
-    public User toModelType() throws IllegalValueException {
+    public User toModelType(String password) throws IllegalValueException {
         User user = null;
         checkMandatoryFields();
+        String decryptedUsername = decryptUsername(password);
+
         if ("ADMIN".equals(role)) {
             checkAdminFields();
-            user = new Admin(new Username(username), new Name(name), Role.ADMIN, new Salary(salary),
+            user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(salary),
                     new EmployDate(employmentDate));
         }
 
@@ -188,12 +202,30 @@ public class XmlAdaptedUser {
                 modulesStagedConverted.add(moduleTake.toModelType());
             }
 
-            user = new Student(new Username(username), new Name(name), Role.STUDENT,
+            user = new Student(new Username(decryptedUsername), new Name(name), Role.STUDENT,
                     new PathToProfilePic(pathToProfilePic), new EnrollmentDate(enrollmentDate),
                     majorConverted, minorConverted, modulesTakenConverted, modulesStagedConverted);
         }
 
         return user;
+    }
+
+    private String decryptUsername(String password) {
+        try {
+            return new String(DataSecurityUtil.decrypt(
+                    DataSecurityUtil.hexToBytes(username), password), StandardCharsets.UTF_8);
+        } catch (InvalidPasswordException e) {
+            e.printStackTrace();
+        } catch (CorruptedFileException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

@@ -37,12 +37,17 @@ public class XmlUserStorage implements UserStorage {
         return readUser(filePath);
     }
 
+    @Override
+    public Optional<User> readUser(Path filePath) throws DataConversionException, IOException {
+        return readUser(filePath);
+    }
+
     /**
      * Similar to {@link #readUser()}
      * @param filePath location of the data. Cannot be null
      * @throws DataConversionException if the file is not in the correct format.
      */
-    public Optional<User> readUser(Path filePath)
+    public Optional<User> readUser(Path filePath, String password)
             throws DataConversionException, FileNotFoundException {
         requireNonNull(filePath);
 
@@ -53,7 +58,7 @@ public class XmlUserStorage implements UserStorage {
 
         XmlSerializableUser xmlUser = XmlFileStorage.loadUserDataFromSaveFile(filePath);
         try {
-            return Optional.of(xmlUser.toModelType());
+            return Optional.of(xmlUser.toModelType(password));
         } catch (IllegalValueException ive) {
             logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataConversionException(ive);

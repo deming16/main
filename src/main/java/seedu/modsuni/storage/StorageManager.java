@@ -210,6 +210,13 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
+    public Optional<User> readUser(Path filePath, String password)
+            throws DataConversionException, IOException {
+        logger.fine("Attempting to read data from file: " + filePath);
+        return userStorage.readUser();
+    }
+
+    @Override
     public void saveUser(User user) throws IOException {
         userStorage.saveUser(user, userStorage.getUserSavedFilePath());
     }

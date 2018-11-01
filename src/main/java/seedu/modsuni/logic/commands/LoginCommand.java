@@ -74,7 +74,7 @@ public class LoginCommand extends Command {
 
         User toSetCurrentUser;
         try {
-            Optional<User> userFromFile = model.readUserFile(pathToSaveFile);
+            Optional<User> userFromFile = model.readUserFile(pathToSaveFile, toLogin.getPassword().getValue());
             if (!userFromFile.isPresent()) {
                 throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
             }

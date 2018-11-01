@@ -31,6 +31,11 @@ public interface UserStorage {
     Optional<User> readUser(Path filePath) throws DataConversionException, IOException;
 
     /**
+     * @see #getUserSavedFilePath()
+     */
+    Optional<User> readUser(Path filePath, String password) throws DataConversionException, IOException;
+
+    /**
      * Saves the given {@link User} to the storage.
      * @param user cannot be null.
      * @throws IOException if there was any problem writing to the file.

@@ -45,7 +45,7 @@ public class XmlSerializableUser {
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
      *                               {@code XmlAdaptedUser}.
      */
-    public User toModelType() throws IllegalValueException {
-        return this.user.toModelType();
+    public User toModelType(String password) throws IllegalValueException {
+        return this.user.toModelType(password);
     }
 }
