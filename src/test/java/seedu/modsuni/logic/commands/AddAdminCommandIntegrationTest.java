@@ -41,8 +41,7 @@ public class AddAdminCommandIntegrationTest {
         Admin validAdmin = new AdminBuilder().build();
         Credential validCredential = new Credential(
             validAdmin.getUsername(),
-            new Password("#Qwerty123"),
-            "k");
+            new Password("#Qwerty123"));
 
         Model expectedModel = new ModelManager(
             model.getModuleList(),
@@ -59,8 +58,7 @@ public class AddAdminCommandIntegrationTest {
                 validAdmin,
                 new Credential(
                     validAdmin.getUsername(),
-                    new Password("#Qwerty123"),
-                    "k"), Paths.get("dummyconfig")),
+                    new Password("#Qwerty123")), Paths.get("dummyconfig")),
             model,
             commandHistory,
             String.format(AddAdminCommand.MESSAGE_SUCCESS, validAdmin), expectedModel);
