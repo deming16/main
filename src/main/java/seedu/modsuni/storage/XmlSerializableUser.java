@@ -32,6 +32,13 @@ public class XmlSerializableUser {
     }
 
     /**
+     * Conversion
+     */
+    public XmlSerializableUser(User user, String password) {
+        this.user = new XmlAdaptedUser(user, password);
+    }
+
+    /**
      * Converts this XmlSerializableUser into the model's {@code User}
      * object.
      *

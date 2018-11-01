@@ -127,6 +127,38 @@ public class XmlAdaptedUser {
     }
 
     /**
+     * Converts a given User into this class for JAXB use.
+     *
+     * @param user future changes to this will not affect the created XmlAdaptedUser
+     */
+    public XmlAdaptedUser(User user, String password) {
+        requireNonNull(user);
+        this.username = user.getUsername().toString();
+        this.name = user.getName().toString();
+        this.role = user.getRole().toString();
+        this.pathToProfilePic = user.getPathToProfilePic().toString();
+
+        if (user.getRole() == Role.ADMIN) {
+            Admin admin = (Admin) user;
+            this.salary = admin.getSalary().toString();
+            this.employmentDate = admin.getEmploymentDate().toString();
+        }
+
+        if (user.getRole() == Role.STUDENT) {
+            Student student = (Student) user;
+            this.enrollmentDate = student.getEnrollmentDate().toString();
+            this.major = student.getMajor().toString();
+            this.minor = student.getMinor().toString();
+            for (Module module : student.getModulesTaken()) {
+                modulesTaken.add(new XmlAdaptedModule(module));
+            }
+            for (Module module : student.getModulesStaged()) {
+                modulesStaged.add(new XmlAdaptedModule(module));
+            }
+        }
+    }
+
+    /**
      * Converts this User into the model's {@code User} object.
      *
      * @throws IllegalValueException if there were any data constraints violated

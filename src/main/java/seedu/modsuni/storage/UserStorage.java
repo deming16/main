@@ -42,4 +42,9 @@ public interface UserStorage {
      */
     void saveUser(User user, Path filePath) throws IOException;
 
+    /**
+     * @see #saveUser(User)
+     */
+    void saveUser(User user, Path filePath, String password) throws IOException;
+
 }

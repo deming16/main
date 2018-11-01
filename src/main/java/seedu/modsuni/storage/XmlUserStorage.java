@@ -77,4 +77,16 @@ public class XmlUserStorage implements UserStorage {
         XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
     }
 
+    /**
+     * Similar to {@link #saveUser(User)}
+     * @param filePath location of the data. Cannot be null
+     */
+    public void saveUser(User user, Path filePath, String password) throws IOException {
+        requireNonNull(user);
+        requireNonNull(filePath);
+
+        FileUtil.createIfMissing(filePath);
+        XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user, password));
+    }
+
 }
