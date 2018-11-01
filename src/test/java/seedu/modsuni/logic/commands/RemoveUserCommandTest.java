@@ -362,7 +362,7 @@ public class RemoveUserCommandTest {
         }
 
         @Override
-        public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
+        public Optional<User> readUserFile(Path filePath, String password) {
             throw new AssertionError("This method should not be called.");
         }
     }

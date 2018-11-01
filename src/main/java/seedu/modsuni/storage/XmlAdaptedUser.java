@@ -38,8 +38,6 @@ public class XmlAdaptedUser {
     private static final String MISSING_FIELD_MESSAGE_FORMAT = "User's "
             + "%s field is missing!";
 
-    private String userPassword = null;
-
     // Must have for all users
     @XmlElement(required = true)
     private String username;
@@ -141,15 +139,16 @@ public class XmlAdaptedUser {
      * @param user future changes to this will not affect the created XmlAdaptedUser
      */
     public XmlAdaptedUser(User user, String password) {
-        this.userPassword = password;
-
         requireNonNull(user);
+
+        // All users
         this.username = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
                 user.getUsername().toString().getBytes(),password));
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
         this.pathToProfilePic = user.getPathToProfilePic().toString();
 
+        // Admin
         if (user.getRole() == Role.ADMIN) {
             Admin admin = (Admin) user;
             this.salary = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
@@ -157,6 +156,7 @@ public class XmlAdaptedUser {
             this.employmentDate = admin.getEmploymentDate().toString();
         }
 
+        // Student
         if (user.getRole() == Role.STUDENT) {
             Student student = (Student) user;
             this.enrollmentDate = student.getEnrollmentDate().toString();
@@ -182,24 +182,14 @@ public class XmlAdaptedUser {
 
         String decryptedUsername = decryptUsername(password);
 
-        System.out.println("master:" +DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
-                "master".getBytes(),"2b005cc8b610fa5899a9f9e592671bba9776a0e778c7f88db9b54eef48490e94")));
-
-        System.out.println("salary:" +DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
-                "9999".getBytes(),"2b005cc8b610fa5899a9f9e592671bba9776a0e778c7f88db9b54eef48490e94")));
-
         if ("ADMIN".equals(role)) {
-            System.out.println("IN ADMIN");
             checkAdminFields();
-            System.out.println("CURRENT SALARY:"+salary);
             String decryptedSalary = decryptSalary(password);
-            System.out.println("Decrypted salary:" + decryptedSalary);
             user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary),
                     new EmployDate(employmentDate));
         }
 
         if ("STUDENT".equals(role)) {
-            System.out.println("IN STUDENT");
             checkStudentFields();
             List<String> majorConverted = Arrays.asList(major.substring(1, major.length() - 1).split(", "));
             List<String> minorConverted = Arrays.asList(minor.substring(1, minor.length() - 1).split(", "));
