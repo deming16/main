@@ -34,6 +34,13 @@ public class CommandHistory {
         return new LinkedList<>(userInputHistory);
     }
 
+    /**
+     * Resets the {@code userInputHistory}.
+     */
+    public void resetHistory() {
+        userInputHistory = new LinkedList<>();
+    }
+
     @Override
     public boolean equals(Object obj) {
         // short circuit if same object

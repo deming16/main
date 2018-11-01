@@ -31,6 +31,7 @@ public class LogoutCommand extends Command {
             throw new CommandException(MESSAGE_NOT_LOGGED_IN);
         }
         model.resetCurrentUser();
+        history.resetHistory();
         EventsCenter.getInstance().post(new UserTabLogoutEvent());
         return new CommandResult(MESSAGE_SUCCESS);
     }
