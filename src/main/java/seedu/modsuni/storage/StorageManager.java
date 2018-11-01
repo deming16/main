@@ -227,10 +227,8 @@ public class StorageManager extends ComponentManager implements Storage {
         logger.fine("Attempting to write " + cuce.user.getName() + " to data file: " + cuce.filePath);
         try {
             userStorage.saveUser(cuce.user, cuce.filePath);
-            DataSecurityUtil.encryptFile(cuce.filePath.toFile(),
-                    cuce.password.getValue());
         } catch (IOException e) {
-            logger.warning("Unable to save or encrypt data");
+            logger.warning("Unable to save");
             e.printStackTrace();
         }
     }
