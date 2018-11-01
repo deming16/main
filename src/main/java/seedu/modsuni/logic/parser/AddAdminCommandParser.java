@@ -59,8 +59,7 @@ public class AddAdminCommandParser implements Parser<AddAdminCommand> {
         Admin admin = new Admin(username, name, role, salary, employmentDate);
         Credential credential = new Credential(
             username,
-            password,
-            password.getValue());
+            password);
         return new AddAdminCommand(admin, credential, savePath);
     }
 

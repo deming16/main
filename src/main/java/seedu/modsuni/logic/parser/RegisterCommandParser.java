@@ -75,8 +75,7 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
         //TODO key to be removed
         Credential credential = new Credential(
             username,
-            password,
-            password.getValue());
+            password);
 
         return new RegisterCommand(credential, newUser, tempSavePath);
 
