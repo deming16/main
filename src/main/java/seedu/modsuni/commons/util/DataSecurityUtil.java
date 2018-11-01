@@ -19,6 +19,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 
 import com.google.common.hash.Hashing;
 
@@ -236,5 +237,9 @@ public class DataSecurityUtil {
             hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    public static byte[] hexToBytes(String hex) {
+        return DatatypeConverter.parseHexBinary(hex);
     }
 }

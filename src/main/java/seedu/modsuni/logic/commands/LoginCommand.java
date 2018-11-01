@@ -74,20 +74,12 @@ public class LoginCommand extends Command {
 
         User toSetCurrentUser;
         try {
-
-            DataSecurityUtil.decryptFile(pathToSaveFile.toFile(),
-                toLogin.getPassword().toString());
-
             Optional<User> userFromFile = model.readUserFile(pathToSaveFile);
             if (!userFromFile.isPresent()) {
                 throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
             }
             toSetCurrentUser = userFromFile.get();
-
-            DataSecurityUtil.encryptFile(pathToSaveFile.toFile(), toLogin.getPassword().getValue());
-        } catch (DataConversionException | IOException | CorruptedFileException
-            | NoSuchAlgorithmException | InvalidKeyException | InvalidPasswordException
-            | NoSuchPaddingException e) {
+        } catch (DataConversionException | IOException  e) {
             throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
         }
 
