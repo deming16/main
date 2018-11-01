@@ -15,7 +15,6 @@ import seedu.modsuni.testutil.Assert;
 
 public class XmlAdaptedCredentialTest {
     private static final String INVALID_USERNAME = "R@chel";
-    private static final String INVALID_PASSWORD = "qwerty123";
 
     private static final String VALID_USERNAME =
         CREDENTIAL_STUDENT_SEB.getUsername().toString();
