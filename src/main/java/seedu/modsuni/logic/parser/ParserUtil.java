@@ -258,7 +258,8 @@ public class ParserUtil {
      */
     public static Prereq parsePrereq(String prereq) throws ParseException {
         requireNonNull(prereq);
-        String strings = prereq.trim();
-        return new PrereqGenerator().generate(strings);
+        String trimmedPrereq = prereq.trim();
+        PrereqGenerator.checkValidPrereqString(trimmedPrereq);
+        return new PrereqGenerator().generate(trimmedPrereq);
     }
 }

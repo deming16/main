@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Prereq;
 import seedu.modsuni.model.module.PrereqDetails;
@@ -13,6 +16,14 @@ import seedu.modsuni.model.module.PrereqDetails;
  * This class is used to facilitate the generation of a {@code Prereq} object.
  */
 public class PrereqGenerator {
+    private static final String MESSAGE_INVALID_CHARACTERS =
+            "Only alphanumeric, parentheses, commas, ampersand and pipe are allowed.";
+    private static final String MESSAGE_INVALID_PREFIX = "Prereq string must start with ampersand or pipe.";
+    private static final String MESSAGE_WRONG_ORDER_PREFIX = "No consecutive & or |.";
+    private static final String MESSAGE_PAREN_NOT_CLOSED = "Make sure all parenthesis are closed properly.";
+    private static final String MESSAGE_COMMA_WRONG_POSITION = "Commas should be at the end of module code only.";
+    private static final String MESSAGE_CODE_WRONG_POSITION = "Code should only be after '&' or '|' or ',' and must "
+            + "end with ','.";
     private Stack<String> stack;
     private Stack<Optional<List<PrereqDetails>>> listStack;
     private Prereq start;
@@ -136,6 +147,75 @@ public class PrereqGenerator {
     private void moveToPreviousList() {
         stack.pop();
         listStack.pop();
+    }
+
+    /**
+     * Check if the given (@code String string} is valid.
+     */
+    public static void checkValidPrereqString(String string) throws ParseException {
+
+        if (string.isEmpty()) {
+            return;
+        }
+        Pattern pattern = Pattern.compile("[^&|()A-Za-z0-9,]");
+        Matcher matcher = pattern.matcher(string);
+        if (matcher.find()) {
+            throw new ParseException(MESSAGE_INVALID_CHARACTERS);
+        }
+        if (string.charAt(0) != '&' && string.charAt(0) != '|') {
+            throw new ParseException(MESSAGE_INVALID_PREFIX);
+        }
+        StringBuilder builder = new StringBuilder();
+        int openParenthesis = 0;
+
+        for (int i = 1; i < string.length(); i++) {
+            char current = string.charAt(i);
+            char prev = string.charAt(i - 1);
+
+            // No consecutive & or | check.
+            if ((current == '&' || current == '|') && prev != '(') {
+                throw new ParseException(MESSAGE_WRONG_ORDER_PREFIX);
+            }
+            // Paren check count.
+            if (current == '(') {
+                openParenthesis++;
+            } else if (current == ')') {
+                if (builder.length() != 0) {
+                    throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
+                }
+                if (prev == '(' || prev == '&' || prev == '|') {
+                    throw new ParseException("Empty paren");
+                }
+                openParenthesis--;
+            }
+            if (openParenthesis < 0) {
+                throw new ParseException(MESSAGE_PAREN_NOT_CLOSED);
+            }
+            // Module and comma check
+            if (current == ',' && (prev == '&' || prev == '|' || prev == ',' || prev == '(' || prev == ')')) {
+                throw new ParseException(MESSAGE_COMMA_WRONG_POSITION);
+            } else {
+                String code = builder.toString();
+                if (!Code.isValidCode(code)) {
+                    throw new ParseException(Code.MESSAGE_CODE_CONSTRAINTS);
+                }
+                builder.setLength(0);
+            }
+            if ((current >= 'a' && current <= 'z') || (current >= 'A' && current <= 'Z')
+                    || (current >= '0' && current <= '9')) {
+                if (builder.length() == 0 && (prev == '(' || prev == ')')) {
+                    throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
+                }
+                builder.append(current);
+            }
+        }
+
+        if (builder.length() != 0) {
+            throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
+        }
+        if (openParenthesis > 0) {
+            throw new ParseException(MESSAGE_PAREN_NOT_CLOSED);
+        }
     }
 
 }
