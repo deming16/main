@@ -326,14 +326,15 @@ The image displays the changes to expect after the successful execution of the e
 image::EditCommandExample.png[width="500"]
 
 [NOTE]
-Notice that the Name in the User Tab has changed.
-// end::useraccountmanagement[]
+Notice that the Name in the User Tab has changed
 
 === Logout from User Account : `logout`
 
 Logouts from the current user account. Running this command also resets the application
 to its original state.
 Format: `logout`
+
+// end::useraccountmanagement[]
 
 === Data Encryption
 
