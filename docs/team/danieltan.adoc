@@ -87,7 +87,7 @@ Utilized by the team to better manage individual tasks and visualize the various
 
 *** Set up project's Travis and AppVeyor Continuous Integration(CI) platforms.
 *** Set up project's Codacy Code Analytics and Review service platform.
-*** Set up project's Coveralls Testing and Coverage Statistics platoform.
+*** Set up project's Coveralls Testing and Coverage Statistics platform.
 
 == 4. Contributions to the User Guide
 
