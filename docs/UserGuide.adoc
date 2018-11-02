@@ -151,6 +151,9 @@ Examples:
 * `save sp/userdata.xml` +
 Saves the current user data to the file name `userdata.xml`
 
+[TIP]
+The prefix `sp/` is the short form for save path.
+
 image::SaveCommandExample.jpg[width="650"]
 _Figure 1. An example of a save command_
 
@@ -159,9 +162,6 @@ _Figure 2. Save successfully_
 
 image::SaveFileExample.jpg[width="300"]
 _Figure 3. An example of the save file_
-
-[TIP]
-The prefix `sp/` is the short form for save path.
 // end::saveuser[]
 
 === Generate module plan: `generate`
