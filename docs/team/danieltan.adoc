@@ -6,7 +6,7 @@
 == PROJECT: modsUni
 
 
-== Overview
+== 1. Overview
 
 *modsUni* is a desktop candidature management application created by university students for students.
 It aims to make the tedious process of planning your entire candidature easier and more effective.
@@ -16,7 +16,7 @@ Targeted at individuals whom prefer the use of their keyboards over a click-and-
 it incorporates an in-built Command Line Interface(CLI) for majority of its user interactions and
 a simple Graphical User Interface(GUI) for the displaying of output.
 
-== About this Portfolio
+== 2. About this Portfolio
 
 This project portfolio details my individual contributions to the *modsUni* project.
 It includes a summary of the enhancements and other contributions I made throughout the duration
@@ -24,7 +24,7 @@ of the project. Additionally, portions of my contribution to the User Guide and 
 been included.
 
 
-== Summary of contributions
+== 3. Summary of Contributions
 
 * *Major enhancement*: Implemented a *User Account Management System*
 
@@ -40,7 +40,7 @@ This enhancement will give users the necessary control over their personal prefe
 
 ** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/44[#44], https://github.com/CS2103-AY1819S1-W17-2/main/pull/87[#87] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161]
 
-* *Minor enhancement(s)*: Standardize *User Interface*
+* *Minor enhancement(s)*: Standardized the *User Interface* of the application.
 
 ** What it does: Provides an intuitive and familiar user interface to greatly boost
 User Experience(UX).
@@ -65,7 +65,7 @@ also noted that commands have been included to allow users to set the front-most
 *** Created https://github.com/CS2103-AY1819S1-W17-2/main/projects/1[Project Dashboard] on GitHub.
 Utilized by the team to better manage individual tasks and visualize the various stages of development throughout the project.
 *** Set up Labels, Issue Tracker and Milestone in GitHub.
-*** Managed all https://github.com/CS2103-AY1819S1-W17-2/main/releases[releases] on GitHub.
+*** Managed all GitHub https://github.com/CS2103-AY1819S1-W17-2/main/releases[releases].
 
 ** Enhancements to existing features:
 
@@ -80,7 +80,7 @@ Utilized by the team to better manage individual tasks and visualize the various
 
 ** Community:
 
-*** PRs reviewed (with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-2/main/pull/119[#119], https://github.com/CS2103-AY1819S1-W17-2/main/pull/124[#124] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/200[#200]
+*** Reviewed PRs(with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-2/main/pull/119[#119], https://github.com/CS2103-AY1819S1-W17-2/main/pull/124[#124] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/200[#200]
 *** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103-AY1819S1-W17-2/main/issues/181[1], https://github.com/CS2103-AY1819S1-W17-2/main/issues/138[2], https://github.com[3])
 
 ** Tools:
@@ -89,7 +89,7 @@ Utilized by the team to better manage individual tasks and visualize the various
 *** Set up project's Codacy Code Analytics and Review service platform.
 *** Set up project's Coveralls Testing and Coverage Statistics platoform.
 
-== Contributions to the User Guide
+== 4. Contributions to the User Guide
 
 
 |===
@@ -98,7 +98,7 @@ Utilized by the team to better manage individual tasks and visualize the various
 
 include::../UserGuide.adoc[tag=useraccountmanagement]
 
-== Contributions to the Developer Guide
+== 5. Contributions to the Developer Guide
 
 |===
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
