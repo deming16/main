@@ -143,13 +143,25 @@ Returns the same result as above.
 [[save]]
 === Saving user data: `save`
 
-Save current module configurations for future usage. +
+Save current user data for future usage. +
 Format: `save sp/<FILE_NAME>.xml`
 
 Examples:
 
 * `save sp/userdata.xml` +
 Saves the current user data to the file name `userdata.xml`
+
+image::SaveCommandExample.jpg[width="650"]
+_Figure 1. An example of a save command_
+
+image::SaveCommandSuccessful.jpg[width="650"]
+_Figure 2. Save successfully_
+
+image::SaveFileExample.jpg[width="300"]
+_Figure 3. An example of the save file_
+
+[TIP]
+The prefix `sp/` is the short form for save path.
 // end::saveuser[]
 
 === Generate module plan: `generate`
