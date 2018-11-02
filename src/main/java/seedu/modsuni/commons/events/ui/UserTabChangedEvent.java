@@ -1,6 +1,7 @@
 package seedu.modsuni.commons.events.ui;
 
 import seedu.modsuni.commons.events.BaseEvent;
+
 import seedu.modsuni.model.user.User;
 
 /**

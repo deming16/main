@@ -4,11 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static seedu.modsuni.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.modsuni.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_PASSWORD;
+import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_PATH;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_USERNAME;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.modsuni.testutil.TypicalSavePaths.PATH_USERDATA_MAX;
 import static seedu.modsuni.testutil.TypicalSavePaths.PATH_USERDATA_SEB;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +35,8 @@ import seedu.modsuni.logic.commands.GenerateCommand;
 import seedu.modsuni.logic.commands.HelpCommand;
 import seedu.modsuni.logic.commands.HistoryCommand;
 import seedu.modsuni.logic.commands.ListCommand;
+import seedu.modsuni.logic.commands.LoginCommand;
+import seedu.modsuni.logic.commands.LogoutCommand;
 import seedu.modsuni.logic.commands.RedoCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromDatabaseCommand;
@@ -47,6 +54,7 @@ import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.testutil.AdminBuilder;
 import seedu.modsuni.testutil.AdminUtil;
 import seedu.modsuni.testutil.CredentialBuilder;
+import seedu.modsuni.testutil.CredentialUtil;
 import seedu.modsuni.testutil.EditStudentDescriptorBuilder;
 import seedu.modsuni.testutil.ModuleBuilder;
 import seedu.modsuni.testutil.ModuleUtil;
@@ -134,6 +142,30 @@ public class ModsUniParserTest {
     public void parseCommand_list() throws Exception {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
+    }
+
+
+    @Test
+    public void parseCommand_login() throws Exception {
+        Credential validCredential = new CredentialBuilder(CREDENTIAL_STUDENT_MAX)
+            .withPassword(VALID_PASSWORD)
+            .build();
+        Path validPath = Paths.get(VALID_PATH);
+
+        // Updates validCredential with hashed password
+        validCredential = new CredentialBuilder(validCredential)
+            .withPassword(ParserUtil.parsePassword(VALID_PASSWORD).toString())
+            .build();
+
+        LoginCommand command =
+            (LoginCommand) parser.parseCommand(CredentialUtil.getLoginCommand(validCredential));
+
+        assertEquals(new LoginCommand(validCredential, validPath), command);
+    }
+
+    @Test
+    public void parseCommand_logout() throws Exception {
+        assertTrue(parser.parseCommand(LogoutCommand.COMMAND_WORD) instanceof LogoutCommand);
     }
 
     @Test

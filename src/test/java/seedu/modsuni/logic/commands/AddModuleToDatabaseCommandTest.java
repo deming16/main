@@ -329,6 +329,11 @@ public class AddModuleToDatabaseCommandTest {
         }
 
         @Override
+        public void resetCurrentUser() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setCurrentUser(User user) {
             throw new AssertionError("This method should not be called.");
         }
