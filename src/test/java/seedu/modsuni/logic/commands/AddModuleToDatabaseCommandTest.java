@@ -57,12 +57,24 @@ public class AddModuleToDatabaseCommandTest {
     }
 
     @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        AddModuleToDatabaseCommand addModuleToDatabaseCommand =
+                new AddModuleToDatabaseCommand(new ModuleBuilder().build());
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(AddModuleToDatabaseCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        addModuleToDatabaseCommand.execute(model, commandHistory);
+    }
+
+    @Test
     public void notAdmin_throwsCommandException() throws Exception {
         AddModuleToDatabaseCommand addModuleToDatabaseCommand =
                 new AddModuleToDatabaseCommand(new ModuleBuilder().build());
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(AddAdminCommand.MESSAGE_NOT_ADMIN);
+        thrown.expectMessage(AddModuleToDatabaseCommand.MESSAGE_NOT_ADMIN);
         Model model = new ModelManager();
         User fakeAdmin = new AdminBuilder().withRole(Role.STUDENT).build();
         model.setCurrentUser(fakeAdmin);
@@ -371,6 +383,7 @@ public class AddModuleToDatabaseCommandTest {
      */
     private class ModelStubWithModule extends ModelStub {
         private final Module module;
+        private User currentUser = new AdminBuilder().build();
 
         ModelStubWithModule(Module module) {
             requireNonNull(module);
@@ -378,10 +391,14 @@ public class AddModuleToDatabaseCommandTest {
         }
 
         @Override
-
         public boolean hasModuleInDatabase(Module module) {
             requireNonNull(module);
             return this.module.isSameModule(module);
+        }
+
+        @Override
+        public User getCurrentUser() {
+            return currentUser;
         }
 
         @Override
@@ -395,6 +412,7 @@ public class AddModuleToDatabaseCommandTest {
      */
     private class ModelStubAcceptingModuleAdded extends ModelStub {
         final ArrayList<Module> modulesAdded = new ArrayList<>();
+        private User currentUser = new AdminBuilder().build();
 
         @Override
         public boolean hasModuleInDatabase(Module module) {
@@ -416,6 +434,11 @@ public class AddModuleToDatabaseCommandTest {
         @Override
         public ReadOnlyModuleList getModuleList() {
             return new ModuleList();
+        }
+
+        @Override
+        public User getCurrentUser() {
+            return currentUser;
         }
 
         @Override

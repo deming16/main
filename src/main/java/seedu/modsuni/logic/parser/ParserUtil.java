@@ -234,9 +234,7 @@ public class ParserUtil {
     }
     /**
      * TODO check if moduleCode is valid
-     * @param moduleCode
-     * @return
-     * @throws ParseException
+     * Parses a {@code String moduleCode} into a {@code Code}.
      */
     public static String parseModuleCode(String moduleCode) throws ParseException {
         requireNonNull(moduleCode);
@@ -260,7 +258,8 @@ public class ParserUtil {
      */
     public static Prereq parsePrereq(String prereq) throws ParseException {
         requireNonNull(prereq);
-        String strings = prereq.trim();
-        return new PrereqGenerator().generate(strings);
+        String trimmedPrereq = prereq.trim();
+        PrereqGenerator.checkValidPrereqString(trimmedPrereq);
+        return new PrereqGenerator().generate(trimmedPrereq);
     }
 }

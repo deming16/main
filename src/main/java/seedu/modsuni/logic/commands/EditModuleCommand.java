@@ -48,11 +48,9 @@ public class EditModuleCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to "
             + "edit must be provided.";
 
-    public static final String MESSAGE_NOT_LOGGED_IN = "You need to be logged"
-            + " in!";
-
     public static final String MESSAGE_NOT_ADMIN = "Only an admin user can execute this command";
     public static final String MESSAGE_DUPLICATE_MODULE = "This module already exist in the database.";
+    public static final String MESSAGE_NOT_LOGGED_IN = "Unable to edit, please log in first.";
 
     private final EditModuleDescriptor editModuleDescriptor;
     private final Index index;
@@ -66,7 +64,6 @@ public class EditModuleCommand extends Command {
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
-
         if (model.getCurrentUser() == null) {
             throw new CommandException(MESSAGE_NOT_LOGGED_IN);
         }

@@ -43,8 +43,7 @@ public class EditAdminCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to "
             + "edit must be provided.";
 
-    public static final String MESSAGE_NOT_LOGGED_IN = "You need to be logged"
-            + " in!";
+    public static final String MESSAGE_NOT_LOGGED_IN = "Unable to edit, please log in first.";
 
     public static final String MESSAGE_NOT_ADMIN = "Only an admin user can execute this command";
 

@@ -15,6 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import seedu.modsuni.commons.exceptions.DataConversionException;
@@ -52,6 +53,18 @@ public class RemoveUserCommandTest {
     public void constructor_nullModule_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new RemoveUserCommand(null);
+    }
+
+    @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        RemoveUserCommand removeUserCommand =
+                new RemoveUserCommand(new Username("dummy"));
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(RemoveUserCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        removeUserCommand.execute(model, commandHistory);
     }
 
     @Test
@@ -407,6 +420,11 @@ public class RemoveUserCommandTest {
         @Override
         public void setCurrentUser(User user) {
             currentUser = user;
+        }
+
+        @Override
+        public ObservableList<Username> getUsernames() {
+            return FXCollections.observableArrayList();
         }
 
         @Override
