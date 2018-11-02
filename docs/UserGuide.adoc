@@ -261,7 +261,8 @@ Specified `userdata/` option should specify a relative filepath.
 
 The figure below displays the expected UI updates after the successful execution of a login command.
 
-image::LoginCommandExample2.png[width="500"]
+image::LoginCommandExample2.png[width="500",align="center"]
+[.text-center]
 _Fig 1. Example of a Login Command and the expected UI output_
 
 [NOTE]
@@ -296,15 +297,17 @@ Example:
 
 The figures below displays the expected UI updates after the successful execution of the register command.
 
-image::RegisterCommandExample2.png[width="600"]
+image::RegisterCommandExample2.png[width="600",align="center"]
+[.text-center]
 _Fig 2a. Example of a register command & the expected UI output._
 
 [NOTE]
 Notice how the respective fields related to the newly registered user is automatically
 updated.
 
-image::RegisterCommandOutputDisplay.png[width="400"]
-_Fig 2b. Command Message displayed upon the successful execution of the register command._
+image::RegisterCommandOutputDisplay.png[width="400",align="center"]
+[.text-center]
+_Fig 2b. Expected Command Message after running register command._
 
 [NOTE]
 A temporary save file path is generated and used to save the details of the newly
@@ -334,7 +337,8 @@ Example:
 
 The figure below displays the expected UI updates after the successful execution of the edit command.
 
-image::EditCommandExample2.png[width="500"]
+image::EditCommandExample2.png[width="500",align="center"]
+[.text-center]
 _Fig 3. Example of an edit command & the expected UI output._
 
 [NOTE]
@@ -352,8 +356,9 @@ Example:
 
 The figure below displays the expected UI updates after the successful execution of the logout command.
 
-image::LogoutCommandExample.png[width="500"]
-_Fig 3. Example of a logout command & the expected UI output._
+image::LogoutCommandExample.png[align="center",width="500"]
+[.text-center]
+_Fig 4. Example of a logout command & the expected UI output._
 
 [NOTE]
 Notice that the Data Fields in the User Tab has been reset to its original state as seen at start up.
