@@ -817,7 +817,7 @@ A new registered `Student` would be initialized and automatically logged in whic
 ** Cons: Does not restore the state of the user entirely.
 // end::saveuser[]
 
-// tag::dataencryption[]
+// tag::datasecurity[]
 === Data Security Feature
 The data security feature mainly involves the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
 
@@ -932,7 +932,7 @@ _Figure 2. Sequence Diagram for the interaction between Logic Component and Data
 * **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
 ** Pros: The key will be more secured compared to the key generated from alternative 1.
 ** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
-// end::dataencryption[]
+// end::datasecurity[]
 
 === Logging
 

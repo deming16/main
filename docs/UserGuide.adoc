@@ -139,6 +139,7 @@ Returns a list of modules that begin with CS101 or GEH.
 * `search cs101 gEh` +
 Returns the same result as above.
 
+// tag::saveuser[]
 [[save]]
 === Saving user data: `save`
 
@@ -149,7 +150,7 @@ Examples:
 
 * `save sp/userdata.xml` +
 Saves the current user data to the file name `userdata.xml`
-
+// end::saveuser[]
 
 === Generate module plan: `generate`
 
