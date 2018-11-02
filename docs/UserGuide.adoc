@@ -259,9 +259,10 @@ Examples:
 [NOTE]
 Specified `userdata/` option should specify a relative filepath.
 
-The image displays the changes to expect after the successful execution of the login command.
+The figure below displays the expected UI updates after the successful execution of a login command.
 
-image::LoginCommandExample.png[width="500"]
+image::LoginCommandExample2.png[width="500"]
+_Fig 1. Example of a Login Command and the expected UI output_
 
 [NOTE]
 Note that your details will automatically be displayed in the User Tab and a simple successful message is displayed on the bottom right window.
@@ -283,19 +284,27 @@ Available Option:
 
 Example:
 
-* `register user/demo pass/#Qwerty123 n/Demo pic/path.img enroll/02/08/2017 maj/CS min/MA` +
+* `register user/max33 pass/#Qwerty4321 n/Max Verstappen pic/redbull.img enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
   The above command creates a student account with the following details:
-  ** Username : `demo`
-  ** Password : `#Qwerty123`
-  ** Name : `Demo`
-  ** Path To Picture: `path.img`
-  ** Enrollment Date: `02/08/2017>`
-  ** Major(s) : `CS`
-  ** Minor(s) : `MA`
+  ** Username : `max33`
+  ** Password : `#Qwerty4321`
+  ** Name : `Max Verstappen`
+  ** Path To Picture: `redbull.img`
+  ** Enrollment Date: `15/03/2015>`
+  ** Major(s) : `CS`, `DA`
+  ** Minor(s) : `BA`, `MA`
 
-The image displays the changes to expect after the successful execution of the register command.
+The figures below displays the expected UI updates after the successful execution of the register command.
 
-image::RegisterCommandExample.png[width="500"]
+image::RegisterCommandExample2.png[width="600"]
+_Fig 2a. Example of a register command & the expected UI output._
+
+[NOTE]
+Notice how the respective fields related to the newly registered user is automatically
+updated.
+
+image::RegisterCommandOutputDisplay.png[width="400"]
+_Fig 2b. Command Message displayed upon the successful execution of the register command._
 
 [NOTE]
 A temporary save file path is generated and used to save the details of the newly
@@ -317,22 +326,37 @@ Available Options:
 
 Example:
 
-* `edit n/Demo Lition` +
-  The above command edits the `Name` of the current student with the new details:
-  ** Name : `Demo Lition`
+* `edit n/Max Emilian Verstappen maj/CS min/` +
+  The above command edits the current student with the new details:
+  ** Name : Max Emilian Verstappen`
+  ** Major: CS
+  ** Minor: [EMPTY]
 
-The image displays the changes to expect after the successful execution of the edit command.
+The figure below displays the expected UI updates after the successful execution of the edit command.
 
-image::EditCommandExample.png[width="500"]
+image::EditCommandExample2.png[width="500"]
+_Fig 3. Example of an edit command & the expected UI output._
 
 [NOTE]
-Notice that the Name in the User Tab has changed
+Notice that the Name, Major and Minor fields in the User Tab has changed
 
 === Logout from User Account : `logout`
 
 Logouts from the current user account. Running this command also resets the application
 to its original state.
 Format: `logout`
+
+Example:
+
+* `logout` (assuming that current user is logged in)
+
+The figure below displays the expected UI updates after the successful execution of the logout command.
+
+image::LogoutCommandExample.png[width="500"]
+_Fig 3. Example of a logout command & the expected UI output._
+
+[NOTE]
+Notice that the Data Fields in the User Tab has been reset to its original state as seen at start up.
 
 // end::useraccountmanagement[]
 
