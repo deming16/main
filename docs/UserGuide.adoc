@@ -156,19 +156,22 @@ The prefix `"sp"` is the short form for `"save path"`.
 
 Figure 1 shows an example of usage of save command in the application.
 
-image::SaveCommandExample.jpg[width="300"]
+image::SaveCommandExample.jpg[width="450"]
 _Figure 1. An example of a save command_
 
 Upon entering the command, you will see the types of information being stored as well as a successful message as shown in Figure 2.
 
 image::SaveCommandSuccessful.jpg[width="450"]
-_Figure 2. Save information and successfully message displayed upon entering save command_
+_Figure 2. Saved information and successfully message are displayed upon entering save command_
+
+Upon entering the save command, a file depicted in Figure 3 will be generated.
+This file will be required when logging in.
 
 [IMPORTANT]
-Modifying the following file may result in the lost of data that is unrecoverable. Edit at your own risk!
+Modifying the saved file may result in the lost of data that is unrecoverable. Edit at your own risk!
 
-image::SaveFileExample.jpg[width="300"]
-_Figure 3. An example of the save file_
+image::SaveFileExample.jpg[width="400"]
+_Figure 3. An example of a user's information in a saved file_
 // end::saveuser[]
 
 === Generate module plan: `generate`

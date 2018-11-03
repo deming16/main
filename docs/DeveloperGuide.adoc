@@ -831,8 +831,6 @@ This section will describe in details the current implementation and the design 
 The data security feature is facilitated by `DataSecurityUtil` class. +
 It implements the following operations(s):
 
-* `DataSecurityUtil#encryptFile(…​)` — Encrypts a `File` object with the specified password and overrides the original unencrypted file.
-* `DataSecurityUtil#decryptFile(…​)` — Decrypts a `File` object with the specified password and overrides the original encrypted file.
 * `DataSecurityUtil#encrypt(…​)` — Encrypts a `byte[]` with the specified password and returns the encrypted `byte[]`.
 * `DataSecurityUtil#decrypt(…​)` — Decrypts a `byte[]` with the specified password and returns the decrypted `byte[]`.
 
