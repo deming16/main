@@ -144,12 +144,12 @@ For example, the `Logic` component (see the class diagram given below) defines i
 image::LogicClassDiagram.png[width="800"]
 
 [discrete]
-==== Events-Driven nature of the design
+==== Events-Driven Nature of the Design
 
 The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the register command.
 
 .Component interactions for `register` command (part 1)
-image::SDforDeletePerson.png[width="800"]
+image::SDforRegisterCommandOverview.png[width="800"]
 
 [NOTE]
 Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
@@ -157,7 +157,7 @@ Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
 .Component interactions for `register` command (part 2)
-image::SDforDeletePersonEventHandling.png[width="800"]
+image::SDforRegisterCommandPart2.png[width="800"]
 
 [NOTE]
 Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
@@ -252,7 +252,7 @@ This section will describe in detail the Current Implementation and the Design C
 The User Account Management mechanism is facilitated by the following classes:
 
 * `Credential` +
-It stores `Username`, `Password` and `Key`(coming in v1.3) of the `User` class. +
+It stores `Username` and `Password` of the `User` class. +
 Additionally, it implements the following operation(s):
 
 ** `Credential#isSameCredential(...)` -- Determines if there already exists a `Credential` with the same username in the `CredentialStore`
@@ -271,6 +271,10 @@ The above operations are exposed in the `Model` interface as `Model#addCredentia
 * `User` +
 Contains all the necessary data contained within a single user. +
 Currently, there are two Users, each defined by their `Roles`; namely `Student` and `Admin` as defined in the enum class `Role.java`
+
+image::StudentAndAdminClassDiagram.png[width="500",align="center"]
+[.text-center]
+_Figure 1. Enumeration
 
 *** `Student` +
 Refers to the majority of the users. It stores variables pertaining to a student user.
@@ -291,19 +295,22 @@ Registering only applies to students. For the creation of `Admin` Accounts, only
 
 The `RegisterCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `RegisterCommand`. +
 
-image::RegisterCommandUML.png[width="350"]
+image::RegisterCommandUML.png[width="350",align="center"]
+[.text-center]
 _Figure 1. UML Diagram of `RegisterCommand`._
 
 Parsing of command is performed by `RegisterCommandParser`,
 which returns a `RegisterCommand` object after parsing Username, Password, Name, Path to Profile Picture, Enrollment Date, Major(s) and Minor(s).
 The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `RegisterCommand` is being executed.
 
-image::SDforRegisterCommandLogicAndModel.png[width="900"]
+image::SDforRegisterCommandLogicAndModel.png[width="900",align="center"]
+[.text-center]
 _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `RegisterCommand`._
 
 Figure 3 below shows the high-level sequence diagram of the command execution.
 
-image::SDforRegisterCommandOverview.png[width="800"]
+image::SDforRegisterCommandOverview.png[width="800",align="center"]
+[.text-center]
 _Figure 3. High-Level Sequence diagram of registering a new student account._
 
 Given below is an example usage scenario and how the register mechanism behaves at each step:
@@ -328,18 +335,21 @@ It allows for students to log into their existing modsUni account, granting them
 
 The `LoginCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `LoginCommand`. +
 
-image::LoginCommandUML.png[width="350"]
+image::LoginCommandUML.png[width="350",align="center"]
+[.text-center]
 _Figure 1. UML Diagram of `LoginCommand`._
 
 Parsing of command is performed by `LoginCommandParser`, which returns a `LoginCommand` after parsing the username and password inputs.
 The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `LoginCommand` is being executed.
 
-image::SDforLoginCommandLogicAndModel.png[width="900"]
+image::SDforLoginCommandLogicAndModel.png[width="900",align="center"]
+[.text-center]
 _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `LoginCommand`._
 
 Figure 3 below shows the high-level sequence diagram of the command execution.
 
-image::SDforLoginCommandOverview.png[width="800"]
+image::SDforLoginCommandOverview.png[width="800",align="center"]
+[.text-center]
 _Figure 3. High-Level Sequence Diagram of the login process._
 
 Given below is an example usage scenario and how the login mechanism behaves at each step:
@@ -363,19 +373,21 @@ to modify personal details. +
 
 The `EditStudentCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `EditStudentCommand`. +
 
-image::EditStudentCommandUML.png[width="350"]
+image::EditStudentCommandUML.png[width="350",align="center"]
+[.text-center]
 _Figure 1. UML Diagram of `EditStudentCommand`._
 
 Parsing the command is performed by `EditStudentCommandParser`, which returns a `EditCommand` after parsing the user input.
 The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `EditStudentCommand` is being executed.
 
-image::SDforEditStudentCommandLogicAndModel.png[width="900"]
-
+image::SDforEditStudentCommandLogicAndModel.png[width="900",align="center"]
+[.text-center]
 _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `EditStudentCommand`._
 
 Figure 3 below shows the high-level sequence diagram of the command execution:
 
-image::SDforEditStudentCommand.png[width="800"]
+image::SDforEditStudentCommand.png[width="800",align="center"]
+[.text-center]
 _Figure 3. High-Level Sequence Diagram of the edit process._
 
 Given below is an example usage scenario and how the edit mechanism behaves at each step:
