@@ -5,15 +5,17 @@
 
 == PROJECT: modsUNI
 
----
+== 1. Overview
 
-== Overview
+modsUni is a desktop candidature management application created by university students for students.
+This application aims to reduce the monotonous process of planning an entire candidature.
+It provides module details for students and allows them to manage their personal candidature plans.
+It also provides administrator the ability to manage user and modules information.
 
-modsUni is a desktop candidature management application created by university students for students. It aims to make the tedious process of planning your entire candidature easier and more effective. It provides students with the ability to view module details and manage their personal candidature plans.
+modsUni is an application that targets a user who prefers to use a Command Line Interface (CLI).
+While inputs are facilitated through CLI, all output is displayed on a Graphical User Interface (GUI).
 
-Targeted at individuals whom prefer the use of their keyboards over a click-and-point interface, it incorporates an in-built Command Line Interface(CLI) for majority of its user interactions and a simple Graphical User Interface(GUI) for the displaying of output.
-
-== Summary of contributions
+== 2. Summary of contributions
 
 * *Major enhancement*: Added Save user (Admin/Student) data feature
 
@@ -55,29 +57,7 @@ Targeted at individuals whom prefer the use of their keyboards over a click-and-
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-//include::../UserGuide.adoc[tag=saveuser]
-[[save]]
-=== Saving user data: `save`
-
-Save current user data for future usage. +
-Format: `save sp/<FILE_NAME>.xml`
-
-Examples:
-
-* `save sp/userdata.xml` +
-Saves the current user data to the file name `userdata.xml`
-
-[TIP]
-The prefix `sp/` is the short form for save path.
-
-image::SaveCommandExample.jpg[width="650"]
-_Figure 1. An example of a save command_
-
-image::SaveCommandSuccessful.jpg[width="650"]
-_Figure 2. Save successfully_
-
-image::SaveFileExample.jpg[width="300"]
-_Figure 3. An example of the save file_
+include::../UserGuide.adoc[tag=saveuser]
 
 == Contributions to the Developer Guide
 
@@ -85,259 +65,7 @@ _Figure 3. An example of the save file_
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-// tag::saveuser[]
-=== Save User Feature
-The save user feature involves mainly the saving process of a user's attributes.
-A user can save their data only after they have logged in/registered an account.
 
-[NOTE]
-Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature.
+include::../DeveloperGuide.adoc[tag=saveuser]
 
-This section will describe in details the current implementation and the design considerations of the save user feature.
-
-==== Current Implementation
-The save mechanism is facilitated by the following classes:
-
-* `SaveCommand` +
-It stores the following attributes of a `User` object: +
-
-** All user
-
-*** Username +
-    The username used for logging in.
-*** Name +
-    The name of the user.
-*** Role +
-    The role of the user.
-*** Path to Profile Picture +
-    The path to the user's profile picture.
-
-** Admin
-
-*** Salary +
-    The salary of an administrator.
-*** Employ Date +
-    The employment date of an administrator.
-
-** Student
-
-*** Enrollment Date +
-    The enrollment date of a student.
-*** Major(s) +
-    A list of the student's major.
-*** Minor(s) +
-    A list of the student's minor.
-*** Modules Taken +
-    A list of modules took by the student.
-*** Modules Staged +
-    A list of modules staged for the generation of candidature.
-
-* `UserStorage` +
-It provides methods to save the current user's attributes as well as to load a file containing previously saved data. +
-Additionally, it implements the following operations(s):
-** `StorageManager#saveUser(…​)` — Save the user's data into the specified file path.
-** `StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
-
-===== Implementation of the save feature
-
-The `save` mechanism of modsUni is facilitated by `SaveCommand` class and is event-driven.
-It allows a user to save their data in modsUni as a XML file.
-
-[NOTE]
-Both admin and student can use the save feature.
-
-The `SaveCommand` class extends from the `Command` class.
-Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
-
-image::SaveCommandUML.png[width="250"]
-_Figure 1. SaveCommand UML Diagram_
-
-Parsing of command is performed by `SaveCommandParser`, which returns a `SaveCommand` object after parsing the save file path.
-The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic & Model components when the SaveCommand is being executed.
-
-image::SDforSaveCommandLogicAndModel.png[width="900"]
-_Figure 2. Sequence Diagram for the interaction between Logic and Model Components when executing SaveCommand_
-
-The `save` feature uses multiple components of the modsUni application.
-The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
-As seen from the diagram, the `SaveCommand` is driven by the `SaveUserChangedEvent`.
-
-image::SequenceDiagramforSave.png[width="800"]
-_Figure 3. High-Level Sequence Diagram for the `save sp/userdata.xml` command_
-
-The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as shown in Figure 4.
-
-image::SequenceDiagramforSaveEventHandling.png[width="650"]
-_Figure 4. High-Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
-
-The Storage component makes use of `XmlUserStorage` class to write `User` to the file specified by the file path.
-Both the conversion of `User` object to `XmlSerializableUser` as well as writing to file is shown in the following code snippet below:
-
-[source, java]
-----
-public void saveUser(User user, Path filePath) throws IOException {
-    // ... null checks ...
-    FileUtil.createIfMissing(filePath);
-    XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
-}
-----
-The newly created `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)` as shown in the code snipplets below:
-
-[source, java]
-----
-public static void saveDataToFile(Path file, XmlSerializableUser user) throws FileNotFoundException {
-    try {
-        XmlUtil.saveDataToFile(file, user);
-    } catch (JAXBException e) {
-        throw new AssertionError("Unexpected exception " + e.getMessage(), e);
-    }
-}
-----
-
-
----
-Given below is an example usage scenario and how the save mechanism behaves:
-
-1. A student will first log into their account and add their preferred modules.
-
-2. Upon issuing the command `save sp/userdata.xml`, the save command will call `Model#saveUserFile(...)` which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` will be handled by `StorageManager`.
-
-3. `StorageManager` then utilizes `XmlUserStorage#saveUser(...)` which saves the file to the file path specified by the user.
-
-
-[TIP]
-A new registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
-
-
-==== Design Considerations
-
-===== Aspect: Data to save
-
-* **Alternative 1 (current choice):** Saves the entire `User` object.
-** Pros: Able to restore to any state of the user.
-** Cons: Harder to implement as support for converting data of user to XML format needs to be added.
-* **Alternative 2:** Saves only the staged modules.
-** Pros: Will use less storage space (saving only staged module vs saving all user data).
-** Cons: Does not restore the state of the user entirely.
-// end::saveuser[]
-
-// tag::datasecurity[]
-=== Data Security Feature
-The data security feature mainly involves the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
-
-[NOTE]
-Advanced Encryption Standard (AES) is the algorithm used for encryption.
-
-This section will describe in details the current implementation and the design considerations of the data encryption & decryption feature.
-
----
-==== Current Implementation
-The data security feature is facilitated by `DataSecurityUtil` class. +
-It implements the following operations(s):
-
-* `DataSecurityUtil#encryptFile(…​)` — Encrypts a `File` object with the specified password and overrides the original unencrypted file.
-* `DataSecurityUtil#decryptFile(…​)` — Decrypts a `File` object with the specified password and overrides the original encrypted file.
-* `DataSecurityUtil#encrypt(…​)` — Encrypts a `byte[]` with the specified password and returns the encrypted `byte[]`.
-* `DataSecurityUtil#decrypt(…​)` — Decrypts a `byte[]` with the specified password and returns the decrypted `byte[]`.
-
-`DataSecurityUtil` class utilizes `javax.crypto.cipher` and `javax.crypto.spec.SecretKeySpec` packages for the operations mentioned above.
-
-The `Hashing` class is used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which are required to generate `SecretKeySpec`.
-
-Currently, encryption is performed in `StorageManager` and decryption is performed in `LoginCommand` where the file is loaded.
-
-===== Implementation of the encryption feature
-
-The encryption feature is integrated with the save user feature (3.6). +
-Immediately after the user data file is saved onto local disk, `DataSecurityUtil#encryptFile(...)` will be called to encrypt the file.
-This is shown in the following code snippet below:
-
-[source, java]
-----
-public void handleSaveUserChangedEvent(SaveUserChangedEvent cuce) {
-    // ... logging ...
-    try {
-        userStorage.saveUser(cuce.user, cuce.filePath);
-        DataSecurityUtil.encryptFile(cuce.filePath.toFile(),
-                cuce.password.getValue());
-    } catch (IOException e) {
-        logger.warning("Unable to save or encrypt data");
-        e.printStackTrace();
-    }
-}
-----
-
-The sequence diagram shown below in Figure 1 illustrates the integration of encryption with the save user feature.
-
-image::SequenceDiagramforSaveEventHandlingWithEncryption.png[width="650"]
-_Figure 1. Sequence Diagram for the interaction between EventsCenter and Storage Components when executing SaveCommand with encryption_
-
-
-===== Implementation of the decryption feature
-The decryption feature is integrated with the login feature under user account management(3.1). +
-`LoginCommand` calls `DataSecurityUtil#decryptFile(...)` once the validation of the user is completed.
-
-This is shown in the following code snippet below:
-
-[source, java]
-----
-public CommandResult execute(Model model, CommandHistory history) throws CommandException {
-        // ... check if user logged in ... //
-        // ... check if credential is valid .. //
-
-        User toSetCurrentUser;
-        try {
-            DataSecurityUtil.decryptFile(pathToSaveFile.toFile(),
-                toLogin.getPassword().toString());
-
-            Optional<User> userFromFile = model.readUserFile(pathToSaveFile);
-            if (!userFromFile.isPresent()) {
-                throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
-            }
-            toSetCurrentUser = userFromFile.get();
-
-            DataSecurityUtil.encryptFile(pathToSaveFile.toFile(), toLogin.getPassword().getValue());
-        } catch (DataConversionException | IOException | CorruptedFileException
-            | NoSuchAlgorithmException | InvalidKeyException | InvalidPasswordException
-            | NoSuchPaddingException e) {
-            throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
-        }
-
-        model.setCurrentUser(toSetCurrentUser);
-        return new CommandResult(String.format(MESSAGE_SUCCESS,
-            toSetCurrentUser.getUsername()));
-}
-----
-
-The sequence diagram shown below in Figure 2 illustrates the integration of decryption with the login feature.
-
-image::SDforSaveCommandLogicAndModelUserDecryption.png[width="900"]
-_Figure 2. Sequence Diagram for the interaction between Logic Component and DataSecurityUtil when executing LoginCommand_
-
-
-// consideration command encryption(not user friendly) or inbuilt encryption (harder)
-
-==== Design Considerations
-
-===== Aspect: How encryption is implemented
-
-* **Alternative 1 (current choice):** Implement as an in-built feature.
-** Pros: Ensures that the confidentiality of a user's data file is preserved at all times.
-** Cons: Users do not have full control.
-* **Alternative 2:** Implement as a command.
-** Pros: Users will have more control on the data security.
-** Cons: Unable to enforce the data security of the application.
-
-===== Aspect: Generation of security key for encryption/decryption
-
-* **Alternative 1 (current choice):** Generate the key using a user's password.
-** Pros: User does not need to supply additional information or file for encryption/decryption.
-** Cons: User is unable to decrypt their user data file if they forget their password.
-* **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
-** Pros: The key will be more secured compared to the key generated from alternative 1.
-** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
-// end::datasecurity[]
-
-//include::../DeveloperGuide.adoc[tag=saveuser]
-//
-//include::../DeveloperGuide.adoc[tag=datasecurity]
+include::../DeveloperGuide.adoc[tag=datasecurity]
