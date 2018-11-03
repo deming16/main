@@ -909,7 +909,7 @@ public User toModelType(String password) throws IllegalValueException, Corrupted
 }
 ----
 
-The code snippets of `decryptUsername(...)` and `decryptSalary(...) is as follows:
+The code snippets of `decryptUsername(...)` and `decryptSalary(...)` is as follows:
 
 [source, java]
 ----

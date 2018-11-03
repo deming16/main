@@ -143,13 +143,13 @@ Returns the same result as above.
 [[save]]
 === Saving user data: `save`
 
-Saves current user information for the restoration of user when logging in. +
+Saves current user information for the restoration of a user when logging in. +
 Format: `save sp/<FILE_NAME>.xml`
 
 Example:
 
 * `save sp/userdata.xml` +
-Saves the current user data to the file name `userdata.xml`
+Saves the current user data to the file name `userdata.xml`.
 
 [TIP]
 The prefix `"sp"` is the short form for `"save path"`.
@@ -159,16 +159,16 @@ Figure 1 shows an example of usage of save command in the application.
 image::SaveCommandExample.jpg[width="450"]
 _Figure 1. An example of a save command_
 
-Upon entering the command, you will see the types of information being stored as well as a successful message as shown in Figure 2.
+Upon entering the command, you will see the types of information stored as well as a successful message as shown in Figure 2.
 
 image::SaveCommandSuccessful.jpg[width="450"]
-_Figure 2. Saved information and successfully message are displayed upon entering save command_
+_Figure 2. Saved information and successful message are displayed upon entering save command_
 
 Upon entering the save command, a file depicted in Figure 3 will be generated.
 This file will be required when logging in.
 
 [IMPORTANT]
-Modifying the saved file may result in the lost of data that is unrecoverable. Edit at your own risk!
+Modifying the saved file may result in the loss of data that is unrecoverable. Edit at your own risk!
 
 image::SaveFileExample.jpg[width="400"]
 _Figure 3. An example of a user's information in a saved file_

@@ -8,13 +8,13 @@
 == 1. Overview
 
 This portfolio documents my contribution to the project - modsUni.
-This open-sourced project is in collaboration with other 4 other course mates from the module CS2103 (Introduction to Software Engineering).
+This open-sourced project is in collaboration with four other course mates from the module CS2103 (Introduction to Software Engineering).
 
 Project modsUni is a desktop application that was developed in 6 weeks which allowed us to practice our software engineering skills in a short time frame.
 This project aims to accelerate the process of planning a candidature for a student.
-It was developed for users who prefers to interact with a Command Line Interface (CLI) over a Graphical User Interface (GUI).
+It was developed for users who prefer to interact with a Command Line Interface (CLI) over a Graphical User Interface (GUI).
 We have managed to contribute ~27,000 lines of code to a code base of 10,000 lines of code.
-Currently, we are targeting National University of Singapore (NUS) undergraduates, and plan to extend to other local universities.
+Currently, we are targeting undergraduates from the National University of Singapore (NUS), and plan to expand to other local universities.
 
 My contribution includes the implementation of saving a user's information securely.
 
@@ -24,12 +24,12 @@ My contribution includes the implementation of saving a user's information secur
 
 ** What it does:
 *** Allows a user to save their information as a file locally.
-*** Saved information are encrypted.
+*** Information saved are encrypted.
 *** Displays the saved information upon issue the save command.
 
-** Justification: This feature improves the user experience of modsUni significantly by having the ability to save their information locally, allowing them to restore their information during the login process.
+** Justification: This feature improves the user experience of modsUni significantly by having the ability to save their information locally, allowing them to restore their data during the login process.
 
-** Highlights: This enhancement puts confidentiality in high regard with multiple security concerns raised and discussed prior to implementation. The in-built security feature was also made robust to prevent frustration of the users.
+** Highlights: This enhancement puts confidentiality in high regard with multiple security concerns raised and discussed prior to implementation. The inbuilt security feature was also made robust to prevent frustration of the users.
 
 * *Minor enhancement*: Added a switch tab command that allows the user to navigate between different tabs within the application using CLI.
 
