@@ -12,6 +12,7 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.logging.Logger;
 
 import javax.crypto.BadPaddingException;
@@ -241,5 +242,13 @@ public class DataSecurityUtil {
 
     public static byte[] hexToBytes(String hex) {
         return DatatypeConverter.parseHexBinary(hex);
+    }
+
+    public static String bytesToBase64(byte[] bytes){
+        return new String(Base64.getEncoder().encode(bytes));
+    }
+
+    public static byte[] base64ToBytes(String base64){
+        return Base64.getDecoder().decode(base64.getBytes());
     }
 }

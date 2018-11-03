@@ -143,7 +143,7 @@ public class XmlAdaptedUser {
         requireNonNull(password);
 
         // All users
-        this.username = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
+        this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
                 user.getUsername().toString().getBytes(), password));
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
@@ -152,7 +152,7 @@ public class XmlAdaptedUser {
         // Admin
         if (user.getRole() == Role.ADMIN) {
             Admin admin = (Admin) user;
-            this.salary = DataSecurityUtil.bytesToHex(DataSecurityUtil.encrypt(
+            this.salary = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
                     admin.getSalary().toString().getBytes(), password));
             this.employmentDate = admin.getEmploymentDate().toString();
         }
@@ -221,7 +221,7 @@ public class XmlAdaptedUser {
     private String decryptUsername(String password) {
         try {
             return new String(DataSecurityUtil.decrypt(
-                    DataSecurityUtil.hexToBytes(username), password), StandardCharsets.UTF_8);
+                    DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
         } catch (InvalidPasswordException | CorruptedFileException
                 | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
@@ -237,7 +237,7 @@ public class XmlAdaptedUser {
     private String decryptSalary(String password) {
         try {
             return new String(DataSecurityUtil.decrypt(
-                    DataSecurityUtil.hexToBytes(salary), password), StandardCharsets.UTF_8);
+                    DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
         } catch (InvalidPasswordException | CorruptedFileException
                 | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
@@ -254,9 +254,6 @@ public class XmlAdaptedUser {
         // Username
         if (username == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Username"));
-        }
-        if (!Username.isValidUsername(username)) {
-            throw new IllegalValueException(Username.MESSAGE_USERNAME_CONSTRAINTS);
         }
 
         // Name
