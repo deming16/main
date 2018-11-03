@@ -10,6 +10,7 @@ import static seedu.modsuni.logic.parser.CommandParserTestUtil.assertParseSucces
 import java.nio.file.Paths;
 
 import org.junit.Test;
+
 import seedu.modsuni.logic.commands.SaveCommand;
 
 public class SaveCommandParserTest {
@@ -23,13 +24,15 @@ public class SaveCommandParserTest {
 
     @Test
     public void parse_emptyArg_throwsParseException() {
-        assertParseFailure(parser, "   ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, SaveCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "   ",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SaveCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_invalidValue_failure() {
         // invalid path
-        assertParseFailure(parser, INVALID_SAVE_PATH, String.format(MESSAGE_INVALID_COMMAND_FORMAT, SaveCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, INVALID_SAVE_PATH,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SaveCommand.MESSAGE_USAGE));
     }
 
 }

@@ -78,9 +78,9 @@ public class LoginCommand extends Command {
                 throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
             }
             toSetCurrentUser = userFromFile.get();
-        } catch (DataConversionException | IOException | NoSuchAlgorithmException |
-                InvalidKeyException | InvalidPasswordException | CorruptedFileException |
-                NoSuchPaddingException e) {
+        } catch (DataConversionException | IOException | NoSuchAlgorithmException
+                | InvalidKeyException | InvalidPasswordException | CorruptedFileException
+                | NoSuchPaddingException e) {
             throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
         }
 

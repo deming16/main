@@ -8,12 +8,12 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.modsuni.model.user.User;
-import seedu.modsuni.testutil.AdminBuilder;
 import seedu.modsuni.testutil.StudentBuilder;
 
 public class XmlAdaptedUserTest {
 
-    private static final String VALID_PASSWORD_HASH = "2b005cc8b610fa5899a9f9e592671bba9776a0e778c7f88db9b54eef48490e94";
+    private static final String VALID_PASSWORD_HASH =
+            "2b005cc8b610fa5899a9f9e592671bba9776a0e778c7f88db9b54eef48490e94";
 
     //private static final User VALID_ADMIN = new AdminBuilder()
     //        .withUsername("FF11A92B87694AB508D1BDB09AA5B575")

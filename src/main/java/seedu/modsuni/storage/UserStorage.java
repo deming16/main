@@ -39,7 +39,9 @@ public interface UserStorage {
     /**
      * @see #getUserSavedFilePath()
      */
-    Optional<User> readUser(Path filePath, String password) throws DataConversionException, IOException, CorruptedFileException, NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException;
+    Optional<User> readUser(Path filePath, String password) throws DataConversionException,
+            IOException, CorruptedFileException, NoSuchPaddingException, InvalidPasswordException,
+            NoSuchAlgorithmException, InvalidKeyException;
 
     /**
      * Saves the given {@link User} to the storage.
