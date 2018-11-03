@@ -301,7 +301,7 @@ It allows for students to sign up for a modsUni account, which is required to us
 [NOTE]
 Registering only applies to students. For the creation of `Admin` Accounts, only existing administrators can create another `Admin` account
 
-The `RegisterCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `RegisterCommand`. +
+The `RegisterCommand` extends the `Command` class. Figure 3(shown below) depicts the UML representation of the `RegisterCommand`. +
 
 image::RegisterCommandUML.png[width="350",align="center"]
 [.text-center]
@@ -309,7 +309,7 @@ _Figure 3. UML Diagram of `RegisterCommand`._
 
 Parsing of command is performed by `RegisterCommandParser`,
 which returns a `RegisterCommand` object after parsing Username, Password, Name, Path to Profile Picture, Enrollment Date, Major(s) and Minor(s).
-The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `RegisterCommand` is being executed.
+The Sequence Diagram shown below in Figure 4 illustrates the interactions between the `Logic` & `Model` components when the `RegisterCommand` is being executed.
 
 image::SDforRegisterCommandLogicAndModel.png[width="900",align="center"]
 [.text-center]
