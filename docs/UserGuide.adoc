@@ -250,16 +250,16 @@ Format: `login user/<USERNAME> pass/<PASSWORD> userData/[PATH_TO_DATA_FILE]`
 
 Examples:
 
-* `login user/demo pass/#Qwerty123 userdata/demo.xml`
+* `login user/max33 pass/#Qwerty4321 userdata/max33.xml` +
   The above command essentially sends a login request to `CredentialStore` with the following credential details:
-  ** Username : `demo`
-  ** Password : `#Qwerty123`
-  ** Userdata : `demo.xml`
+  ** Username : `max33`
+  ** Password : `#Qwerty4321`
+  ** Userdata : `max33.xml`
 
 [NOTE]
 Specified `userdata/` option should specify a relative filepath.
 
-The figure below displays the expected UI updates after the successful execution of a login command.
+The figure below displays the UI updates that you should expect to observed after the successful execution of a login command.
 
 image::LoginCommandExample2.png[width="500",align="center"]
 [.text-center]
@@ -295,7 +295,7 @@ Example:
   ** Major(s) : `CS`, `DA`
   ** Minor(s) : `BA`, `MA`
 
-The figures below displays the expected UI updates after the successful execution of the register command.
+The figure below displays the UI updates that you should expect to observed after the successful execution of the register command.
 
 image::RegisterCommandExample2.png[width="600",align="center"]
 [.text-center]
@@ -335,7 +335,7 @@ Example:
   ** Major: CS
   ** Minor: [EMPTY]
 
-The figure below displays the expected UI updates after the successful execution of the edit command.
+The figure below displays the UI updates that you should expect to observed after the successful execution of the edit command.
 
 image::EditCommandExample2.png[width="500",align="center"]
 [.text-center]
