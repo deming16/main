@@ -730,7 +730,7 @@ It stores the following attributes of a `User` object: +
 
 * `UserStorage` +
 It provides methods to save the current user's attributes as well as to load a file containing previously saved data. +
-Additionally, it implements the following operations(s):
+Additionally, it implements the following operations:
 ** `StorageManager#saveUser(…​)` — Save the user's data into the specified file path.
 ** `StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
 
@@ -951,6 +951,89 @@ _Figure 2. Sequence Diagram for the interaction between Logic Component and Data
 ** Pros: The key will be more secured compared to the key generated from alternative 1.
 ** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
 // end::datasecurity[]
+
+// tag::loaduser[]
+=== Load User feature
+The load user feature involves mainly the loading process of a user's attributes.
+This feature is integrated into the `login` command, however it functions independently from authentication process.
+
+This section will describe in details the current implementation and the design considerations of the load user feature.
+
+==== Current Implementation
+The load mechanism is facilitated by the `UserStorage` class.
+
+It provides a method to load the user's attributes from a saved file. +
+The following operation is used for the loading process:
+
+`StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
+
+===== Implementation of the save feature
+
+The load mechanism of modsUni is facilitated by `LoginCommand` class and is event-driven.
+It allows a user to load their data in modsUni from a XML file.
+
+The load feature uses multiple components of the modsUni application.
+Parsing of command is performed by LoginCommandParser, which returns a LoginCommand object after parsing the save file path.
+
+The sequence diagram shown below in Figure 1 illustrates the interactions between some of these components.
+
+image::SequenceDiagramforLoginLoad.png[width="800"]
+_Figure 1. Sequence Diagram for the interaction between Logic and Model Components when executing LoginCommand_
+
+image::SDforLoginCommandOverviewWithLoad.png[width="800"]
+_Figure 2. High-Level Sequence Diagram of the login process._
+
+The Storage component makes use of `XmlUserStorage` class to read `User` from the file specified by the file path.
+The conversion from `XmlSerializableUser` to `User` object is shown in the following code snippet below:
+
+[source, java]
+----
+public Optional<User> readUser(Path filePath, String password) throws DataConversionException, FileNotFoundException {
+    // ... null checks ...
+
+    XmlSerializableUser xmlUser = XmlFileStorage.loadUserDataFromSaveFile(filePath);
+    try {
+        return Optional.of(xmlUser.toModelType(...));
+    } catch (IllegalValueException ive) {
+        logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
+        throw new DataConversionException(ive);
+    }
+}
+----
+The method `XmlFileStorage#loadUserDataFromSaveFile(...)` as shown in the code snipplets below:
+
+[source, java]
+----
+public static XmlSerializableUser loadUserDataFromSaveFile(Path file) throws DataConversionException, FileNotFoundException {
+    try {
+        return XmlUtil.getDataFromFile(file, XmlSerializableUser.class);
+    } catch (JAXBException e) {
+        throw new DataConversionException(e);
+    }
+}
+----
+
+
+---
+Given below is an example usage scenario and how the save mechanism behaves:
+
+1. A student will use the login command to log into their account.
+
+2. Upon issuing the login command , the login command will call `Model#readUserFile(...)` which then loads the file into an `XmlSerializableUser` using `XmlFileStorage.loadUserDataFromSaveFile(...)`.
+
+3. The `XmlSerializableUser` object is then converted to an `User` object using the  `XmlSerializableUser#toModelType(...)`.
+
+==== Design Considerations
+
+===== Aspect: Load command
+
+* **Alternative 1 (current choice):** Loads file together with login.
+** Pros: Able to load a user saved file without entering an additional command.
+** Cons: Reduce flexibility.
+* **Alternative 2:** Load file using an independent load command.
+** Pros: More control over when a file is loaded..
+** Cons: Additional command which may lead to more bug.
+// end::loaduser[]
 
 === Logging
 
