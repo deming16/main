@@ -148,17 +148,6 @@ public class RegisterCommandParserTest {
                 + MINOR_DESC,
             expectedMessage);
 
-        // missing minor prefix
-        assertParseFailure(parser,
-            LOGIN_USERNAME_DESC
-                + LOGIN_PASSWORD_DESC
-                + NAME_DESC_AMY
-                + PATH_TO_PIC_DESC
-                + ENROLLMENT_DESC
-                + MAJOR_DESC
-                + VALID_MINOR,
-            expectedMessage);
-
         // all prefixes missing
         assertParseFailure(parser,
             VALID_USERNAME
