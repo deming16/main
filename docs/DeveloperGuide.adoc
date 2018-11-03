@@ -838,26 +838,40 @@ It implements the following operations(s):
 
 The `Hashing` class is used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which are required to generate `SecretKeySpec`.
 
-Currently, encryption is performed in `StorageManager` and decryption is performed in `LoginCommand` where the file is loaded.
+Both encryption and decryption is performed in `XMLAdaptedUser`.
 
 ===== Implementation of the encryption feature
 
-The encryption feature is integrated with the save user feature (3.6). +
-Immediately after the user data file is saved onto local disk, `DataSecurityUtil#encryptFile(...)` will be called to encrypt the file.
-This is shown in the following code snippet below:
+The encryption feature is integrated with the save user feature (3.6).
+
+During the conversion of a `User` object to XML, the encryption is performed in `XMLAdapterUser`, right before the file is written locally.
+Currently, we only encrypt the `Username` (for all users) and `Salary` (for administrators).
+
+The following code snippet shown below illustrates the encryption process:
 
 [source, java]
 ----
-public void handleSaveUserChangedEvent(SaveUserChangedEvent cuce) {
-    // ... logging ...
-    try {
-        userStorage.saveUser(cuce.user, cuce.filePath);
-        DataSecurityUtil.encryptFile(cuce.filePath.toFile(),
-                cuce.password.getValue());
-    } catch (IOException e) {
-        logger.warning("Unable to save or encrypt data");
-        e.printStackTrace();
+public XmlAdaptedUser(User user, String password) {
+    // ... null checks ...
+
+
+    // All users
+    this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+            user.getUsername().toString().getBytes(), password));
+    this.name = user.getName().toString();
+    this.role = user.getRole().toString();
+    this.pathToProfilePic = user.getPathToProfilePic().toString();
+
+
+    // Admin
+    if (user.getRole() == Role.ADMIN) {
+        Admin admin = (Admin) user;
+        this.salary = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+                admin.getSalary().toString().getBytes(), password));
+        this.employmentDate = admin.getEmploymentDate().toString();
     }
+
+    // ... removed for brevity ...
 }
 ----
 
@@ -869,47 +883,53 @@ _Figure 1. Sequence Diagram for the interaction between EventsCenter and Storage
 
 ===== Implementation of the decryption feature
 The decryption feature is integrated with the login feature under user account management(3.1). +
-`LoginCommand` calls `DataSecurityUtil#decryptFile(...)` once the validation of the user is completed.
 
-This is shown in the following code snippet below:
+When `LoginCommand` calls `model.readUser(...)` the loading of user file will commence and the decryption will occur in `XMLAdapterUser#toModelType(...)`.
+
+This is shown in the following code snippets below:
 
 [source, java]
 ----
-public CommandResult execute(Model model, CommandHistory history) throws CommandException {
-        // ... check if user logged in ... //
-        // ... check if credential is valid .. //
+public User toModelType(String password) throws IllegalValueException, CorruptedFileException,
+        NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
+    User user = null;
+    checkMandatoryFields();
 
-        User toSetCurrentUser;
-        try {
-            DataSecurityUtil.decryptFile(pathToSaveFile.toFile(),
-                toLogin.getPassword().toString());
+    String decryptedUsername = decryptUsername(password);
 
-            Optional<User> userFromFile = model.readUserFile(pathToSaveFile);
-            if (!userFromFile.isPresent()) {
-                throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
-            }
-            toSetCurrentUser = userFromFile.get();
+    if ("ADMIN".equals(role)) {
+        checkAdminFields();
+        String decryptedSalary = decryptSalary(password);
+        user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary),
+                new EmployDate(employmentDate));
+    }
+    // ... removed for brevity ...
 
-            DataSecurityUtil.encryptFile(pathToSaveFile.toFile(), toLogin.getPassword().getValue());
-        } catch (DataConversionException | IOException | CorruptedFileException
-            | NoSuchAlgorithmException | InvalidKeyException | InvalidPasswordException
-            | NoSuchPaddingException e) {
-            throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
-        }
-
-        model.setCurrentUser(toSetCurrentUser);
-        return new CommandResult(String.format(MESSAGE_SUCCESS,
-            toSetCurrentUser.getUsername()));
+    return user;
 }
+----
+
+The code snippets of `decryptUsername(...)` and `decryptSalary(...) is as follows:
+
+[source, java]
+----
+private String decryptUsername(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+        InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+    return new String(DataSecurityUtil.decrypt(
+            DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
+}
+
+ private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+    return new String(DataSecurityUtil.decrypt(
+            DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
+ }
 ----
 
 The sequence diagram shown below in Figure 2 illustrates the integration of decryption with the login feature.
 
 image::SDforSaveCommandLogicAndModelUserDecryption.png[width="900"]
 _Figure 2. Sequence Diagram for the interaction between Logic Component and DataSecurityUtil when executing LoginCommand_
-
-
-// consideration command encryption(not user friendly) or inbuilt encryption (harder)
 
 ==== Design Considerations
 
