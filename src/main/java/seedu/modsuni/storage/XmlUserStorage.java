@@ -6,12 +6,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import javax.crypto.NoSuchPaddingException;
+
 import seedu.modsuni.commons.core.LogsCenter;
+import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
+import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 import seedu.modsuni.commons.util.FileUtil;
 import seedu.modsuni.model.user.User;
 
@@ -49,7 +55,8 @@ public class XmlUserStorage implements UserStorage {
      */
     @Override
     public Optional<User> readUser(Path filePath, String password)
-            throws DataConversionException, FileNotFoundException {
+            throws DataConversionException, FileNotFoundException, CorruptedFileException,
+            NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
         requireNonNull(filePath);
 
         if (!Files.exists(filePath)) {

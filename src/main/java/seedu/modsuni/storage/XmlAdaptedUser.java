@@ -177,7 +177,8 @@ public class XmlAdaptedUser {
      *
      * @throws IllegalValueException if there were any data constraints violated
      */
-    public User toModelType(String password) throws IllegalValueException {
+    public User toModelType(String password) throws IllegalValueException, CorruptedFileException,
+            NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
         User user = null;
         checkMandatoryFields();
 
@@ -218,15 +219,10 @@ public class XmlAdaptedUser {
      * @param password
      * @return a string of decrypted username
      */
-    private String decryptUsername(String password) {
-        try {
-            return new String(DataSecurityUtil.decrypt(
-                    DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
-        } catch (InvalidPasswordException | CorruptedFileException
-                | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private String decryptUsername(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+        return new String(DataSecurityUtil.decrypt(
+                DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
     }
 
     /**
@@ -234,15 +230,10 @@ public class XmlAdaptedUser {
      * @param password
      * @return a string of decrypted salary
      */
-    private String decryptSalary(String password) {
-        try {
-            return new String(DataSecurityUtil.decrypt(
-                    DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
-        } catch (InvalidPasswordException | CorruptedFileException
-                | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+        return new String(DataSecurityUtil.decrypt(
+                DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
     }
 
     /**

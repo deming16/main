@@ -1,9 +1,15 @@
 package seedu.modsuni.storage;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
+import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 import seedu.modsuni.model.user.User;
 
 
@@ -45,7 +51,8 @@ public class XmlSerializableUser {
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
      *                               {@code XmlAdaptedUser}.
      */
-    public User toModelType(String password) throws IllegalValueException {
+    public User toModelType(String password) throws IllegalValueException, NoSuchAlgorithmException,
+            InvalidKeyException, InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
         return this.user.toModelType(password);
     }
 }

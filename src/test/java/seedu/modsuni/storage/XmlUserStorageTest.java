@@ -6,14 +6,20 @@ import static org.junit.Assert.assertFalse;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
+
+import javax.crypto.NoSuchPaddingException;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
+import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
+import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 import seedu.modsuni.model.user.User;
 import seedu.modsuni.testutil.AdminBuilder;
 import seedu.modsuni.testutil.StudentBuilder;
@@ -32,7 +38,8 @@ public class XmlUserStorageTest {
     public TemporaryFolder testFolder = new TemporaryFolder();
 
     private Optional<User> readUser(Path filePath, String password)
-            throws DataConversionException, IOException {
+            throws DataConversionException, IOException, NoSuchAlgorithmException, InvalidKeyException,
+            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
         return new XmlUserStorage(filePath).readUser(addToTestDataPathIfNotNull(filePath.toString()), password);
     }
 

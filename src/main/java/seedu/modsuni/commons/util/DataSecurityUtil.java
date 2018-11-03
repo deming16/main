@@ -20,7 +20,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 
 import com.google.common.hash.Hashing;
 
@@ -240,15 +239,11 @@ public class DataSecurityUtil {
         return new String(hexChars);
     }
 
-    public static byte[] hexToBytes(String hex) {
-        return DatatypeConverter.parseHexBinary(hex);
-    }
-
-    public static String bytesToBase64(byte[] bytes){
+    public static String bytesToBase64(byte[] bytes) {
         return new String(Base64.getEncoder().encode(bytes));
     }
 
-    public static byte[] base64ToBytes(String base64){
+    public static byte[] base64ToBytes(String base64) {
         return Base64.getDecoder().decode(base64.getBytes());
     }
 }
