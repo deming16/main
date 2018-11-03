@@ -59,7 +59,7 @@ This will generate all resources required by the application and tests.
 
 === Configurations to do before writing code
 
-==== Configuring the coding style
+==== Configuring the Coding Style
 
 This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
 
@@ -72,7 +72,7 @@ This project follows https://github.com/oss-generic/process/blob/master/docs/Cod
 
 Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure Intellij to check style-compliance as you write code.
 
-==== Updating documentation to match your fork
+==== Updating Documentation to match your fork
 
 After forking the repo, the documentation will still have the modsUni branding and refer to the `CS2103-AY1819S1-W17-2/main` repo.
 
@@ -82,7 +82,7 @@ If you plan to develop this fork as a separate product (i.e. instead of contribu
 
 . Replace the URL in the attribute `repoURL` in link:{repoURL}/docs/DeveloperGuide.adoc[`DeveloperGuide.adoc`] and link:{repoURL}/docs/UserGuide.adoc[`UserGuide.adoc`] with the URL of your fork.
 
-==== Setting up CI
+==== Setting Up CI
 
 Set up Travis to perform Continuous Integration (CI) for your fork. See <<UsingTravis#, UsingTravis.adoc>> to learn how to set it up.
 
@@ -96,7 +96,7 @@ Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingA
 [NOTE]
 Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based)
 
-==== Getting started with coding
+==== Getting Started with Coding
 
 When you are ready to start coding,
 
@@ -165,7 +165,7 @@ Note how the event is propagated through the `EventsCenter` to the `Storage` and
 The sections below give more details of each component.
 
 [[Design-Ui]]
-=== UI component
+=== UI Component
 
 .Structure of the UI Component
 image::UiClassDiagram.png[width="800"]
@@ -183,7 +183,7 @@ The `UI` component,
 * Responds to events raised from various parts of the App and updates the UI accordingly.
 
 [[Design-Logic]]
-=== Logic component
+=== Logic Component
 
 [[fig-LogicClassDiagram]]
 .Structure of the Logic Component
@@ -203,7 +203,7 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 image::DeletePersonSdForLogic.png[width="800"]
 
 [[Design-Model]]
-=== Model component
+=== Model Component
 
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
@@ -218,7 +218,7 @@ The `Model`,
 * does not depend on any of the other three components.
 
 [[Design-Storage]]
-=== Storage component
+=== Storage Component
 
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
@@ -231,7 +231,7 @@ The `Storage` component,
 * can save the Address Book data in xml format and read it back.
 
 [[Design-Commons]]
-=== Common classes
+=== Common Classes
 
 Classes used by multiple components are in the `seedu.modsuni.commons` package.
 
@@ -245,7 +245,13 @@ This section describes some noteworthy details on how certain features are imple
 User Account Management involves mainly the authentication process of the users.
 Only once they are authenticated, will their respective user data be loaded into the application.
 Additionally, it is only by registering/logging in will users be able to access and manipulate their account details. +
-This section will describe in detail the Current Implementation and the Design Considerations of the User Account Management feature.
+This section will describe in detail the Current Implementation and the Design Considerations of the User Account Management feature. +
+
+Figure 1(shown below) describes the general flow of the user account management in an activity diagram.
+
+image::ADforUserAccountManagement.png[width="800",align="center"]
+[.text-center]
+_Figure 1. Activity Diagram for User Account Management._
 
 ==== Current Implementation
 
@@ -272,15 +278,17 @@ The above operations are exposed in the `Model` interface as `Model#addCredentia
 Contains all the necessary data contained within a single user. +
 Currently, there are two Users, each defined by their `Roles`; namely `Student` and `Admin` as defined in the enum class `Role.java`
 
-image::StudentAndAdminClassDiagram.png[width="500",align="center"]
-[.text-center]
-_Figure 1. Enumeration
-
 *** `Student` +
 Refers to the majority of the users. It stores variables pertaining to a student user.
 
 *** `Admin` +
 Refers to the application managers. It stores variables pertaining to an administrator.
+
+Figure 2(shown below) is the Class Diagrams illustrating the inheritance between `User`, `Student` and `Admin`
+
+image::UserClassDiagram.png[width="500",align="center"]
+[.text-center]
+_Figure 2. User, Student and Admin Class Diagrams_
 
 [NOTE]
 Each User types contain different class-variables. Additionally, the sets of commands available for either `User` types are limited to their respective `Role`
@@ -297,7 +305,7 @@ The `RegisterCommand` extends the `Command` class. Figure 1(shown below) depicts
 
 image::RegisterCommandUML.png[width="350",align="center"]
 [.text-center]
-_Figure 1. UML Diagram of `RegisterCommand`._
+_Figure 3. UML Diagram of `RegisterCommand`._
 
 Parsing of command is performed by `RegisterCommandParser`,
 which returns a `RegisterCommand` object after parsing Username, Password, Name, Path to Profile Picture, Enrollment Date, Major(s) and Minor(s).
@@ -305,13 +313,13 @@ The Sequence Diagram shown below in Figure 2 illustrates the interactions betwee
 
 image::SDforRegisterCommandLogicAndModel.png[width="900",align="center"]
 [.text-center]
-_Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `RegisterCommand`._
+_Figure 4. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `RegisterCommand`._
 
-Figure 3 below shows the high-level sequence diagram of the command execution.
+Figure 5 below shows the high-level sequence diagram of the command execution.
 
 image::SDforRegisterCommandOverview.png[width="800",align="center"]
 [.text-center]
-_Figure 3. High-Level Sequence diagram of registering a new student account._
+_Figure 5. High-Level Sequence diagram of registering a new student account._
 
 Given below is an example usage scenario and how the register mechanism behaves at each step:
 
