@@ -47,7 +47,6 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private BrowserPanel browserPanel;
-    private ModuleListPanel moduleListPanel;
     private StagedModuleListPanel stagedModuleListPanel;
     private TakenModuleListPanel takenModuleListPanel;
     private DatabaseModuleListPanel databaseModuleListPanel;
@@ -75,7 +74,6 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane moduleDisplayPlaceholder;
-
 
     @FXML
     private TabPane tabPane;
@@ -226,10 +224,6 @@ public class MainWindow extends UiPart<Stage> {
     GuiSettings getCurrentGuiSetting() {
         return new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
             (int) primaryStage.getX(), (int) primaryStage.getY());
-    }
-
-    public ModuleListPanel getModuleListPanel() {
-        return moduleListPanel;
     }
 
     public StagedModuleListPanel getStagedModuleListPanel() {
