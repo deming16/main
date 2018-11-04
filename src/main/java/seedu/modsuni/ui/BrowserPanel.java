@@ -12,11 +12,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.web.WebView;
 import seedu.modsuni.MainApp;
 import seedu.modsuni.commons.core.LogsCenter;
-import seedu.modsuni.commons.events.ui.DatabaseModulePanelSelectionChangedEvent;
 import seedu.modsuni.commons.events.ui.MainWindowClearResourceEvent;
 import seedu.modsuni.commons.events.ui.ModulePanelSelectionChangedEvent;
-import seedu.modsuni.commons.events.ui.StagedModulePanelSelectionChangedEvent;
-import seedu.modsuni.commons.events.ui.TakenModulePanelSelectionChangedEvent;
 import seedu.modsuni.model.module.Module;
 
 /**
@@ -82,24 +79,6 @@ public class BrowserPanel extends UiPart<Region> {
 
     @Subscribe
     private void handleModulePanelSelectionChangedEvent(ModulePanelSelectionChangedEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        loadModulePage(event.getNewSelection());
-    }
-
-    @Subscribe
-    private void handleStagedModulePanelSelectionChangedEvent(StagedModulePanelSelectionChangedEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        loadModulePage(event.getNewSelection());
-    }
-
-    @Subscribe
-    private void handleTakenModulePanelSelectionChangedEvent(TakenModulePanelSelectionChangedEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        loadModulePage(event.getNewSelection());
-    }
-
-    @Subscribe
-    private void handleDatabaseModulePanelSelectionChangedEvent(DatabaseModulePanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         loadModulePage(event.getNewSelection());
     }

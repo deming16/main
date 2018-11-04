@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import seedu.modsuni.commons.core.Config;
 import seedu.modsuni.commons.core.GuiSettings;
 import seedu.modsuni.commons.core.LogsCenter;
+import seedu.modsuni.commons.events.ui.DatabaseModulePanelSelectionChangedEvent;
 import seedu.modsuni.commons.events.ui.ExitAppRequestEvent;
 import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
@@ -26,6 +27,8 @@ import seedu.modsuni.commons.events.ui.ShowHelpRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowStagedTabRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowTakenTabRequestEvent;
 import seedu.modsuni.commons.events.ui.ShowUserTabRequestEvent;
+import seedu.modsuni.commons.events.ui.StagedModulePanelSelectionChangedEvent;
+import seedu.modsuni.commons.events.ui.TakenModulePanelSelectionChangedEvent;
 import seedu.modsuni.logic.Logic;
 import seedu.modsuni.model.UserPrefs;
 
@@ -53,6 +56,7 @@ public class MainWindow extends UiPart<Stage> {
     private HelpWindow helpWindow;
     private UserTab userTabController;
     private SaveDisplay saveDisplay;
+    private ModuleDisplay moduleDisplay;
 
     private BrowserPanel loadingPanel;
     private GenerateDisplay generateDisplay;
@@ -68,6 +72,10 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane outputDisplayPlaceholder;
+
+    @FXML
+    private StackPane moduleDisplayPlaceholder;
+
 
     @FXML
     private TabPane tabPane;
@@ -167,6 +175,7 @@ public class MainWindow extends UiPart<Stage> {
 
         saveDisplay = new SaveDisplay();
         generateDisplay = new GenerateDisplay();
+        moduleDisplay = new ModuleDisplay();
 
         loadingPanel = new BrowserPanel(BrowserPanel.LOADING_PAGE);
         browserPlaceholder.getChildren().add(loadingPanel.getRoot());
@@ -333,4 +342,27 @@ public class MainWindow extends UiPart<Stage> {
         browserPlaceholder.getChildren().add(generateDisplay.getRoot());
     }
 
+    @Subscribe
+    private void handleStagedModulePanelSelectionChangedEvent(StagedModulePanelSelectionChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        moduleDisplay.display(event.getNewSelection());
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(moduleDisplay.getRoot());
+    }
+
+    @Subscribe
+    private void handleTakenModulePanelSelectionChangedEvent(TakenModulePanelSelectionChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        moduleDisplay.display(event.getNewSelection());
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(moduleDisplay.getRoot());
+    }
+
+    @Subscribe
+    private void handleDatabaseModulePanelSelectionChangedEvent(DatabaseModulePanelSelectionChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        moduleDisplay.display(event.getNewSelection());
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(moduleDisplay.getRoot());
+    }
 }
