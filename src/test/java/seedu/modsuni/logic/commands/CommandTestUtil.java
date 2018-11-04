@@ -107,6 +107,8 @@ public class CommandTestUtil {
     public static final String VALID_MAJOR = "CS";
     public static final String VALID_MINOR = "MA";
 
+    public static final String VALID_TAB = "database";
+    public static final String INVALID_TAB = "database1";
 
     public static final String PATH_TO_PIC_DESC =
         " " + PREFIX_PATH_TO_PIC + VALID_PATH_TO_PIC;
