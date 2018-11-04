@@ -4,6 +4,11 @@ import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_SWITCH_TAB;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.ShowDatabaseTabRequestEvent;
+import seedu.modsuni.commons.events.ui.ShowStagedTabRequestEvent;
+import seedu.modsuni.commons.events.ui.ShowTakenTabRequestEvent;
+import seedu.modsuni.commons.events.ui.ShowUserTabRequestEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -17,15 +22,15 @@ public class SwitchTabCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Switches tabs using command line. "
             + "Parameters: "
-            + PREFIX_SWITCH_TAB + "TAB\n"
+            + PREFIX_SWITCH_TAB + "[user/staged/taken/database]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_SWITCH_TAB + "user";
 
     //user, staged, taken, database
 
-    public static final String MESSAGE_SUCCESS = "Tab successfully switched to " + "%1$s";
+    public static final String MESSAGE_SUCCESS = "Successfully switched to " + "%1$s" + " tab";
 
-    public static final String MESSAGE_ERROR = "Unable to switch tab.";
+    public static final String MESSAGE_INVALID_OPTION = "Invalid option.\n" + MESSAGE_USAGE;
 
     private final String switchToTab;
 
@@ -38,11 +43,23 @@ public class SwitchTabCommand extends Command {
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
 
-//        EventsCenter.getInstance().post(new ShowStagedTabRequestEvent());
-//        EventsCenter.getInstance().post(new ShowUserTabRequestEvent());
-//        EventsCenter.getInstance().post(new ShowTakenTabRequestEvent());
-//        EventsCenter.getInstance().post(new ShowDatabaseTabRequestEvent());
-        
+        switch(switchToTab) {
+            case "user":
+                EventsCenter.getInstance().post(new ShowUserTabRequestEvent());
+                break;
+            case "staged":
+                EventsCenter.getInstance().post(new ShowStagedTabRequestEvent());
+                break;
+            case "taken":
+                EventsCenter.getInstance().post(new ShowTakenTabRequestEvent());
+                break;
+            case "database":
+                EventsCenter.getInstance().post(new ShowDatabaseTabRequestEvent());
+                break;
+            default:
+                throw new CommandException(MESSAGE_INVALID_OPTION);
+        }
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, switchToTab));
     }
 
