@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 
+import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.Password;
@@ -271,6 +272,11 @@ public interface Model {
      * Returns the optional of the module in the database.
      */
     Optional<Module> searchCodeInDatabase(Code code);
+
+    /**
+     * Returns the Index of the module in the database.
+     */
+    Index searchForIndexInDatabase(Module module);
 
     /**
      * Returns the optional of a list of codes if unable to generate.
