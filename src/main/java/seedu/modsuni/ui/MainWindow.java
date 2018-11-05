@@ -339,7 +339,7 @@ public class MainWindow extends UiPart<Stage> {
     @Subscribe
     private void handleStagedModulePanelSelectionChangedEvent(StagedModulePanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        moduleDisplay.display(event.getNewSelection());
+        moduleDisplay = new ModuleDisplay(event.getNewSelection());
         browserPlaceholder.getChildren().clear();
         browserPlaceholder.getChildren().add(moduleDisplay.getRoot());
     }
@@ -347,7 +347,7 @@ public class MainWindow extends UiPart<Stage> {
     @Subscribe
     private void handleTakenModulePanelSelectionChangedEvent(TakenModulePanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        moduleDisplay.display(event.getNewSelection());
+        moduleDisplay = new ModuleDisplay(event.getNewSelection());
         browserPlaceholder.getChildren().clear();
         browserPlaceholder.getChildren().add(moduleDisplay.getRoot());
     }
@@ -355,7 +355,7 @@ public class MainWindow extends UiPart<Stage> {
     @Subscribe
     private void handleDatabaseModulePanelSelectionChangedEvent(DatabaseModulePanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        moduleDisplay.display(event.getNewSelection());
+        moduleDisplay = new ModuleDisplay(event.getNewSelection());
         browserPlaceholder.getChildren().clear();
         browserPlaceholder.getChildren().add(moduleDisplay.getRoot());
     }

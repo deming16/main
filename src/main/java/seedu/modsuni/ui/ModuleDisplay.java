@@ -24,7 +24,7 @@ public class ModuleDisplay extends UiPart<Region> {
     private static final String SPECIAL_TERM1 = "SpecialTerm1";
     private static final String SPECIAL_TERM2 = "SpecialTerm2";
 
-    private Module module;
+    private final Module module;
 
     @FXML
     private Label codeLabel;
@@ -71,34 +71,54 @@ public class ModuleDisplay extends UiPart<Region> {
     public ModuleDisplay() {
         super(FXML);
         registerAsAnEventHandler(this);
+        this.module = null;
     }
 
-    /**
-     * Displays the information of a Module
-     */
-    public void display(Module module) {
+    public ModuleDisplay(Module module) {
+        super(FXML);
+        registerAsAnEventHandler(this);
+        this.module = module;
         codeText.setText(module.getCode().toString());
         departmentText.setText(module.getDepartment());
         titleText.setText(module.getTitle());
         descriptionText.setText(module.getDescription());
         creditText.setText(String.valueOf(module.getCredit()));
-        availabilityText.setText("");
         if (module.isAvailableInSem1()) {
             availabilityText.setText(SEM1);
         }
+
         if (module.isAvailableInSem2()) {
             availabilityText.setText(availabilityText.getText().concat(" ").concat(SEM2));
         }
+
         if (module.isAvailableInSpecialTerm1()) {
             availabilityText.setText(availabilityText.getText().concat(" ").concat(SPECIAL_TERM1));
         }
+
         if (module.isAvailableInSpecialTerm2()) {
             availabilityText.setText(availabilityText.getText().concat(" ").concat(SPECIAL_TERM2));
         }
-        lockedModulesText.setText("");
+
         for (Code code : module.getLockedModules()) {
             lockedModulesText.setText(lockedModulesText.getText().concat(code.toString()).concat(" "));
         }
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof ModuleDisplay)) {
+            return false;
+        }
+
+        return module.equals(((ModuleDisplay)other).module);
     }
 }
 
