@@ -1,7 +1,9 @@
 package seedu.modsuni.logic.commands;
 
 import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.modsuni.logic.commands.CommandTestUtil.showModuleAtIndex;
 import static seedu.modsuni.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_MODULE;
 import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
 import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
@@ -39,7 +41,7 @@ public class ListCommandTest {
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showModuleAtIndex(model, INDEX_FIRST_MODULE);
         assertCommandSuccess(new ListCommand(), model, commandHistory, ListCommand.MESSAGE_SUCCESS, expectedModel);
     }
 }
