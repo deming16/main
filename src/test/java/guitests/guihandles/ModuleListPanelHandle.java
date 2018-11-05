@@ -9,7 +9,7 @@ import javafx.scene.control.ListView;
 import seedu.modsuni.model.module.Module;
 
 /**
- * Provides a handle for {@code ModuleListPanel} containing the list of {@code ModuleCard}.
+ * Provides a handle for ModuleList Panel containing the list of {@code ModuleCard}.
  */
 public class ModuleListPanelHandle extends NodeHandle<ListView<Module>> {
     public static final String MODULE_LIST_VIEW_ID = "#moduleListView";

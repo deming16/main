@@ -1,74 +1,90 @@
 package seedu.modsuni.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static seedu.modsuni.ui.testutil.GuiTestAssert.assertCardDisplaysModule;
-
-import org.junit.Test;
-
 import guitests.guihandles.ModuleCardHandle;
+import guitests.guihandles.ModuleDisplayHandle;
+import org.junit.Test;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.testutil.ModuleBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class ModuleCardTest extends GuiUnitTest {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static seedu.modsuni.ui.testutil.GuiTestAssert.assertCardDisplaysModule;
+
+
+public class ModuleDisplayTest extends GuiUnitTest {
+
+    @Test
+    public void buildWithoutModule() {
+        ModuleDisplay moduleDisplay = new ModuleDisplay();
+        assertNull(moduleDisplay.getModule());
+    }
 
     @Test
     public void display() {
-        // no availability
-        Module moduleWithNoAvailability = new ModuleBuilder().notAvailableInAllSemesters().build();
-        ModuleCard moduleCard = new ModuleCard(moduleWithNoAvailability, 1);
-        uiPartRule.setUiPart(moduleCard);
-        assertCardDisplay(moduleCard, moduleWithNoAvailability, 1);
+        // module with all availability
+        Module moduleWithAllAvailability = new ModuleBuilder().availableInAllSemesters().build();
+        ModuleDisplay moduleWithAllAvailabilityDisplay = new ModuleDisplay(moduleWithAllAvailability);
+        uiPartRule.setUiPart(moduleWithAllAvailabilityDisplay);
+        assertModuleDisplay(moduleWithAllAvailabilityDisplay, moduleWithAllAvailability);
 
-        // with availability
-        Module moduleWithAvailability = new ModuleBuilder().availableInAllSemesters().build();
-        moduleCard = new ModuleCard(moduleWithAvailability, 2);
-        uiPartRule.setUiPart(moduleCard);
-        assertCardDisplay(moduleCard, moduleWithAvailability, 2);
+        // module without locked modules
+        Module moduleWithoutLockedModules = new ModuleBuilder().build();
+        ModuleDisplay moduleWithoutLockedModulesDisplay = new ModuleDisplay(moduleWithoutLockedModules);
+        uiPartRule.setUiPart(moduleWithoutLockedModulesDisplay);
+        assertModuleDisplay(moduleWithoutLockedModulesDisplay, moduleWithoutLockedModules);
+
+        // module with locked modules
+        Module moduleWithLockedModules = new ModuleBuilder().withLockedModules
+                (new ArrayList<>(Arrays.asList(new Code("CS2103T"), new Code("CS2101")))).build();
+        ModuleDisplay moduleWithLockedModulesDisplay = new ModuleDisplay(moduleWithLockedModules);
+        uiPartRule.setUiPart(moduleWithLockedModulesDisplay);
+        assertModuleDisplay(moduleWithLockedModulesDisplay, moduleWithLockedModules);
     }
 
     @Test
     public void equals() {
         Module module = new ModuleBuilder().build();
-        ModuleCard moduleCard = new ModuleCard(module, 0);
+        ModuleDisplay moduleDisplay = new ModuleDisplay(module);
 
-        // same module, same index -> returns true
-        ModuleCard copy = new ModuleCard(module, 0);
-        assertTrue(moduleCard.equals(copy));
+        // same module -> returns true
+        ModuleDisplay copy = new ModuleDisplay(module);
+        assertTrue(moduleDisplay.equals(copy));
 
         // same object -> returns true
-        assertTrue(moduleCard.equals(moduleCard));
+        assertTrue(moduleDisplay.equals(moduleDisplay));
 
         // null -> returns false
-        assertFalse(moduleCard.equals(null));
+        assertFalse(moduleDisplay.equals(null));
 
         // different types -> returns false
-        assertFalse(moduleCard.equals(0));
+        assertFalse(moduleDisplay.equals(0));
 
-        // different module, same index -> returns false
+        // different module -> returns false
         Module differentModule = new ModuleBuilder().withCode(new Code("CS2103T")).build();
-        assertFalse(moduleCard.equals(new ModuleCard(differentModule, 0)));
-
-        // same module, different index -> returns false
-        assertFalse(moduleCard.equals(new ModuleCard(module, 1)));
+        assertFalse(moduleDisplay.equals(new ModuleDisplay(differentModule)));
     }
 
     /**
-     * Asserts that {@code moduleCard} displays the details of {@code expectedModule} correctly and matches
-     * {@code expectedId}.
+     * Asserts that {@code moduleCard} displays the details of {@code expectedModule} correctly
      */
-    private void assertCardDisplay(ModuleCard moduleCard, Module expectedModule, int expectedId) {
+    private void assertModuleDisplay(ModuleDisplay moduleDisplay, Module expectedModule) {
         guiRobot.pauseForHuman();
 
-        ModuleCardHandle moduleCardHandle = new ModuleCardHandle(moduleCard.getRoot());
+        ModuleDisplayHandle moduleDisplayHandle = new ModuleDisplayHandle(moduleDisplay.getRoot());
 
-        // verify id is displayed correctly
-        assertEquals(Integer.toString(expectedId) + ". ", moduleCardHandle.getId());
+        // Check format is correct
+        assertTrue(moduleDisplayHandle.checkFormat());
 
         // verify module details are displayed correctly
-        assertCardDisplaysModule(expectedModule, moduleCardHandle);
+        assertTrue(moduleDisplayHandle.equals(expectedModule));
+
+        // verify they are same module
+        assertEquals(expectedModule, moduleDisplay.getModule());
     }
 }
