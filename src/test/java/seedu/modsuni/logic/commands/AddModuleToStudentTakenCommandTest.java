@@ -118,7 +118,7 @@ public class AddModuleToStudentTakenCommandTest {
         CommandResult commandResult = addModuleToStudentTakenCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = addModuleToStudentTakenCommand.getSearchedModule();
         assertNull(validModuleAfterSearch);
-        assertEquals(createCommandResult("", " CS1010", "", "",  ""), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", " CS1010", "", "", ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
@@ -673,8 +673,8 @@ public class AddModuleToStudentTakenCommandTest {
         }
 
         if (duplicateAnotherCode != "") {
-            duplicateAnotherCode = AddModuleToStudentTakenCommand.
-                    MESSAGE_DUPLICATE_MODULE_IN_ANOTHER_LIST.concat(duplicateAnotherCode + '\n');
+            duplicateAnotherCode = AddModuleToStudentTakenCommand
+                    .MESSAGE_DUPLICATE_MODULE_IN_ANOTHER_LIST.concat(duplicateAnotherCode + '\n');
         }
 
         if (addSuccessCode != "") {

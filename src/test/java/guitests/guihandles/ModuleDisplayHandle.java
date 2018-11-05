@@ -1,17 +1,16 @@
 package guitests.guihandles;
 
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
-import javafx.scene.text.Text;
-import seedu.modsuni.model.module.Code;
-import seedu.modsuni.model.module.Module;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.text.Text;
+import seedu.modsuni.model.module.Code;
+import seedu.modsuni.model.module.Module;
+
 
 /**
  * Provides a handle to a module card in the module list panel.
@@ -133,6 +132,9 @@ public class ModuleDisplayHandle extends NodeHandle<Node> {
         return lockedModulesText.getText();
     }
 
+    /**
+     * Returns true if this handle's format is correct.
+     */
     public boolean checkFormat() {
         return getCodeLabel().equals(CODE_LABEL_TEXT)
                 && getDepartmentLabel().equals(DEPARTMENT_LABEL_TEXT)
@@ -160,14 +162,18 @@ public class ModuleDisplayHandle extends NodeHandle<Node> {
                 && isLockedModulesSame(module);
     }
 
+    /**
+     * Returns true if locked module text is equal to the locked module list in {@code module}.
+     * Returns false otherwise.
+     */
     public boolean isLockedModulesSame(Module module) {
-        if(getLockedModulesText().equals("") && module.getLockedModules().size() == 0) {
+        if (getLockedModulesText().equals("") && module.getLockedModules().size() == 0) {
             return true;
         }
 
         List<String> displayText = Arrays.asList(getLockedModulesText().trim().split(" "));
-        List<Code>  lockedCode = module.getLockedModules();
-        if(displayText.size() != lockedCode.size()) {
+        List<Code> lockedCode = module.getLockedModules();
+        if (displayText.size() != lockedCode.size()) {
             return false;
         }
 

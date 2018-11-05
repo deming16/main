@@ -1,8 +1,24 @@
 package seedu.modsuni.logic.commands;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.modsuni.logic.commands.CommandTestUtil.showModuleAtIndex;
+import static seedu.modsuni.testutil.TypicalCodes.CODE_FIRST_MODULE;
+import static seedu.modsuni.testutil.TypicalCodes.CODE_NOT_IN_LIST;
+import static seedu.modsuni.testutil.TypicalCodes.CODE_SECOND_MODULE;
+import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_MODULE;
+import static seedu.modsuni.testutil.TypicalIndexes.INDEX_SECOND_MODULE;
+import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
+import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
 import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.commons.events.BaseEvent;
 import seedu.modsuni.commons.events.ui.JumpToDatabaseListRequestEvent;
@@ -14,20 +30,6 @@ import seedu.modsuni.model.UserPrefs;
 import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.ui.testutil.EventsCollectorRule;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.modsuni.logic.commands.CommandTestUtil.showModuleAtIndex;
-import static seedu.modsuni.testutil.TypicalCodes.CODE_FIRST_MODULE;
-import static seedu.modsuni.testutil.TypicalCodes.CODE_NOT_IN_LIST;
-import static seedu.modsuni.testutil.TypicalCodes.CODE_SECOND_MODULE;
-import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_MODULE;
-import static seedu.modsuni.testutil.TypicalIndexes.INDEX_SECOND_MODULE;
-import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code SelectCommand}.
@@ -102,8 +104,8 @@ public class ShowModuleCommandTest {
     }
 
     /**
-     * Executes a {@code ShowModuleCommand} with the given {@code code}, and checks that {@code JumpToDatabaseListRequestEvent}
-     * is raised with the given {@code index}.
+     * Executes a {@code ShowModuleCommand} with the given {@code code}, and checks that
+     * {@code JumpToDatabaseListRequestEvent} is raised with the given {@code index}.
      */
     private void assertExecutionSuccess(Code code, Index index) {
         ShowModuleCommand showModuleCommand = new ShowModuleCommand(code);
@@ -111,7 +113,8 @@ public class ShowModuleCommandTest {
 
         assertCommandSuccess(showModuleCommand, model, commandHistory, expectedMessage, expectedModel);
 
-        JumpToDatabaseListRequestEvent lastEvent = (JumpToDatabaseListRequestEvent) eventsCollectorRule.eventsCollector.getMostRecent();
+        JumpToDatabaseListRequestEvent lastEvent = (JumpToDatabaseListRequestEvent) eventsCollectorRule
+                .eventsCollector.getMostRecent();
         BaseEvent secondLastEvent = eventsCollectorRule.eventsCollector.getSelectedMostRecent(2);
 
         assertEquals(showModuleCommand.getIndex(), Index.fromZeroBased(lastEvent.targetIndex));

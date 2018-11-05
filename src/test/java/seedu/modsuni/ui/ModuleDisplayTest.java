@@ -1,21 +1,20 @@
 package seedu.modsuni.ui;
 
-import guitests.guihandles.ModuleCardHandle;
-import guitests.guihandles.ModuleDisplayHandle;
-import org.junit.Test;
-import seedu.modsuni.model.module.Code;
-import seedu.modsuni.model.module.Module;
-import seedu.modsuni.testutil.ModuleBuilder;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static seedu.modsuni.ui.testutil.GuiTestAssert.assertCardDisplaysModule;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.junit.Test;
+
+import guitests.guihandles.ModuleDisplayHandle;
+
+import seedu.modsuni.model.module.Code;
+import seedu.modsuni.model.module.Module;
+import seedu.modsuni.testutil.ModuleBuilder;
 
 public class ModuleDisplayTest extends GuiUnitTest {
 

@@ -102,7 +102,7 @@ public class AddModuleToStudentStagedCommandTest {
         CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = addModuleToStudentStagedCommand.getSearchedModule();
         assertEquals(validCodeBeforeSearch, validModuleAfterSearch.getCode());
-        assertEquals(createCommandResult("", "", " ACC1002X", "",  ""), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", "", " ACC1002X", "", ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
 
     }
@@ -672,8 +672,8 @@ public class AddModuleToStudentStagedCommandTest {
         }
 
         if (duplicateAnotherCode != "") {
-            duplicateAnotherCode = AddModuleToStudentStagedCommand.
-                    MESSAGE_DUPLICATE_MODULE_IN_ANOTHER_LIST.concat(duplicateAnotherCode + '\n');
+            duplicateAnotherCode = AddModuleToStudentStagedCommand
+                    .MESSAGE_DUPLICATE_MODULE_IN_ANOTHER_LIST.concat(duplicateAnotherCode + '\n');
         }
 
         if (addSuccessCode != "") {

@@ -80,7 +80,7 @@ public class EventsCollectorRule implements TestRule {
          * Returns the selected {@code number}-most recent event collected
          */
         public BaseEvent getSelectedMostRecent(int number) {
-            if(number > events.size()) {
+            if (number > events.size()) {
                 return null;
             }
 

@@ -118,7 +118,7 @@ public class ModuleDisplay extends UiPart<Region> {
             return false;
         }
 
-        return module.equals(((ModuleDisplay)other).module);
+        return module.equals(((ModuleDisplay) other).module);
     }
 }
 
