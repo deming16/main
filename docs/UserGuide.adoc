@@ -322,7 +322,7 @@ Input fields:
 
 Example:
 
-* `addAdmin user/master pass/myPass#1 n/John Doe sp/userdata.xml salary/4000 date/01/01/2018` +
+* `addAdmin user/myUsername pass/Password#1 n/John Doe sp/exampleconfig salary/3000 employ/30/09/2018` +
 Creates a new administrator account with the following stated details.
 
 === Edit the currently logged in administrator account: `editAdmin`
