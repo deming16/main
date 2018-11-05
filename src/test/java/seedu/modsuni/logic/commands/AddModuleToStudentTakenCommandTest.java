@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.modsuni.testutil.TypicalModules.ACC1002;
 import static seedu.modsuni.testutil.TypicalModules.ACC1002X;
 import static seedu.modsuni.testutil.TypicalModules.CS1010;
+import static seedu.modsuni.testutil.TypicalModules.CS2103T;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -83,7 +84,7 @@ public class AddModuleToStudentTakenCommandTest {
         expectModuleList.add(validModuleAfterSearch);
 
         assertEquals(validCodeBeforeSearch, validModuleAfterSearch.getCode());
-        assertEquals(createCommandResult("", "", "", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", "", "", "", " ACC1002X"), commandResult.feedbackToUser);
         assertEquals(expectModuleList, modelStub.student.getModulesTaken());
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
@@ -100,7 +101,7 @@ public class AddModuleToStudentTakenCommandTest {
         CommandResult commandResult = addModuleToStudentTakenCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = addModuleToStudentTakenCommand.getSearchedModule();
         assertEquals(validCodeBeforeSearch, validModuleAfterSearch.getCode());
-        assertEquals(createCommandResult("", "", " ACC1002X", ""), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", "", " ACC1002X", "", ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
 
     }
@@ -117,7 +118,7 @@ public class AddModuleToStudentTakenCommandTest {
         CommandResult commandResult = addModuleToStudentTakenCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = addModuleToStudentTakenCommand.getSearchedModule();
         assertNull(validModuleAfterSearch);
-        assertEquals(createCommandResult("", " CS1010", "", ""), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", " CS1010", "", "",  ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
@@ -147,7 +148,7 @@ public class AddModuleToStudentTakenCommandTest {
                 new AddModuleToStudentTakenCommandTest.ModelStubForHybrid(ACC1002);
 
         CommandResult commandResult = addModuleToStudentTakenCommand.execute(modelStub, commandHistory);
-        assertEquals(createCommandResult("", " CS1010", " ACC1002", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", " CS1010", " ACC1002", "", " ACC1002X"), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
@@ -183,7 +184,30 @@ public class AddModuleToStudentTakenCommandTest {
 
         CommandResult commandResult = addModuleToStudentTakenCommand.execute(modelStub, commandHistory);
         assertEquals(createCommandResult(" ACC1002 CS1010", " CS1010",
-                " ACC1002", " ACC1002X"), commandResult.feedbackToUser);
+                " ACC1002", "", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
+    }
+
+
+    @Test
+    public void execute_hybridModulesWithModuleExistingInAnotherList_addedCorrectly() throws Exception {
+        Code validCode = new Code("ACC1002X");
+        Code duplicateCode = new Code("ACC1002");
+        Code duplicateAnotherCode = new Code("CS2103T");
+        Code notExistCode = new Code("CS1010");
+        HashSet<String> duplicateCodeInCommandSet = new HashSet<>();
+        duplicateCodeInCommandSet.add("ACC1002");
+        duplicateCodeInCommandSet.add("CS1010");
+
+        AddModuleToStudentTakenCommand addModuleToStudentTakenCommand =
+                new AddModuleToStudentTakenCommand(new ArrayList<>(Arrays.asList(validCode,
+                        duplicateCode, duplicateAnotherCode, notExistCode)), duplicateCodeInCommandSet);
+        AddModuleToStudentTakenCommandTest.ModelStub modelStub =
+                new AddModuleToStudentTakenCommandTest.ModelStubForHybrid(ACC1002, CS2103T);
+
+        CommandResult commandResult = addModuleToStudentTakenCommand.execute(modelStub, commandHistory);
+        assertEquals(createCommandResult(" ACC1002 CS1010", " CS1010", " ACC1002",
+                " CS2103T", " ACC1002X"), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
@@ -541,6 +565,12 @@ public class AddModuleToStudentTakenCommandTest {
         }
 
         @Override
+        public boolean hasModuleStaged(Module module) {
+            requireNonNull(module);
+            return student.hasModulesStaged(module);
+        }
+
+        @Override
         public void addModuleTaken(Module module) {
             requireNonNull(module);
             student.addModulesTaken(module);
@@ -567,12 +597,21 @@ public class AddModuleToStudentTakenCommandTest {
      * A Model stub that for testing hybrid modules.
      */
     private class ModelStubForHybrid extends AddModuleToStudentTakenCommandTest.ModelStub {
-        private final Module module;
+        private final Module module; // the module in the taken list
+        private final Module anotherModule; // the module in the staged list
         private final ModuleList moduleList = TypicalModules.getTypicalModuleList();
 
         ModelStubForHybrid(Module module) {
             requireNonNull(module);
             this.module = module;
+            this.anotherModule = null;
+        }
+
+        ModelStubForHybrid(Module module, Module anotherModule) {
+            requireNonNull(module);
+            this.module = module;
+            this.anotherModule = anotherModule;
+            moduleList.addModule(CS2103T);
         }
 
         @Override
@@ -585,6 +624,15 @@ public class AddModuleToStudentTakenCommandTest {
         public boolean hasModuleTaken(Module module) {
             requireNonNull(module);
             return this.module.isSameModule(module);
+        }
+
+        @Override
+        public boolean hasModuleStaged(Module module) {
+            requireNonNull(module);
+            if (anotherModule == null) {
+                return false;
+            }
+            return this.anotherModule.isSameModule(module);
         }
 
         @Override
@@ -607,7 +655,8 @@ public class AddModuleToStudentTakenCommandTest {
      * Create a command result with three types of Code.
      */
     private String createCommandResult(String duplicateCodeInCommand, String notExistCode,
-                                       String duplicateCode, String addSuccessCode) {
+                                       String duplicateCode, String duplicateAnotherCode,
+                                       String addSuccessCode) {
         if (duplicateCodeInCommand != "") {
             duplicateCodeInCommand = AddModuleToStudentTakenCommand.MESSAGE_DUPLICATE_FOUND_IN_COMMAND
                     .concat(duplicateCodeInCommand + '\n');
@@ -623,6 +672,11 @@ public class AddModuleToStudentTakenCommandTest {
                     .concat(duplicateCode + '\n');
         }
 
+        if (duplicateAnotherCode != "") {
+            duplicateAnotherCode = AddModuleToStudentTakenCommand.
+                    MESSAGE_DUPLICATE_MODULE_IN_ANOTHER_LIST.concat(duplicateAnotherCode + '\n');
+        }
+
         if (addSuccessCode != "") {
             addSuccessCode = AddModuleToStudentTakenCommand.MESSAGE_SUCCESS
                     .concat(addSuccessCode + '\n');
@@ -631,6 +685,7 @@ public class AddModuleToStudentTakenCommandTest {
         return duplicateCodeInCommand
                 + notExistCode
                 + duplicateCode
+                + duplicateAnotherCode
                 + addSuccessCode;
     }
 
