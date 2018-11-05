@@ -304,6 +304,9 @@ Examples:
 
 [[AdminFeatures]]
 == Administrator Features
+[NOTE]
+The commands in this section can only be executed when logged into an administrator account. Otherwise, the message
+`Only an admin user can execute this command` will be displayed in the output window.
 
 // tag::admincommands[]
 === Add a new administrator account: `addAdmin`
