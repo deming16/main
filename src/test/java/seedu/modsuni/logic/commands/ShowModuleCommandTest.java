@@ -1,35 +1,41 @@
 package seedu.modsuni.logic.commands;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.modsuni.logic.commands.CommandTestUtil.showPersonAtIndex;
-import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.modsuni.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.modsuni.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
-import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
-
 import org.junit.Rule;
 import org.junit.Test;
-
-import seedu.modsuni.commons.core.Messages;
+import org.junit.rules.ExpectedException;
 import seedu.modsuni.commons.core.index.Index;
-import seedu.modsuni.commons.events.ui.JumpToListRequestEvent;
+import seedu.modsuni.commons.events.BaseEvent;
+import seedu.modsuni.commons.events.ui.JumpToDatabaseListRequestEvent;
+import seedu.modsuni.commons.events.ui.ShowDatabaseTabRequestEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.UserPrefs;
 import seedu.modsuni.model.credential.CredentialStore;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.ui.testutil.EventsCollectorRule;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.modsuni.logic.commands.CommandTestUtil.showModuleAtIndex;
+import static seedu.modsuni.testutil.TypicalCodes.CODE_FIRST_MODULE;
+import static seedu.modsuni.testutil.TypicalCodes.CODE_NOT_IN_LIST;
+import static seedu.modsuni.testutil.TypicalCodes.CODE_SECOND_MODULE;
+import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_MODULE;
+import static seedu.modsuni.testutil.TypicalIndexes.INDEX_SECOND_MODULE;
+import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
+import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code SelectCommand}.
  */
-public class SelectCommandTest {
+public class ShowModuleCommandTest {
     @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
     private final Model model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
@@ -39,84 +45,87 @@ public class SelectCommandTest {
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
-    public void execute_validIndexUnfilteredList_success() {
-        Index lastPersonIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-
-        assertExecutionSuccess(INDEX_FIRST_PERSON);
-        assertExecutionSuccess(INDEX_THIRD_PERSON);
-        assertExecutionSuccess(lastPersonIndex);
+    public void execute_emptyCode_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        new ShowModuleCommand(null);
     }
 
     @Test
-    public void execute_invalidIndexUnfilteredList_failure() {
-        Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-
-        assertExecutionFailure(outOfBoundsIndex, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+    public void execute_validModuleUnfilteredList_success() {
+        assertExecutionSuccess(CODE_FIRST_MODULE, INDEX_FIRST_MODULE);
+        assertExecutionSuccess(CODE_SECOND_MODULE, INDEX_SECOND_MODULE);
     }
 
     @Test
-    public void execute_validIndexFilteredList_success() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-        showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
-
-        assertExecutionSuccess(INDEX_FIRST_PERSON);
+    public void execute_invalidModuleUnfilteredList_failure() {
+        assertExecutionFailure(CODE_NOT_IN_LIST, ShowModuleCommand.MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE);
     }
 
     @Test
-    public void execute_invalidIndexFilteredList_failure() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-        showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
+    public void execute_validModuleFilteredList_success() {
+        showModuleAtIndex(model, INDEX_FIRST_MODULE);
 
-        Index outOfBoundsIndex = INDEX_SECOND_PERSON;
-        // ensures that outOfBoundIndex is still in bounds of modsuni book list
-        assertTrue(outOfBoundsIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
+        assertExecutionSuccess(CODE_FIRST_MODULE, INDEX_FIRST_MODULE);
 
-        assertExecutionFailure(outOfBoundsIndex, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        showModuleAtIndex(model, INDEX_FIRST_MODULE);
+
+        assertExecutionSuccess(CODE_SECOND_MODULE, INDEX_SECOND_MODULE);
+    }
+
+    @Test
+    public void execute_invalidModuleFilteredList_failure() {
+        showModuleAtIndex(model, INDEX_FIRST_MODULE);
+
+        assertExecutionFailure(CODE_NOT_IN_LIST, ShowModuleCommand.MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE);
     }
 
     @Test
     public void equals() {
-        SelectCommand selectFirstCommand = new SelectCommand(INDEX_FIRST_PERSON);
-        SelectCommand selectSecondCommand = new SelectCommand(INDEX_SECOND_PERSON);
+        ShowModuleCommand showModuleFirstCommand = new ShowModuleCommand(CODE_FIRST_MODULE);
+        ShowModuleCommand showModuleSecondCommand = new ShowModuleCommand(CODE_SECOND_MODULE);
 
         // same object -> returns true
-        assertTrue(selectFirstCommand.equals(selectFirstCommand));
+        assertTrue(showModuleFirstCommand.equals(showModuleFirstCommand));
 
         // same values -> returns true
-        SelectCommand selectFirstCommandCopy = new SelectCommand(INDEX_FIRST_PERSON);
-        assertTrue(selectFirstCommand.equals(selectFirstCommandCopy));
+        ShowModuleCommand showModuleFirstCommandCopy = new ShowModuleCommand(CODE_FIRST_MODULE);
+        assertTrue(showModuleFirstCommand.equals(showModuleFirstCommandCopy));
 
         // different types -> returns false
-        assertFalse(selectFirstCommand.equals(1));
+        assertFalse(showModuleFirstCommand.equals(1));
 
         // null -> returns false
-        assertFalse(selectFirstCommand.equals(null));
+        assertFalse(showModuleFirstCommand.equals(null));
 
         // different person -> returns false
-        assertFalse(selectFirstCommand.equals(selectSecondCommand));
+        assertFalse(showModuleFirstCommand.equals(showModuleSecondCommand));
     }
 
     /**
-     * Executes a {@code SelectCommand} with the given {@code index}, and checks that {@code JumpToListRequestEvent}
-     * is raised with the correct index.
+     * Executes a {@code ShowModuleCommand} with the given {@code code}, and checks that {@code JumpToDatabaseListRequestEvent}
+     * is raised with the given {@code index}.
      */
-    private void assertExecutionSuccess(Index index) {
-        SelectCommand selectCommand = new SelectCommand(index);
-        String expectedMessage = String.format(SelectCommand.MESSAGE_SELECT_PERSON_SUCCESS, index.getOneBased());
+    private void assertExecutionSuccess(Code code, Index index) {
+        ShowModuleCommand showModuleCommand = new ShowModuleCommand(code);
+        String expectedMessage = String.format(ShowModuleCommand.MESSAGE_SUCCESS, code.toString());
 
-        assertCommandSuccess(selectCommand, model, commandHistory, expectedMessage, expectedModel);
+        assertCommandSuccess(showModuleCommand, model, commandHistory, expectedMessage, expectedModel);
 
-        JumpToListRequestEvent lastEvent = (JumpToListRequestEvent) eventsCollectorRule.eventsCollector.getMostRecent();
+        JumpToDatabaseListRequestEvent lastEvent = (JumpToDatabaseListRequestEvent) eventsCollectorRule.eventsCollector.getMostRecent();
+        BaseEvent secondLastEvent = eventsCollectorRule.eventsCollector.getSelectedMostRecent(2);
+
+        assertEquals(showModuleCommand.getIndex(), Index.fromZeroBased(lastEvent.targetIndex));
         assertEquals(index, Index.fromZeroBased(lastEvent.targetIndex));
+        assertTrue(secondLastEvent instanceof ShowDatabaseTabRequestEvent);
     }
 
     /**
-     * Executes a {@code SelectCommand} with the given {@code index}, and checks that a {@code CommandException}
+     * Executes a {@code ShowModuleCommand} with the given {@code code}, and checks that a {@code CommandException}
      * is thrown with the {@code expectedMessage}.
      */
-    private void assertExecutionFailure(Index index, String expectedMessage) {
-        SelectCommand selectCommand = new SelectCommand(index);
-        assertCommandFailure(selectCommand, model, commandHistory, expectedMessage);
+    private void assertExecutionFailure(Code code, String expectedMessage) {
+        ShowModuleCommand showModuleCommand = new ShowModuleCommand(code);
+        assertCommandFailure(showModuleCommand, model, commandHistory, expectedMessage);
         assertTrue(eventsCollectorRule.eventsCollector.isEmpty());
     }
 }
