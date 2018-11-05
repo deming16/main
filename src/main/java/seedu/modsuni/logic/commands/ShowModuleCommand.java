@@ -1,6 +1,7 @@
 package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.modsuni.model.Model.PREDICATE_SHOW_ALL_MODULES;
 
 import java.util.Optional;
 
@@ -26,10 +27,15 @@ public class ShowModuleCommand extends Command {
 
     private final Code toSearch;
     private Module toShow;
+    private Index index;
 
     public ShowModuleCommand(Code code) {
         requireNonNull(code);
         toSearch = code;
+    }
+
+    public Index getIndex() {
+        return index;
     }
 
     @Override
@@ -43,10 +49,18 @@ public class ShowModuleCommand extends Command {
             throw new CommandException(MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE);
         }
 
-        Index index = model.searchForIndexInDatabase(toShow);
+        model.updateFilteredDatabaseModuleList(PREDICATE_SHOW_ALL_MODULES);
+        index = model.searchForIndexInDatabase(toShow);
 
         EventsCenter.getInstance().post(new ShowDatabaseTabRequestEvent());
         EventsCenter.getInstance().post(new JumpToDatabaseListRequestEvent(index));
         return new CommandResult(String.format(MESSAGE_SUCCESS, toSearch));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ShowModuleCommand // instanceof handles nulls
+                && toSearch.equals(((ShowModuleCommand) other).toSearch)); // state check
     }
 }
