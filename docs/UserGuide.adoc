@@ -41,9 +41,6 @@ image::Ui.png[width="790"]
 Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 
-To begin using administrator commands, login to the default master account with the following command: +
-`login user/master pass/Pass#123 userdata/masterconfig`
-
 Some example commands you can try:
 
 * **`addModuleS`**`CS2103T` : adds the module CS2103T to the staged modules configuration
@@ -51,6 +48,11 @@ Some example commands you can try:
 * **`exit`** : exits the app
 
 Refer to <<Features>> for details of each command.
+
+To begin using administrator commands, login to the default master account with the following command: +
+`login user/master pass/Pass#123 userdata/masterconfig` +
+
+Refer to <<AdminFeatures>> for details of each admin command.
 
 [[Features]]
 == Features
@@ -299,6 +301,9 @@ Format: `set-theme <FILE_NAME>.xml`
 Examples:
 
 * `set-theme <FILE_NAME>.xml`
+
+[[AdminFeatures]]
+== Administrator Features
 
 // tag::admincommands[]
 === Add a new administrator account: `addAdmin`
