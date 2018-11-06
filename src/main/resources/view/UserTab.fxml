@@ -7,108 +7,102 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="userTabPlaceHolder" minWidth="300.0" styleClass="pane-with-border" xmlns="http://javafx.com/javafx/8"
-           xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="userTabPlaceHolder" minWidth="300.0" styleClass="pane-with-border" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
     <VBox prefHeight="200.0" prefWidth="300.0">
         <children>
 
             <!-- Name Label -->
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
-                    <Label fx:id="nameLabel" maxWidth="60.0" minWidth="60.0" text="Name:"
-                           HBox.hgrow="ALWAYS">
+                    <Label fx:id="nameLabel" maxWidth="60.0" minWidth="60.0" text="Name:" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
                     </Label>
-                    <Text fx:id="nameText" wrappingWidth="200" HBox.hgrow="ALWAYS">
+                    <Text fx:id="nameText" textAlignment="RIGHT" wrappingWidth="200" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" left="25.0" right="50.0" top="25.0" />
                         </HBox.margin>
                     </Text>
                 </children>
                 <VBox.margin>
-                    <Insets/>
+                    <Insets left="25.0"/>
                 </VBox.margin>
             </HBox>
 
             <!-- Date Label -->
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
-                    <Label fx:id="dateLabel" maxWidth="60.0" minWidth="60.0" text="Date:"
-                           HBox.hgrow="ALWAYS">
+                    <Label fx:id="dateLabel" maxWidth="60.0" minWidth="60.0" text="Date:" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
                     </Label>
-                    <Text fx:id="dateText" wrappingWidth="200" HBox.hgrow="ALWAYS">
+                    <Text fx:id="dateText" textAlignment="RIGHT" wrappingWidth="201.0" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
                     </Text>
                 </children>
                 <VBox.margin>
-                    <Insets/>
+                    <Insets left="25.0"/>
                 </VBox.margin>
             </HBox>
 
             <!-- User Detail Label 1-->
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
-                    <Label fx:id="userDetailLabel1" maxWidth="100.0" minWidth="100.0"
-                           text="Major(s):" HBox.hgrow="ALWAYS">
+                    <Label fx:id="userDetailLabel1" maxWidth="100.0" minWidth="100.0" text="Major(s):" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
                     </Label>
-                    <Text fx:id="userDetailText1" wrappingWidth="150" HBox.hgrow="ALWAYS">
+                    <Text fx:id="userDetailText1" textAlignment="RIGHT" wrappingWidth="150" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
                     </Text>
                 </children>
                 <VBox.margin>
-                    <Insets/>
+                    <Insets left="25.0"/>
                 </VBox.margin>
             </HBox>
 
             <!-- User Detail Label 2-->
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
-                    <Label fx:id="userDetailLabel2" maxWidth="100.0" minWidth="100.0"
-                           text="Minors(s):" HBox.hgrow="ALWAYS">
+                    <Label fx:id="userDetailLabel2" maxWidth="100.0" minWidth="100.0" text="Minors(s):" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
                     </Label>
-                    <Text fx:id="userDetailText2" wrappingWidth="150" HBox.hgrow="ALWAYS">
+                    <Text fx:id="userDetailText2" textAlignment="RIGHT" wrappingWidth="150" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
                     </Text>
                 </children>
                 <VBox.margin>
-                    <Insets/>
+                    <Insets left="25.0"/>
                 </VBox.margin>
             </HBox>
 
             <!-- Last Saved Label-->
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
-                    <Label fx:id="lastSavedLabel" maxWidth="100.0" minWidth="100.0"
-                           text="Last Saved:" HBox.hgrow="ALWAYS">
+                    <Label fx:id="lastSavedLabel" maxWidth="170.0" minWidth="150.0" text="Last Saved/Loaded:" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
                     </Label>
-                    <Text fx:id="lastSavedText" wrappingWidth="150" HBox.hgrow="ALWAYS">
+                    <Text fx:id="lastSavedText" wrappingWidth="100" HBox.hgrow="ALWAYS">
                         <HBox.margin>
-                            <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
+                            <Insets bottom="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
                     </Text>
                 </children>
                 <VBox.margin>
-                    <Insets/>
+                    <Insets left="25.0"/>
                 </VBox.margin>
             </HBox>
 
