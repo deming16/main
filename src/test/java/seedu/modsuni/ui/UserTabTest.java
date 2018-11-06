@@ -11,6 +11,7 @@ import static guitests.guihandles.UserTabHandle.USER_DETAIL_1_TEXT;
 import static guitests.guihandles.UserTabHandle.USER_DETAIL_2_LABEL;
 import static guitests.guihandles.UserTabHandle.USER_DETAIL_2_TEXT;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static seedu.modsuni.testutil.TypicalAdmins.ALICE;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_ADMIN;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
@@ -35,6 +36,7 @@ import guitests.guihandles.UserTabHandle;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.LoginCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
+import seedu.modsuni.logic.commands.SaveCommand;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
@@ -184,11 +186,17 @@ public class UserTabTest extends GuiUnitTest {
             new UserPrefs(),
             getTypicalCredentialStore());
 
+        // Student
         Credential toVerify = CREDENTIAL_STUDENT_MAX;
         LoginCommand command = new LoginCommand(toVerify, TYPICAL_STUDENT_DATA_FILE);
-
         command.execute(model, commandHistory);
 
+        String initialSaveTest = userTabHandle.getLastSaveText();
+
+        SaveCommand saveCommand = new SaveCommand(TYPICAL_STUDENT_DATA_FILE);
+        saveCommand.execute(model, commandHistory);
+
+        assertNotEquals(initialSaveTest, userTabHandle.getLastSaveText());
 
     }
 
