@@ -78,7 +78,8 @@ public class UserTabHandle extends NodeHandle<Node> {
     /**
      * Returns the text of the date text.
      */
-    public String getDateText() { return dateText.getText();
+    public String getDateText() {
+        return dateText.getText();
     }
 
     /**

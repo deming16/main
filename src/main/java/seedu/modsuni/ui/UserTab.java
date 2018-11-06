@@ -25,18 +25,19 @@ import seedu.modsuni.model.user.student.Student;
  */
 public class UserTab extends UiPart<Region> {
 
+    public static final String ADMIN_DESC = "This is an admin account";
+    public static final String ADMIN_DETAIL_1_LABEL = "Salary:";
+    public static final String ADMIN_DETAIL_2_LABEL = "NOTE:";
+    public static final String STUDENT_DETAIL_1_LABEL = "Major(s):";
+    public static final String STUDENT_DETAIL_2_LABEL = "Minor(s):";
+
     private static final Logger logger = LogsCenter.getLogger(UserTab.class);
     private static final String FXML = "UserTab.fxml";
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private static final Clock clock = Clock.systemDefaultZone();
 
-    public static final String STUDENT_DETAIL_1_LABEL = "Major(s):";
-    public static final String STUDENT_DETAIL_2_LABEL = "Minor(s):";
 
-    public static final String ADMIN_DETAIL_1_LABEL = "Salary:";
-    public static final String ADMIN_DETAIL_2_LABEL = "NOTE:";
 
-    public static final String ADMIN_DESC = "This is an admin account";
 
     @FXML
     private Label nameLabel;

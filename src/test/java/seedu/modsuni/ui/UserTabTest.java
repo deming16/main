@@ -1,13 +1,26 @@
 package seedu.modsuni.ui;
 
-import static guitests.guihandles.UserTabHandle.*;
+import static guitests.guihandles.UserTabHandle.DATE_LABEL_ID;
+import static guitests.guihandles.UserTabHandle.DATE_TEXT_ID;
+import static guitests.guihandles.UserTabHandle.INITIAL_DATE_LABEL;
+import static guitests.guihandles.UserTabHandle.INITIAL_NAME_LABEL;
+import static guitests.guihandles.UserTabHandle.NAME_LABEL_ID;
+import static guitests.guihandles.UserTabHandle.NAME_TEXT_ID;
+import static guitests.guihandles.UserTabHandle.USER_DETAIL_1_LABEL;
+import static guitests.guihandles.UserTabHandle.USER_DETAIL_1_TEXT;
+import static guitests.guihandles.UserTabHandle.USER_DETAIL_2_LABEL;
+import static guitests.guihandles.UserTabHandle.USER_DETAIL_2_TEXT;
 import static org.junit.Assert.assertEquals;
 import static seedu.modsuni.testutil.TypicalAdmins.ALICE;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_ADMIN;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalCredentials.getTypicalCredentialStore;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
-import static seedu.modsuni.ui.UserTab.*;
+import static seedu.modsuni.ui.UserTab.ADMIN_DESC;
+import static seedu.modsuni.ui.UserTab.ADMIN_DETAIL_1_LABEL;
+import static seedu.modsuni.ui.UserTab.ADMIN_DETAIL_2_LABEL;
+import static seedu.modsuni.ui.UserTab.STUDENT_DETAIL_1_LABEL;
+import static seedu.modsuni.ui.UserTab.STUDENT_DETAIL_2_LABEL;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
