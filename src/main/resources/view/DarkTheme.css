@@ -394,3 +394,16 @@
     -fx-background-radius: 2;
     -fx-font-size: 11;
 }
+
+#semesterListView .list-cell {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 32px;
+    -fx-text-fill: #D3D3D3;
+}
+
+#semesterListView .list-cell:even:selected:filled:focused {
+    -fx-background-color: #3c3e3f;
+}
+#semesterListView .list-cell:odd:selected:filled:focused {
+    -fx-background-color: #515658;
+}
