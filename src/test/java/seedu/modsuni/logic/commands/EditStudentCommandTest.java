@@ -53,7 +53,6 @@ public class EditStudentCommandTest {
     public void executeAllFieldsSpecifiedSuccess() {
         Student editedStudent = new StudentBuilder()
             .withName("Max Emilian Verstappen")
-            .withProfilePicFilePath("dummy.img")
             .withEnrollmentDate("01/01/2001")
             .withMajor(Arrays.asList("IS"))
             .withMinor(Arrays.asList("EEE"))
@@ -144,7 +143,6 @@ public class EditStudentCommandTest {
 
         Student editedStudent = new StudentBuilder()
             .withName("Max Emilian Verstappen")
-            .withProfilePicFilePath("dummy.img")
             .withEnrollmentDate("01/01/2001")
             .withMajor(Arrays.asList("IS"))
             .withMinor(Arrays.asList("EEE"))

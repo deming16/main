@@ -23,7 +23,6 @@ import seedu.modsuni.model.module.UniqueModuleList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.EmployDate;
 import seedu.modsuni.model.user.Name;
-import seedu.modsuni.model.user.PathToProfilePic;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.Salary;
 import seedu.modsuni.model.user.User;
@@ -45,8 +44,6 @@ public class XmlAdaptedUser {
     private String name;
     @XmlElement(required = true)
     private String role;
-    @XmlElement(required = true)
-    private String pathToProfilePic;
 
     // Attributes for Admin
     @XmlElement
@@ -75,12 +72,11 @@ public class XmlAdaptedUser {
     /**
      * Constructs an {@code XmlAdaptedUser} with the given user details.
      */
-    public XmlAdaptedUser(Username username, Name name, Role role, PathToProfilePic pathToProfilePic,
+    public XmlAdaptedUser(Username username, Name name, Role role,
                           Salary salary, EmployDate employmentDate) {
         this.username = username.toString();
         this.name = name.toString();
         this.role = role.toString();
-        this.pathToProfilePic = pathToProfilePic.toString();
         this.salary = salary.toString();
         this.employmentDate = employmentDate.toString();
     }
@@ -88,13 +84,12 @@ public class XmlAdaptedUser {
     /**
      * Constructs an {@code XmlAdaptedUser} with the given user details.
      */
-    public XmlAdaptedUser(Username username, Name name, Role role, PathToProfilePic pathToProfilePic,
+    public XmlAdaptedUser(Username username, Name name, Role role,
                           EnrollmentDate enrollmentDate, List<String> major, List<String> minor,
                           List<Module> modulesTaken) {
         this.username = username.toString();
         this.name = name.toString();
         this.role = role.toString();
-        this.pathToProfilePic = pathToProfilePic.toString();
         this.enrollmentDate = enrollmentDate.toString();
         this.major = major.toString();
         this.minor = minor.toString();
@@ -111,7 +106,6 @@ public class XmlAdaptedUser {
         this.username = user.getUsername().toString();
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
-        this.pathToProfilePic = user.getPathToProfilePic().toString();
 
         if (user.getRole() == Role.ADMIN) {
             Admin admin = (Admin) user;
@@ -147,7 +141,6 @@ public class XmlAdaptedUser {
                 user.getUsername().toString().getBytes(), password));
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
-        this.pathToProfilePic = user.getPathToProfilePic().toString();
 
         // Admin
         if (user.getRole() == Role.ADMIN) {
@@ -207,7 +200,7 @@ public class XmlAdaptedUser {
             }
 
             user = new Student(new Username(decryptedUsername), new Name(name), Role.STUDENT,
-                    new PathToProfilePic(pathToProfilePic), new EnrollmentDate(enrollmentDate),
+                    new EnrollmentDate(enrollmentDate),
                     majorConverted, minorConverted, modulesTakenConverted, modulesStagedConverted);
         }
 
@@ -260,13 +253,6 @@ public class XmlAdaptedUser {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "role"));
         }
 
-        // Path to profilepic
-        if (pathToProfilePic == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "pathToProfilePic"));
-        }
-        if (!PathToProfilePic.isValidPath(pathToProfilePic)) {
-            throw new IllegalValueException(PathToProfilePic.MESSAGE_PATH_CONSTRAINTS);
-        }
     }
 
     /**

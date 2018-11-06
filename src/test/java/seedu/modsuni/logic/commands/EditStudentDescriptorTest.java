@@ -39,13 +39,6 @@ public class EditStudentDescriptorTest {
                 .build();
         assertFalse(DESC_MAX.equals(differentNameDescriptor));
 
-        // different Path -> returns false
-        EditStudentDescriptor differentProfilePicDescriptor =
-            new EditStudentDescriptorBuilder(DESC_MAX)
-                .withProfilePic("different.img")
-                .build();
-        assertFalse(DESC_MAX.equals(differentProfilePicDescriptor));
-
         // different Enrollment Date -> returns false
         EditStudentDescriptor differentEnrollmentDateDescriptor =
             new EditStudentDescriptorBuilder(DESC_MAX)

@@ -6,14 +6,12 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.ENROLLMENT_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.INVALID_ENROLLMENT_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.INVALID_PASSWORD_DESC;
-import static seedu.modsuni.logic.commands.CommandTestUtil.INVALID_PIC_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.INVALID_USERNAME_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.LOGIN_PASSWORD_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.LOGIN_USERNAME_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.MAJOR_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.MINOR_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.modsuni.logic.commands.CommandTestUtil.PATH_TO_PIC_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_ENROLLMENT;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MAJOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MINOR;
@@ -37,7 +35,6 @@ import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.user.Name;
-import seedu.modsuni.model.user.PathToProfilePic;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
 import seedu.modsuni.model.user.student.EnrollmentDate;
@@ -51,7 +48,6 @@ public class RegisterCommandParserTest {
         String userInput = LOGIN_USERNAME_DESC
             + LOGIN_PASSWORD_DESC
             + NAME_DESC_AMY
-            + PATH_TO_PIC_DESC
             + ENROLLMENT_DESC
             + MAJOR_DESC
             + MINOR_DESC;
@@ -64,7 +60,6 @@ public class RegisterCommandParserTest {
             ParserUtil.parseUsername(VALID_USERNAME),
             ParserUtil.parseName(VALID_NAME_AMY),
             Role.STUDENT,
-            ParserUtil.parsePathToProfilePic(VALID_PATH_TO_PIC),
             ParserUtil.parseEnrollmentDate(VALID_ENROLLMENT),
             Arrays.asList(VALID_MAJOR),
             Arrays.asList(VALID_MINOR));
@@ -87,7 +82,6 @@ public class RegisterCommandParserTest {
             VALID_USERNAME
                 + LOGIN_PASSWORD_DESC
                 + NAME_DESC_AMY
-                + PATH_TO_PIC_DESC
                 + ENROLLMENT_DESC
                 + MAJOR_DESC
                 + MINOR_DESC,
@@ -98,7 +92,6 @@ public class RegisterCommandParserTest {
             LOGIN_USERNAME_DESC
                 + VALID_PASSWORD
                 + NAME_DESC_AMY
-                + PATH_TO_PIC_DESC
                 + ENROLLMENT_DESC
                 + MAJOR_DESC
                 + MINOR_DESC,
@@ -109,18 +102,6 @@ public class RegisterCommandParserTest {
             LOGIN_USERNAME_DESC
                 + LOGIN_PASSWORD_DESC
                 + VALID_NAME_AMY
-                + PATH_TO_PIC_DESC
-                + ENROLLMENT_DESC
-                + MAJOR_DESC
-                + MINOR_DESC,
-            expectedMessage);
-
-        // missing pic prefix
-        assertParseFailure(parser,
-            LOGIN_USERNAME_DESC
-                + LOGIN_PASSWORD_DESC
-                + NAME_DESC_AMY
-                + VALID_PATH_TO_PIC
                 + ENROLLMENT_DESC
                 + MAJOR_DESC
                 + MINOR_DESC,
@@ -131,7 +112,6 @@ public class RegisterCommandParserTest {
             LOGIN_USERNAME_DESC
                 + LOGIN_PASSWORD_DESC
                 + NAME_DESC_AMY
-                + PATH_TO_PIC_DESC
                 + VALID_ENROLLMENT
                 + MAJOR_DESC
                 + MINOR_DESC,
@@ -142,7 +122,6 @@ public class RegisterCommandParserTest {
             LOGIN_USERNAME_DESC
                 + LOGIN_PASSWORD_DESC
                 + NAME_DESC_AMY
-                + PATH_TO_PIC_DESC
                 + ENROLLMENT_DESC
                 + VALID_MAJOR
                 + MINOR_DESC,
@@ -167,7 +146,6 @@ public class RegisterCommandParserTest {
             INVALID_USERNAME_DESC
                 + LOGIN_PASSWORD_DESC
                 + NAME_DESC_AMY
-                + PATH_TO_PIC_DESC
                 + ENROLLMENT_DESC
                 + MAJOR_DESC
                 + MINOR_DESC,
@@ -178,7 +156,6 @@ public class RegisterCommandParserTest {
             LOGIN_USERNAME_DESC
                 + INVALID_PASSWORD_DESC
                 + NAME_DESC_AMY
-                + PATH_TO_PIC_DESC
                 + ENROLLMENT_DESC
                 + MAJOR_DESC
                 + MINOR_DESC,
@@ -189,29 +166,16 @@ public class RegisterCommandParserTest {
             LOGIN_USERNAME_DESC
                 + LOGIN_PASSWORD_DESC
                 + INVALID_NAME_DESC
-                + PATH_TO_PIC_DESC
                 + ENROLLMENT_DESC
                 + MAJOR_DESC
                 + MINOR_DESC,
             Name.MESSAGE_NAME_CONSTRAINTS);
-
-        // invalid pic
-        assertParseFailure(parser,
-            LOGIN_USERNAME_DESC
-                + LOGIN_PASSWORD_DESC
-                + NAME_DESC_AMY
-                + INVALID_PIC_DESC
-                + ENROLLMENT_DESC
-                + MAJOR_DESC
-                + MINOR_DESC,
-            PathToProfilePic.MESSAGE_PATH_CONSTRAINTS);
 
         // invalid enrollment date
         assertParseFailure(parser,
             LOGIN_USERNAME_DESC
                 + LOGIN_PASSWORD_DESC
                 + NAME_DESC_AMY
-                + PATH_TO_PIC_DESC
                 + INVALID_ENROLLMENT_DESC
                 + MAJOR_DESC
                 + MINOR_DESC,

@@ -18,7 +18,7 @@ public class Admin extends User {
      * @param employmentDate The date the Admin was employed.
      */
     public Admin(Username username, Name name, Role role, Salary salary, EmployDate employmentDate) {
-        super(username, name, role, new PathToProfilePic("dummy.img"));
+        super(username, name, role);
         this.salary = salary;
         this.employmentDate = employmentDate;
     }
@@ -46,7 +46,6 @@ public class Admin extends User {
         return otherAdmin != null
                 && otherAdmin.getName().equals(getName())
                 && otherAdmin.getEmploymentDate().equals(getEmploymentDate())
-                && otherAdmin.getPathToProfilePic().equals(getPathToProfilePic())
                 && otherAdmin.getSalary() == getSalary();
     }
 
@@ -74,7 +73,7 @@ public class Admin extends User {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, role, pathToProfilePic, salary, employmentDate);
+        return Objects.hash(name, role, salary, employmentDate);
     }
 
     @Override
@@ -100,8 +99,6 @@ public class Admin extends User {
                 .append(getName().toString())
                 .append("\nRole: ")
                 .append(getRole().toString())
-                .append("\nPath to profile picture: ")
-                .append(getPathToProfilePic().toString())
                 .append("\nSalary: ")
                 .append(getSalary())
                 .append("\nEmployment date: ")

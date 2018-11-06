@@ -5,7 +5,6 @@ import java.util.List;
 
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.user.Name;
-import seedu.modsuni.model.user.PathToProfilePic;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.student.EnrollmentDate;
 import seedu.modsuni.model.user.student.Student;
@@ -17,7 +16,6 @@ public class StudentBuilder {
 
     public static final String DEFAULT_NAME = "Max Verstappen";
     public static final String DEFAULT_USERNAME = "max33";
-    public static final String DEFAULT_PROFILE_PIC_FILEPATH = "redbull.img";
     public static final Role DEFAULT_ROLE = Role.STUDENT;
     public static final String DEFAULT_ENROLLMENT_DATE = "15/03/2015";
     public static final List<String> DEFAULT_MAJOR = Arrays.asList("CS", "DA");
@@ -26,7 +24,6 @@ public class StudentBuilder {
     private Name name;
     private Username username;
     private final Role role;
-    private PathToProfilePic profilePicFilePath;
     private EnrollmentDate enrollmentDate;
     private List<String> major;
     private List<String> minor;
@@ -35,7 +32,6 @@ public class StudentBuilder {
         name = new Name(DEFAULT_NAME);
         username = new Username(DEFAULT_USERNAME);
         role = DEFAULT_ROLE;
-        profilePicFilePath = new PathToProfilePic(DEFAULT_PROFILE_PIC_FILEPATH);
         enrollmentDate = new EnrollmentDate(DEFAULT_ENROLLMENT_DATE);
         major = DEFAULT_MAJOR;
         minor = DEFAULT_MINOR;
@@ -45,7 +41,6 @@ public class StudentBuilder {
         name = student.getName();
         username = student.getUsername();
         role = student.getRole();
-        profilePicFilePath = student.getPathToProfilePic();
         enrollmentDate = student.getEnrollmentDate();
         major = student.getMajor();
         minor = student.getMinor();
@@ -64,15 +59,6 @@ public class StudentBuilder {
      */
     public StudentBuilder withUsername(String username) {
         this.username = new Username(username);
-        return this;
-    }
-
-    /**
-     * Sets the {@code profilePicFilePath} of the {@code Student} that we are
-     * building.
-     */
-    public StudentBuilder withProfilePicFilePath(String pathToPic) {
-        this.profilePicFilePath = new PathToProfilePic(pathToPic);
         return this;
     }
 
@@ -105,7 +91,7 @@ public class StudentBuilder {
      * Builds the actual Student with its respective attributes.
      */
     public Student build() {
-        return new Student(username, name, role, profilePicFilePath,
+        return new Student(username, name, role,
             enrollmentDate, major, minor);
     }
 }

@@ -23,7 +23,6 @@ import seedu.modsuni.model.person.Phone;
 import seedu.modsuni.model.tag.Tag;
 import seedu.modsuni.model.user.EmployDate;
 import seedu.modsuni.model.user.Name;
-import seedu.modsuni.model.user.PathToProfilePic;
 import seedu.modsuni.model.user.Salary;
 import seedu.modsuni.testutil.Assert;
 
@@ -265,20 +264,5 @@ public class ParserUtilTest {
         assertEquals(expectedUsername, ParserUtil.parseUsername(VALID_USERNAME));
     }
 
-    @Test
-    public void parsePathToProfilePic_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseSalary(null));
-    }
-
-    @Test
-    public void parsePathToProfilePic_invalidValue_throwsParseException() {
-        Assert.assertThrows(ParseException.class, () -> ParserUtil.parsePathToProfilePic(INVALID_PATH));
-    }
-
-    @Test
-    public void parsePathToProfilePic_validValue_returnsPathToProfilePic() throws Exception {
-        PathToProfilePic expectedPath = new PathToProfilePic(VALID_PATH);
-        assertEquals(expectedPath, ParserUtil.parsePathToProfilePic(VALID_PATH));
-    }
 
 }

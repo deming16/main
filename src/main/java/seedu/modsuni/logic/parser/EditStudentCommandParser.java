@@ -2,7 +2,6 @@ package seedu.modsuni.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
@@ -26,7 +25,7 @@ public class EditStudentCommandParser implements Parser<EditStudentCommand> {
     public EditStudentCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-            ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PATH_TO_PIC,
+            ArgumentTokenizer.tokenize(args, PREFIX_NAME,
                 PREFIX_STUDENT_ENROLLMENT_DATE, PREFIX_STUDENT_MAJOR,
                 PREFIX_STUDENT_MINOR);
         EditStudentDescriptor editStudentDescriptor = new EditStudentDescriptor();
@@ -34,11 +33,6 @@ public class EditStudentCommandParser implements Parser<EditStudentCommand> {
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
             editStudentDescriptor.setName(
                 ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
-        }
-
-        if (argMultimap.getValue(PREFIX_PATH_TO_PIC).isPresent()) {
-            editStudentDescriptor.setPathToProfilePic(
-                ParserUtil.parsePathToProfilePic(argMultimap.getValue(PREFIX_PATH_TO_PIC).get()));
         }
 
         if (argMultimap.getValue(PREFIX_STUDENT_ENROLLMENT_DATE).isPresent()) {

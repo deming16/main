@@ -9,21 +9,17 @@ public abstract class User {
     protected Username username;
     protected Name name;
     protected Role role;
-    protected PathToProfilePic pathToProfilePic;
 
     /**
      * Constructor method of User
      *
-     * @param name             The name of the user.
-     * @param role             The role of the user.
-     * @param pathToProfilePic The path to the image to be used as profile picture.
+     * @param name The name of the user.
+     * @param role The role of the user.
      */
-    public User(Username username, Name name, Role role,
-                PathToProfilePic pathToProfilePic) {
+    public User(Username username, Name name, Role role) {
         this.username = username;
         this.name = name;
         this.role = role;
-        this.pathToProfilePic = pathToProfilePic;
     }
 
     public Username getUsername() {
@@ -36,10 +32,6 @@ public abstract class User {
 
     public Role getRole() {
         return role;
-    }
-
-    public PathToProfilePic getPathToProfilePic() {
-        return pathToProfilePic;
     }
 
     public abstract String toDisplayUi();

@@ -17,7 +17,6 @@ public class TypicalUsers {
     public static final Student STUDENT_SEB = new StudentBuilder()
         .withName("Sebestian Vettel")
         .withUsername("vettel5")
-        .withProfilePicFilePath("ferrari.img")
         .withEnrollmentDate("17/06/2007")
         .withMajor(Arrays.asList("CS", "BA"))
         .withMinor(Arrays.asList("IS", "MA")).build();

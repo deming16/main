@@ -4,7 +4,6 @@ import java.util.List;
 
 import seedu.modsuni.logic.commands.EditStudentCommand.EditStudentDescriptor;
 import seedu.modsuni.model.user.Name;
-import seedu.modsuni.model.user.PathToProfilePic;
 import seedu.modsuni.model.user.student.EnrollmentDate;
 import seedu.modsuni.model.user.student.Student;
 
@@ -31,7 +30,6 @@ public class EditStudentDescriptorBuilder {
     public EditStudentDescriptorBuilder(Student student) {
         descriptor = new EditStudentDescriptor();
         descriptor.setName(student.getName());
-        descriptor.setPathToProfilePic(student.getPathToProfilePic());
         descriptor.setEnrollmentDate(student.getEnrollmentDate());
         descriptor.setMajors(student.getMajor());
         descriptor.setMinors(student.getMinor());
@@ -42,15 +40,6 @@ public class EditStudentDescriptorBuilder {
      */
     public EditStudentDescriptorBuilder withName(String name) {
         descriptor.setName(new Name(name));
-        return this;
-    }
-
-    /**
-     * Sets the {@code PathToProfilePic} of the {@code EditStudentDescriptor}
-     * that we are building.
-     */
-    public EditStudentDescriptorBuilder withProfilePic(String path) {
-        descriptor.setPathToProfilePic(new PathToProfilePic(path));
         return this;
     }
 

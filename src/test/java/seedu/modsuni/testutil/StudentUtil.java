@@ -3,7 +3,6 @@ package seedu.modsuni.testutil;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_PASSWORD;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PASSWORD;
-import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
@@ -37,7 +36,6 @@ public class StudentUtil {
     public static String getStudentDetails(Student student) {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_NAME + student.getName().fullName + " ");
-        sb.append(PREFIX_PATH_TO_PIC + student.getPathToProfilePic().path + " ");
         sb.append(PREFIX_STUDENT_ENROLLMENT_DATE + student.getEnrollmentDate().enrollmentDate + " ");
         student.getMajor().stream().forEach(
             s -> sb.append(PREFIX_STUDENT_MAJOR + s + " ")
@@ -61,8 +59,6 @@ public class StudentUtil {
         StringBuilder sb = new StringBuilder();
         descriptor.getName().ifPresent(
             name -> sb.append(PREFIX_NAME).append(name.fullName).append(" "));
-        descriptor.getProfilePic().ifPresent(
-            profilePic -> sb.append(PREFIX_PATH_TO_PIC).append(profilePic.path).append(" "));
         descriptor.getEnrollmentDate().ifPresent(
             date -> sb.append(PREFIX_STUDENT_ENROLLMENT_DATE).append(date.enrollmentDate).append(" "));
         if (descriptor.getMajors().isPresent()) {

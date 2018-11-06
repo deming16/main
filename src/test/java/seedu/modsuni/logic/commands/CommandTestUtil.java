@@ -15,7 +15,6 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_PREREQ;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_MODULE_TITLE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PASSWORD;
-import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_SALARY;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_SAVE_PATH;
@@ -110,8 +109,6 @@ public class CommandTestUtil {
     public static final String VALID_TAB = "database";
     public static final String INVALID_TAB = "database1";
 
-    public static final String PATH_TO_PIC_DESC =
-        " " + PREFIX_PATH_TO_PIC + VALID_PATH_TO_PIC;
     public static final String ENROLLMENT_DESC =
         " " + PREFIX_STUDENT_ENROLLMENT_DATE + VALID_ENROLLMENT;
     public static final String MAJOR_DESC =
@@ -119,8 +116,6 @@ public class CommandTestUtil {
     public static final String MINOR_DESC =
         " " + PREFIX_STUDENT_MINOR + VALID_MINOR;
 
-    public static final String INVALID_PIC_DESC =
-        " " + PREFIX_PATH_TO_PIC + "invalidPath";
     public static final String INVALID_ENROLLMENT_DESC =
         " " + PREFIX_STUDENT_ENROLLMENT_DATE + "11/11/11";
 
@@ -154,7 +149,6 @@ public class CommandTestUtil {
     public static final String PASSWORD_DESC_AMY = " " + PREFIX_PASSWORD + VALID_PASSWORD_AMY;
 
     public static final String INVALID_EMPLOY_DATE_DESC = " " + PREFIX_EMPLOYMENT_DATE + "123455";
-    public static final String INVALID_PATH_DESC = " " + PREFIX_PATH_TO_PIC + "invalid.invalid";
     public static final String INVALID_SALARY_DESC = " " + PREFIX_SALARY + "oneHundered";
 
     public static final String VALID_CODE_CS2109 = "CS2109";
