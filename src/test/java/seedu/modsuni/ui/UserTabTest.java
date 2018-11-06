@@ -22,10 +22,12 @@ import static seedu.modsuni.ui.UserTab.ADMIN_DETAIL_2_LABEL;
 import static seedu.modsuni.ui.UserTab.STUDENT_DETAIL_1_LABEL;
 import static seedu.modsuni.ui.UserTab.STUDENT_DETAIL_2_LABEL;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,6 +47,9 @@ import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
 import seedu.modsuni.model.user.student.Student;
+import seedu.modsuni.storage.Storage;
+import seedu.modsuni.storage.StorageManager;
+import seedu.modsuni.storage.XmlUserStorage;
 
 public class UserTabTest extends GuiUnitTest {
 
@@ -55,6 +60,7 @@ public class UserTabTest extends GuiUnitTest {
     private static final Path TYPICAL_ADMIN_DATA_FILE =
         TEST_DATA_FOLDER.resolve("adminData.xml");
     private static Model model;
+    private static Storage storage;
     private static UserTabHandle userTabHandle;
 
     private CommandHistory commandHistory = new CommandHistory();
@@ -65,6 +71,29 @@ public class UserTabTest extends GuiUnitTest {
 
         uiPartRule.setUiPart(userTab);
         userTabHandle = new UserTabHandle(userTab.getRoot());
+
+        storage = new StorageManager(
+            null,
+            null,
+            null,
+            null,
+            new XmlUserStorage(Paths.get("dummy.xml")));
+        model = new ModelManager(
+            new ModuleList(),
+            new AddressBook(),
+            new UserPrefs(),
+            getTypicalCredentialStore());
+
+        model.saveUserFile(STUDENT_MAX, TYPICAL_STUDENT_DATA_FILE);
+        model.saveUserFile(ALICE, TYPICAL_ADMIN_DATA_FILE);
+    }
+
+    @After
+    public void cleanUp() {
+        File toRemove = TYPICAL_STUDENT_DATA_FILE.toFile();
+        toRemove.delete();
+        toRemove = TYPICAL_ADMIN_DATA_FILE.toFile();
+        toRemove.delete();
     }
 
     @Test
@@ -107,13 +136,13 @@ public class UserTabTest extends GuiUnitTest {
 
     @Test
     public void userTab_successfulLoginCommand() throws CommandException, InterruptedException {
-        // Student
         model = new ModelManager(
             new ModuleList(),
             new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
+        // Student
         Credential toVerify = CREDENTIAL_STUDENT_MAX;
         LoginCommand command = new LoginCommand(toVerify, TYPICAL_STUDENT_DATA_FILE);
 
@@ -147,8 +176,20 @@ public class UserTabTest extends GuiUnitTest {
     }
 
     @Test
-    public void userTab_successfulSaveCommand() {
+    public void userTab_successfulSaveCommand() throws CommandException {
         // Check only lastSavedText
+        model = new ModelManager(
+            new ModuleList(),
+            new AddressBook(),
+            new UserPrefs(),
+            getTypicalCredentialStore());
+
+        Credential toVerify = CREDENTIAL_STUDENT_MAX;
+        LoginCommand command = new LoginCommand(toVerify, TYPICAL_STUDENT_DATA_FILE);
+
+        command.execute(model, commandHistory);
+
+
     }
 
     @Test
