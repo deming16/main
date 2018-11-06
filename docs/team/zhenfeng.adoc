@@ -9,17 +9,25 @@
 
 == Overview
 
-modsUni is a desktop timetable management application created by students for students. It incorporates a simple GUI with majority of its user interactions occurring in its in-built CLI.
+https://github.com/hzf1174/main[*modsUni*] is a desktop timetable management application targeted at
+student at National University of Singapore(NUS). It aims to make the module planning process easier and
+more visual. It provides all users with the ability to make class schedules within a private secure account. +
+https://github.com/hzf1174/main[*modsUni*] incorporates a simple display, technically called Graphical User Interface(GUI),
+with majority of its user interactions occurring in its in-built Command Line Interface(CLI), which is suitable for
+users who prefer typing instead of clicking mouse.
+
 
 == Summary of contributions
 
-* *Major enhancement*:
-** What it does:
-** Justification:
-** Highlights:
-** Credits:
+* *Major enhancement*: added *User Module Management* feature
+** What it does: Allows users to add and remove modules in their module lists, and search modules in the database.
+** Justification: This feature provides users basic actions to plan for their candidature and it is also one of the foundational
+features of modsUni.
 
-* *Minor enhancement*:
+
+* *Minor enhancement*: display module and module list
+** What it does: Allows users to figure out the details of every module, and makes the module list visually.
+** Justification: This feature provides users better module planning experience as visualization provides users overall grasp.
 
 * *Code contributed*:
 

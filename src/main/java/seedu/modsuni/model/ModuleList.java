@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javafx.collections.ObservableList;
+import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
@@ -91,6 +92,15 @@ public class ModuleList implements ReadOnlyModuleList {
     public Optional<Module> searchCode(Code code) {
         requireNonNull(code);
         return modules.search(code);
+    }
+
+    /**
+     * Searches the Index of {@Code toSearch} in this {@Code ModuleList}
+     * Returns the Index of {@Code toSearch}
+     */
+    public Index searchForIndex(Module module) {
+        requireNonNull(module);
+        return modules.searchForIndex(module);
     }
 
     @Override

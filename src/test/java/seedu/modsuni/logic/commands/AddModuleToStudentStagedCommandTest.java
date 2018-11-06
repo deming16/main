@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.modsuni.testutil.TypicalModules.ACC1002;
 import static seedu.modsuni.testutil.TypicalModules.ACC1002X;
 import static seedu.modsuni.testutil.TypicalModules.CS1010;
+import static seedu.modsuni.testutil.TypicalModules.CS2103T;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
 
+import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -81,7 +83,7 @@ public class AddModuleToStudentStagedCommandTest {
         expectModuleList.add(validModuleAfterSearch);
 
         assertEquals(validCodeBeforeSearch, validModuleAfterSearch.getCode());
-        assertEquals(createCommandResult("", "", "", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", "", "", "", " ACC1002X"), commandResult.feedbackToUser);
         assertEquals(expectModuleList, modelStub.student.getModulesStaged());
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
@@ -98,7 +100,7 @@ public class AddModuleToStudentStagedCommandTest {
         CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = addModuleToStudentStagedCommand.getSearchedModule();
         assertEquals(validCodeBeforeSearch, validModuleAfterSearch.getCode());
-        assertEquals(createCommandResult("", "", " ACC1002X", ""), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", "", " ACC1002X", "", ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
 
     }
@@ -114,7 +116,7 @@ public class AddModuleToStudentStagedCommandTest {
         CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
         Module validModuleAfterSearch = addModuleToStudentStagedCommand.getSearchedModule();
         assertNull(validModuleAfterSearch);
-        assertEquals(createCommandResult("", " CS1010", "", ""), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", " CS1010", "", "", ""), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
@@ -158,7 +160,7 @@ public class AddModuleToStudentStagedCommandTest {
                 new AddModuleToStudentStagedCommandTest.ModelStubForHybrid(ACC1002);
 
         CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
-        assertEquals(createCommandResult("", " CS1010", " ACC1002", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(createCommandResult("", " CS1010", " ACC1002", "", " ACC1002X"), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
@@ -179,7 +181,29 @@ public class AddModuleToStudentStagedCommandTest {
 
         CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
         assertEquals(createCommandResult(" ACC1002 CS1010", " CS1010", " ACC1002",
-                " ACC1002X"), commandResult.feedbackToUser);
+                "", " ACC1002X"), commandResult.feedbackToUser);
+        assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
+    }
+
+    @Test
+    public void execute_hybridModulesWithModuleExistingInAnotherList_addedCorrectly() throws Exception {
+        Code validCode = new Code("ACC1002X");
+        Code duplicateCode = new Code("ACC1002");
+        Code duplicateAnotherCode = new Code("CS2103T");
+        Code notExistCode = new Code("CS1010");
+        HashSet<String> duplicateCodeInCommandSet = new HashSet<>();
+        duplicateCodeInCommandSet.add("ACC1002");
+        duplicateCodeInCommandSet.add("CS1010");
+
+        AddModuleToStudentStagedCommand addModuleToStudentStagedCommand =
+                new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(validCode,
+                        duplicateCode, duplicateAnotherCode, notExistCode)), duplicateCodeInCommandSet);
+        AddModuleToStudentStagedCommandTest.ModelStub modelStub =
+                new AddModuleToStudentStagedCommandTest.ModelStubForHybrid(ACC1002, CS2103T);
+
+        CommandResult commandResult = addModuleToStudentStagedCommand.execute(modelStub, commandHistory);
+        assertEquals(createCommandResult(" ACC1002 CS1010", " CS1010", " ACC1002",
+                " CS2103T", " ACC1002X"), commandResult.feedbackToUser);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
@@ -451,6 +475,11 @@ public class AddModuleToStudentStagedCommandTest {
         }
 
         @Override
+        public Index searchForIndexInDatabase(Module module) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void saveUserFile(User user, Path savePath) {
             throw new AssertionError("This method should not be called.");
         }
@@ -538,6 +567,12 @@ public class AddModuleToStudentStagedCommandTest {
         }
 
         @Override
+        public boolean hasModuleTaken(Module module) {
+            requireNonNull(module);
+            return student.hasModulesTaken(module);
+        }
+
+        @Override
         public void addModuleStaged(Module module) {
             requireNonNull(module);
             student.addModulesStaged(module);
@@ -564,12 +599,21 @@ public class AddModuleToStudentStagedCommandTest {
      * A Model stub that for testing hybrid modules.
      */
     private class ModelStubForHybrid extends AddModuleToStudentStagedCommandTest.ModelStub {
-        private final Module module;
+        private final Module module; // the module in staged list
+        private final Module anotherModule; // the module in taken list
         private final ModuleList moduleList = TypicalModules.getTypicalModuleList();
 
         ModelStubForHybrid(Module module) {
             requireNonNull(module);
             this.module = module;
+            this.anotherModule = null;
+        }
+
+        ModelStubForHybrid(Module module, Module anotherModule) {
+            requireNonNull(module);
+            this.module = module;
+            this.anotherModule = anotherModule;
+            moduleList.addModule(CS2103T);
         }
 
         @Override
@@ -582,6 +626,15 @@ public class AddModuleToStudentStagedCommandTest {
         public boolean hasModuleStaged(Module module) {
             requireNonNull(module);
             return this.module.isSameModule(module);
+        }
+
+        @Override
+        public boolean hasModuleTaken(Module module) {
+            requireNonNull(module);
+            if (anotherModule == null) {
+                return false;
+            }
+            return this.anotherModule.isSameModule(module);
         }
 
         @Override
@@ -604,7 +657,8 @@ public class AddModuleToStudentStagedCommandTest {
      * Create a command result with three types of Code.
      */
     private String createCommandResult(String duplicateCodeInCommand, String notExistCode,
-                                       String duplicateCode, String addSuccessCode) {
+                                       String duplicateCode, String duplicateAnotherCode,
+                                       String addSuccessCode) {
         if (duplicateCodeInCommand != "") {
             duplicateCodeInCommand = AddModuleToStudentStagedCommand.MESSAGE_DUPLICATE_FOUND_IN_COMMAND
                     .concat(duplicateCodeInCommand + '\n');
@@ -620,6 +674,11 @@ public class AddModuleToStudentStagedCommandTest {
                     .concat(duplicateCode + '\n');
         }
 
+        if (duplicateAnotherCode != "") {
+            duplicateAnotherCode = AddModuleToStudentStagedCommand
+                    .MESSAGE_DUPLICATE_MODULE_IN_ANOTHER_LIST.concat(duplicateAnotherCode + '\n');
+        }
+
         if (addSuccessCode != "") {
             addSuccessCode = AddModuleToStudentStagedCommand.MESSAGE_SUCCESS
                     .concat(addSuccessCode + '\n');
@@ -628,6 +687,7 @@ public class AddModuleToStudentStagedCommandTest {
         return duplicateCodeInCommand
                 + notExistCode
                 + duplicateCode
+                + duplicateAnotherCode
                 + addSuccessCode;
     }
 

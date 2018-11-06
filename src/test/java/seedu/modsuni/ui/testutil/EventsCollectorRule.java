@@ -77,6 +77,17 @@ public class EventsCollectorRule implements TestRule {
         }
 
         /**
+         * Returns the selected {@code number}-most recent event collected
+         */
+        public BaseEvent getSelectedMostRecent(int number) {
+            if (number > events.size()) {
+                return null;
+            }
+
+            return events.get(events.size() - number);
+        }
+
+        /**
          * Returns true if the collector did not receive any events
          */
         public boolean isEmpty() {

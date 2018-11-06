@@ -12,6 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.DatabaseModulePanelSelectionChangedEvent;
+import seedu.modsuni.commons.events.ui.JumpToDatabaseListRequestEvent;
 import seedu.modsuni.commons.events.ui.JumpToListRequestEvent;
 import seedu.modsuni.model.module.Module;
 
@@ -59,6 +60,12 @@ public class DatabaseModuleListPanel extends UiPart<Region> {
 
     @Subscribe
     private void handleJumpToListRequestEvent(JumpToListRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        scrollTo(event.targetIndex);
+    }
+
+    @Subscribe
+    private void handleJumpToDatabaseListRequestEvent(JumpToDatabaseListRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         scrollTo(event.targetIndex);
     }

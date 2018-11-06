@@ -17,6 +17,7 @@ import org.junit.rules.ExpectedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -359,6 +360,11 @@ public class RemoveUserCommandTest {
 
         @Override
         public Optional<Module> searchCodeInDatabase(Code code) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Index searchForIndexInDatabase(Module module) {
             throw new AssertionError("This method should not be called.");
         }
 

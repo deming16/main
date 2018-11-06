@@ -33,6 +33,8 @@ public class AddModuleToStudentTakenCommand extends Command {
     public static final String MESSAGE_SUCCESS = "These modules have been successfully added:";
     public static final String MESSAGE_DUPLICATE_MODULE =
             "These modules can not be added because they already exist in your taken module list:";
+    public static final String MESSAGE_DUPLICATE_MODULE_IN_ANOTHER_LIST =
+            "These modules can not be added because they already exist in your staged module list:";
     public static final String MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE =
             "These modules can not be added because they do not exist in our database:";
     public static final String MESSAGE_NOT_STUDENT = "Only a student user can execute this command";
@@ -44,6 +46,7 @@ public class AddModuleToStudentTakenCommand extends Command {
     private String duplicateCodeInCommand;
     private String addSuccessCode;
     private String duplicateCode;
+    private String duplicateAnotherCode;
     private String notExistCode;
 
     /**
@@ -70,6 +73,7 @@ public class AddModuleToStudentTakenCommand extends Command {
 
         addSuccessCode = MESSAGE_SUCCESS;
         duplicateCode = MESSAGE_DUPLICATE_MODULE;
+        duplicateAnotherCode = MESSAGE_DUPLICATE_MODULE_IN_ANOTHER_LIST;
         notExistCode = MESSAGE_MODULE_NOT_EXISTS_IN_DATABASE;
     }
 
@@ -104,6 +108,11 @@ public class AddModuleToStudentTakenCommand extends Command {
                 continue;
             }
 
+            if (model.hasModuleStaged(toAdd)) {
+                duplicateAnotherCode = duplicateAnotherCode.concat(" " + code.toString());
+                continue;
+            }
+
             model.addModuleTaken(toAdd);
             addSuccessCode = addSuccessCode.concat(" " + code.toString());
         }
@@ -122,13 +131,20 @@ public class AddModuleToStudentTakenCommand extends Command {
             duplicateCode = duplicateCode.concat("\n");
         }
 
+        if (duplicateAnotherCode.equals(MESSAGE_DUPLICATE_MODULE_IN_ANOTHER_LIST)) {
+            duplicateAnotherCode = "";
+        } else {
+            duplicateAnotherCode = duplicateAnotherCode.concat("\n");
+        }
+
         if (addSuccessCode.equals(MESSAGE_SUCCESS)) {
             addSuccessCode = "";
         } else {
             addSuccessCode = addSuccessCode.concat("\n");
         }
 
-        return new CommandResult(duplicateCodeInCommand + notExistCode + duplicateCode + addSuccessCode);
+        return new CommandResult(duplicateCodeInCommand + notExistCode + duplicateCode
+                + duplicateAnotherCode + addSuccessCode);
     }
 
     @Override

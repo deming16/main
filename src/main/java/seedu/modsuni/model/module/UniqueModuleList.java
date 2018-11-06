@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.model.module.exceptions.DuplicateModuleException;
 import seedu.modsuni.model.module.exceptions.ModuleNotFoundException;
 
@@ -70,6 +71,19 @@ public class UniqueModuleList implements Iterable<Module> {
             }
         }
         return Optional.empty();
+    }
+
+    /**
+     * Searches the Index of {@Code toSearch} in the {@Code internalList}
+     * Returns the Index of {@Code toSearch}
+     */
+    public Index searchForIndex(Module toSearch) {
+        requireNonNull(toSearch);
+        int index = internalList.indexOf(toSearch);
+        if (index == -1) {
+            throw new ModuleNotFoundException();
+        }
+        return Index.fromZeroBased(index);
     }
 
     /**

@@ -20,6 +20,7 @@ import javafx.collections.transformation.FilteredList;
 
 import seedu.modsuni.commons.core.ComponentManager;
 import seedu.modsuni.commons.core.LogsCenter;
+import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.commons.events.model.AddressBookChangedEvent;
 import seedu.modsuni.commons.events.model.CredentialStoreChangedEvent;
 import seedu.modsuni.commons.events.model.ModuleListChangedEvent;
@@ -112,6 +113,13 @@ public class ModelManager extends ComponentManager implements Model {
         requireNonNull(code);
         ModuleList moduleList = (ModuleList) getModuleList();
         return moduleList.searchCode(code);
+    }
+
+    @Override
+    public Index searchForIndexInDatabase(Module module) {
+        requireNonNull(module);
+        ModuleList moduleList = (ModuleList) getModuleList();
+        return moduleList.searchForIndex(module);
     }
 
     /**

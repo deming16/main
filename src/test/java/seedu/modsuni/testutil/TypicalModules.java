@@ -56,6 +56,21 @@ public class TypicalModules {
             .withisAvailableInSpecialTerm1(false).withisAvailableInSpecialTerm2(false)
             .withLockedModules(new ArrayList<Code>()).withPrereq(new Prereq()).build();
 
+    public static final Module CS2103T = new ModuleBuilder().withCode(new Code("CS2103T"))
+            .withDepartment("Computer Science").withTitle("Software Engineering")
+            .withDescription("This module introduces the necessary conceptual and analytical tools for systematic "
+                    + "and rigorous development of software systems. It covers four main areas of software "
+                    + "development, namely object-oriented system analysis, object-oriented system modelling and "
+                    + "design, implementation, and testing, with emphasis on system modelling and design and "
+                    + "implementation of software modules that work cooperatively to fulfill the requirements of "
+                    + "the system. Tools and techniques for software development, such as Unified Modelling "
+                    + "Language (UML), program specification, and testing methods, will be taught. Major software "
+                    + "engineering issues such as modularisation criteria, program correctness, "
+                    + "and software quality will also be covered.")
+            .withCredit(4).withIsAvailableInSem1(true).withIsAvailableInSem2(true)
+            .withisAvailableInSpecialTerm1(false).withisAvailableInSpecialTerm2(false)
+            .withLockedModules(new ArrayList<Code>()).withPrereq(new Prereq()).build();
+
     private TypicalModules() {} // prevents instantiation
 
     /**

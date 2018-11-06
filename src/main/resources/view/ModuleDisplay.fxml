@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="placeHolder" prefWidth="900.0" styleClass="pane-with-border" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+       <VBox>
+           <children>
+               <!-- Code Label -->
+               <HBox VBox.vgrow="NEVER">
+                   <children>
+                       <Label fx:id="codeLabel" maxWidth="60.0" minWidth="60.0" text="Code: " HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Label>
+                       <Text fx:id="codeText" fill="WHITE" styleClass="text" wrappingWidth="200" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Text>
+                   </children>
+                   <VBox.margin>
+                       <Insets />
+                   </VBox.margin>
+               </HBox>
+               <!-- Department Label -->
+               <HBox VBox.vgrow="NEVER">
+                   <children>
+                     <!-- Title Label -->
+                     <HBox maxHeight="40.0" prefHeight="40.0">
+                         <children>
+                             <Label fx:id="titleLabel" maxWidth="70.0" minWidth="70.0" text="Title: " HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                     <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                                 </HBox.margin>
+                             </Label>
+                             <Text fx:id="titleText" fill="WHITE" wrappingWidth="215.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                     <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                                 </HBox.margin>
+                             </Text>
+                         </children>
+                     </HBox>
+                       <Label fx:id="departmentLabel" maxWidth="100.0" minWidth="100.0" text="Department: " HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Label>
+                       <Text fx:id="departmentText" fill="WHITE" wrappingWidth="200" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Text>
+                   </children>
+                   <VBox.margin>
+                       <Insets />
+                   </VBox.margin>
+               </HBox>
+               <!-- Description Label -->
+               <HBox VBox.vgrow="NEVER">
+                   <children>
+                       <Label fx:id="descriptionLabel" maxWidth="100.0" minWidth="100.0" text="Description: " HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Label>
+                       <Text fx:id="descriptionText" fill="WHITE" wrappingWidth="700.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Text>
+                   </children>
+                   <VBox.margin>
+                       <Insets />
+                   </VBox.margin>
+               </HBox>
+               <!-- Credit Label-->
+               <HBox VBox.vgrow="NEVER">
+                   <children>
+                       <Label fx:id="creditLabel" maxWidth="100.0" minWidth="100.0" text="Credit: " HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Label>
+                       <Text fx:id="creditText" fill="WHITE" wrappingWidth="186.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Text>
+                           <!-- Availability Label-->
+                     <HBox maxHeight="70.0" prefHeight="67.0" prefWidth="600.0">
+                         <children>
+                             <Label fx:id="availabilityLabel" maxWidth="100.0" minWidth="100.0" text="Available in: " HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                     <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                                 </HBox.margin>
+                             </Label>
+                             <Text fx:id="availabilityText" fill="WHITE" wrappingWidth="150" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                     <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                                 </HBox.margin>
+                             </Text>
+                         </children>
+                     </HBox>
+                   </children>
+                   <VBox.margin>
+                       <Insets />
+                   </VBox.margin>
+               </HBox>
+               <!-- Locked Modules Label-->
+               <HBox VBox.vgrow="NEVER">
+                   <children>
+                       <Label fx:id="lockedModulesLabel" maxWidth="150.0" minWidth="150.0" text="Locked Modules: " HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Label>
+                       <Text fx:id="lockedModulesText" fill="WHITE" wrappingWidth="600.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                           </HBox.margin>
+                       </Text>
+                   </children>
+                   <VBox.margin>
+                       <Insets />
+                   </VBox.margin>
+               </HBox>
+           </children>
+       </VBox>
+   </children>
+</StackPane>
