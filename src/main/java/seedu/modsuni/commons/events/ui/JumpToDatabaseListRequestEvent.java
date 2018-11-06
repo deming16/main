@@ -4,7 +4,7 @@ import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.commons.events.BaseEvent;
 
 /**
- * Indicates a request to jump to the list of persons
+ * Indicates a request to jump to the a module in the database module list
  */
 public class JumpToDatabaseListRequestEvent extends BaseEvent {
 
