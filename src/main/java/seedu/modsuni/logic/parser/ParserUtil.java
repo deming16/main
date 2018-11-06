@@ -262,4 +262,13 @@ public class ParserUtil {
         PrereqGenerator.checkValidPrereqString(trimmedPrereq);
         return new PrereqGenerator().generate(trimmedPrereq);
     }
+
+    /**
+     * Parses a {@code String prereq} into a {@code Prereq}.
+     */
+    public static String parseSwitchTab(String switchToTab) throws ParseException {
+        requireNonNull(switchToTab);
+        String trimmedSwitchToTab = switchToTab.trim();
+        return trimmedSwitchToTab;
+    }
 }
