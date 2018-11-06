@@ -1,5 +1,6 @@
 package seedu.modsuni.model.module;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -81,9 +82,17 @@ public class Prereq {
 
     @Override
     public String toString() {
+        if (!or.isPresent() && !and.isPresent()) {
+            return "No prerequisites";
+        }
         StringBuilder sb = new StringBuilder();
-        sb.append("Prereq - ");
-
+        if (or.isPresent()) {
+            sb.append("Or: ");
+            sb.append(Arrays.toString(or.get().toArray()));
+        } else if (and.isPresent()) {
+            sb.append("And: ");
+            sb.append(Arrays.toString(and.get().toArray()));
+        }
         return sb.toString();
     }
 

@@ -33,9 +33,18 @@ public class GenerateDisplay extends UiPart<Region> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         Platform.runLater(() -> {
             semesters.getChildren().clear();
+            int year = 1;
+            int semesterNo = 1;
             for (Semester semester : event.semesterList) {
-                SemesterCard semesterCard = new SemesterCard(semester);
+                SemesterCard semesterCard = new SemesterCard(semester,
+                        "Year " + year + " Semester " + semesterNo++);
                 semesters.getChildren().add(semesterCard.getRoot());
+                if (semesterNo % 2 == 1) {
+                    semesterNo = 1;
+                    year++;
+                } else {
+                    semesterNo = 2;
+                }
             }
         });
     }

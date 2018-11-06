@@ -7,7 +7,8 @@
 <?import javafx.scene.control.ListView?>
 <StackPane fx:id="semesterCardPane" styleClass="pane-with-border" xmlns="http://javafx.com/javafx/8.0.172-ea"
            xmlns:fx="http://javafx.com/fxml/1">
-    <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-        <ListView fx:id="semesterListView" VBox.vgrow="ALWAYS" />
+    <VBox prefHeight="200" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
+        <Label fx:id="semesterNo" />
+        <ListView fx:id="semesterListView" VBox.vgrow="ALWAYS"/>
     </VBox>
 </StackPane>

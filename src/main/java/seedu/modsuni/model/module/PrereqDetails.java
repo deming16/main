@@ -1,5 +1,6 @@
 package seedu.modsuni.model.module;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -96,6 +97,19 @@ public class PrereqDetails {
             return false;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        if (code.isPresent()) {
+            return code.get().code;
+        } else if (or.isPresent()) {
+            return "Or: " + Arrays.toString(or.get().toArray());
+        } else if (and.isPresent()) {
+            return "And: " + Arrays.toString(and.get().toArray());
+        } else {
+            return "";
+        }
     }
 
     @Override

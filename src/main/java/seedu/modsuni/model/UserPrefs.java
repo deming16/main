@@ -13,7 +13,7 @@ public class UserPrefs {
 
     private GuiSettings guiSettings;
     private Path addressBookFilePath = Paths.get("data" , "addressbook.xml");
-    private Path moduleFilePath = Paths.get("data", "moduleList.xml.xml");
+    private Path moduleFilePath = Paths.get("data", "modules.xml");
     private Path credentialStoreFilePath = Paths.get("data" , "credentialstore.xml");
     private Path userStorageFilePath = Paths.get("data", "userdata.xml");
 
