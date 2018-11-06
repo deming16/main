@@ -1,17 +1,9 @@
 package seedu.modsuni.ui;
 
-import static guitests.guihandles.UserTabHandle.DATE_LABEL_ID;
-import static guitests.guihandles.UserTabHandle.DATE_TEXT_ID;
-import static guitests.guihandles.UserTabHandle.INITIAL_DATE_LABEL;
-import static guitests.guihandles.UserTabHandle.INITIAL_NAME_LABEL;
-import static guitests.guihandles.UserTabHandle.NAME_LABEL_ID;
-import static guitests.guihandles.UserTabHandle.NAME_TEXT_ID;
-import static guitests.guihandles.UserTabHandle.USER_DETAIL_1_LABEL;
-import static guitests.guihandles.UserTabHandle.USER_DETAIL_1_TEXT;
-import static guitests.guihandles.UserTabHandle.USER_DETAIL_2_LABEL;
-import static guitests.guihandles.UserTabHandle.USER_DETAIL_2_TEXT;
+import static guitests.guihandles.UserTabHandle.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static seedu.modsuni.testutil.TypicalAdmins.ALICE;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_ADMIN;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
@@ -20,6 +12,9 @@ import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
 import static seedu.modsuni.ui.UserTab.ADMIN_DESC;
 import static seedu.modsuni.ui.UserTab.ADMIN_DETAIL_1_LABEL;
 import static seedu.modsuni.ui.UserTab.ADMIN_DETAIL_2_LABEL;
+import static seedu.modsuni.ui.UserTab.INITIAL_DATE_LABEL;
+import static seedu.modsuni.ui.UserTab.INITIAL_NAME_LABEL;
+import static seedu.modsuni.ui.UserTab.LAST_SAVED_LABEL;
 import static seedu.modsuni.ui.UserTab.STUDENT_DETAIL_1_LABEL;
 import static seedu.modsuni.ui.UserTab.STUDENT_DETAIL_2_LABEL;
 
@@ -35,6 +30,7 @@ import org.junit.Test;
 import guitests.guihandles.UserTabHandle;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.LoginCommand;
+import seedu.modsuni.logic.commands.LogoutCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
 import seedu.modsuni.logic.commands.SaveCommand;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
@@ -209,13 +205,29 @@ public class UserTabTest extends GuiUnitTest {
     }
 
     @Test
-    public void userTab_successfulLogoutCommand() {
+    public void userTab_successfulLogoutCommand() throws CommandException, InterruptedException {
+        model.setCurrentUser(STUDENT_MAX);
 
+        LogoutCommand command = new LogoutCommand();
+        command.execute(model, commandHistory);
+
+        Thread.sleep(500);
+        assertLabelAndTextFieldsReset();
     }
 
     @Test
-    public void userTab_failLogoutCommand() {
-
+    public void userTab_failLogoutCommand() throws InterruptedException {
+        model.resetCurrentUser();
+        // Will only occur when no user is logged in.
+        LogoutCommand command = new LogoutCommand();
+        try {
+            command.execute(model, commandHistory);
+        } catch (CommandException e) {
+            // Ignored since we're only checking for UI changes
+        } finally  {
+            Thread.sleep(500);
+            assertLabelAndTextFieldsReset();
+        }
     }
 
     /**
@@ -256,6 +268,25 @@ public class UserTabTest extends GuiUnitTest {
             map.put(USER_DETAIL_2_TEXT, ADMIN_DESC);
             return map;
         }
+    }
+
+    /**
+     * Determines if the UserTab labels have been reset.
+     */
+    private void assertLabelAndTextFieldsReset() {
+        // Check Labels
+        assertEquals(INITIAL_NAME_LABEL, userTabHandle.getNameLabel());
+        assertEquals(INITIAL_DATE_LABEL, userTabHandle.getDateLabel());
+        assertEquals(STUDENT_DETAIL_1_LABEL, userTabHandle.getUserDetail1Label());
+        assertEquals(STUDENT_DETAIL_2_LABEL, userTabHandle.getUserDetail2Label());
+        assertEquals(LAST_SAVED_LABEL, userTabHandle.getLastSaveLabel());
+
+        // Checks Texts
+        assertTrue(userTabHandle.getNameText().isEmpty());
+        assertTrue(userTabHandle.getDateText().isEmpty());
+        assertTrue(userTabHandle.getUserDetail1Text().isEmpty());
+        assertTrue(userTabHandle.getUserDetail2Text().isEmpty());
+        assertTrue(userTabHandle.getLastSaveText().isEmpty());
     }
 
 
