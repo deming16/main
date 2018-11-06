@@ -12,7 +12,6 @@ import javax.crypto.NoSuchPaddingException;
 
 import javafx.collections.ObservableList;
 
-
 import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
