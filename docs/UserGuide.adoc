@@ -50,7 +50,7 @@ Some example commands you can try:
 Refer to <<Features>> for details of each command.
 
 To begin using administrator commands, login to the default master account with the following command: +
-`login user/master pass/Pass#123 userdata/masterconfig` +
+`login user/master pass/Pass#123 userdata/masterconfig.xml` +
 
 Refer to <<AdminFeatures>> for details of each admin command.
 
@@ -325,7 +325,7 @@ Input fields:
 
 Example:
 
-* `addAdmin user/myUsername pass/Password#1 n/John Doe sp/exampleconfig salary/3000 employ/30/09/2018` +
+* `addAdmin user/myUsername pass/Password#1 n/John Doe sp/exampleconfig.xml salary/3000 employ/30/09/2018` +
 Creates a new administrator account with the following stated details.
 
 === Edit the currently logged in administrator account: `editAdmin`
