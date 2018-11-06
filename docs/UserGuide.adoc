@@ -153,18 +153,75 @@ Returns the same result as above.
 By executing this command, the application will display
 the filtered database module list.
 
+// tag::saveuser[]
 [[save]]
 
 === Saving user data: `save`
 
-Save current module configurations for future usage. +
-Format: `save sp/[FILE_NAME].xml`
+Saves current user information for the restoration of a user when logging in. +
+Format: `save sp/<FILE_NAME>.xml`
 
-Examples:
+Example:
 
 * `save sp/userdata.xml` +
-Saves the current user data to the file name `userdata.xml`
+Saves the current user data to the file name `userdata.xml`.
 
+[TIP]
+The prefix `"sp"` is the short form for `"save path"`.
+
+Figure 1 shows an example of the usage of the save command in the application.
+
+image::SaveCommandExample.jpg[width="450"]
+_Figure 1. An example of a save command_
+
+Upon entering the command, you will see the types of information stored as well as a successful message as shown in Figure 2.
+
+image::SaveCommandSuccessful.jpg[width="450"]
+_Figure 2. Saved information and successful message are displayed upon entering save command_
+
+Upon entering the save command, a file depicted in Figure 3 will be generated.
+This file will be required when logging in.
+
+[IMPORTANT]
+Modifying the saved file may result in the loss of data that is unrecoverable. Edit at your own risk!
+
+image::SaveFileExample.jpg[width="400"]
+_Figure 3. An example of a user's information in a saved file_
+// end::saveuser[]
+
+// tag::switchtab[]
+[[switchtab]]
+=== Switch left panel tabs: `switch`
+
+Switches to the selected tab on the left panel. +
+Format: `switch tab/<OPTION>`
+
+Available Options:
+
+* User tab: `tab/user`
+* Staged tab: `tab/staged`
+* Taken tab: `tab/taken`
+* Database tab: `tab/database`
+
+
+Example:
+
+* `switch tab/database` +
+Switches the left panel to the database tab.
+
+[TIP]
+You do not need to be logged in to use the switch command.
+
+Figure 1 shows an example of the usage of switch command in the application.
+
+image::SwitchTabCommandExample.jpg[width="450"]
+_Figure 1. An example of a switch to the database tab_
+
+Upon entering the command, you will see that the left panel switches to the database panel as shown in Figure 2.
+
+image::SwitchTabCommandSuccessful.jpg[width="450"]
+_Figure 2. A successful example of switching to the database tab_
+// end::switchtab[]
 
 // tag::generate[]
 === Generate module plan: `generate`

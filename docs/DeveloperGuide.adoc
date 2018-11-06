@@ -787,7 +787,7 @@ It stores the following attributes of a `User` object: +
 
 * `UserStorage` +
 It provides methods to save the current user's attributes as well as to load a file containing previously saved data. +
-Additionally, it implements the following operations(s):
+Additionally, it implements the following operations:
 ** `StorageManager#saveUser(…​)` — Save the user's data into the specified file path.
 ** `StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
 
@@ -874,7 +874,7 @@ A new registered `Student` would be initialized and automatically logged in whic
 ** Cons: Does not restore the state of the user entirely.
 // end::saveuser[]
 
-// tag::dataencryption[]
+// tag::datasecurity[]
 === Data Security Feature
 The data security feature mainly involves the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
 
@@ -888,8 +888,6 @@ This section will describe in details the current implementation and the design 
 The data security feature is facilitated by `DataSecurityUtil` class. +
 It implements the following operations(s):
 
-* `DataSecurityUtil#encryptFile(…​)` — Encrypts a `File` object with the specified password and overrides the original unencrypted file.
-* `DataSecurityUtil#decryptFile(…​)` — Decrypts a `File` object with the specified password and overrides the original encrypted file.
 * `DataSecurityUtil#encrypt(…​)` — Encrypts a `byte[]` with the specified password and returns the encrypted `byte[]`.
 * `DataSecurityUtil#decrypt(…​)` — Decrypts a `byte[]` with the specified password and returns the decrypted `byte[]`.
 
@@ -897,26 +895,40 @@ It implements the following operations(s):
 
 The `Hashing` class is used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which are required to generate `SecretKeySpec`.
 
-Currently, encryption is performed in `StorageManager` and decryption is performed in `LoginCommand` where the file is loaded.
+Both encryption and decryption is performed in `XMLAdaptedUser`.
 
 ===== Implementation of the encryption feature
 
-The encryption feature is integrated with the save user feature (3.6). +
-Immediately after the user data file is saved onto local disk, `DataSecurityUtil#encryptFile(...)` will be called to encrypt the file.
-This is shown in the following code snippet below:
+The encryption feature is integrated with the save user feature (3.6).
+
+During the conversion of a `User` object to XML, the encryption is performed in `XMLAdapterUser`, right before the file is written locally.
+Currently, we only encrypt the `Username` (for all users) and `Salary` (for administrators).
+
+The following code snippet shown below illustrates the encryption process:
 
 [source, java]
 ----
-public void handleSaveUserChangedEvent(SaveUserChangedEvent cuce) {
-    // ... logging ...
-    try {
-        userStorage.saveUser(cuce.user, cuce.filePath);
-        DataSecurityUtil.encryptFile(cuce.filePath.toFile(),
-                cuce.password.getValue());
-    } catch (IOException e) {
-        logger.warning("Unable to save or encrypt data");
-        e.printStackTrace();
+public XmlAdaptedUser(User user, String password) {
+    // ... null checks ...
+
+
+    // All users
+    this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+            user.getUsername().toString().getBytes(), password));
+    this.name = user.getName().toString();
+    this.role = user.getRole().toString();
+    this.pathToProfilePic = user.getPathToProfilePic().toString();
+
+
+    // Admin
+    if (user.getRole() == Role.ADMIN) {
+        Admin admin = (Admin) user;
+        this.salary = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+                admin.getSalary().toString().getBytes(), password));
+        this.employmentDate = admin.getEmploymentDate().toString();
     }
+
+    // ... removed for brevity ...
 }
 ----
 
@@ -928,47 +940,53 @@ _Figure 1. Sequence Diagram for the interaction between EventsCenter and Storage
 
 ===== Implementation of the decryption feature
 The decryption feature is integrated with the login feature under user account management(3.1). +
-`LoginCommand` calls `DataSecurityUtil#decryptFile(...)` once the validation of the user is completed.
 
-This is shown in the following code snippet below:
+When `LoginCommand` calls `model.readUser(...)` the loading of user file will commence and the decryption will occur in `XMLAdapterUser#toModelType(...)`.
+
+This is shown in the following code snippets below:
 
 [source, java]
 ----
-public CommandResult execute(Model model, CommandHistory history) throws CommandException {
-        // ... check if user logged in ... //
-        // ... check if credential is valid .. //
+public User toModelType(String password) throws IllegalValueException, CorruptedFileException,
+        NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
+    User user = null;
+    checkMandatoryFields();
 
-        User toSetCurrentUser;
-        try {
-            DataSecurityUtil.decryptFile(pathToSaveFile.toFile(),
-                toLogin.getPassword().toString());
+    String decryptedUsername = decryptUsername(password);
 
-            Optional<User> userFromFile = model.readUserFile(pathToSaveFile);
-            if (!userFromFile.isPresent()) {
-                throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
-            }
-            toSetCurrentUser = userFromFile.get();
+    if ("ADMIN".equals(role)) {
+        checkAdminFields();
+        String decryptedSalary = decryptSalary(password);
+        user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary),
+                new EmployDate(employmentDate));
+    }
+    // ... removed for brevity ...
 
-            DataSecurityUtil.encryptFile(pathToSaveFile.toFile(), toLogin.getPassword().getValue());
-        } catch (DataConversionException | IOException | CorruptedFileException
-            | NoSuchAlgorithmException | InvalidKeyException | InvalidPasswordException
-            | NoSuchPaddingException e) {
-            throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
-        }
-
-        model.setCurrentUser(toSetCurrentUser);
-        return new CommandResult(String.format(MESSAGE_SUCCESS,
-            toSetCurrentUser.getUsername()));
+    return user;
 }
+----
+
+The code snippets of `decryptUsername(...)` and `decryptSalary(...)` is as follows:
+
+[source, java]
+----
+private String decryptUsername(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+        InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+    return new String(DataSecurityUtil.decrypt(
+            DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
+}
+
+ private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+    return new String(DataSecurityUtil.decrypt(
+            DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
+ }
 ----
 
 The sequence diagram shown below in Figure 2 illustrates the integration of decryption with the login feature.
 
 image::SDforSaveCommandLogicAndModelUserDecryption.png[width="900"]
 _Figure 2. Sequence Diagram for the interaction between Logic Component and DataSecurityUtil when executing LoginCommand_
-
-
-// consideration command encryption(not user friendly) or inbuilt encryption (harder)
 
 ==== Design Considerations
 
@@ -989,7 +1007,90 @@ _Figure 2. Sequence Diagram for the interaction between Logic Component and Data
 * **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
 ** Pros: The key will be more secured compared to the key generated from alternative 1.
 ** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
-// end::dataencryption[]
+// end::datasecurity[]
+
+// tag::loaduser[]
+=== Load User feature
+The load user feature involves mainly the loading process of a user's attributes.
+This feature is integrated into the `login` command, however it functions independently from authentication process.
+
+This section will describe in details the current implementation and the design considerations of the load user feature.
+
+==== Current Implementation
+The load mechanism is facilitated by the `UserStorage` class.
+
+It provides a method to load the user's attributes from a saved file. +
+The following operation is used for the loading process:
+
+`StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
+
+===== Implementation of the save feature
+
+The load mechanism of modsUni is facilitated by `LoginCommand` class and is event-driven.
+It allows a user to load their data in modsUni from a XML file.
+
+The load feature uses multiple components of the modsUni application.
+Parsing of command is performed by LoginCommandParser, which returns a LoginCommand object after parsing the save file path.
+
+The sequence diagram shown below in Figure 1 illustrates the interactions between some of these components.
+
+image::SequenceDiagramforLoginLoad.png[width="800"]
+_Figure 1. Sequence Diagram for the interaction between Logic and Model Components when executing LoginCommand_
+
+image::SDforLoginCommandOverviewWithLoad.png[width="800"]
+_Figure 2. High-Level Sequence Diagram of the login process._
+
+The Storage component makes use of `XmlUserStorage` class to read `User` from the file specified by the file path.
+The conversion from `XmlSerializableUser` to `User` object is shown in the following code snippet below:
+
+[source, java]
+----
+public Optional<User> readUser(Path filePath, String password) throws DataConversionException, FileNotFoundException {
+    // ... null checks ...
+
+    XmlSerializableUser xmlUser = XmlFileStorage.loadUserDataFromSaveFile(filePath);
+    try {
+        return Optional.of(xmlUser.toModelType(...));
+    } catch (IllegalValueException ive) {
+        logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
+        throw new DataConversionException(ive);
+    }
+}
+----
+The method `XmlFileStorage#loadUserDataFromSaveFile(...)` as shown in the code snipplets below:
+
+[source, java]
+----
+public static XmlSerializableUser loadUserDataFromSaveFile(Path file) throws DataConversionException, FileNotFoundException {
+    try {
+        return XmlUtil.getDataFromFile(file, XmlSerializableUser.class);
+    } catch (JAXBException e) {
+        throw new DataConversionException(e);
+    }
+}
+----
+
+
+---
+Given below is an example usage scenario and how the save mechanism behaves:
+
+1. A student will use the login command to log into their account.
+
+2. Upon issuing the login command , the login command will call `Model#readUserFile(...)` which then loads the file into an `XmlSerializableUser` using `XmlFileStorage.loadUserDataFromSaveFile(...)`.
+
+3. The `XmlSerializableUser` object is then converted to an `User` object using the  `XmlSerializableUser#toModelType(...)`.
+
+==== Design Considerations
+
+===== Aspect: Load command
+
+* **Alternative 1 (current choice):** Loads file together with login.
+** Pros: Able to load a user saved file without entering an additional command.
+** Cons: Reduce flexibility.
+* **Alternative 2:** Load file using an independent load command.
+** Pros: More control over when a file is loaded..
+** Cons: Additional command which may lead to more bug.
+// end::loaduser[]
 
 === Logging
 

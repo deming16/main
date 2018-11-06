@@ -1,0 +1,72 @@
+= Edric Teo - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: modsUNI
+
+== 1. Overview
+
+This portfolio documents my contribution to the project - modsUni.
+This open-sourced project is in collaboration with four other course mates from the module CS2103 (Introduction to Software Engineering).
+
+Project modsUni is a desktop application that was developed in 6 weeks which allowed us to practice our software engineering skills in a short time frame.
+This project aims to accelerate the process of planning a candidature for a student.
+It was developed for users who prefer to interact with a Command Line Interface (CLI) over a Graphical User Interface (GUI).
+We have managed to contribute ~27,000 lines of code to a code base of 10,000 lines of code.
+Currently, we are targeting undergraduates from the National University of Singapore (NUS), and plan to expand to other local universities.
+
+My contribution includes the implementation of saving a user's information securely.
+
+== 2. Summary of contributions
+
+* *Major enhancement*: Added Save user (Admin/Student) data feature
+
+** What it does:
+*** Allows a user to save their information as a file locally.
+*** Information saved are encrypted.
+*** Displays the saved information upon issue the save command.
+
+** Justification: This feature improves the user experience of modsUni significantly by having the ability to save their information locally, allowing them to restore their data during the login process.
+
+** Highlights: This enhancement puts confidentiality in high regard with multiple security concerns raised and discussed prior to implementation. The inbuilt security feature was also made robust to prevent frustration of the users.
+
+* *Minor enhancement*: Added a switch tab command that allows the user to navigate between different tabs within the application using CLI.
+
+* *Code contributed*: [https://google.com[Functional code]] [https://google.com[Test code]]
+
+* *Other contributions*:
+
+** Project management: +
+Managed releases v1.3 - v1.5rc (4 releases) on GitHub
+
+** Documentation:
+*** Maintained the Glossary section of the Developer Guide (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/83[#83])
+*** Updated User Guide and Developer Guide feedback (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/83[#83])
+
+** Community:
+*** Reviewed pull requests (with non-trivial review comments): (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/127[#127] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/189[#189])
+*** Reported bugs and suggestions for other teams in the class (examples: https://google.com[1], https://google.com[2], https://google.com[3])
+
+** Tools: +
+Integrated RepoSense to the project (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/217[#217])
+
+
+== 3. Contributions to the User Guide
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=saveuser]
+
+== 4. Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+
+include::../DeveloperGuide.adoc[tag=saveuser]
+
+include::../DeveloperGuide.adoc[tag=datasecurity]
