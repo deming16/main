@@ -29,7 +29,7 @@ public class TypicalCredentials {
     public static final Credential CREDENTIAL_ADMIN =
             new CredentialBuilder()
                     .withUsername("Admin123")
-                    .withPassword("6284cd40cd25dc42e03dca6bd45c2cfe5463d82920ac231f29034f4424a3349c")
+                    .withPassword("7ecccb4114345326ec385a43f6a56ed525cdd2e4eeb9d06fbd9f9d7a8d718495")
                     .build();
 
     private TypicalCredentials() {

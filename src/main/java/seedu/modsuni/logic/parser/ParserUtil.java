@@ -24,7 +24,6 @@ import seedu.modsuni.model.person.Phone;
 import seedu.modsuni.model.tag.Tag;
 import seedu.modsuni.model.user.EmployDate;
 import seedu.modsuni.model.user.Name;
-import seedu.modsuni.model.user.PathToProfilePic;
 import seedu.modsuni.model.user.Salary;
 import seedu.modsuni.model.user.student.EnrollmentDate;
 
@@ -202,21 +201,6 @@ public class ParserUtil {
         } catch (NoSuchAlgorithmException e) {
             throw new ParseException(String.format(Password.MESSAGE_PASSWORD_CONSTRAINTS));
         }
-    }
-
-    /**
-     * Parses a {@code String path} into an {@code PathToProfilePic}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code path} is invalid.
-     */
-    public static PathToProfilePic parsePathToProfilePic(String path) throws ParseException {
-        requireNonNull(path);
-        String trimmedPath = path.trim();
-        if (!PathToProfilePic.isValidPath(trimmedPath)) {
-            throw new ParseException(PathToProfilePic.MESSAGE_PATH_CONSTRAINTS);
-        }
-        return new PathToProfilePic(trimmedPath);
     }
 
     /**

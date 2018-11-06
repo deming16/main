@@ -15,7 +15,6 @@ import seedu.modsuni.testutil.Assert;
 
 public class XmlAdaptedCredentialTest {
     private static final String INVALID_USERNAME = "R@chel";
-    private static final String INVALID_PASSWORD = "qwerty123";
 
     private static final String VALID_USERNAME =
         CREDENTIAL_STUDENT_SEB.getUsername().toString();
@@ -24,17 +23,18 @@ public class XmlAdaptedCredentialTest {
 
 
     @Test
-    public void toModelType_validPersonDetails_returnsPerson() throws Exception {
+    public void toModelType_validCredentialDetails_returnsCredential() throws Exception {
         XmlAdaptedCredential credential = new XmlAdaptedCredential(CREDENTIAL_STUDENT_SEB);
         assertEquals(CREDENTIAL_STUDENT_SEB, credential.toModelType());
     }
 
     @Test
     public void toModelType_invalidUsername_throwsIllegalValueException() {
-        XmlAdaptedCredential person =
+        XmlAdaptedCredential credential =
                 new XmlAdaptedCredential(INVALID_USERNAME, VALID_PASSWORD);
         String expectedMessage = Username.MESSAGE_USERNAME_CONSTRAINTS;
-        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+        Assert.assertThrows(IllegalValueException.class, expectedMessage,
+            credential::toModelType);
     }
 
     @Test

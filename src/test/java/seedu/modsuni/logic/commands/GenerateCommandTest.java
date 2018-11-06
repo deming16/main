@@ -108,7 +108,6 @@ public class GenerateCommandTest {
         User student = new StudentBuilder()
                 .withUsername(StudentBuilder.DEFAULT_USERNAME)
                 .withName(StudentBuilder.DEFAULT_NAME)
-                .withProfilePicFilePath(StudentBuilder.DEFAULT_PROFILE_PIC_FILEPATH)
                 .withEnrollmentDate(StudentBuilder.DEFAULT_ENROLLMENT_DATE)
                 .withMajor(StudentBuilder.DEFAULT_MAJOR)
                 .withMinor(StudentBuilder.DEFAULT_MINOR)

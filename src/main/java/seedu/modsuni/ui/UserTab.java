@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Label;
@@ -24,16 +25,28 @@ import seedu.modsuni.model.user.student.Student;
  */
 public class UserTab extends UiPart<Region> {
 
+    public static final String ADMIN_DESC = "This is an admin account";
+    public static final String ADMIN_DETAIL_1_LABEL = "Salary:";
+    public static final String ADMIN_DETAIL_2_LABEL = "NOTE:";
+    public static final String INITIAL_NAME_LABEL = "Name:";
+    public static final String INITIAL_DATE_LABEL = "Date:";
+    public static final String LAST_SAVED_LABEL = "Last Saved/Loaded:";
+    public static final String STUDENT_DETAIL_1_LABEL = "Major(s):";
+    public static final String STUDENT_DETAIL_2_LABEL = "Minor(s):";
+
     private static final Logger logger = LogsCenter.getLogger(UserTab.class);
     private static final String FXML = "UserTab.fxml";
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private static final Clock clock = Clock.systemDefaultZone();
 
+
+
+
     @FXML
     private Label nameLabel;
 
     @FXML
-    private Text userNameText;
+    private Text nameText;
 
     @FXML
     private Label dateLabel;
@@ -70,37 +83,44 @@ public class UserTab extends UiPart<Region> {
      */
     private void resetUserTab() {
         // Resets all Text value
-        userNameText.setText("");
-        dateText.setText("");
-        userDetailText1.setText("");
-        userDetailText2.setText("");
-        lastSavedText.setText("");
+        Platform.runLater(() -> {
+            nameText.setText("");
+            dateText.setText("");
+            userDetailText1.setText("");
+            userDetailText2.setText("");
+            lastSavedText.setText("");
 
-        // Resets Label value
-        userDetailLabel1.setText("Major(s):");
-        userDetailLabel2.setText("Minor(s):");
+            // Resets Label value
+            userDetailLabel1.setText(STUDENT_DETAIL_1_LABEL);
+            userDetailLabel2.setText(STUDENT_DETAIL_2_LABEL);
+        });
     }
 
     @Subscribe
     public void handleUserTabChangedEvent(UserTabChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        userNameText.setText(event.currentUser.getName().fullName);
+        Platform.runLater(() -> nameText.setText(event.currentUser.getName().fullName));
 
         if (event.currentUser.getRole() == Role.STUDENT) {
-            userDetailLabel1.setText("Major(s):");
-            userDetailLabel2.setText("Minor(s):");
-            dateText.setText(((Student) event.currentUser).getEnrollmentDate().toString());
-            userDetailText1.setText(((Student) event.currentUser).getMajor().toString());
-            userDetailText2.setText(((Student) event.currentUser).getMinor().toString());
+            Platform.runLater(() -> {
+                userDetailLabel1.setText(STUDENT_DETAIL_1_LABEL);
+                userDetailLabel2.setText(STUDENT_DETAIL_2_LABEL);
+                dateText.setText(((Student) event.currentUser).getEnrollmentDate().toString());
+                userDetailText1.setText(((Student) event.currentUser).getMajor().toString());
+                userDetailText2.setText(((Student) event.currentUser).getMinor().toString());
+            });
         } else {
-            userDetailLabel1.setText("Salary:");
-            userDetailLabel2.setText("NOTE:");
-            dateText.setText(((Admin) event.currentUser).getEmploymentDate().toString());
-            userDetailText1.setText(((Admin) event.currentUser).getSalary().toString());
-            userDetailText2.setText("This is an admin account"); // hides secondary detail
+            Platform.runLater(() -> {
+                userDetailLabel1.setText(ADMIN_DETAIL_1_LABEL);
+                userDetailLabel2.setText(ADMIN_DETAIL_2_LABEL);
+                dateText.setText(((Admin) event.currentUser).getEmploymentDate().toString());
+                userDetailText1.setText(((Admin) event.currentUser).getSalary().toString());
+                userDetailText2.setText(ADMIN_DESC); // hides secondary detail
+            });
         }
 
-        lastSavedText.setText(dateFormat.format(new Date(clock.millis())));
+        Platform.runLater(() ->
+            lastSavedText.setText(dateFormat.format(new Date(clock.millis()))));
     }
 
     @Subscribe

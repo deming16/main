@@ -84,8 +84,7 @@ public class AddAdminCommandTest {
         Admin bob = new AdminBuilder().withName("Bob").build();
         Credential credential = new Credential(
             new Username("u"),
-            new Password("#Qwerty123"),
-            "k");
+            new Password("#Qwerty123"));
         AddAdminCommand addAliceCommand = new AddAdminCommand(alice, credential, Paths.get("dummyconfig"));
         AddAdminCommand addBobCommand = new AddAdminCommand(bob, credential, Paths.get("dummyconfig"));
 

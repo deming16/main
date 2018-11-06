@@ -20,15 +20,6 @@ public class Credential {
     /**
      * Every field must be present and not null.
      */
-    public Credential(Username username, Password password, String key) {
-        requireAllNonNull(username, password, key);
-        this.username = username;
-        this.password = password;
-    }
-
-    /**
-     * Modified Constructor specifically used for Login Procedure
-     */
     public Credential(Username username, Password password) {
         requireAllNonNull(username, password);
         this.username = username;

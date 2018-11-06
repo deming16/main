@@ -3,7 +3,6 @@ package seedu.modsuni.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
@@ -20,7 +19,6 @@ import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.user.Name;
-import seedu.modsuni.model.user.PathToProfilePic;
 import seedu.modsuni.model.user.student.EnrollmentDate;
 import seedu.modsuni.model.user.student.Student;
 
@@ -35,7 +33,6 @@ public class EditStudentCommand extends Command {
         + " student account with the given parameters.\n"
         + "Parameters:\n"
         + "[" + PREFIX_NAME + "NAME] "
-        + "[" + PREFIX_PATH_TO_PIC + "PATH.img] "
         + "[" + PREFIX_STUDENT_ENROLLMENT_DATE + "DD/MM/YYYY] "
         + "[" + PREFIX_STUDENT_MAJOR + "MAJOR]... "
         + "[" + PREFIX_STUDENT_MINOR + "MINOR]...\n"
@@ -88,8 +85,6 @@ public class EditStudentCommand extends Command {
 
         Name updatedName =
             editStudentDescriptor.getName().orElse(studentToEdit.getName());
-        PathToProfilePic updatedPic =
-            editStudentDescriptor.getProfilePic().orElse(studentToEdit.getPathToProfilePic());
         EnrollmentDate updatedEnrollmentDate =
             editStudentDescriptor.getEnrollmentDate().orElse(studentToEdit.getEnrollmentDate());
         List<String> updatedMajor =
@@ -101,7 +96,6 @@ public class EditStudentCommand extends Command {
             studentToEdit.getUsername(),
             updatedName,
             studentToEdit.getRole(),
-            updatedPic,
             updatedEnrollmentDate,
             updatedMajor,
             updatedMinor);
@@ -130,7 +124,6 @@ public class EditStudentCommand extends Command {
      */
     public static class EditStudentDescriptor {
         private Name name;
-        private PathToProfilePic profilePic;
         private EnrollmentDate enrollmentDate;
         private List<String> majors;
         private List<String> minors;
@@ -144,7 +137,6 @@ public class EditStudentCommand extends Command {
          */
         public EditStudentDescriptor(EditStudentDescriptor toCopy) {
             setName(toCopy.name);
-            setPathToProfilePic(toCopy.profilePic);
             setEnrollmentDate(toCopy.enrollmentDate);
             setMajors(toCopy.majors);
             setMinors(toCopy.minors);
@@ -154,8 +146,10 @@ public class EditStudentCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, profilePic,
-                enrollmentDate, majors,
+            return CollectionUtil.isAnyNonNull(
+                name,
+                enrollmentDate,
+                majors,
                 minors);
         }
 
@@ -165,14 +159,6 @@ public class EditStudentCommand extends Command {
 
         public Optional<Name> getName() {
             return Optional.ofNullable(name);
-        }
-
-        public void setPathToProfilePic(PathToProfilePic phone) {
-            this.profilePic = phone;
-        }
-
-        public Optional<PathToProfilePic> getProfilePic() {
-            return Optional.ofNullable(profilePic);
         }
 
         public void setEnrollmentDate(EnrollmentDate enrollmentDate) {
@@ -237,7 +223,6 @@ public class EditStudentCommand extends Command {
             EditStudentDescriptor e = (EditStudentDescriptor) other;
 
             return getName().equals(e.getName())
-                && getProfilePic().equals(e.getProfilePic())
                 && getEnrollmentDate().equals(e.getEnrollmentDate())
                 && getMajors().equals(e.getMajors())
                 && getMinors().equals(e.getMinors());

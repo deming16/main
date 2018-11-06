@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PASSWORD;
-import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PATH_TO_PIC;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
@@ -34,7 +33,6 @@ public class RegisterCommand extends Command {
         + PREFIX_USERNAME + "USERNAME "
         + PREFIX_PASSWORD + "PASSWORD "
         + PREFIX_NAME + "NAME "
-        + PREFIX_PATH_TO_PIC + "PATH "
         + PREFIX_STUDENT_ENROLLMENT_DATE + "DD/MM/YYYY "
         + PREFIX_STUDENT_MAJOR + "MAJORCODE_1 "
         + PREFIX_STUDENT_MAJOR + "MAJORCODE_2 "

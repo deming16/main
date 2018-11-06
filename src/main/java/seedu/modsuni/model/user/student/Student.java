@@ -9,13 +9,11 @@ import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
 import seedu.modsuni.model.user.Name;
-import seedu.modsuni.model.user.PathToProfilePic;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.User;
 
 /**
  * Represents a Student User.
- *
  */
 public class Student extends User {
     protected EnrollmentDate enrollmentDate;
@@ -31,12 +29,11 @@ public class Student extends User {
      * @param username         The username of the user.
      * @param name             The name of the user.
      * @param role             The role of the user.
-     * @param pathToProfilePic The path to the image to be used as profile picture.
      */
     public Student(Username username, Name name, Role role,
-                   PathToProfilePic pathToProfilePic, EnrollmentDate enrollmentDate,
+                   EnrollmentDate enrollmentDate,
                    List<String> major, List<String> minor) {
-        super(username, name, role, pathToProfilePic);
+        super(username, name, role);
         this.enrollmentDate = enrollmentDate;
         this.major = major;
         this.minor = minor;
@@ -50,14 +47,12 @@ public class Student extends User {
      * @param username         The username of the user.
      * @param name             The name of the user.
      * @param role             The role of the user.
-     * @param pathToProfilePic The path to the image to be used as profile picture.
      * @param modulesTaken     The list of modules taken.
      */
-    public Student(Username username, Name name, Role role,
-                   PathToProfilePic pathToProfilePic, EnrollmentDate enrollmentDate,
+    public Student(Username username, Name name, Role role, EnrollmentDate enrollmentDate,
                    List<String> major, List<String> minor, UniqueModuleList modulesTaken,
                    UniqueModuleList modulesStaged) {
-        super(username, name, role, pathToProfilePic);
+        super(username, name, role);
         this.enrollmentDate = enrollmentDate;
         this.major = major;
         this.minor = minor;
@@ -74,6 +69,7 @@ public class Student extends User {
 
     /**
      * Removes a module inside the module list the student has already taken.
+     *
      * @param module
      */
     public void removeModulesTaken(Module module) {
@@ -82,11 +78,13 @@ public class Student extends User {
 
     /**
      * Adds a module inside the module list the student has already taken.
+     *
      * @param module
      */
     public void addModulesTaken(Module module) {
         modulesTaken.add(module);
     }
+
     /**
      * Returns true if both student's profile contains the module and false otherwise.
      */
@@ -173,23 +171,21 @@ public class Student extends User {
     public String toDisplayUi() {
         final StringBuilder builder = new StringBuilder();
         builder.append("Username: ")
-                .append(getUsername().toString())
-                .append("\nName: ")
-                .append(getName().toString())
-                .append("\nRole: ")
-                .append(getRole().toString())
-                .append("\nPath to profile picture: ")
-                .append(getPathToProfilePic().toString())
-                .append("\nEnrollment date: ")
-                .append(enrollmentDate.toString())
-                .append("\nMajor: ")
-                .append(major.toString())
-                .append("\nMinor: ")
-                .append(minor.toString())
-                .append("\nModules taken: ")
-                .append(modulesTaken.toString())
-                .append("\nModules staged: ")
-                .append(modulesStaged.toString());
+            .append(getUsername().toString())
+            .append("\nName: ")
+            .append(getName().toString())
+            .append("\nRole: ")
+            .append(getRole().toString())
+            .append("\nEnrollment date: ")
+            .append(enrollmentDate.toString())
+            .append("\nMajor: ")
+            .append(major.toString())
+            .append("\nMinor: ")
+            .append(minor.toString())
+            .append("\nModules taken: ")
+            .append(modulesTaken.toString())
+            .append("\nModules staged: ")
+            .append(modulesStaged.toString());
         return builder.toString();
     }
 }

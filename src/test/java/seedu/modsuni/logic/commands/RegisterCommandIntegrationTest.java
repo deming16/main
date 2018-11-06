@@ -51,8 +51,7 @@ public class RegisterCommandIntegrationTest {
 
         Credential validCredential = new Credential(
             new Username("u"),
-            new Password("#Qwerty123"),
-            "k");
+            new Password("#Qwerty123"));
         User dummyUser = new StudentBuilder().build();
 
         Model expectedModel = new ModelManager(

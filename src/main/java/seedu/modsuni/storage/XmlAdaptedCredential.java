@@ -37,7 +37,7 @@ public class XmlAdaptedCredential {
     }
 
     /**
-     * Converts a given Person into this class for JAXB use.
+     * Converts a given Credential into this class for JAXB use.
      *
      * @param source future changes to this will not affect the created XmlAdaptedCredential
      */
@@ -48,9 +48,11 @@ public class XmlAdaptedCredential {
 
 
     /**
-     * Converts this jaxb-friendly adapted person object into the model's Person object.
+     * Converts this jaxb-friendly adapted credential object into the model's
+     * Credential object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     * @throws IllegalValueException if there were any data constraints
+     * violated in the adapted credential
      */
     public Credential toModelType() throws IllegalValueException {
 

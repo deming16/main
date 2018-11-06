@@ -4,7 +4,7 @@
 }
 
 .label {
-    -fx-font-size: 11pt;
+    -fx-font-size: 13pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
     -fx-opacity: 1;
@@ -357,7 +357,7 @@
     -fx-text-fill: #F70D1A;
 }
 
-#commandTextField, #commandText, #userNameText, #dateText, #userDetailText1, #userDetailText2, #lastSavedText{
+#commandTextField, #commandText, #nameText, #dateText, #userDetailText1, #userDetailText2, #lastSavedText{
     -fx-background-color: transparent #383838 transparent #383838;
     -fx-background-insets: 0;
     -fx-border-color: #383838 #383838 #ffffff #383838;
