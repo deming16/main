@@ -283,6 +283,9 @@ Available Option:
 * Major(s) : `maj/[MAJOR_CODE] maj/[MAJOR_CODE]`
 * Minor(s) : `min/[MINOR_CODE] min/[MINOR_CODE]`
 
+[IMPORTANT]
+Password must be alphanumeric, with at least 1 Upper-case and Lower-case character, and 1 number and 1 special character
+
 Example:
 
 * `register user/max33 pass/#Qwerty4321 n/Max Verstappen pic/redbull.img enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
