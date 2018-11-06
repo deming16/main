@@ -2,11 +2,8 @@ package seedu.modsuni.commons.util;
 
 import static java.util.Objects.requireNonNull;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -43,41 +40,6 @@ public class DataSecurityUtil {
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
-
-    /**
-     * Encrypts the given file using a password and overwrites the original plaintext file
-     *
-     * @param file     The file to be encrypted
-     * @param password Used to encrypt file
-     */
-    public static void encryptFile(File file, String password) throws IOException {
-        requireNonNull(file);
-        requireNonNull(password);
-        byte[] fileContent = convertFileToByteArray(file);
-        byte[] encryptedFileContent = encrypt(fileContent, password);
-
-        writeByteArrayToFile(file, encryptedFileContent);
-        logger.info("File encrypted");
-    }
-
-    /**
-     * Decrypts the given file using a password and overwrites the original encrypted file
-     *
-     * @param file     The file to be decrypted
-     * @param password Used to decrypt file
-     */
-    public static void decryptFile(File file, String password) throws IOException,
-        InvalidPasswordException, CorruptedFileException, NoSuchPaddingException,
-        NoSuchAlgorithmException, InvalidKeyException {
-        requireNonNull(file);
-        requireNonNull(password);
-        byte[] fileContent = convertFileToByteArray(file);
-        byte[] decryptedFileContent = decrypt(fileContent, password);
-
-        writeByteArrayToFile(file, decryptedFileContent);
-        logger.info("File decrypted");
-    }
-
 
     /**
      * Encrypts the given data using a password
@@ -129,31 +91,6 @@ public class DataSecurityUtil {
         }
 
         return new byte[0];
-    }
-
-    /**
-     * Writes byte array to file
-     *
-     * @param file The file to be written
-     * @param data The data to be written into file
-     * @throws IOException if file do not exist
-     */
-    private static void writeByteArrayToFile(File file, byte[] data) throws IOException {
-        requireNonNull(file);
-        requireNonNull(data);
-        Files.write(file.toPath(), data);
-    }
-
-    /**
-     * Converts a file to byte array
-     *
-     * @param file The file to be converted
-     * @return file in byte array
-     * @throws IOException if file do not exist
-     */
-    private static byte[] convertFileToByteArray(File file) throws IOException {
-        requireNonNull(file);
-        return Files.readAllBytes(file.toPath());
     }
 
     /**
