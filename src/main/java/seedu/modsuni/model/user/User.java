@@ -26,12 +26,6 @@ public abstract class User {
         this.pathToProfilePic = pathToProfilePic;
     }
 
-    public abstract void updateName(String newName);
-
-    public abstract void updateProfilePic(String newPath);
-
-    //public abstract void deleteUser(User userToDelete);
-
     public Username getUsername() {
         return username;
     }
@@ -47,8 +41,6 @@ public abstract class User {
     public PathToProfilePic getPathToProfilePic() {
         return pathToProfilePic;
     }
-
-    public abstract void updatePassword (String newPassword);
 
     public abstract String toDisplayUi();
 

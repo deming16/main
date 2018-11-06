@@ -29,4 +29,5 @@ public class CliSyntax {
     public static final Prefix PREFIX_MODULE_AVAILABLE = new Prefix("available/");
     public static final Prefix PREFIX_MODULE_PREREQ = new Prefix("prereq/");
     public static final Prefix PREFIX_SAVE_PATH = new Prefix("sp/");
+    public static final Prefix PREFIX_SWITCH_TAB = new Prefix("tab/");
 }

@@ -18,6 +18,7 @@ import org.junit.rules.ExpectedException;
 
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.EditStudentCommand.EditStudentDescriptor;
+import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.UserPrefs;
@@ -113,7 +114,7 @@ public class EditStudentCommandTest {
     }
 
     @Test
-    public void executeNoFieldsSpecifiedSucess() {
+    public void executeNoFieldsSpecifiedSuccess() {
         EditStudentCommand editStudentCommand =
             new EditStudentCommand(new EditStudentDescriptor());
 
@@ -136,6 +137,35 @@ public class EditStudentCommandTest {
             commandHistory,
             expectedMessage,
             expectedModel);
+    }
+
+    @Test
+    public void executeCurrentUserNullThrowsCommandException() throws CommandException {
+
+        Student editedStudent = new StudentBuilder()
+            .withName("Max Emilian Verstappen")
+            .withProfilePicFilePath("dummy.img")
+            .withEnrollmentDate("01/01/2001")
+            .withMajor(Arrays.asList("IS"))
+            .withMinor(Arrays.asList("EEE"))
+            .build();
+
+        EditStudentDescriptor descriptor =
+            new EditStudentDescriptorBuilder(editedStudent).build();
+
+        EditStudentCommand editStudentCommand =
+            new EditStudentCommand(descriptor);
+
+        ModelManager newModel = new ModelManager(
+            model.getModuleList(),
+            model.getAddressBook(),
+            new UserPrefs(),
+            model.getCredentialStore());
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(EditStudentCommand.MESSAGE_NOT_LOGGED_IN);
+
+        editStudentCommand.execute(newModel, commandHistory);
     }
 
     @Test

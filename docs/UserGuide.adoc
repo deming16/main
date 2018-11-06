@@ -30,19 +30,24 @@ Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 .  Ensure you have Java version `9` or later installed in your Computer.
 .  Download the latest `modsUni.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for modsUni.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Create a `data` folder in the home folder.
+.  Download the latest `modules.xml` link:{repoURL}/tree/master/data[here]
+.  Copy the XML file to the `data` folder.
+.  Double-click `modsUni.jar` to start the app. The GUI should appear in a few seconds.
 +
 image::Ui.png[width="790"]
-+
-.  Type the command in the command box and press kbd:[Enter] to execute it. +
-e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
-.  Some example commands you can try:
 
-* **`add`**`CS2103T` : adds the module CS2103T to the module configuration
-* **`remove`**`CS2103T` : removes the module CS2103T to the module configuration
+
+Type the command in the command box and press kbd:[Enter] to execute it. +
+e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
+
+Some example commands you can try:
+
+* **`addModuleS`**`CS2103T` : adds the module CS2103T to the staged modules configuration
+* **`removeModuleS`**`CS2103T` : removes the module CS2103T to the staged module configuration
 * **`exit`** : exits the app
 
-.  Refer to <<Features>> for details of each command.
+Refer to <<Features>> for details of each command.
 
 [[Features]]
 == Features
@@ -65,8 +70,9 @@ Format: `help`
 
 === Adding a module to student's staged module list: `addModuleS`
 
-Adds a module to the student’s staged module list. It's the module list student about to take. +
-Adding is case insensitive. +
+Adds a module to the student’s staged module list.
+Staged list is the module list student about to take. +
+This command is case insensitive. +
 Format: `addModuleS <MOD_CODE> [MORE MOD_CODE]`
 
 Examples:
@@ -77,12 +83,11 @@ Both the above commands will have the same effect.
 
 * `addModuleS CS2103T CS2101 CS1010`
 
-By executing the above command, UI will display the student's staged module list.
-
 === Adding a module to student's taken module list: `addModuleT`
 
-Adds a module to the student’s taken module list. It's the module list student has taken. +
-Adding is case insensitive. +
+Adds a module to the student’s taken module list.
+Taken list is the module list student about to take. +
+This command is case insensitive. +
 Format: `addModuleT <MOD_CODE> [MORE MOD_CODE]`
 
 Examples:
@@ -95,8 +100,9 @@ Both the above commands will have the same effect.
 
 === Deleting a module from student's staged module list: `removeModuleS`
 
-Deletes a module from the student’s staged module list. It's the module list student about to take. +
-Deleting is case insensitive. +
+Deletes a module from the student’s staged module list.
+Staged list is the module list student about to take. +
+This command is case insensitive. +
 Format: `removeModuleS <MOD_CODE> [MORE MOD_CODE]`
 
 Examples:
@@ -109,8 +115,9 @@ Both the above commands will have the same effect.
 
 === Deleting a module from student's taken module list: `removeModuleT`
 
-Deletes a module form the student’s taken module list. It's the module list student has taken. +
-Deleting is case insensitive. +
+Deletes a module form the student’s taken module list.
+Taken list is the module list student about to take. +
+This command is case insensitive. +
 Format: `removeModuleT <MOD_CODE> [MORE MOD_CODE]`
 
 Examples:
@@ -120,6 +127,10 @@ Examples:
 Both the above commands will have the same effect.
 
 * `removeModuleT CS2103T CS2101 CS1010`
+
+By executing the above add/remove command, the application will display
+the respective module list.
+
 
 === Searching for a module in the database: `search`
 
@@ -134,10 +145,15 @@ Returns a list of modules that begin with CS101 or GEH.
 * `search cs101 gEh` +
 Returns the same result as above.
 
+By executing this command, the application will display
+the filtered database module list.
+
+[[save]]
+
 === Saving user data: `save`
 
 Save current module configurations for future usage. +
-Format: `save sp/[FILE_NAME]`
+Format: `save sp/[FILE_NAME].xml`
 
 Examples:
 
@@ -145,10 +161,24 @@ Examples:
 Saves the current user data to the file name `userdata.xml`
 
 
+// tag::generate[]
 === Generate module plan: `generate`
 
 Generates a schedule based on the modules that have been added by the `addModuleS` command. +
 Format: `generate`
+
+Examples:
+
+* `generate` with missing prerequisites +
+List of modules with missing prerequisites would be shown to the user.
+
+[NOTE]
+Only `Student` user accounts can execute the `generate` command.
+
+[NOTE]
+To generate successfully, modules and it's prerequisites should be added to the staged/taken list before
+executing.
+// end::generate[]
 
 === Login to User Account : `login`
 
@@ -157,13 +187,21 @@ Format: `login user/<USERNAME> pass/<PASSWORD> userData/[PATH_TO_DATA_FILE]`
 
 Examples:
 
-* `login user/demo pass/#Qwerty123`
+* `login user/demo pass/#Qwerty123 userdata/demo.xml`
   The above command essentially sends a login request to `CredentialStore` with the following credential details:
   ** Username : `demo`
   ** Password : `#Qwerty123`
+  ** Userdata : `demo.xml`
 
 [NOTE]
-Option to include `userData` is currently unavailable. [coming in v1.3]
+Specified `userdata/` option should specify a relative filepath.
+
+The image displays the changes to expect after the successful execution of the login command.
+
+image::LoginCommandExample.png[width="790"]
+
+[NOTE]
+Note that your details will automatically be displayed in the User Tab and a simple successful message is displayed on the bottom right window.
 
 === Register a Student Account : `register`
 
@@ -174,41 +212,62 @@ Available Option:
 
 * Username : `user/<USERNAME>`
 * Password : `pass/<PASSWORD>`
-* Name : `name/[NAME]`
+* Name : `n/[NAME]`
 * Path To Picture: `pic/<PATH_TO_PIC>`
 * Enrollment Date: `enroll/<ENROLLMENT_DATE>`
 * Major(s) : `maj/[MAJOR_CODE] maj/[MAJOR_CODE]`
 * Minor(s) : `min/[MINOR_CODE] min/[MINOR_CODE]`
 
-Examples:
+Example:
 
-* `register user/demo pass/#Qwerty123 name/Daniel Demo pic/path.img enroll/02/08/2017 maj/CS min/MA` +
+* `register user/demo pass/#Qwerty123 n/Demo pic/path.img enroll/02/08/2017 maj/CS min/MA` +
   The above command creates a student account with the following details:
   ** Username : `demo`
   ** Password : `#Qwerty123`
-  ** Name : `Daniel Demo`
+  ** Name : `Demo`
   ** Path To Picture: `path.img`
   ** Enrollment Date: `02/08/2017>`
   ** Major(s) : `CS`
   ** Minor(s) : `MA`
 
-=== Edit Student Account : `editStudent` `[coming in v1.3]`
+The image displays the changes to expect after the successful execution of the register command.
+
+image::RegisterCommandExample.png[width="790"]
+
+[NOTE]
+A temporary save file path is generated and used to save the details of the newly
+registered user. Do remember the location of the save file. You may choose to save
+the file in another location by executing the `save` command as detailed in <<save>>.
+
+=== Edit Student Account : `edit`
 
 Edits the Student specific information as specified in the input parameters. +
-Format: `editStudent [OPTION]/[INPUT]...` +
+Format: `edit [OPTION]/[INPUT]...` +
 
 Available Options:
 
-* Edit Name : `name/[NAME]`
+* Edit Name : `n/[NAME]`
 * Edit Profile Picture: `pic/[PATH_TO_PIC]`
 * Edit Enrollment Date: `enroll/[ENROLLMENT_DATE]`
 * Edit Major : `maj/[MAJOR_CODE]`
 * Edit Minor : `min/[MINOR_CODE]`
-* Edit Modules Taken : `modules/[MODULE_CODE]`
 
-=== Encryption `[coming in v1.3]`
+Example:
 
-Encryption of information is enabled by default.
+* `edit n/Demo Lition` +
+  The above command edits the `Name` of the current student with the new details:
+  ** Name : `Demo Lition`
+
+The image displays the changes to expect after the successful execution of the edit command.
+
+image::EditCommandExample.png[width="790"]
+
+[NOTE]
+Notice that the Name in the User Tab has changed.
+
+=== Data Encryption
+
+Data stored using the `save` command is encrypted by default.
 
 === Set module preference: `set-mod`
 
@@ -238,37 +297,127 @@ Examples:
 
 * `set-theme <FILE_NAME>.xml`
 
-=== Add a new administrator account: `addAdmin` `[coming in v2.0]`
+// tag::admincommands[]
+=== Add a new administrator account: `addAdmin`
 
 Create and add a new adminstrator account. +
-Format: `addAdmin user\<USERNAME> pass\<PASSWORD> n\<NAME> ptp\<PATH_TO_PIC> salary\<SALARY> date\<EMPLOYMENTDATE>`
+Format: `addAdmin OPTION/INPUT...` +
 
-Examples:
+Input fields:
 
-* `addAdmin user\master pass\myPass n\John Doe ptp\johnDoe.img salary\4000 date\01/01/2018` +
+* Username : `user/<USERNAME>` -- It should contain only alphanumeric characters and should not be blank.
+* Password : `pass/<PASSWORD>` -- It should contain alphanumeric and special characters
+* Name : `n/<NAME>` -- It should contain only alphanumeric characters and spaces and should not be blank.
+* Save path : `sp/<SAVE_PATH>` -- It should be a relative save path.
+* Salary : `salary/<SALARY>` -- It should contain only integers.
+* Employment date : `date/<EMPLOYMENTDATE>` -- it should be in the format DD/MM/YYYY
+
+Example:
+
+* `addAdmin user/master pass/myPass#1 n/John Doe sp/userdata.xml salary/4000 date/01/01/2018` +
 Creates a new administrator account with the following stated details.
 
-=== Remove a existing administrator account: `removeAdmin` `[coming in v2.0]`
+=== Edit the currently logged in administrator account: `editAdmin`
 
-Remove a currently existing administrator account. +
+Edit the details of the currently logged in administrator. +
+Format: `editAdmin OPTION/INPUT...` +
+
+Input fields:
+
+* Name : `n/[NAME]` -- It should contain only alphanumeric characters and spaces and should not be blank.
+* Salary : `salary/[SALARY]` -- It should contain only integers.
+* Employment date : `employ/[EMPLOYMENT_DATE]` -- it should be in the format DD/MM/YYYY
+
+Examples:
+
+* `editAdmin n/john`
+Change the name of the logged in administrator to "john".
+* `editAdmin salary/3000 employ/01/01/2018`
+Change both the salary and employement date of the logged in administrator to "3000" and "01/01/2018" respectively.
+
+=== Remove a existing user account: `removeUser`
+
+Remove a currently existing user account. +
 Format: `removeAdmin <USERNAME>`
 
-Examples:
+Example:
 
-* `removeAdmin user\adminUsername` +
-Removes a administrator account with username "adminUsername" if it exists.
+* `removeAdmin Username` +
+Removes a administrator account with username "Username" if it exists.
 
-=== Add a new module to database: `addModuleDB` `[coming in v1.2]`
+=== Show the list of usernames: `showUser`
+
+Display the list of usernames on the main display. +
+Format: `showUser`
+
+=== Add a new module to database: `addModuleDB`
 
 Creates a new module and add it to the module database. +
-Format: `addModuleDB code\<MODULE_CODE> department\<DEPARTMENT> title\<TITLE> credit\<CREDIT> available\<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2> description\<DESCRIPTION>`
+Format: `addModuleDB OPTION/INPUT...` +
 
-Examples:
+Input fields `(Input restriction and validation coming in v1.4)`:
 
-* `addModuleDB code\CS2109 department\Computing title\The New Module credit\4 available\yynn description\This course is newly offered by the school of computing. Visit the module website for more details` +
-Create and add a new module with module code "CS2109" and the stated details to the module database.
+* Module code : `code/<MODULE_CODE>`
+* Department : `department/<DEPARTMENT>`
+* Title : `title/<TITLE>`
+* Description : `description/<DESCRIPTION>`
+* Credit : `credit/<CREDIT>`
+* Available semesters : `available/<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2>`
++
+[NOTE]
+For each entry enter '1' if the module will be available. Otherwise, enter '0'.
+* Prerequisites : `prereq/<PREREQ_STRING>`
++
+[NOTE]
+Format for PREREQ_STRING: `<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]` +
+Format for BRANCH: `(<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])` +
+Every branch should be enclosed in parentheses followed by `&` or `|`, then the list of module codes or branches.
+The end of a module code should be indicated with a `,`.
 
-=== Remove a existing module from database: `removeModuleDB` `[coming in v1.2]`
+Example:
+
+* `addModuleDB code/CS2103T department/Computing title/The New Module credit/4 available/1100
+description/This course is newly offered by the school of computing. Visit the module website for more details
+prereq/|(|CS1020,CS1020E,CS2020,)(&CS2030,(|CS2040,CS2040C,))` +
+Create and add a new module with module code "CS2103T" and the stated details to the module database.
+
+=== Edit details of a module in database: `editModule`
+
+Edit the details of a module specified by its index in database panel in database. +
+Format: `editModule <INDEX> OPTION/INPUT...` +
+
+Input fields `(Input restriction and validation coming in v1.4)`:
+
+* Module code : `code/[MODULE_CODE]`
+* Department : `department/[DEPARTMENT]`
+* Title : `title/[TITLE]`
+* Description : `description/[DESCRIPTION]`
+* Credit : `credit/[CREDIT]`
+* Available semesters : `available/[<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2>]`
++
+[NOTE]
+For each entry enter '1' if available, '0' if not
+* Prerequisites : `prereq/[PREREQ_STRING]`
++
+[NOTE]
+Format for PREREQ_STRING: `<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]` +
+Format for BRANCH: `(<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])` +
+Every branch should be enclosed in parentheses followed by `&` or `|`, then the list of module codes or branches.
+The end of a module code should be indicated with a `,`.
+
+Example:
+
+* `editModule 1 code/CS2105` +
+Change the module code of module with index "1" to "CS2105".
+* `editModule 4 code/CS2103 credit/4` +
+Change the module code and credit of module with index "4" to "CS2103" and "4" respectively.
++
+[NOTE]
+After editing, the database panel will display the updated list as shown below.
++
+image::EditModuleCommandExample.png[width="700"]
+
+=== Remove a existing module from database: `removeModuleDB`
 
 Removes a existing module from the module database. +
 Format: `removeModuleDB <MODULE_CODE>`
@@ -277,6 +426,12 @@ Examples:
 
 * `removeModuleDB CS2109` +
 Removes a module with module code "CS2109" if it exists.
++
+[NOTE]
+After removing, the database panel will display the updated list as shown below.
++
+image::RemoveModuleFromDatabaseCommandExample.png[width="700"]
+// end::admincommands[]
 
 == FAQ
 
@@ -286,17 +441,22 @@ Removes a module with module code "CS2109" if it exists.
 == Command Summary
 
 * *Help* : `help`
-* *Add to Staged: `addModuleS <MOD_CODE> [MORE_MOD_CODES]`
-* *Add to Taken: `addModuleT <MOD_CODE> [MORE_MOD_CODES]`
-* *Delete from Staged: `removeModuleS <MOD_CODE> [MORE_MOD_CODES]`
-* *Deleter from Taken: `removeModuleT <MOD_CODE> [MORE_MOD_CODES]`
+* *Add to Staged*: `addModuleS <MOD_CODE> [MORE_MOD_CODES]`
+* *Add to Taken*: `addModuleT <MOD_CODE> [MORE_MOD_CODES]`
+* *Delete from Staged*: `removeModuleS <MOD_CODE> [MORE_MOD_CODES]`
+* *Deleter from Taken*: `removeModuleT <MOD_CODE> [MORE_MOD_CODES]`
 * *Search* : `search <KEYWORD> [MORE_KEYWORDS]`
 * *Save* : `save sp/[FILE_NAME]`
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
-* *Register* : `register user/[USERNAME] pass/[PASSWORD] name/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
-* *Edit Student* : `editStudent [OPTION]/[INPUT]...`
+* *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
+* *Edit Student* : `edit [OPTION]/[INPUT]...`
 * *Encryption* : `no-encrypt`
-* *Add Admin* : `addAdmin user\<USERNAME> pass\<PASSWORD> n\<NAME> ptp\<PATH_TO_PIC> salary\<SALARY> date\<EMPLOYMENT_DATE>`
-* *Add Module to Database* : `addModuleDB code\<MODULE_CODE> department\<DEPARTMENT> title\<TITLE> credit\<CREDIT> available\<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2> description\<DESCRIPTION>`
+* *Add Admin* : `addAdmin user/<USERNAME> pass/<PASSWORD> n/<NAME> sp/<SAVE_PATH> salary/<SALARY> date/<EMPLOYMENT_DATE>`
+* *Edit Admin* : `editAdmin n/[NAME] salary/[SALARY] date/[EMPLOYMENT_DATE]`
+* *Remove User* : `removeUser <USERNAME>`
+* *Show Usernames* : `showUser`
+* *Add Module to Database* : `addModuleDB code/<MODULE_CODE> department/<DEPARTMENT> title/<TITLE> credit/<CREDIT>
+available/<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2> description/<DESCRIPTION> prereq/<PREREQ_STRING>`
+* *Edit Module in Database* : `addModuleDB code/[MODULE_CODE] department/[DEPARTMENT] title/[TITLE] credit/[CREDIT]
+available/[<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2>] description/[DESCRIPTION] prereq/[PREREQ_STRING]`
 * *Remove Module from Database* : `removeModuleDB <MODULE_CODE>`
-

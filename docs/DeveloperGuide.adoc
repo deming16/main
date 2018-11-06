@@ -13,7 +13,7 @@ ifdef::env-github[]
 :warning-caption: :warning:
 :experimental:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level4/tree/master
+:repoURL: https://github.com/CS2103-AY1819S1-W17-2/main/tree/master/
 
 By: `Team W17-2`      Since: `Sep 2018`      Licence: `MIT`
 
@@ -47,10 +47,10 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 . Click `OK` to accept the default settings
 . Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message. +
 This will generate all resources required by the application and tests.
-. Open link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedPerson.java[`XmlAdaptedPerson.java`] and link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow.java`] and check for any code errors
+. Open link:{repoURL}/src/main/java/seedu/modsuni/storage/XmlAdaptedCredential.java[`XmlAdaptedCredential.java`] and link:{repoURL}/src/main/java/seedu/modsuni/ui/MainWindow.java[`MainWindow.java`] and check for any code errors
 .. Due to an ongoing https://youtrack.jetbrains.com/issue/IDEA-189060[issue] with some of the newer versions of IntelliJ, code errors may be detected even if the project can be built and run successfully
 .. To resolve this, place your cursor over any of the code section highlighted in red. Press kbd:[ALT + ENTER], and select `Add '--add-modules=...' to module compiler options` for each error
-. Repeat this for the test folder as well (e.g. check link:{repoURL}/src/test/java/seedu/address/commons/util/XmlUtilTest.java[`XmlUtilTest.java`] and link:{repoURL}/src/test/java/seedu/address/ui/HelpWindowTest.java[`HelpWindowTest.java`] for code errors, and if so, resolve it the same way)
+. Repeat this for the test folder as well (e.g. check link:{repoURL}/src/test/java/seedu/modsuni/commons/util/XmlUtilTest.java[`XmlUtilTest.java`] and link:{repoURL}/src/test/java/seedu/modsuni/ui/HelpWindowTest.java[`HelpWindowTest.java`] for code errors, and if so, resolve it the same way)
 
 === Verifying the setup
 
@@ -74,9 +74,9 @@ Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> docume
 
 ==== Updating documentation to match your fork
 
-After forking the repo, the documentation will still have the SE-EDU branding and refer to the `se-edu/addressbook-level4` repo.
+After forking the repo, the documentation will still have the modsUni branding and refer to the `CS2103-AY1819S1-W17-2/main` repo.
 
-If you plan to develop this fork as a separate product (i.e. instead of contributing to `se-edu/addressbook-level4`), you should do the following:
+If you plan to develop this fork as a separate product (i.e. instead of contributing to `CS2103-AY1819S1-W17-2/main`), you should do the following:
 
 . Configure the <<Docs-SiteWideDocSettings, site-wide documentation settings>> in link:{repoURL}/build.gradle[`build.gradle`], such as the `site-name`, to suit your own project.
 
@@ -116,7 +116,7 @@ The *_Architecture Diagram_* given above explains the high-level design of the A
 [TIP]
 The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
 
-`Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
+`Main` has only one class called link:{repoURL}/src/main/java/seedu/modsuni/MainApp.java[`MainApp`]. It is responsible for,
 
 * At app launch: Initializes the components in the correct sequence, and connects them up with each other.
 * At shut down: Shuts down the components and invokes cleanup method where necessary.
@@ -146,9 +146,9 @@ image::LogicClassDiagram.png[width="800"]
 [discrete]
 ==== Events-Driven nature of the design
 
-The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the register command.
 
-.Component interactions for `delete 1` command (part 1)
+.Component interactions for `register` command (part 1)
 image::SDforDeletePerson.png[width="800"]
 
 [NOTE]
@@ -156,7 +156,7 @@ Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address 
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
-.Component interactions for `delete 1` command (part 2)
+.Component interactions for `register` command (part 2)
 image::SDforDeletePersonEventHandling.png[width="800"]
 
 [NOTE]
@@ -170,11 +170,11 @@ The sections below give more details of each component.
 .Structure of the UI Component
 image::UiClassDiagram.png[width="800"]
 
-*API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
+*API* : link:{repoURL}/src/main/java/seedu/modsuni/ui/Ui.java[`Ui.java`]
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
+The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/modsuni/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
 The `UI` component,
 
@@ -190,9 +190,9 @@ The `UI` component,
 image::LogicClassDiagram.png[width="800"]
 
 *API* :
-link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
+link:{repoURL}/src/main/java/seedu/modsuni/logic/Logic.java[`Logic.java`]
 
-.  `Logic` uses the `AddressBookParser` class to parse the user command.
+.  `Logic` uses the `ModsUniParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
 .  The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
@@ -208,7 +208,7 @@ image::DeletePersonSdForLogic.png[width="800"]
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
 
-*API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
+*API* : link:{repoURL}/src/main/java/seedu/modsuni/model/Model.java[`Model.java`]
 
 The `Model`,
 
@@ -217,18 +217,13 @@ The `Model`,
 * exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
-[NOTE]
-As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object. An example of how such a model may look like is given below. +
- +
-image:ModelClassBetterOopDiagram.png[width="800"]
-
 [[Design-Storage]]
 === Storage component
 
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
 
-*API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
+*API* : link:{repoURL}/src/main/java/seedu/modsuni/storage/Storage.java[`Storage.java`]
 
 The `Storage` component,
 
@@ -238,7 +233,7 @@ The `Storage` component,
 [[Design-Commons]]
 === Common classes
 
-Classes used by multiple components are in the `seedu.addressbook.commons` package.
+Classes used by multiple components are in the `seedu.modsuni.commons` package.
 
 == Implementation
 
@@ -331,7 +326,7 @@ A new `Student` would be initialized and automatically set as the `currentUser`,
 The `login` feature is facilitated by the `LoginCommand` class.
 It allows for students to log into their existing modsUni account, granting them access to their respective user data. +
 
-The `LoginCommand` extends the `Command` class. Figure 1(shown below) depicts the UML represenation of the `LoginCommand`. +
+The `LoginCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `LoginCommand`. +
 
 image::LoginCommandUML.png[width="350"]
 _Figure 1. UML Diagram of `LoginCommand`._
@@ -345,7 +340,7 @@ _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Comp
 Figure 3 below shows the high-level sequence diagram of the command execution.
 
 image::SDforLoginCommandOverview.png[width="800"]
-_Figure 3. High-Level Sequence diagram of the login process._
+_Figure 3. High-Level Sequence Diagram of the login process._
 
 Given below is an example usage scenario and how the login mechanism behaves at each step:
 
@@ -359,6 +354,44 @@ The `login` command will call `Model#isVerifiedCredential(...)` to determine if 
 Subseqently, the `Model#setCurrentUser(...)` will be called to set the loaded user data as the `currentUser`. +
 
 4. Should the credential not be valid or does not match an existing credential in the `CredentialStore`, the user will simply be shown a failure message.
+
+===== Implementation of the edit feature
+
+The `edit` feature is facilitated by the `EditStudentCommand` class.
+It allows for students to edit their existing modsUni account, granting them the ability
+to modify personal details. +
+
+The `EditStudentCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `EditStudentCommand`. +
+
+image::EditStudentCommandUML.png[width="350"]
+_Figure 1. UML Diagram of `EditStudentCommand`._
+
+Parsing the command is performed by `EditStudentCommandParser`, which returns a `EditCommand` after parsing the user input.
+The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `EditStudentCommand` is being executed.
+
+image::SDforEditStudentCommandLogicAndModel.png[width="900"]
+
+_Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `EditStudentCommand`._
+
+Figure 3 below shows the high-level sequence diagram of the command execution:
+
+image::SDforEditStudentCommand.png[width="800"]
+_Figure 3. High-Level Sequence Diagram of the edit process._
+
+Given below is an example usage scenario and how the edit mechanism behaves at each step:
+
+1. The user launches the application. Depending on whether the user already has an account registered, he would proceed to login. +
+2. Now that the `currentUser` is being loaded. The student can proceed to execute an edit command `edit n/demo enroll/03/08/2017` +
+At this point,`ModsUniParser` would instantiate `EditStudentCommandParser` which would parse the `edit` command.
+3. `EditStudentCommandParser` would instantiate `EditStudentDescriptor`. `EditStudentDescriptor` contains the respective user details that is provided in the user input. +
+[NOTE]
+`EditStudentDescriptor` contains *only* the details as provided in the user input and will be used in `EditCommand#execute()` to update `currentUser`
+
+4. `EditStudentCommandParser` would return a `EditCommand` with the descriptor class. Subsequently, `EditCommand#execute()` would be called.
+5. At this point, `EditCommand#createEditedStudent(...)` would be called constructing a new Student object, with the `currentUser` and the descriptor.
+6. Finally, `Model#setCurrentUser(...)` would be called to update `currentUser` with the new details.
+[NOTE]
+Upon the successful execute of the `edit` command, `UserTab` would also be updated with the new user details.
 
 ==== Design Considerations
 
@@ -395,9 +428,15 @@ generate feature.
 
 ==== Current Implementation
 
-The generate command is facilitated by `GenerateCommand` class. It attempts to generate a schedule based on
- the student's staged modules. It makes use of the `Generate` class from the `Logic` package to create a
- schedule.
+The generate command is facilitated by the `GenerateCommand` class and the following methods in the Model
+class:
+
+* `Model#isStudent()` -- This method checks if the current user is a student.
+* `Model#canGenerate()` -- This method checks if it is possible to generate a schedule.
+* `Model#generateSchedule()` -- This method generates a schedule.
+
+It generates a schedule based on the student’s staged modules. It also makes use of the `Generate`
+class from the `Logic` package to create a schedule.
 
 The `GenerateCommand` class extends from the `Command` class. Figure 1 as shown below depicts the UML
 diagram for the `GenerateCommand` class.
@@ -405,13 +444,25 @@ diagram for the `GenerateCommand` class.
 image::GenerateCommandUML.png[width="250]
 _Figure 1. GenerateCommand UML Diagram_
 
-`GenerateCommand` uses multiple components of the modsUni application. The sequence diagram shown below in
- Figure 2 illustrates the interactions between some of these components.
+In the execute method of the Generate command, it will first check if the current user is a Student. Next
+it will proceed on to check if all prerequisites of the student’s staged modules have been met. It does the
+ prerequisite checks using the student’s taken module list. If the conditions are satisfactory, it will
+ generate a schedule. Figure 2(shown below) shows the sequence diagram when executing the `GenerateCommand`.
+
+image::SDforGenerateCommandLogicAndModel.png[width="250]
+_Figure 2. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
+ `GenerateCommand`._
+
+`GenerateCommand` uses multiple components of the modsUni application. Upon completion of generating the
+schedule, two events will be posted. The first event is `MainWindowClearResourceEvent`. It will be posted to
+inform the current UI that is in the main window to clear it's resources. The second event is
+`NewGenerateResultAvailableEvent`. This event will show the UI for the schedule in the main window.
+The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
 
 image::SequenceDiagramforGenerate.png[width="250]
-_Figure 2. High Level Sequence Diagram for the `generate` command_
+_Figure 3. High Level Sequence Diagram for the `generate` command_
 
-===== Implementation of the generate command
+===== Example scenario of the generate command
 Given below is an example usage scenario of how the generate command behaves:
 
 The user launches the application for the first time and the `currentUser` will at this point be `null`.
@@ -454,20 +505,20 @@ The section below will describe in detail the Current Implementation and the Des
 
 The User Module Management is facilitated by the following classes:
 
-* `Module`
+* `Module` +
 It stores all the necessary data contained within a single module.
 The `code` of a module is considered as a key for searching and comparing purpose.
-Two modules with the same codes are considered as the same module.
+Two modules with the same `code` is considered as the same module.
 
-* `ModuleList`
+* `ModuleList` +
 It stores a `UniqueModuleList` which stores modules with unique code.
 
 ** `UniqueModuleList` stores an internal `ObservableList` for UI purpose.
 
-* `User`
+* `User` +
 It is the actor of the command. Add and remove commands are limited to a user whose `Roles` is `Student`.
 
-** `Student` stores two `ModuleList` namely `modulesTaken` and `modulesStaged`, to store the modules chosen by a student.
+** `Student` stores two `ModuleList` namely `modulesTaken` and `modulesStaged`, to store the modules chosen by the student.
 *** `modulesTaken` represents the module student has taken before.
 *** `modulesStaged` represents the module student wants to take later.
 
@@ -478,19 +529,20 @@ It allows a user to add modules to his staged/taken module list by giving their 
 
 [NOTE]
 A user is allowed to add only if: +
+the user has logged in +
 the user is a student +
 the module exists in the database at this moment +
 his staged/taken module list does not contains the module already
 
-The `AddModuleToStudentStaged/TakenCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `AddModuleToStudentStaged/TakenCommand`.
+`AddModuleToStudentStaged/TakenCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of `AddModuleToStudentStaged/TakenCommand`.
 
-image::AddModuleToStudentStagedTakenCommandUML.png[width="600"]
+image::AddModuleToStudentStagedTakenCommandUML.png[width="400"]
 _Figure 1. UML Diagram of `AddModuleToStudentStaged/TakenCommand`._
 
 Parsing of command is performed by `AddModuleToStudentStaged/TakenCommandParser`,
-which returns a `AddModuleToStudentStaged/TakenCommand` object after parsing Code.
+which returns a `AddModuleToStudentStaged/TakenCommand` object after parsing input.
 
-The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `AddModuleToStudentStaged/TakenCommand` is being executed.
+The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when `AddModuleToStudentStaged/TakenCommand` is being executed.
 
 image::SDforAddModuleToStudentStagedTakenCommandLogicAndModel.png[width="900"]
 _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `AddModuleToStudentStaged/TakenCommand`._
@@ -498,32 +550,36 @@ _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Comp
 Figure 3 below shows the high-level sequence diagram of the command execution.
 
 image::SDforAddModuleToStudentStagedTakenCommandOverview.png[width="800"]
-_Figure 3. High-Level Sequence diagram of adding a new module to the student's staged/taken module list._
+_Figure 3. High-Level Sequence Diagram of adding a new module to the student's staged/taken module list._
 
-Given below is an example usage scenario and how the adding mechanism behaves at each step:
-Step 1. The user launches the application for the first time. After login as a student, a `Student` model will be created,
-`modulesTaken` and `modulesStaged` will be initialized as an empty `ModuleList`.
+Given below is an example usage scenario and how the adding mechanism behaves at each step: +
+Step 1. The user launches the application. +
+If it is the first time the user uses the application, after login as a student,
+a `Student` model will be created, then `modulesTaken` and `modulesStaged` will be initialized as an empty `ModuleList`. +
+If the user has logged in before, after login as a student, `modulesTaken` and `modulesStaged` will be recovered to the last saved version.
 
 Step 2. After the user enters the command, `AddModuleToStudentStaged/TakenCommandParser` will create a `AddModuleToStudentStaged/TakenCommand`,
-with the code of the module to be searched in the database later stored in `toSearch`.
+which contains two parameters. +
+The first parameter is an `ArrayList` of `Code` to be searched. +
+The second is a `String` contains the duplicate code entered by user.
 
-Step 3. When the command is executed, `AddModuleToStudentStaged/TakenCommand` will call `Model#isStudent()` to check the `Role` of student,
-`Model#searchModuleInModuleList(...)` to check whether the module exists in the database and update `toAdd` with the module of full information,
+Step 3. When the command is executed, `AddModuleToStudentStaged/TakenCommand` will call `Model#getCurrentUser()` and `Model#isStudent()` to check whether the user is a `Student`. +
+`Model#searchCodeInDatabase(...)` to check whether the module exists in the database and update `toAdd` to the searched module,
 `Model#hasModuleStaged/Taken(...)` to check whether the module has already existed in the student's staged/taken module list,
 `Model#addModuleStaged/Taken(...)` to finally add the module to the student's staged/taken module list.
 
-Step 4. After the module is added, `Model` will reset data of `currentModuleList` to `modulesStaged/Taken`, and raise an
-event to show the changes of `currentModuleList`. UI will reflect the current `modulesStaged/Taken` after executing.
+Step 4. After the module is added, the command will post an `ShowStaged/TakenTabRequestEvent` to show the user updated staged/taken module list. +
+A `CommandResult` containing the log of execution result will be returned.
 
 ==== Design Considerations
 
 ===== Aspect: Search the module in the database
 
-* **Alternative 1 (current choice):** Creates a "dummy" module with code for searching.
+* **Alternative 1 (current choice):** Use `Code` as a key to search `moduleList` one by one.
 ** Pros: Easy to implement. Do not need to refactor `moduleList` to support this feature.
-** Cons: Efficiency of searching is low. May violate OOP to create a "dummy" module.
+** Cons: Efficiency of searching is low. The time complexity is `O(N)`.
 * **Alternative 2:** Refactor `moduleList` to be a `HashMap` for searching.
-** Pros: Efficiency of searching will increase. Avoid violation of OOP.
+** Pros: Efficiency of searching will increase. The time complexity is `O(1)`.
 ** Cons: May not be cost-efficient to refactor `moduleList` only to support this feature.
 // end::usermodulemanagement[]
 
@@ -536,6 +592,14 @@ the module database up to date, or to cater to their own needs.
 [NOTE]
 The commands pertaining to module database administration can only be executed by users of type `Admin`.
 
+Administrators can choose to add, remove or edit a module using `addModuleDB`, `removeModuleDB` and `editModule` respectively.
+The changes will then be reflected
+in both the module list in memory and in storage. Figure 1(shown below) describes the general flow of the administration
+of the module database in an activity diagram.
+
+image::ADforModuleDatabaseAdministration.png[width="800]
+_Figure 1. Activity diagram for module database administration._
+
 ==== Current Implementation
 
 The Module database administration mechanism is facilitated by `ModuleList` in `Model` via the following operations:
@@ -543,39 +607,47 @@ The Module database administration mechanism is facilitated by `ModuleList` in `
 * `ModuleList#addModule(...)` -- This method adds a module to the module list.
 * `ModuleList#removeModule(...)` -- This method removes a module from the module list.
 * `ModuleList#hasModule(...)` -- This method checks if the given module already exists.
+* `ModuleList#updateModule(...)` -- This method replace the specified target module with the given edited module.
 
 [NOTE]
 These operations are exposed in the `Model` interface as `Model#addModuleToDatabase(...)`,
-`Model#removeModuleFromDatabase(...)` and `Model#hasModuleInDatabase(...)` respectively.
+`Model#removeModuleFromDatabase(...)`, `Model#hasModuleInDatabase(...)` and `Model#updateModule(...)` respectively.
 
+Each module database administration commands is facilitated by a command class in modsUni. The following list
+illustrates each command and their respective command class:
 
-Module database administration mechanism is facilitated by several command classes in modsUni.
+* `addModuleDB` -- `AddModuleToDatabaseCommand`
+* `removeModuleDB` -- `RemoveModuleFromDatabaseCommand`
+* `editModule` -- `EditModuleCommand`
 
 **Adding module to database**
 
 `addModuleDB` mechanism is facilitated by `AddModuleToDatabaseCommand`. It allows the addition of modules to database.
 
-The `AddModuleToDatabaseCommand` extends for `Command`. Figure 1(shown below) depicts the UML representation of the
+The `AddModuleToDatabaseCommand` extends for `Command`. Figure 2(shown below) depicts the UML representation of the
 `AddModuleToDatabaseCommand`.
 
 image::AddModuleToDatabaseCommandUML.png[width="400"]
-_Figure 1 UML Diagram of `AddModuleToDatabaseCommand`._
+_Figure 2. UML diagram of `AddModuleToDatabaseCommand`._
 
 Parsing of command is performed by `AddModuleToDatabaseCommandParser`, which returns a `AddModuleToDatabaseCommand`
-object after parsing ModuleCode, Title, Credit, Department, Description, and AvailableSem. Figure 2(shown below)
+object after parsing ModuleCode, Title, Credit, Department, Description, AvailableSem and Prereq. Figure 3(shown below)
  shows the
 sequence diagram of the `AddModuleToDatabaseCommandParser`.
 
 image::SDforAddModuleToDatabaseCommandLogicAndModel.png[width="800"]
-_Figure 2. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
+_Figure 3. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
 `AddModuleToDatabaseCommand`._
 
-Figure 3(shown below) shows the high-level sequence diagram of the command execution.
+Figure 4(shown below) shows the high-level sequence diagram of the command execution.
 
 image::SDforAddModuleToDatabaseCommand.png[width="800"]
-_Figure 3. High-Level Sequence diagram of adding a module to database._
+_Figure 4. High-Level Sequence diagram of adding a module to database._
 
 Given below is an example usage scenario and how the `addModuleDB` mechanism behaves at each step:
+
+[NOTE]
+For this example usage scenario, we assume that module "CS2109" did not exist in initially.
 
 . An admin executes `addAdminDB` with valid arguments to add a module with module code “CS2109” to the module list.
 The `addModuleDB` command calls `Model#addModuleToDatabase(...)`, causing the new model to be added to `ModuleList`
@@ -585,34 +657,33 @@ and subsequently update the `moduleList.xml` file with the new list.
 `addModuleDB`. The `addModuleDB` command calls `Model#hasModuleInDatabase(...)`, causing a feedback to return,
 informing the admin that the module already exists, and the module is not added.
 
-[NOTE]
-For this example usage scenario, we assume that module "CS2109" did not exist in initially.
-
-
 **Deleting module from database**
 
 `removeModuleDB` mechanism is facilitated by the `RemoveModuleFromDatabaseCommand` class. It allows `Admin` to remove
 `Module` from the database.
 
-The `RemoveModuleFromDatabaseCommand` extends for `Command`. Figure 4(shown below) depicts the UML representation of the
+The `RemoveModuleFromDatabaseCommand` extends for `Command`. Figure 5(shown below) depicts the UML representation of the
 `RemoveModuleFromDatabaseCommand`.
 
 image::RemoveModuleFromDatabaseCommandUML.png[width="400"]
-_Figure 4 UML Diagram of `RemoveModuleFromDatabase._
+_Figure 5. UML diagram of `RemoveModuleFromDatabaseCommand`._
 
 Parsing of command is performed by `RemoveModuleFromDatabaseParser`, which returns a `RemoveModuleFromDatabase` object
-after parsing moduleCode object. Figure 5(shown below) shows the sequence diagram of the `RemoveModuleFromDatabaseCommandParser`.
+after parsing moduleCode object. Figure 6(shown below) shows the sequence diagram of the `RemoveModuleFromDatabaseCommandParser`.
 
 image::SDforRemoveModuleFromDatabaseCommandLogicAndModel.png[width="800"]
-_Figure 5. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
+_Figure 6. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
 `RemoveModuleFromDatabase`._
 
-Figure 6(shown below) shows the high-level sequence diagram of the command execution.
+Figure 7(shown below) shows the high-level sequence diagram of the command execution.
 
 image::SDforRemoveModuleFromDatabaseCommand.png[width="800"]
-_Figure 6. High-Level Sequence diagram of removing a module from database._
+_Figure 7. High-Level sequence diagram of removing a module from database._
 
 Given below is an example usage scenario and how the `removeModuleDB` mechanism behaves at each step:
+
+[NOTE]
+For this example usage scenario, we assume that module "CS2109" already existed.
 
 . An admin executes `removeAdminDB CS2109` to remove the module with module code “CS2109” from the module list.
 The `removeModuleDB` command calls `Model#removeModuleFromDatabase(...)`, causing the module with module code “CS2109”
@@ -622,8 +693,27 @@ to be removed from the module list and subsequently update the `moduleList.xml` 
 executing `removeModuleDB CS2109`. The `removeModuleDB` command returns a feedback informing the admin that the module
 “CS2109” does not exist, and no changes is made to `ModuleList` and `moduleList.xml`.
 
-[NOTE]
-For this example usage scenario, we assume that module "CS2109" already existed.
+**Editing module from database**
+
+`editModule` mechanism is facilitated by the `EditModuleCommand` class. It allows `Admin` to edit `Module` from the
+database.
+
+The `EditModuleCommand` extends for `Command`. Figure 8(shown below) depicts the UML representation of the `EditModuleCommand`.
+
+image::EditModuleCommandUML.png[width="400"]
+_Figure 8. UML diagram of `EditModuleCommand`._
+
+Parsing of command is performed by the `EditModuleCommandParser`, which returns a `EditModuleCommand` object after parsing
+ModuleCode, Title, Credit, Department, Description, AvailableSem and Prereq. Figure 9(shown below) shows the sequence
+diagram of the `EditModuleCommandParser`.
+
+image::SDforEditModuleCommandLogicAndModel.png[width="800]
+_Figure 9. Sequence diagram for the interaction between `Logic` and `Model` Components when executing `EditModule`._
+
+Figure 10(shown below) shows the high-level sequence diagram of the command execution.
+
+image::SDforEditModuleCommand.png[width="800"]
+_Figure 10. High-level sequence diagram of editing a module from database._
 
 ==== Design Considerations
 
@@ -648,98 +738,66 @@ time they execute command that requires reading the module list.
 another module just to store the other module codes. This can be heavy on memory usage.
 // end::moduledatabaseadministration[]
 
-// tag::undoredo[]
-=== Undo/Redo feature
-==== Current Implementation
-
-The undo/redo mechanism is facilitated by `VersionedAddressBook`.
-It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`.
-Additionally, it implements the following operations:
-
-* `VersionedAddressBook#commit()` -- Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` -- Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` -- Restores a previously undone address book state from its history.
-
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
-
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
-
-1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
-
-image::UndoRedoStartingStateListDiagram.png[width="800"]
-
-2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
-
-image::UndoRedoNewCommand1StateListDiagram.png[width="800"]
-
-3. The user executes `add n/David ...` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
-
-image::UndoRedoNewCommand2StateListDiagram.png[width="800"]
-
-[NOTE]
-If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
-
-4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
-
-image::UndoRedoExecuteUndoStateListDiagram.png[width="800"]
-
-[NOTE]
-If the `currentStatePointer` is at index 0, pointing to the initial address book state, then there are no previous address book states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the undo.
-
-The following sequence diagram shows how the undo operation works:
-
-image::UndoRedoSequenceDiagram.png[width="800"]
-
-The `redo` command does the opposite -- it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
-
-[NOTE]
-If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone address book states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
-
-image::UndoRedoNewCommand3StateListDiagram.png[width="800"]
-
-6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. We designed it this way because it no longer makes sense to redo the `add n/David ...` command. This is the behavior that most modern desktop applications follow.
-
-image::UndoRedoNewCommand4StateListDiagram.png[width="800"]
-
-The following activity diagram summarizes what happens when a user executes a new command:
-
-image::UndoRedoActivityDiagram.png[width="650"]
-
-==== Design Considerations
-
-===== Aspect: How undo & redo executes
-
-* **Alternative 1 (current choice):** Saves the entire address book.
-** Pros: Easy to implement.
-** Cons: May have performance issues in terms of memory usage.
-* **Alternative 2:** Individual command knows how to undo/redo by itself.
-** Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-** Cons: We must ensure that the implementation of each individual command are correct.
-
-===== Aspect: Data structure to support the undo/redo commands
-
-* **Alternative 1 (current choice):** Use a list to store the history of address book states.
-** Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
-** Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update both `HistoryManager` and `VersionedAddressBook`.
-* **Alternative 2:** Use `HistoryManager` for undo/redo
-** Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.
-** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things.
-// end::undoredo[]
-
 // tag::saveuser[]
 === Save User Feature
-The save user feature involves mainly the saving process of a user's information.
-A user is able to save their information only after they have logged in/registered an account.
+The save user feature involves mainly the saving process of a user's attributes.
+A user can save their data only after they have logged in/registered an account.
 
-The section below will describe in detail the current implementation and the design considerations of the save user feature.
+[NOTE]
+Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature.
+
+This section will describe in details the current implementation and the design considerations of the save user feature.
 
 ==== Current Implementation
+The save mechanism is facilitated by the following classes:
+
+* `SaveCommand` +
+It stores the following attributes of a `User` object: +
+
+** All user
+
+*** Username +
+    The username used for logging in.
+*** Name +
+    The name of the user.
+*** Role +
+    The role of the user.
+*** Path to Profile Picture +
+    The path to the user's profile picture.
+
+** Admin
+
+*** Salary +
+    The salary of an administrator.
+*** Employ Date +
+    The employment date of an administrator.
+
+** Student
+
+*** Enrollment Date +
+    The enrollment date of a student.
+*** Major(s) +
+    A list of the student's major.
+*** Minor(s) +
+    A list of the student's minor.
+*** Modules Taken +
+    A list of modules took by the student.
+*** Modules Staged +
+    A list of modules staged for the generation of candidature.
+
+* `UserStorage` +
+It provides methods to save the current user's attributes as well as to load a file containing previously saved data. +
+Additionally, it implements the following operations(s):
+** `StorageManager#saveUser(…​)` — Save the user's data into the specified file path.
+** `StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
+
+===== Implementation of the save feature
 
 The `save` mechanism of modsUni is facilitated by `SaveCommand` class and is event-driven.
-It allows a user to save their own data in modsUni as a XML file.
-It makes use of the `XmlAdaptedUser` and `XmlSerializableUser` classes to convert `User` object to XML format.
+It allows a user to save their data in modsUni as a XML file.
+
+[NOTE]
+Both admin and student can use the save feature.
 
 The `SaveCommand` class extends from the `Command` class.
 Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
@@ -747,30 +805,26 @@ Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
 image::SaveCommandUML.png[width="250"]
 _Figure 1. SaveCommand UML Diagram_
 
+Parsing of command is performed by `SaveCommandParser`, which returns a `SaveCommand` object after parsing the save file path.
+The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic & Model components when the SaveCommand is being executed.
+
+image::SDforSaveCommandLogicAndModel.png[width="900"]
+_Figure 2. Sequence Diagram for the interaction between Logic and Model Components when executing SaveCommand_
+
 The `save` feature uses multiple components of the modsUni application.
-The sequence diagram shown below in Figure 2 illustrates the interactions between some of these components.
+The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
 As seen from the diagram, the `SaveCommand` is driven by the `SaveUserChangedEvent`.
 
 image::SequenceDiagramforSave.png[width="800"]
-_Figure 2. High Level Sequence Diagram for the `save sp/userdata.xml` command_
+_Figure 3. High-Level Sequence Diagram for the `save sp/userdata.xml` command_
 
-The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as show in Figure 3.
+The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as shown in Figure 4.
 
 image::SequenceDiagramforSaveEventHandling.png[width="650"]
-_Figure 3. High Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
+_Figure 4. High-Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
 
-Storage makes use of a `UserStorage` object to write `User` to the file specified by the file path.
-This is shown in the following code snippet below:
-
-[source, java]
-----
-    public void saveUser(User user, Path filePath) throws IOException {
-        // ... logging ...
-        userStorage.saveUser(user, filePath);
-    }
-----
-
-Subsequently, `XmlUserStorage#saveUser(...)` will be utilized to convert a `User` object into a `XmlSerializableUser` object as seen below:
+The Storage component makes use of `XmlUserStorage` class to write `User` to the file specified by the file path.
+Both the conversion of `User` object to `XmlSerializableUser` as well as writing to file is shown in the following code snippet below:
 
 [source, java]
 ----
@@ -780,7 +834,7 @@ public void saveUser(User user, Path filePath) throws IOException {
     XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
 }
 ----
-Finally, the `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)`.
+The newly created `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)` as shown in the code snipplets below:
 
 [source, java]
 ----
@@ -793,22 +847,20 @@ public static void saveDataToFile(Path file, XmlSerializableUser user) throws Fi
 }
 ----
 
-===== Implementation of the save feature
+
+---
 Given below is an example usage scenario and how the save mechanism behaves:
 
-The user launches the application for the first time and the `currentUser` will at this point be `null`.
-Issuing the save command at this point will throw an error message indicating to the user that they have not registered an account or they are currently not logged in.
+1. A student will first log into their account and add their preferred modules.
 
-In order to utilize the save function, the user must perform one of the following options:
+2. Upon issuing the command `save sp/userdata.xml`, the save command will call `Model#saveUserFile(...)` which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` will be handled by `StorageManager`.
 
-* The user executes `register user/demo ...` to register a new `Student` account.
-The `save` command will call `Model#saveUserFile(...)`. +
+3. `StorageManager` then utilizes `XmlUserStorage#saveUser(...)` which saves the file to the file path specified by the user.
 
-* The user executes `login user/demo pass/#Qwerty1 userData/userdata.xml` to log into account.
-The `save` command will call `Model#saveUserFile(...)`. +
 
-[NOTE]
-A new `Student` would be initialized and automatically set as the `currentUser`, enabling the user to perform save command. +
+[TIP]
+A new registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
+
 
 ==== Design Considerations
 
@@ -823,10 +875,120 @@ A new `Student` would be initialized and automatically set as the `currentUser`,
 // end::saveuser[]
 
 // tag::dataencryption[]
-=== [Proposed] Data Encryption
+=== Data Security Feature
+The data security feature mainly involves the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
 
-_{Explain here how the data encryption feature will be implemented}_
+[NOTE]
+Advanced Encryption Standard (AES) is the algorithm used for encryption.
 
+This section will describe in details the current implementation and the design considerations of the data encryption & decryption feature.
+
+---
+==== Current Implementation
+The data security feature is facilitated by `DataSecurityUtil` class. +
+It implements the following operations(s):
+
+* `DataSecurityUtil#encryptFile(…​)` — Encrypts a `File` object with the specified password and overrides the original unencrypted file.
+* `DataSecurityUtil#decryptFile(…​)` — Decrypts a `File` object with the specified password and overrides the original encrypted file.
+* `DataSecurityUtil#encrypt(…​)` — Encrypts a `byte[]` with the specified password and returns the encrypted `byte[]`.
+* `DataSecurityUtil#decrypt(…​)` — Decrypts a `byte[]` with the specified password and returns the decrypted `byte[]`.
+
+`DataSecurityUtil` class utilizes `javax.crypto.cipher` and `javax.crypto.spec.SecretKeySpec` packages for the operations mentioned above.
+
+The `Hashing` class is used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which are required to generate `SecretKeySpec`.
+
+Currently, encryption is performed in `StorageManager` and decryption is performed in `LoginCommand` where the file is loaded.
+
+===== Implementation of the encryption feature
+
+The encryption feature is integrated with the save user feature (3.6). +
+Immediately after the user data file is saved onto local disk, `DataSecurityUtil#encryptFile(...)` will be called to encrypt the file.
+This is shown in the following code snippet below:
+
+[source, java]
+----
+public void handleSaveUserChangedEvent(SaveUserChangedEvent cuce) {
+    // ... logging ...
+    try {
+        userStorage.saveUser(cuce.user, cuce.filePath);
+        DataSecurityUtil.encryptFile(cuce.filePath.toFile(),
+                cuce.password.getValue());
+    } catch (IOException e) {
+        logger.warning("Unable to save or encrypt data");
+        e.printStackTrace();
+    }
+}
+----
+
+The sequence diagram shown below in Figure 1 illustrates the integration of encryption with the save user feature.
+
+image::SequenceDiagramforSaveEventHandlingWithEncryption.png[width="650"]
+_Figure 1. Sequence Diagram for the interaction between EventsCenter and Storage Components when executing SaveCommand with encryption_
+
+
+===== Implementation of the decryption feature
+The decryption feature is integrated with the login feature under user account management(3.1). +
+`LoginCommand` calls `DataSecurityUtil#decryptFile(...)` once the validation of the user is completed.
+
+This is shown in the following code snippet below:
+
+[source, java]
+----
+public CommandResult execute(Model model, CommandHistory history) throws CommandException {
+        // ... check if user logged in ... //
+        // ... check if credential is valid .. //
+
+        User toSetCurrentUser;
+        try {
+            DataSecurityUtil.decryptFile(pathToSaveFile.toFile(),
+                toLogin.getPassword().toString());
+
+            Optional<User> userFromFile = model.readUserFile(pathToSaveFile);
+            if (!userFromFile.isPresent()) {
+                throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
+            }
+            toSetCurrentUser = userFromFile.get();
+
+            DataSecurityUtil.encryptFile(pathToSaveFile.toFile(), toLogin.getPassword().getValue());
+        } catch (DataConversionException | IOException | CorruptedFileException
+            | NoSuchAlgorithmException | InvalidKeyException | InvalidPasswordException
+            | NoSuchPaddingException e) {
+            throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
+        }
+
+        model.setCurrentUser(toSetCurrentUser);
+        return new CommandResult(String.format(MESSAGE_SUCCESS,
+            toSetCurrentUser.getUsername()));
+}
+----
+
+The sequence diagram shown below in Figure 2 illustrates the integration of decryption with the login feature.
+
+image::SDforSaveCommandLogicAndModelUserDecryption.png[width="900"]
+_Figure 2. Sequence Diagram for the interaction between Logic Component and DataSecurityUtil when executing LoginCommand_
+
+
+// consideration command encryption(not user friendly) or inbuilt encryption (harder)
+
+==== Design Considerations
+
+===== Aspect: How encryption is implemented
+
+* **Alternative 1 (current choice):** Implement as an in-built feature.
+** Pros: Ensures that the confidentiality of a user's data file is preserved at all times.
+** Cons: Users do not have full control.
+* **Alternative 2:** Implement as a command.
+** Pros: Users will have more control on the data security.
+** Cons: Unable to enforce the data security of the application.
+
+===== Aspect: Generation of security key for encryption/decryption
+
+* **Alternative 1 (current choice):** Generate the key using a user's password.
+** Pros: User does not need to supply additional information or file for encryption/decryption.
+** Cons: User is unable to decrypt their user data file if they forget their password.
+* **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
+** Pros: The key will be more secured compared to the key generated from alternative 1.
+** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
 // end::dataencryption[]
 
 === Logging
@@ -1024,7 +1186,7 @@ When a pull request has changes to asciidoc files, you can use https://www.netli
 
 Here are the steps to create a new release.
 
-.  Update the version number in link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp.java`].
+.  Update the version number in link:{repoURL}/src/main/java/seedu/modsuni/MainApp.java[`MainApp.java`].
 .  Generate a JAR file <<UsingGradle#creating-the-jar-file, using Gradle>>.
 .  Tag the repo with the version number. e.g. `v0.1`
 .  https://help.github.com/articles/creating-releases/[Create a new release using GitHub] and upload the JAR file you created.
@@ -1062,10 +1224,10 @@ Do take a look at <<Design-Logic>> before attempting to modify the `Logic` compo
 +
 ****
 * Hints
-** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for aliases as well (e.g. `FindCommand#COMMAND_ALIAS`).
-** link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] is responsible for analyzing command words.
+** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/modsuni/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for aliases as well (e.g. `FindCommand#COMMAND_ALIAS`).
+** link:{repoURL}/src/main/java/seedu/modsuni/logic/parser/ModsUniParser.java[`ModsUniParser`] is responsible for analyzing command words.
 * Solution
-** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and alias can be used to execute the same intended command.
+** Modify the switch statement in link:{repoURL}/src/main/java/seedu/modsuni/logic/parser/ModsUniParser.java[`ModsUniParser#parseCommand(String)`] such that both the proper command word and alias can be used to execute the same intended command.
 ** Add new tests for each of the aliases that you have added.
 ** Update the user guide to document the new aliases.
 ** See this https://github.com/se-edu/addressbook-level4/pull/785[PR] for the full solution.
@@ -1074,21 +1236,22 @@ Do take a look at <<Design-Logic>> before attempting to modify the `Logic` compo
 [discrete]
 ==== `Model` component
 
-*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the address book, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.
+*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that a student is able to remove all modules in a particular module list, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.
 
 [TIP]
 Do take a look at <<Design-Model>> before attempting to modify the `Model` component.
 
-. Add a `removeTag(Tag)` method. The specified tag will be removed from everyone in the address book.
+. Add a `removeAllStagedModules()` method.
+. Add a `removeAllTakenModules()` method.
 +
 ****
 * Hints
-** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] and the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] API need to be updated.
-** Think about how you can use SLAP to design the method. Where should we place the main logic of deleting tags?
-**  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a person, and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] allows you to update the tags.
+** The link:{repoURL}/src/main/java/seedu/modsuni/model/Model.java[`Model`] and link:{repoURL}/src/main/java/seedu/modsuni/model/user/student/Student.java[`Student`] API need to be updated.
+** Think about how you can use SLAP to design the method. Where should we place the main logic of deleting the modules?
+**  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/modsuni/model/ModelManager.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/modsuni/model/user/student/Student.java[`Student`] classes can be used to implement the module list removal logic. link:{repoURL}/src/main/java/seedu/modsuni/model/ModelManager.java[`ModelManager`] allows you to update the various module lists, and link:{repoURL}/src/main/java/seedu/modsuni/model/user/student/Student.java[`Student`] allows you to update the module lists.
 * Solution
-** Implement a `removeTag(Tag)` method in link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. Loop through each person, and remove the `tag` from each person.
-** Add a new API method `deleteTag(Tag)` in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `AddressBook#removeTag(Tag)`.
+** Implement a `removeAllXXXModules()` method in link:{repoURL}/src/main/java/seedu/modsuni/model/ModelManager.java[`ModelManager`]. Reinitialise the respective list.
+** Add a new API method `removeAllXXXModules()` in link:{repoURL}/src/main/java/seedu/modsuni/model/student/Student.java[`Student`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `Student#removeAllXXXModules()`.
 ** Add new tests for each of the new public methods that you have added.
 ** See this https://github.com/se-edu/addressbook-level4/pull/790[PR] for the full solution.
 ****

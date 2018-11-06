@@ -17,17 +17,22 @@ import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
 import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+
+import org.junit.rules.ExpectedException;
 
 import seedu.modsuni.commons.core.Messages;
 import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.EditModuleCommand.EditModuleDescriptor;
+import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.UserPrefs;
 import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.module.Module;
+import seedu.modsuni.model.user.Role;
 import seedu.modsuni.testutil.AdminBuilder;
 import seedu.modsuni.testutil.EditModuleDescriptorBuilder;
 import seedu.modsuni.testutil.ModuleBuilder;
@@ -36,6 +41,9 @@ import seedu.modsuni.testutil.ModuleBuilder;
  * Contains integration tests and unit tests for EditModuleCommand.
  */
 public class EditModuleCommandTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     private Model model = new ModelManager(
             getTypicalModuleList(),
@@ -47,6 +55,31 @@ public class EditModuleCommandTest {
     @Before
     public void setup() {
         model.setCurrentUser(new AdminBuilder().build());
+    }
+
+    @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        EditModuleCommand editModuleCommand =
+                new EditModuleCommand(Index.fromZeroBased(1), new EditModuleDescriptorBuilder().build());
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(EditModuleCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        editModuleCommand.execute(model, commandHistory);
+    }
+
+    @Test
+    public void notAdmin_throwsCommandException() throws Exception {
+        EditModuleCommand editModuleCommand =
+                new EditModuleCommand(Index.fromZeroBased(1), new EditModuleDescriptorBuilder().build());
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(EditModuleCommand.MESSAGE_NOT_ADMIN);
+        Model model = new ModelManager();
+        model.setCurrentUser(new AdminBuilder().withRole(Role.STUDENT).build());
+
+        editModuleCommand.execute(model, commandHistory);
     }
 
     @Test

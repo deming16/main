@@ -32,6 +32,31 @@ public class XmlAdaptedAnd {
         or = new ArrayList<>();
     }
 
+    /**
+     * Converts a given PrereqDetails into this class for JAXB use.
+     *
+     * @param source future changes to this will not affect the created XmlAdaptedAnd
+     */
+    public XmlAdaptedAnd(PrereqDetails source) {
+        if (source.getAnd().isPresent()) {
+            and = new ArrayList<>();
+            List<PrereqDetails> prereqDetails = source.getAnd().get();
+            for (PrereqDetails element: prereqDetails) {
+                and.add(new XmlAdaptedAnd(element));
+            }
+        }
+        if (source.getOr().isPresent()) {
+            or = new ArrayList<>();
+            List<PrereqDetails> prereqDetails = source.getOr().get();
+            for (PrereqDetails element: prereqDetails) {
+                or.add(new XmlAdaptedOr(element));
+            }
+        }
+        if (source.getCode().isPresent()) {
+            code = source.getCode().get().code;
+        }
+    }
+
     public String getCode() {
         return code;
     }

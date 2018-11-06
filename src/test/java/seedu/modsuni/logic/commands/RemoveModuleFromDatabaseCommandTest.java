@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,6 @@ import org.junit.rules.ExpectedException;
 import javafx.collections.ObservableList;
 
 import seedu.modsuni.commons.core.index.Index;
-import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -57,12 +55,24 @@ public class RemoveModuleFromDatabaseCommandTest {
     }
 
     @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        RemoveModuleFromDatabaseCommand removeModuleFromDatabaseCommand =
+                new RemoveModuleFromDatabaseCommand("CS1010");
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(RemoveModuleFromDatabaseCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        removeModuleFromDatabaseCommand.execute(model, commandHistory);
+    }
+
+    @Test
     public void notAdmin_throwsCommandException() throws Exception {
         RemoveModuleFromDatabaseCommand removeModuleFromDatabaseCommand =
                 new RemoveModuleFromDatabaseCommand("CS1010");
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(AddAdminCommand.MESSAGE_NOT_ADMIN);
+        thrown.expectMessage(RemoveModuleFromDatabaseCommand.MESSAGE_NOT_ADMIN);
         Model model = new ModelManager();
         User fakeAdmin = new AdminBuilder().withRole(Role.STUDENT).build();
         model.setCurrentUser(fakeAdmin);
@@ -337,6 +347,11 @@ public class RemoveModuleFromDatabaseCommandTest {
         }
 
         @Override
+        public void resetCurrentUser() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setCurrentUser(User user) {
             throw new AssertionError("This method should not be called.");
         }
@@ -358,7 +373,7 @@ public class RemoveModuleFromDatabaseCommandTest {
         }
 
         @Override
-        public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
+        public Optional<User> readUserFile(Path filePath, String password) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -379,6 +394,7 @@ public class RemoveModuleFromDatabaseCommandTest {
     private class ModelStubWithModule extends ModelStub {
 
         private ModuleList moduleList = new ModuleList();
+        private User currentUser = new AdminBuilder().build();
 
         ModelStubWithModule(Module module) {
             requireNonNull(module);
@@ -408,6 +424,10 @@ public class RemoveModuleFromDatabaseCommandTest {
             return modList.getModuleList();
         }
 
+        @Override
+        public User getCurrentUser() {
+            return currentUser;
+        }
 
         @Override
         public boolean isAdmin() {

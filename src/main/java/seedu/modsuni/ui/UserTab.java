@@ -14,6 +14,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
+import seedu.modsuni.commons.events.ui.UserTabLogoutEvent;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
 import seedu.modsuni.model.user.student.Student;
@@ -64,15 +65,31 @@ public class UserTab extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
+    /**
+     * Resets the respective UI fields in User Tab
+     */
+    private void resetUserTab() {
+        // Resets all Text value
+        userNameText.setText("");
+        dateText.setText("");
+        userDetailText1.setText("");
+        userDetailText2.setText("");
+        lastSavedText.setText("");
+
+        // Resets Label value
+        userDetailLabel1.setText("Major(s):");
+        userDetailLabel2.setText("Minor(s):");
+    }
+
     @Subscribe
     public void handleUserTabChangedEvent(UserTabChangedEvent event) {
-
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
         userNameText.setText(event.currentUser.getName().fullName);
 
         if (event.currentUser.getRole() == Role.STUDENT) {
             userDetailLabel1.setText("Major(s):");
             userDetailLabel2.setText("Minor(s):");
-            dateText.setText(((Student) event.currentUser).getEnrollmentDate().enrollmentDate);
+            dateText.setText(((Student) event.currentUser).getEnrollmentDate().toString());
             userDetailText1.setText(((Student) event.currentUser).getMajor().toString());
             userDetailText2.setText(((Student) event.currentUser).getMinor().toString());
         } else {
@@ -81,10 +98,14 @@ public class UserTab extends UiPart<Region> {
             dateText.setText(((Admin) event.currentUser).getEmploymentDate().toString());
             userDetailText1.setText(((Admin) event.currentUser).getSalary().toString());
             userDetailText2.setText("This is an admin account"); // hides secondary detail
-
         }
 
         lastSavedText.setText(dateFormat.format(new Date(clock.millis())));
+    }
 
+    @Subscribe
+    public void handleUserTabLogoutEvent(UserTabLogoutEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        resetUserTab();
     }
 }

@@ -88,6 +88,7 @@ public class XmlAdaptedModule {
         lockedModules = source.getLockedModules().stream()
                 .map(XmlAdaptedLockedModules::new)
                 .collect(Collectors.toList());
+        parsedPrereq = new XmlAdaptedPrereq(source.getPrereq());
     }
 
     /**
