@@ -8,6 +8,7 @@ import static seedu.modsuni.logic.parser.CommandParserTestUtil.assertParseFailur
 import static seedu.modsuni.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.Test;
+
 import seedu.modsuni.logic.commands.SwitchTabCommand;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 

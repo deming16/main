@@ -1,7 +1,7 @@
 package seedu.modsuni.logic.commands;
 
-
 import static junit.framework.TestCase.assertTrue;
+
 import static org.junit.Assert.assertFalse;
 
 import org.junit.Rule;

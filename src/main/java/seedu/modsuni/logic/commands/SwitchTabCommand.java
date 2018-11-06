@@ -44,20 +44,20 @@ public class SwitchTabCommand extends Command {
         requireNonNull(model);
 
         switch(switchToTab) {
-            case "user":
-                EventsCenter.getInstance().post(new ShowUserTabRequestEvent());
-                break;
-            case "staged":
-                EventsCenter.getInstance().post(new ShowStagedTabRequestEvent());
-                break;
-            case "taken":
-                EventsCenter.getInstance().post(new ShowTakenTabRequestEvent());
-                break;
-            case "database":
-                EventsCenter.getInstance().post(new ShowDatabaseTabRequestEvent());
-                break;
-            default:
-                throw new CommandException(MESSAGE_INVALID_OPTION);
+        case "user":
+            EventsCenter.getInstance().post(new ShowUserTabRequestEvent());
+            break;
+        case "staged":
+            EventsCenter.getInstance().post(new ShowStagedTabRequestEvent());
+            break;
+        case "taken":
+            EventsCenter.getInstance().post(new ShowTakenTabRequestEvent());
+            break;
+        case "database":
+            EventsCenter.getInstance().post(new ShowDatabaseTabRequestEvent());
+            break;
+        default:
+            throw new CommandException(MESSAGE_INVALID_OPTION);
         }
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, switchToTab));
