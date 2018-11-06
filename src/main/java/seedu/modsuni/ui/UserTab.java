@@ -28,6 +28,9 @@ public class UserTab extends UiPart<Region> {
     public static final String ADMIN_DESC = "This is an admin account";
     public static final String ADMIN_DETAIL_1_LABEL = "Salary:";
     public static final String ADMIN_DETAIL_2_LABEL = "NOTE:";
+    public static final String INITIAL_NAME_LABEL = "Name:";
+    public static final String INITIAL_DATE_LABEL = "Date:";
+    public static final String LAST_SAVED_LABEL = "Last Saved/Loaded:";
     public static final String STUDENT_DETAIL_1_LABEL = "Major(s):";
     public static final String STUDENT_DETAIL_2_LABEL = "Minor(s):";
 
