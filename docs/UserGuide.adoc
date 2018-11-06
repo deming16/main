@@ -39,7 +39,7 @@ image::Ui.png[width="790"]
 
 
 Type the command in the command box and press kbd:[Enter] to execute it. +
-e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
+e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 
 Some example commands you can try:
 
@@ -48,6 +48,11 @@ Some example commands you can try:
 * **`exit`** : exits the app
 
 Refer to <<Features>> for details of each command.
+
+To begin using administrator commands, login to the default master account with the following command: +
+`login user/master pass/Pass#123 userdata/masterconfig.xml` +
+
+Refer to <<AdminFeatures>> for details of each admin command.
 
 [[Features]]
 == Features
@@ -297,6 +302,12 @@ Examples:
 
 * `set-theme <FILE_NAME>.xml`
 
+[[AdminFeatures]]
+== Administrator Features
+[NOTE]
+The commands in this section can only be executed when logged into an administrator account. Otherwise, the message
+`Only an admin user can execute this command` will be displayed in the output window.
+
 // tag::admincommands[]
 === Add a new administrator account: `addAdmin`
 
@@ -314,7 +325,7 @@ Input fields:
 
 Example:
 
-* `addAdmin user/master pass/myPass#1 n/John Doe sp/userdata.xml salary/4000 date/01/01/2018` +
+* `addAdmin user/myUsername pass/Password#1 n/John Doe sp/exampleconfig.xml salary/3000 employ/30/09/2018` +
 Creates a new administrator account with the following stated details.
 
 === Edit the currently logged in administrator account: `editAdmin`
