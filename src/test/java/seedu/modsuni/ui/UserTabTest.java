@@ -1,6 +1,13 @@
 package seedu.modsuni.ui;
 
-import static guitests.guihandles.UserTabHandle.*;
+import static guitests.guihandles.UserTabHandle.DATE_LABEL_ID;
+import static guitests.guihandles.UserTabHandle.DATE_TEXT_ID;
+import static guitests.guihandles.UserTabHandle.NAME_LABEL_ID;
+import static guitests.guihandles.UserTabHandle.NAME_TEXT_ID;
+import static guitests.guihandles.UserTabHandle.USER_DETAIL_1_LABEL;
+import static guitests.guihandles.UserTabHandle.USER_DETAIL_1_TEXT;
+import static guitests.guihandles.UserTabHandle.USER_DETAIL_2_LABEL;
+import static guitests.guihandles.UserTabHandle.USER_DETAIL_2_TEXT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -224,7 +231,7 @@ public class UserTabTest extends GuiUnitTest {
             command.execute(model, commandHistory);
         } catch (CommandException e) {
             // Ignored since we're only checking for UI changes
-        } finally  {
+        } finally {
             Thread.sleep(500);
             assertLabelAndTextFieldsReset();
         }
