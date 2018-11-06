@@ -71,7 +71,7 @@
             <!-- User Detail Label 2-->
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
-                    <Label fx:id="userDetailLabel2" maxWidth="100.0" minWidth="100.0" text="Minors(s):" HBox.hgrow="ALWAYS">
+                    <Label fx:id="userDetailLabel2" maxWidth="100.0" minWidth="100.0" text="Minor(s):" HBox.hgrow="ALWAYS">
                         <HBox.margin>
                             <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
                         </HBox.margin>
