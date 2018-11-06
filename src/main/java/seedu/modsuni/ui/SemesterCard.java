@@ -2,8 +2,10 @@ package seedu.modsuni.ui;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.TextAlignment;
 import seedu.modsuni.model.semester.Semester;
 
 /**
@@ -21,9 +23,13 @@ public class SemesterCard extends UiPart<StackPane> {
     @FXML
     private ListView<String> semesterListView;
 
-    public SemesterCard(Semester semester) {
+    @FXML
+    private Label semesterNo;
+
+    public SemesterCard(Semester semester, String semesterNo) {
         super(FXML);
         this.semester = semester;
+        this.semesterNo.setText(semesterNo);
         ObservableList<String> items = semester.getModuleCodeList();
         semesterListView.setItems(items);
         semesterListView.setPrefHeight(100);
