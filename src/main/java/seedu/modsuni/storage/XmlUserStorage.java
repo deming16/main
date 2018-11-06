@@ -6,12 +6,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import javax.crypto.NoSuchPaddingException;
+
 import seedu.modsuni.commons.core.LogsCenter;
+import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
+import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 import seedu.modsuni.commons.util.FileUtil;
 import seedu.modsuni.model.user.User;
 
@@ -37,13 +43,20 @@ public class XmlUserStorage implements UserStorage {
         return readUser(filePath);
     }
 
+    @Override
+    public Optional<User> readUser(Path filePath) throws DataConversionException, IOException {
+        return readUser(filePath);
+    }
+
     /**
      * Similar to {@link #readUser()}
      * @param filePath location of the data. Cannot be null
      * @throws DataConversionException if the file is not in the correct format.
      */
-    public Optional<User> readUser(Path filePath)
-            throws DataConversionException, FileNotFoundException {
+    @Override
+    public Optional<User> readUser(Path filePath, String password)
+            throws DataConversionException, FileNotFoundException, CorruptedFileException,
+            NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
         requireNonNull(filePath);
 
         if (!Files.exists(filePath)) {
@@ -53,7 +66,7 @@ public class XmlUserStorage implements UserStorage {
 
         XmlSerializableUser xmlUser = XmlFileStorage.loadUserDataFromSaveFile(filePath);
         try {
-            return Optional.of(xmlUser.toModelType());
+            return Optional.of(xmlUser.toModelType(password));
         } catch (IllegalValueException ive) {
             logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataConversionException(ive);
@@ -75,6 +88,18 @@ public class XmlUserStorage implements UserStorage {
 
         FileUtil.createIfMissing(filePath);
         XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
+    }
+
+    /**
+     * Similar to {@link #saveUser(User)}
+     * @param filePath location of the data. Cannot be null
+     */
+    public void saveUser(User user, Path filePath, String password) throws IOException {
+        requireNonNull(user);
+        requireNonNull(filePath);
+
+        FileUtil.createIfMissing(filePath);
+        XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user, password));
     }
 
 }

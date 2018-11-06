@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,6 @@ import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
 
-import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -369,7 +367,7 @@ public class RemoveModuleFromDatabaseCommandTest {
         }
 
         @Override
-        public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
+        public Optional<User> readUserFile(Path filePath, String password) {
             throw new AssertionError("This method should not be called.");
         }
 

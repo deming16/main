@@ -124,6 +124,11 @@ public class CommandTestUtil {
     public static final String INVALID_ENROLLMENT_DESC =
         " " + PREFIX_STUDENT_ENROLLMENT_DATE + "11/11/11";
 
+    public static final String VALID_SAVE_PATH =
+            " " + PREFIX_SAVE_PATH + "validPath.xml";
+    public static final String VALID_SAVE_PATH_NAME = "validPath.xml";
+    public static final String INVALID_SAVE_PATH = "userdata"; // missing xml extension
+
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 

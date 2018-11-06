@@ -2,14 +2,21 @@ package seedu.modsuni.storage;
 
 import static java.util.Objects.requireNonNull;
 
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.annotation.XmlElement;
 
+import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
+import seedu.modsuni.commons.exceptions.InvalidPasswordException;
+import seedu.modsuni.commons.util.DataSecurityUtil;
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
@@ -127,16 +134,60 @@ public class XmlAdaptedUser {
     }
 
     /**
+     * Converts a given User into this class for JAXB use.
+     *
+     * @param user future changes to this will not affect the created XmlAdaptedUser
+     */
+    public XmlAdaptedUser(User user, String password) {
+        requireNonNull(user);
+        requireNonNull(password);
+
+        // All users
+        this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+                user.getUsername().toString().getBytes(), password));
+        this.name = user.getName().toString();
+        this.role = user.getRole().toString();
+        this.pathToProfilePic = user.getPathToProfilePic().toString();
+
+        // Admin
+        if (user.getRole() == Role.ADMIN) {
+            Admin admin = (Admin) user;
+            this.salary = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+                    admin.getSalary().toString().getBytes(), password));
+            this.employmentDate = admin.getEmploymentDate().toString();
+        }
+
+        // Student
+        if (user.getRole() == Role.STUDENT) {
+            Student student = (Student) user;
+            this.enrollmentDate = student.getEnrollmentDate().toString();
+            this.major = student.getMajor().toString();
+            this.minor = student.getMinor().toString();
+            for (Module module : student.getModulesTaken()) {
+                modulesTaken.add(new XmlAdaptedModule(module));
+            }
+            for (Module module : student.getModulesStaged()) {
+                modulesStaged.add(new XmlAdaptedModule(module));
+            }
+        }
+    }
+
+    /**
      * Converts this User into the model's {@code User} object.
      *
      * @throws IllegalValueException if there were any data constraints violated
      */
-    public User toModelType() throws IllegalValueException {
+    public User toModelType(String password) throws IllegalValueException, CorruptedFileException,
+            NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
         User user = null;
         checkMandatoryFields();
+
+        String decryptedUsername = decryptUsername(password);
+
         if ("ADMIN".equals(role)) {
             checkAdminFields();
-            user = new Admin(new Username(username), new Name(name), Role.ADMIN, new Salary(salary),
+            String decryptedSalary = decryptSalary(password);
+            user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary),
                     new EmployDate(employmentDate));
         }
 
@@ -155,12 +206,34 @@ public class XmlAdaptedUser {
                 modulesStagedConverted.add(moduleTake.toModelType());
             }
 
-            user = new Student(new Username(username), new Name(name), Role.STUDENT,
+            user = new Student(new Username(decryptedUsername), new Name(name), Role.STUDENT,
                     new PathToProfilePic(pathToProfilePic), new EnrollmentDate(enrollmentDate),
                     majorConverted, minorConverted, modulesTakenConverted, modulesStagedConverted);
         }
 
         return user;
+    }
+
+    /**
+     * Decrypts Username
+     * @param password
+     * @return a string of decrypted username
+     */
+    private String decryptUsername(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+        return new String(DataSecurityUtil.decrypt(
+                DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Decrypts Salary
+     * @param password
+     * @return a string of decrypted salary
+     */
+    private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+        return new String(DataSecurityUtil.decrypt(
+                DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
     }
 
     /**
@@ -172,9 +245,6 @@ public class XmlAdaptedUser {
         // Username
         if (username == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Username"));
-        }
-        if (!Username.isValidUsername(username)) {
-            throw new IllegalValueException(Username.MESSAGE_USERNAME_CONSTRAINTS);
         }
 
         // Name
@@ -208,9 +278,6 @@ public class XmlAdaptedUser {
         // Salary
         if (salary == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "salary"));
-        }
-        if (!Salary.isValidSalary(salary)) {
-            throw new IllegalValueException(Salary.MESSAGE_SALARY_CONSTRAINTS);
         }
 
         // employment date

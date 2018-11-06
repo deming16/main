@@ -20,7 +20,6 @@ import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
 import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.commons.exceptions.InvalidPasswordException;
-import seedu.modsuni.commons.util.DataSecurityUtil;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -74,20 +73,14 @@ public class LoginCommand extends Command {
 
         User toSetCurrentUser;
         try {
-
-            DataSecurityUtil.decryptFile(pathToSaveFile.toFile(),
-                toLogin.getPassword().toString());
-
-            Optional<User> userFromFile = model.readUserFile(pathToSaveFile);
+            Optional<User> userFromFile = model.readUserFile(pathToSaveFile, toLogin.getPassword().getValue());
             if (!userFromFile.isPresent()) {
                 throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
             }
             toSetCurrentUser = userFromFile.get();
-
-            DataSecurityUtil.encryptFile(pathToSaveFile.toFile(), toLogin.getPassword().getValue());
-        } catch (DataConversionException | IOException | CorruptedFileException
-            | NoSuchAlgorithmException | InvalidKeyException | InvalidPasswordException
-            | NoSuchPaddingException e) {
+        } catch (DataConversionException | IOException | NoSuchAlgorithmException
+                | InvalidKeyException | InvalidPasswordException | CorruptedFileException
+                | NoSuchPaddingException e) {
             throw new CommandException(MESSAGE_UNABLE_TO_READ_FILE);
         }
 
