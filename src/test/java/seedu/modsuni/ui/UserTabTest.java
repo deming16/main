@@ -28,6 +28,7 @@ import static seedu.modsuni.ui.UserTab.STUDENT_DETAIL_2_LABEL;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.junit.After;
@@ -36,6 +37,7 @@ import org.junit.Test;
 
 import guitests.guihandles.UserTabHandle;
 import seedu.modsuni.logic.CommandHistory;
+import seedu.modsuni.logic.commands.EditStudentCommand;
 import seedu.modsuni.logic.commands.LoginCommand;
 import seedu.modsuni.logic.commands.LogoutCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
@@ -55,6 +57,8 @@ import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.storage.Storage;
 import seedu.modsuni.storage.StorageManager;
 import seedu.modsuni.storage.XmlUserStorage;
+import seedu.modsuni.testutil.EditStudentDescriptorBuilder;
+import seedu.modsuni.testutil.StudentBuilder;
 
 public class UserTabTest extends GuiUnitTest {
 
@@ -207,8 +211,37 @@ public class UserTabTest extends GuiUnitTest {
     }
 
     @Test
-    public void userTab_successfulEditCommand() {
+    public void userTab_successfulEditCommand() throws CommandException, InterruptedException {
         // Student
+        model = new ModelManager(
+            new ModuleList(),
+            new AddressBook(),
+            new UserPrefs(),
+            getTypicalCredentialStore());
+
+        Credential toVerify = CREDENTIAL_STUDENT_MAX;
+        LoginCommand command = new LoginCommand(toVerify, TYPICAL_STUDENT_DATA_FILE);
+        command.execute(model, commandHistory);
+
+        HashMap<String, String> initialUserData = retrieveCurrentTextFields();
+
+        Student editedStudent = new StudentBuilder()
+            .withName("Max Emilian Verstappen")
+            .withEnrollmentDate("01/01/2001")
+            .withMajor(Arrays.asList("IS"))
+            .withMinor(Arrays.asList("EEE"))
+            .build();
+
+        EditStudentCommand.EditStudentDescriptor descriptor =
+            new EditStudentDescriptorBuilder(editedStudent).build();
+
+        EditStudentCommand editStudentCommand =
+            new EditStudentCommand(descriptor);
+        editStudentCommand.execute(model, commandHistory);
+
+        Thread.sleep(500);
+        assertNotEquals(initialUserData, retrieveCurrentTextFields());
+
     }
 
     @Test
@@ -235,6 +268,18 @@ public class UserTabTest extends GuiUnitTest {
             Thread.sleep(500);
             assertLabelAndTextFieldsReset();
         }
+    }
+
+    /**
+     * Retrieve current Data Fields
+     */
+    private HashMap<String, String> retrieveCurrentTextFields() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(NAME_TEXT_ID, userTabHandle.getNameText());
+        map.put(DATE_TEXT_ID, userTabHandle.getDateText());
+        map.put(USER_DETAIL_1_TEXT, userTabHandle.getUserDetail1Text());
+        map.put(USER_DETAIL_2_TEXT, userTabHandle.getUserDetail2Text());
+        return map;
     }
 
     /**
