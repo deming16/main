@@ -8,7 +8,6 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.MINOR_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_ENROLLMENT;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_PATH_TO_PIC;
 import static seedu.modsuni.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.modsuni.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
