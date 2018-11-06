@@ -61,6 +61,9 @@ public class UserTabTest extends GuiUnitTest {
         TEST_DATA_FOLDER.resolve("studentData.xml");
     private static final Path TYPICAL_ADMIN_DATA_FILE =
         TEST_DATA_FOLDER.resolve("adminData.xml");
+
+    private static final String INITIAL_LAST_SAVE_TEXT = "2018-01-01 00:00";
+
     private static Model model;
     private static Storage storage;
     private static UserTabHandle userTabHandle;
@@ -178,7 +181,7 @@ public class UserTabTest extends GuiUnitTest {
     }
 
     @Test
-    public void userTab_successfulSaveCommand() throws CommandException {
+    public void userTab_successfulSaveCommand() throws CommandException, InterruptedException {
         // Check only lastSavedText
         model = new ModelManager(
             new ModuleList(),
@@ -194,10 +197,10 @@ public class UserTabTest extends GuiUnitTest {
         String initialSaveTest = userTabHandle.getLastSaveText();
 
         SaveCommand saveCommand = new SaveCommand(TYPICAL_STUDENT_DATA_FILE);
+        Thread.sleep(60000);
         saveCommand.execute(model, commandHistory);
-
+        System.out.println(initialSaveTest + ": " + userTabHandle.getLastSaveText());
         assertNotEquals(initialSaveTest, userTabHandle.getLastSaveText());
-
     }
 
     @Test
