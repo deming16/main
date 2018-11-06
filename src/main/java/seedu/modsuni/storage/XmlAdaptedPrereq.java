@@ -24,6 +24,28 @@ public class XmlAdaptedPrereq {
     }
 
     /**
+     * Converts a given Prereq into this class for JAXB use.
+     *
+     * @param source future changes to this will not affect the created XmlAdaptedPrereq
+     */
+    public XmlAdaptedPrereq(Prereq source) {
+        if (source.getAnd().isPresent()) {
+            and = new ArrayList<>();
+            List<PrereqDetails> prereqDetails = source.getAnd().get();
+            for (PrereqDetails element: prereqDetails) {
+                and.add(new XmlAdaptedAnd(element));
+            }
+        }
+        if (source.getOr().isPresent()) {
+            or = new ArrayList<>();
+            List<PrereqDetails> prereqDetails = source.getOr().get();
+            for (PrereqDetails element: prereqDetails) {
+                or.add(new XmlAdaptedOr(element));
+            }
+        }
+    }
+
+    /**
      * Converts this jaxb-friendly adapted prereq object into the model's Module object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted prereq code

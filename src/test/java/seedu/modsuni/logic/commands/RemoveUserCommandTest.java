@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +14,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -52,6 +51,18 @@ public class RemoveUserCommandTest {
     public void constructor_nullModule_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new RemoveUserCommand(null);
+    }
+
+    @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        RemoveUserCommand removeUserCommand =
+                new RemoveUserCommand(new Username("dummy"));
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(RemoveUserCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        removeUserCommand.execute(model, commandHistory);
     }
 
     @Test
@@ -336,6 +347,11 @@ public class RemoveUserCommandTest {
         }
 
         @Override
+        public void resetCurrentUser() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setCurrentUser(User user) {
             throw new AssertionError("This method should not be called.");
         }
@@ -362,7 +378,7 @@ public class RemoveUserCommandTest {
         }
 
         @Override
-        public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
+        public Optional<User> readUserFile(Path filePath, String password) {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -402,6 +418,11 @@ public class RemoveUserCommandTest {
         @Override
         public void setCurrentUser(User user) {
             currentUser = user;
+        }
+
+        @Override
+        public ObservableList<Username> getUsernames() {
+            return FXCollections.observableArrayList();
         }
 
         @Override

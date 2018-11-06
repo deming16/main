@@ -27,6 +27,17 @@ public class ShowUsernameCommandTest {
     private Model model;
 
     @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        ShowUsernameCommand showUsernameCommand = new ShowUsernameCommand();
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(ShowUsernameCommand.MESSAGE_NOT_LOGGED_IN);
+        Model model = new ModelManager();
+
+        showUsernameCommand.execute(model, commandHistory);
+    }
+
+    @Test
     public void execute_notAdmin_throwsCommandException() throws Exception {
         model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new UserPrefs(),
                 new CredentialStore());

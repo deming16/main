@@ -11,7 +11,6 @@ import static seedu.modsuni.testutil.TypicalModules.CS1010;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
 import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,7 +22,6 @@ import org.junit.Test;
 
 import javafx.collections.ObservableList;
 
-import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
@@ -295,6 +293,11 @@ public class SearchCommandTest {
         }
 
         @Override
+        public void resetCurrentUser() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setCurrentUser(User user) {
             throw new AssertionError("This method should not be called.");
         }
@@ -311,7 +314,7 @@ public class SearchCommandTest {
         }
 
         @Override
-        public Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException {
+        public Optional<User> readUserFile(Path filePath, String password) {
             throw new AssertionError("This method should not be called.");
         }
 

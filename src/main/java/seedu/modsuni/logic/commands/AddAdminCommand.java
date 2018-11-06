@@ -11,6 +11,8 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import java.nio.file.Path;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.NewShowUsernameResultAvailableEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -35,14 +37,14 @@ public class AddAdminCommand extends Command {
             + PREFIX_USERNAME + "myUsername "
             + PREFIX_PASSWORD + "Password#1 "
             + PREFIX_NAME + "John Doe "
-            + PREFIX_SAVE_PATH + "config "
+            + PREFIX_SAVE_PATH + "exampleconfig "
             + PREFIX_SALARY + "3000 "
             + PREFIX_EMPLOYMENT_DATE + "30/09/2018\n";
 
     public static final String MESSAGE_SUCCESS = "New admin added: %1$s";
     public static final String MESSAGE_DUPLICATE_USERNAME = "This username already exists in the database";
     public static final String MESSAGE_NOT_ADMIN = "Only an admin user can execute this command";
-
+    public static final String MESSAGE_NOT_LOGGED_IN = "Unable to add, please log in first.";
 
 
     private final Admin toAdd;
@@ -61,6 +63,9 @@ public class AddAdminCommand extends Command {
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
+        if (model.getCurrentUser() == null) {
+            throw new CommandException(MESSAGE_NOT_LOGGED_IN);
+        }
 
         if (!model.isAdmin()) {
             throw new CommandException(MESSAGE_NOT_ADMIN);
@@ -72,6 +77,8 @@ public class AddAdminCommand extends Command {
         model.addCredential(credential);
 
         model.addAdmin(toAdd, savePath);
+
+        EventsCenter.getInstance().post(new NewShowUsernameResultAvailableEvent(model.getUsernames()));
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }

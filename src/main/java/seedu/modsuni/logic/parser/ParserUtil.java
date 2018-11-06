@@ -227,16 +227,14 @@ public class ParserUtil {
     public static EnrollmentDate parseEnrollmentDate(String enrollmentDate) throws ParseException {
         requireNonNull(enrollmentDate);
         String trimmedDate = enrollmentDate.trim();
-        if (!EnrollmentDate.isValidEmployDate(trimmedDate)) {
+        if (!EnrollmentDate.isValidEnrollmentDate(trimmedDate)) {
             throw new ParseException(EnrollmentDate.MESSAGE_DATE_CONSTRAINTS);
         }
         return new EnrollmentDate(trimmedDate);
     }
     /**
      * TODO check if moduleCode is valid
-     * @param moduleCode
-     * @return
-     * @throws ParseException
+     * Parses a {@code String moduleCode} into a {@code Code}.
      */
     public static String parseModuleCode(String moduleCode) throws ParseException {
         requireNonNull(moduleCode);
@@ -260,7 +258,17 @@ public class ParserUtil {
      */
     public static Prereq parsePrereq(String prereq) throws ParseException {
         requireNonNull(prereq);
-        String strings = prereq.trim();
-        return new PrereqGenerator().generate(strings);
+        String trimmedPrereq = prereq.trim();
+        PrereqGenerator.checkValidPrereqString(trimmedPrereq);
+        return new PrereqGenerator().generate(trimmedPrereq);
+    }
+
+    /**
+     * Parses a {@code String prereq} into a {@code Prereq}.
+     */
+    public static String parseSwitchTab(String switchToTab) throws ParseException {
+        requireNonNull(switchToTab);
+        String trimmedSwitchToTab = switchToTab.trim();
+        return trimmedSwitchToTab;
     }
 }

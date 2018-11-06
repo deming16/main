@@ -1,6 +1,9 @@
 package seedu.modsuni.storage;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +15,7 @@ import org.junit.rules.ExpectedException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
 import seedu.modsuni.commons.util.XmlUtil;
 import seedu.modsuni.model.credential.CredentialStore;
+import seedu.modsuni.testutil.CredentialStoreBuilder;
 import seedu.modsuni.testutil.TypicalCredentials;
 
 public class XmlSerializableCredentialStoreTest {
@@ -22,7 +26,7 @@ public class XmlSerializableCredentialStoreTest {
         TEST_DATA_FOLDER.resolve("typicalCredentialStore.xml");
     private static final Path INVALID_CREDENTIALS_FILE =
         TEST_DATA_FOLDER.resolve(
-        "invalidCredentialStore.xml");
+            "invalidCredentialStore.xml");
     private static final Path DUPLICATE_CREDENTIALS_FILE =
         TEST_DATA_FOLDER.resolve("duplicateCredentialStore.xml");
 
@@ -57,6 +61,44 @@ public class XmlSerializableCredentialStoreTest {
         thrown.expect(IllegalValueException.class);
         thrown.expectMessage(XmlSerializableCredentialStore.MESSAGE_DUPLICATE_CREDENTIAL);
         dataFromFile.toModelType();
+    }
+
+    @Test
+    public void equals() {
+
+        XmlSerializableCredentialStore credentialStore = new XmlSerializableCredentialStore(
+            new CredentialStoreBuilder()
+                .withCredentials(CREDENTIAL_STUDENT_MAX)
+                .withCredentials(CREDENTIAL_STUDENT_SEB)
+                .build()
+        );
+        // same object -> returns true
+        assertEquals(credentialStore, credentialStore);
+
+        // same values -> returns true
+        XmlSerializableCredentialStore copyCredentialStore =
+            new XmlSerializableCredentialStore(
+                new CredentialStoreBuilder()
+                    .withCredentials(CREDENTIAL_STUDENT_MAX)
+                    .withCredentials(CREDENTIAL_STUDENT_SEB)
+                    .build()
+            );
+        assertEquals(credentialStore, copyCredentialStore);
+
+        // different types -> returns false
+        assertFalse(credentialStore.equals(5));
+
+        // null -> returns false
+        assertFalse(credentialStore.equals(null));
+
+        // different credential -> returns false
+        XmlSerializableCredentialStore newCredentialStore =
+            new XmlSerializableCredentialStore(
+            new CredentialStoreBuilder()
+                .withCredentials(CREDENTIAL_STUDENT_MAX)
+                .build()
+        );
+        assertFalse(credentialStore.equals(newCredentialStore));
     }
 
 }

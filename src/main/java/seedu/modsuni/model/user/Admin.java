@@ -33,20 +33,6 @@ public class Admin extends User {
         return employmentDate;
     }
 
-    @Override
-    public void updatePassword (String newPassword) {
-        //TODO
-    }
-
-    @Override
-    public void updateName (String newName) {
-        //TODO
-    }
-
-    @Override
-    public void updateProfilePic (String newPath) {
-        //TODO
-    }
 
     /**
      * Returns true if both admins of the same name have at least one other identity field that is the same.

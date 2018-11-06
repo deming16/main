@@ -44,6 +44,14 @@ public class AdminBuilder {
     }
 
     /**
+     * Sets the {@code userName} of the {@code Admin} that we are building.
+     */
+    public AdminBuilder withUsername(String userName) {
+        this.username = new Username(userName);
+        return this;
+    }
+
+    /**
      * Sets the {@code name} of the {@code Admin} that we are building.
      */
     public AdminBuilder withName(String name) {

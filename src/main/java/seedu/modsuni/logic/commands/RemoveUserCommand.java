@@ -2,6 +2,8 @@ package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.NewShowUsernameResultAvailableEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
@@ -17,6 +19,8 @@ public class RemoveUserCommand extends Command {
     public static final String COMMAND_WORD = "removeUser";
 
     public static final String MESSAGE_NOT_ADMIN = "Only an admin user can execute this command";
+
+    public static final String MESSAGE_NOT_LOGGED_IN = "Unable to remove user, please log in first.";
 
     public static final String MESSAGE_CANNNOT_DELETE_MASTER = "The master account cannot be deleted.";
     public static final String MESSAGE_CANNNOT_DELETE_YOURSELF = "You cannot delete yourself";
@@ -39,6 +43,9 @@ public class RemoveUserCommand extends Command {
     @Override
     public CommandResult execute(Model model, CommandHistory history) throws CommandException {
         requireNonNull(model);
+        if (model.getCurrentUser() == null) {
+            throw new CommandException(MESSAGE_NOT_LOGGED_IN);
+        }
 
         if (!model.isAdmin()) {
             throw new CommandException(MESSAGE_NOT_ADMIN);
@@ -55,6 +62,9 @@ public class RemoveUserCommand extends Command {
         if (model.hasCredential(new Credential(username, dummyPass))) {
             Credential toRemove = model.getCredential(username);
             model.removeCredential(toRemove);
+
+            EventsCenter.getInstance().post(new NewShowUsernameResultAvailableEvent(model.getUsernames()));
+
             return new CommandResult(String.format(MESSAGE_DELETE_USER_SUCCESS, toRemove.getUsername().toString()));
         } else {
             throw new CommandException(String.format(MESSAGE_USER_NOT_FOUND, username.toString()));

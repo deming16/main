@@ -2,13 +2,19 @@ package seedu.modsuni.model;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import javax.crypto.NoSuchPaddingException;
+
 import javafx.collections.ObservableList;
 
+import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
+import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
@@ -258,6 +264,11 @@ public interface Model {
     User getCurrentUser();
 
     /**
+     * Reset user details
+     */
+    void resetCurrentUser();
+
+    /**
      * Saves the current user.
      */
     void saveUserFile(User user, Path savePath);
@@ -265,7 +276,9 @@ public interface Model {
     /**
      * Read a user with the given file path.
      */
-    Optional<User> readUserFile(Path filePath) throws IOException, DataConversionException;
+    Optional<User> readUserFile(Path filePath, String password) throws IOException, DataConversionException,
+            NoSuchAlgorithmException, InvalidKeyException, InvalidPasswordException,
+            CorruptedFileException, NoSuchPaddingException;
 
     /**
      * Returns the optional of the module in the database.

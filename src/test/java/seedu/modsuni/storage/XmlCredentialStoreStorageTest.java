@@ -109,7 +109,7 @@ public class XmlCredentialStoreStorageTest {
     }
 
     /**
-     * Saves {@code addressBook} at the specified {@code filePath}.
+     * Saves {@code credentialStore} at the specified {@code filePath}.
      */
     private void saveCredentialStore(ReadOnlyCredentialStore credentialStore,
                                 String filePath) {

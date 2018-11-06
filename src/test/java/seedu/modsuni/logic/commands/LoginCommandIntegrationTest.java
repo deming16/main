@@ -33,9 +33,23 @@ import seedu.modsuni.testutil.CredentialBuilder;
  */
 public class LoginCommandIntegrationTest {
 
+    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data",
+        "LoginCommandTest");
+
+    private static final Path TYPICAL_USERDATA_FILE =
+        TEST_DATA_FOLDER.resolve("typicalUserData.xml");
+    private static final Path INVALID_USERDATA_FILE =
+        TEST_DATA_FOLDER.resolve(
+            "invalidUserData.xml");
+    private static final Path CORRUPTED_USERDATA_FILE =
+        TEST_DATA_FOLDER.resolve("corruptedUserData.xml");
+
+    private static final Path TEMP_USERDATA_FILE =
+        TEST_DATA_FOLDER.resolve("tempUserData.xml");
+
+
     private static Model model;
     private static Storage storage;
-    private static Path testDataPath = Paths.get("data/dummy.xml");
     private CommandHistory commandHistory = new CommandHistory();
 
     @Before
@@ -45,14 +59,14 @@ public class LoginCommandIntegrationTest {
             null,
             null,
             null,
-            new XmlUserStorage(Paths.get("dummy.xml")));
+            new XmlUserStorage(TEMP_USERDATA_FILE));
         model = new ModelManager(
             new ModuleList(),
             new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
-        model.saveUserFile(STUDENT_MAX, testDataPath);
+        model.saveUserFile(STUDENT_MAX, TEMP_USERDATA_FILE);
     }
 
     @Test
@@ -65,7 +79,7 @@ public class LoginCommandIntegrationTest {
             new UserPrefs(),
             getTypicalCredentialStore());
 
-        assertCommandSuccess(new LoginCommand(toVerify, testDataPath), model,
+        assertCommandSuccess(new LoginCommand(toVerify, TEMP_USERDATA_FILE), model,
             commandHistory,
             String.format(LoginCommand.MESSAGE_SUCCESS,
                 toVerify.getUsername().toString()),
@@ -74,18 +88,28 @@ public class LoginCommandIntegrationTest {
 
     @Test
     public void execute_loginFailure() {
+        // incorrect password
         Credential toVerify = new CredentialBuilder(CREDENTIAL_STUDENT_MAX)
             .withPassword("incorrectPassword")
             .build();
-        assertCommandFailure(new LoginCommand(toVerify, Paths.get("dummy.xml")),
+        assertCommandFailure(new LoginCommand(toVerify, TYPICAL_USERDATA_FILE),
             model,
             commandHistory,
             LoginCommand.MESSAGE_LOGIN_FAILURE);
+
+        // invalid userdata
+
+        // corrupted userdata
+        toVerify = CREDENTIAL_STUDENT_MAX;
+        assertCommandFailure(new LoginCommand(toVerify, CORRUPTED_USERDATA_FILE),
+            model,
+            commandHistory,
+            LoginCommand.MESSAGE_UNABLE_TO_READ_FILE);
     }
 
     @After
     public void cleanUp() {
-        File toRemove = testDataPath.toFile();
+        File toRemove = TEMP_USERDATA_FILE.toFile();
         toRemove.delete();
     }
 
