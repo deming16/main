@@ -15,13 +15,13 @@
             <!-- Name Label -->
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
-                    <Label fx:id="nameLabel" maxWidth="60.0" minWidth="60.0" text="Name: "
+                    <Label fx:id="nameLabel" maxWidth="60.0" minWidth="60.0" text="Name:"
                            HBox.hgrow="ALWAYS">
                         <HBox.margin>
                             <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
                         </HBox.margin>
                     </Label>
-                    <Text fx:id="userNameText" wrappingWidth="200" HBox.hgrow="ALWAYS">
+                    <Text fx:id="nameText" wrappingWidth="200" HBox.hgrow="ALWAYS">
                         <HBox.margin>
                             <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
                         </HBox.margin>
@@ -35,7 +35,7 @@
             <!-- Date Label -->
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
-                    <Label fx:id="dateLabel" maxWidth="60.0" minWidth="60.0" text="Date: "
+                    <Label fx:id="dateLabel" maxWidth="60.0" minWidth="60.0" text="Date:"
                            HBox.hgrow="ALWAYS">
                         <HBox.margin>
                             <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
@@ -56,7 +56,7 @@
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
                     <Label fx:id="userDetailLabel1" maxWidth="100.0" minWidth="100.0"
-                           text="Major(s): " HBox.hgrow="ALWAYS">
+                           text="Major(s):" HBox.hgrow="ALWAYS">
                         <HBox.margin>
                             <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
                         </HBox.margin>
@@ -76,7 +76,7 @@
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
                     <Label fx:id="userDetailLabel2" maxWidth="100.0" minWidth="100.0"
-                           text="Minors(s): " HBox.hgrow="ALWAYS">
+                           text="Minors(s):" HBox.hgrow="ALWAYS">
                         <HBox.margin>
                             <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
                         </HBox.margin>
@@ -96,7 +96,7 @@
             <HBox maxHeight="70.0" prefHeight="70.0" VBox.vgrow="NEVER">
                 <children>
                     <Label fx:id="lastSavedLabel" maxWidth="100.0" minWidth="100.0"
-                           text="Last Saved: " HBox.hgrow="ALWAYS">
+                           text="Last Saved:" HBox.hgrow="ALWAYS">
                         <HBox.margin>
                             <Insets bottom="25.0" left="25.0" right="10.0" top="25.0"/>
                         </HBox.margin>
