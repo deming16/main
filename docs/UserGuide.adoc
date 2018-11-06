@@ -284,7 +284,11 @@ Available Option:
 * Minor(s) : `min/[MINOR_CODE] min/[MINOR_CODE]`
 
 [IMPORTANT]
-Password must be alphanumeric, with at least 1 Upper-case and Lower-case character, and 1 number and 1 special character
+The password must contain at least three character categories among the following: +
+- Uppercase characters (A-Z) +
+- Lowercase characters (a-z) +
+- Digits (0-9) +
+- Special characters (~!@#$%^&*_-+=`|\(){}[]:;"'<>,.?/) 
 
 Example:
 
