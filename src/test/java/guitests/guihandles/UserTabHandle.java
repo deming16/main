@@ -23,10 +23,6 @@ public class UserTabHandle extends NodeHandle<Node> {
     public static final String LAST_SAVE_LABEL = "#lastSavedLabel";
     public static final String LAST_SAVE_TEXT = "#lastSavedText";
 
-    public static final String INITIAL_NAME_LABEL = "Name:";
-    public static final String INITIAL_DATE_LABEL = "Date:";
-    //public static final String ADMIN_DETAIL_1_LABEL = ""
-
 
     private Label nameLabel;
     private Text nameText;
