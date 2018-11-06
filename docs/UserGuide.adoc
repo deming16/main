@@ -288,7 +288,7 @@ The password must contain at least three character categories among the followin
 - Uppercase characters (A-Z) +
 - Lowercase characters (a-z) +
 - Digits (0-9) +
-- Special characters (~!@#$%^&*_-+=`|\(){}[]:;"'<>,.?/) 
+- Special characters (~!@#$%^&*_-+=`|\(){}[]:;"'<>,.?/)
 
 Example:
 
