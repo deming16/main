@@ -278,7 +278,6 @@ Available Option:
 * Username : `user/<USERNAME>`
 * Password : `pass/<PASSWORD>`
 * Name : `n/[NAME]`
-* Path To Picture: `pic/<PATH_TO_PIC>`
 * Enrollment Date: `enroll/<ENROLLMENT_DATE>`
 * Major(s) : `maj/[MAJOR_CODE] maj/[MAJOR_CODE]`
 * Minor(s) : `min/[MINOR_CODE] min/[MINOR_CODE]`
@@ -292,12 +291,11 @@ The password must contain at least three character categories among the followin
 
 Example:
 
-* `register user/max33 pass/#Qwerty4321 n/Max Verstappen pic/redbull.img enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
+* `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
   The above command creates a student account with the following details:
   ** Username : `max33`
   ** Password : `#Qwerty4321`
   ** Name : `Max Verstappen`
-  ** Path To Picture: `redbull.img`
   ** Enrollment Date: `15/03/2015>`
   ** Major(s) : `CS`, `DA`
   ** Minor(s) : `BA`, `MA`
@@ -329,7 +327,6 @@ Format: `edit [OPTION]/[INPUT]...` +
 Available Options:
 
 * Edit Name : `n/[NAME]`
-* Edit Profile Picture: `pic/[PATH_TO_PIC]`
 * Edit Enrollment Date: `enroll/[ENROLLMENT_DATE]`
 * Edit Major : `maj/[MAJOR_CODE]`
 * Edit Minor : `min/[MINOR_CODE]`
@@ -561,7 +558,7 @@ image::RemoveModuleFromDatabaseCommandExample.png[width="700"]
 * *Search* : `search <KEYWORD> [MORE_KEYWORDS]`
 * *Save* : `save sp/[FILE_NAME]`
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
-* *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
+* *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 * *Edit Student* : `edit [OPTION]/[INPUT]...`
 * *Encryption* : `no-encrypt`
 * *Add Admin* : `addAdmin user/<USERNAME> pass/<PASSWORD> n/<NAME> sp/<SAVE_PATH> salary/<SALARY> date/<EMPLOYMENT_DATE>`
