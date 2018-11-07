@@ -59,7 +59,7 @@ This will generate all resources required by the application and tests.
 
 === Configurations to do before writing code
 
-==== Configuring the coding style
+==== Configuring the Coding Style
 
 This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
 
@@ -72,7 +72,7 @@ This project follows https://github.com/oss-generic/process/blob/master/docs/Cod
 
 Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure Intellij to check style-compliance as you write code.
 
-==== Updating documentation to match your fork
+==== Updating Documentation to match your fork
 
 After forking the repo, the documentation will still have the modsUni branding and refer to the `CS2103-AY1819S1-W17-2/main` repo.
 
@@ -82,7 +82,7 @@ If you plan to develop this fork as a separate product (i.e. instead of contribu
 
 . Replace the URL in the attribute `repoURL` in link:{repoURL}/docs/DeveloperGuide.adoc[`DeveloperGuide.adoc`] and link:{repoURL}/docs/UserGuide.adoc[`UserGuide.adoc`] with the URL of your fork.
 
-==== Setting up CI
+==== Setting Up CI
 
 Set up Travis to perform Continuous Integration (CI) for your fork. See <<UsingTravis#, UsingTravis.adoc>> to learn how to set it up.
 
@@ -96,7 +96,7 @@ Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingA
 [NOTE]
 Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based)
 
-==== Getting started with coding
+==== Getting Started with Coding
 
 When you are ready to start coding,
 
@@ -144,12 +144,12 @@ For example, the `Logic` component (see the class diagram given below) defines i
 image::LogicClassDiagram.png[width="800"]
 
 [discrete]
-==== Events-Driven nature of the design
+==== Events-Driven Nature of the Design
 
 The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the register command.
 
 .Component interactions for `register` command (part 1)
-image::SDforDeletePerson.png[width="800"]
+image::SDforRegisterCommandOverview.png[width="800"]
 
 [NOTE]
 Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
@@ -157,7 +157,7 @@ Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
 .Component interactions for `register` command (part 2)
-image::SDforDeletePersonEventHandling.png[width="800"]
+image::SDforRegisterCommandPart2.png[width="800"]
 
 [NOTE]
 Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
@@ -165,7 +165,7 @@ Note how the event is propagated through the `EventsCenter` to the `Storage` and
 The sections below give more details of each component.
 
 [[Design-Ui]]
-=== UI component
+=== UI Component
 
 .Structure of the UI Component
 image::UiClassDiagram.png[width="800"]
@@ -183,7 +183,7 @@ The `UI` component,
 * Responds to events raised from various parts of the App and updates the UI accordingly.
 
 [[Design-Logic]]
-=== Logic component
+=== Logic Component
 
 [[fig-LogicClassDiagram]]
 .Structure of the Logic Component
@@ -203,7 +203,7 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 image::DeletePersonSdForLogic.png[width="800"]
 
 [[Design-Model]]
-=== Model component
+=== Model Component
 
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
@@ -218,7 +218,7 @@ The `Model`,
 * does not depend on any of the other three components.
 
 [[Design-Storage]]
-=== Storage component
+=== Storage Component
 
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
@@ -231,7 +231,7 @@ The `Storage` component,
 * can save the Address Book data in xml format and read it back.
 
 [[Design-Commons]]
-=== Common classes
+=== Common Classes
 
 Classes used by multiple components are in the `seedu.modsuni.commons` package.
 
@@ -245,14 +245,20 @@ This section describes some noteworthy details on how certain features are imple
 User Account Management involves mainly the authentication process of the users.
 Only once they are authenticated, will their respective user data be loaded into the application.
 Additionally, it is only by registering/logging in will users be able to access and manipulate their account details. +
-This section will describe in detail the Current Implementation and the Design Considerations of the User Account Management feature.
+This section will describe in detail the Current Implementation and the Design Considerations of the User Account Management feature. +
+
+Figure 1(shown below) describes the general flow of the user account management in an activity diagram.
+
+image::ADforUserAccountManagement.png[width="800",align="center"]
+[.text-center]
+_Figure 1. Activity Diagram for User Account Management._
 
 ==== Current Implementation
 
 The User Account Management mechanism is facilitated by the following classes:
 
 * `Credential` +
-It stores `Username`, `Password` and `Key`(coming in v1.3) of the `User` class. +
+It stores `Username` and `Password` of the `User` class. +
 Additionally, it implements the following operation(s):
 
 ** `Credential#isSameCredential(...)` -- Determines if there already exists a `Credential` with the same username in the `CredentialStore`
@@ -278,6 +284,12 @@ Refers to the majority of the users. It stores variables pertaining to a student
 *** `Admin` +
 Refers to the application managers. It stores variables pertaining to an administrator.
 
+Figure 2(shown below) is the Class Diagrams illustrating the inheritance between `User`, `Student` and `Admin`
+
+image::UserClassDiagram.png[width="500",align="center"]
+[.text-center]
+_Figure 2. User, Student and Admin Class Diagrams_
+
 [NOTE]
 Each User types contain different class-variables. Additionally, the sets of commands available for either `User` types are limited to their respective `Role`
 
@@ -289,22 +301,25 @@ It allows for students to sign up for a modsUni account, which is required to us
 [NOTE]
 Registering only applies to students. For the creation of `Admin` Accounts, only existing administrators can create another `Admin` account
 
-The `RegisterCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `RegisterCommand`. +
+The `RegisterCommand` extends the `Command` class. Figure 3(shown below) depicts the UML representation of the `RegisterCommand`. +
 
-image::RegisterCommandUML.png[width="350"]
-_Figure 1. UML Diagram of `RegisterCommand`._
+image::RegisterCommandUML.png[width="350",align="center"]
+[.text-center]
+_Figure 3. UML Diagram of `RegisterCommand`._
 
 Parsing of command is performed by `RegisterCommandParser`,
 which returns a `RegisterCommand` object after parsing Username, Password, Name, Path to Profile Picture, Enrollment Date, Major(s) and Minor(s).
-The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `RegisterCommand` is being executed.
+The Sequence Diagram shown below in Figure 4 illustrates the interactions between the `Logic` & `Model` components when the `RegisterCommand` is being executed.
 
-image::SDforRegisterCommandLogicAndModel.png[width="900"]
-_Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `RegisterCommand`._
+image::SDforRegisterCommandLogicAndModel.png[width="900",align="center"]
+[.text-center]
+_Figure 4. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `RegisterCommand`._
 
-Figure 3 below shows the high-level sequence diagram of the command execution.
+Figure 5 below shows the high-level sequence diagram of the command execution.
 
-image::SDforRegisterCommandOverview.png[width="800"]
-_Figure 3. High-Level Sequence diagram of registering a new student account._
+image::SDforRegisterCommandOverview.png[width="800",align="center"]
+[.text-center]
+_Figure 5. High-Level Sequence diagram of registering a new student account._
 
 Given below is an example usage scenario and how the register mechanism behaves at each step:
 
@@ -328,18 +343,21 @@ It allows for students to log into their existing modsUni account, granting them
 
 The `LoginCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `LoginCommand`. +
 
-image::LoginCommandUML.png[width="350"]
+image::LoginCommandUML.png[width="350",align="center"]
+[.text-center]
 _Figure 1. UML Diagram of `LoginCommand`._
 
 Parsing of command is performed by `LoginCommandParser`, which returns a `LoginCommand` after parsing the username and password inputs.
 The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `LoginCommand` is being executed.
 
-image::SDforLoginCommandLogicAndModel.png[width="900"]
+image::SDforLoginCommandLogicAndModel.png[width="900",align="center"]
+[.text-center]
 _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `LoginCommand`._
 
 Figure 3 below shows the high-level sequence diagram of the command execution.
 
-image::SDforLoginCommandOverview.png[width="800"]
+image::SDforLoginCommandOverview.png[width="800",align="center"]
+[.text-center]
 _Figure 3. High-Level Sequence Diagram of the login process._
 
 Given below is an example usage scenario and how the login mechanism behaves at each step:
@@ -363,19 +381,21 @@ to modify personal details. +
 
 The `EditStudentCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `EditStudentCommand`. +
 
-image::EditStudentCommandUML.png[width="350"]
+image::EditStudentCommandUML.png[width="350",align="center"]
+[.text-center]
 _Figure 1. UML Diagram of `EditStudentCommand`._
 
 Parsing the command is performed by `EditStudentCommandParser`, which returns a `EditCommand` after parsing the user input.
 The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `EditStudentCommand` is being executed.
 
-image::SDforEditStudentCommandLogicAndModel.png[width="900"]
-
+image::SDforEditStudentCommandLogicAndModel.png[width="900",align="center"]
+[.text-center]
 _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `EditStudentCommand`._
 
 Figure 3 below shows the high-level sequence diagram of the command execution:
 
-image::SDforEditStudentCommand.png[width="800"]
+image::SDforEditStudentCommand.png[width="800",align="center"]
+[.text-center]
 _Figure 3. High-Level Sequence Diagram of the edit process._
 
 Given below is an example usage scenario and how the edit mechanism behaves at each step:

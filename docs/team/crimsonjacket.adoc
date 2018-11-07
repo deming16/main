@@ -1,0 +1,107 @@
+= Daniel Tan - Project Portfolio
+:site-section: AboutUs
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: modsUni
+
+
+== 1. Overview
+
+*modsUni* is a desktop candidature management application created by university students for students.
+It aims to make the tedious process of planning your entire candidature easier and more effective.
+It provides students with the ability to view module details and manage their personal candidature plans.
+
+Targeted at individuals whom prefer the use of their keyboards over a click-and-point interface,
+it incorporates an in-built Command Line Interface(CLI) for majority of its user interactions and
+a simple Graphical User Interface(GUI) for the displaying of output.
+
+== 2. About this Portfolio
+
+This project portfolio details my individual contributions to the *modsUni* project.
+It includes a summary of the enhancements and other contributions I made throughout the duration
+of the project. Additionally, portions of my contribution to the User Guide and Developer Guide have also
+been included.
+
+
+== 3. Summary of Contributions
+
+* *Major enhancement*: Implemented a *User Account Management System*
+
+** What it does: Allows users to manage user-specific settings and configurations.
+Using a traditional account management system, users can expect a familiar and
+intuitive structure when managing their personal details.
+
+** Justification: This enhancement enhances the general user experience, allowing users
+to set user specific details and configurations for the application.
+
+** Highlights: This is a full-stack feature incorporating all the components of the application from `Storage` to `UI`.
+This enhancement will give users the necessary control over their personal preferences and configurations in the application.
+
+** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/44[#44], https://github.com/CS2103-AY1819S1-W17-2/main/pull/87[#87] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161]
+
+* *Minor enhancement(s)*: Standardized the *User Interface* of the application.
+
+** What it does: Provides an intuitive and familiar user interface to greatly boost
+User Experience(UX).
+
+** Justification: UX is an important aspect to a product's sustainability. By incorporating
+an easy-to-use and familiar tool, users can avoid the need to ascertain new processes and
+procedures.
+
+** Highlights: Switching of relevant panels will automatically be done after the successful
+execution of commands. This brings the focus of the users to the relevant display panels. It is
+also noted that commands have been included to allow users to set the front-most display panels manually.
+
+** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/189[#189]
+
+** Code contributed: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=crimsonjacket[Functional code]]
+
+* *Other Contributions*:
+
+** Project Management:
+
+*** Assumed responsibility as Team Lead, making critical decisions regarding the project development and overseeing task allocation and deadlines.
+*** Created https://github.com/CS2103-AY1819S1-W17-2/main/projects/1[Project Dashboard] on GitHub.
+Utilized by the team to better manage individual tasks and visualize the various stages of development throughout the project.
+*** Set up Labels, Issue Tracker and Milestone in GitHub.
+*** Managed all GitHub https://github.com/CS2103-AY1819S1-W17-2/main/releases[releases].
+
+** Enhancements to existing features:
+
+*** Overhaul existing UI to better incorporate UX and sustainability principles. (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/189[#189])
+*** Refactored base code to better represent the *modsUni* application. (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161])
+
+** Documentation:
+
+*** Included User Account Management Documentation to User Guide & Developer Guide (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/56[#56] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/127[#127])
+
+*** Updated various Component Structures in DeveloperGuide (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/201[#201])
+
+** Community:
+
+*** Reviewed PRs(with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-2/main/pull/119[#119], https://github.com/CS2103-AY1819S1-W17-2/main/pull/124[#124] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/200[#200]
+*** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103-AY1819S1-W17-2/main/issues/181[1], https://github.com/CS2103-AY1819S1-W17-2/main/issues/138[2], https://github.com[3])
+
+** Tools:
+
+*** Set up project's Travis and AppVeyor Continuous Integration(CI) platforms.
+*** Set up project's Codacy Code Analytics and Review service platform.
+*** Set up project's Coveralls Testing and Coverage Statistics platform.
+
+== 4. Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=useraccountmanagement]
+
+== 5. Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=useraccountmanagement]

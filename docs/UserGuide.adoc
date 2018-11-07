@@ -242,6 +242,7 @@ To generate successfully, modules and it's prerequisites should be added to the 
 executing.
 // end::generate[]
 
+// tag::useraccountmanagement[]
 === Login to User Account : `login`
 
 Login to the User Account with the corresponding credentials. +
@@ -249,18 +250,20 @@ Format: `login user/<USERNAME> pass/<PASSWORD> userData/[PATH_TO_DATA_FILE]`
 
 Examples:
 
-* `login user/demo pass/#Qwerty123 userdata/demo.xml`
+* `login user/max33 pass/#Qwerty4321 userdata/max33.xml` +
   The above command essentially sends a login request to `CredentialStore` with the following credential details:
-  ** Username : `demo`
-  ** Password : `#Qwerty123`
-  ** Userdata : `demo.xml`
+  ** Username : `max33`
+  ** Password : `#Qwerty4321`
+  ** Userdata : `max33.xml`
 
 [NOTE]
 Specified `userdata/` option should specify a relative filepath.
 
-The image displays the changes to expect after the successful execution of the login command.
+The figure below displays the UI updates that you should expect to observed after the successful execution of a login command.
 
-image::LoginCommandExample.png[width="790"]
+image::LoginCommandExample2.png[width="500",align="center"]
+[.text-center]
+_Fig 1. Example of a Login Command and the expected UI output_
 
 [NOTE]
 Note that your details will automatically be displayed in the User Tab and a simple successful message is displayed on the bottom right window.
@@ -275,26 +278,41 @@ Available Option:
 * Username : `user/<USERNAME>`
 * Password : `pass/<PASSWORD>`
 * Name : `n/[NAME]`
-* Path To Picture: `pic/<PATH_TO_PIC>`
 * Enrollment Date: `enroll/<ENROLLMENT_DATE>`
 * Major(s) : `maj/[MAJOR_CODE] maj/[MAJOR_CODE]`
 * Minor(s) : `min/[MINOR_CODE] min/[MINOR_CODE]`
 
+[IMPORTANT]
+The password must contain at least three character categories among the following: +
+- Uppercase characters (A-Z) +
+- Lowercase characters (a-z) +
+- Digits (0-9) +
+- Special characters (~!@#$%^&*_-+=`|\(){}[]:;"'<>,.?/)
+
 Example:
 
-* `register user/demo pass/#Qwerty123 n/Demo pic/path.img enroll/02/08/2017 maj/CS min/MA` +
+* `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
   The above command creates a student account with the following details:
-  ** Username : `demo`
-  ** Password : `#Qwerty123`
-  ** Name : `Demo`
-  ** Path To Picture: `path.img`
-  ** Enrollment Date: `02/08/2017>`
-  ** Major(s) : `CS`
-  ** Minor(s) : `MA`
+  ** Username : `max33`
+  ** Password : `#Qwerty4321`
+  ** Name : `Max Verstappen`
+  ** Enrollment Date: `15/03/2015>`
+  ** Major(s) : `CS`, `DA`
+  ** Minor(s) : `BA`, `MA`
 
-The image displays the changes to expect after the successful execution of the register command.
+The figure below displays the UI updates that you should expect to observed after the successful execution of the register command.
 
-image::RegisterCommandExample.png[width="790"]
+image::RegisterCommandExample2.png[width="600",align="center"]
+[.text-center]
+_Fig 2a. Example of a register command & the expected UI output._
+
+[NOTE]
+Notice how the respective fields related to the newly registered user is automatically
+updated.
+
+image::RegisterCommandOutputDisplay.png[width="400",align="center"]
+[.text-center]
+_Fig 2b. Expected Command Message after running register command._
 
 [NOTE]
 A temporary save file path is generated and used to save the details of the newly
@@ -309,23 +327,47 @@ Format: `edit [OPTION]/[INPUT]...` +
 Available Options:
 
 * Edit Name : `n/[NAME]`
-* Edit Profile Picture: `pic/[PATH_TO_PIC]`
 * Edit Enrollment Date: `enroll/[ENROLLMENT_DATE]`
 * Edit Major : `maj/[MAJOR_CODE]`
 * Edit Minor : `min/[MINOR_CODE]`
 
 Example:
 
-* `edit n/Demo Lition` +
-  The above command edits the `Name` of the current student with the new details:
-  ** Name : `Demo Lition`
+* `edit n/Max Emilian Verstappen maj/CS min/` +
+  The above command edits the current student with the new details:
+  ** Name : Max Emilian Verstappen`
+  ** Major: CS
+  ** Minor: [EMPTY]
 
-The image displays the changes to expect after the successful execution of the edit command.
+The figure below displays the UI updates that you should expect to observed after the successful execution of the edit command.
 
-image::EditCommandExample.png[width="790"]
+image::EditCommandExample2.png[width="500",align="center"]
+[.text-center]
+_Fig 3. Example of an edit command & the expected UI output._
 
 [NOTE]
-Notice that the Name in the User Tab has changed.
+Notice that the Name, Major and Minor fields in the User Tab has changed
+
+=== Logout from User Account : `logout`
+
+Logouts from the current user account. Running this command also resets the application
+to its original state.
+Format: `logout`
+
+Example:
+
+* `logout` (assuming that current user is logged in)
+
+The figure below displays the expected UI updates after the successful execution of the logout command.
+
+image::LogoutCommandExample.png[align="center",width="500"]
+[.text-center]
+_Fig 4. Example of a logout command & the expected UI output._
+
+[NOTE]
+Notice that the Data Fields in the User Tab has been reset to its original state as seen at start up.
+
+// end::useraccountmanagement[]
 
 === Data Encryption
 
@@ -516,7 +558,7 @@ image::RemoveModuleFromDatabaseCommandExample.png[width="700"]
 * *Search* : `search <KEYWORD> [MORE_KEYWORDS]`
 * *Save* : `save sp/[FILE_NAME]`
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
-* *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] pic/[PATH_TO_PIC] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
+* *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 * *Edit Student* : `edit [OPTION]/[INPUT]...`
 * *Encryption* : `no-encrypt`
 * *Add Admin* : `addAdmin user/<USERNAME> pass/<PASSWORD> n/<NAME> sp/<SAVE_PATH> salary/<SALARY> date/<EMPLOYMENT_DATE>`
