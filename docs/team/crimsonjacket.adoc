@@ -55,7 +55,7 @@ also noted that commands have been included to allow users to set the front-most
 
 ** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/189[#189]
 
-// * *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]]
+** Code contributed: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=crimsonjacket[Functional code]]
 
 * *Other Contributions*:
 
