@@ -3,6 +3,7 @@ package seedu.modsuni.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.events.ui.LogoutRequestEvent;
 import seedu.modsuni.commons.events.ui.UserTabLogoutEvent;
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
@@ -33,6 +34,7 @@ public class LogoutCommand extends Command {
         model.resetCurrentUser();
         history.resetHistory();
         EventsCenter.getInstance().post(new UserTabLogoutEvent());
+        EventsCenter.getInstance().post(new LogoutRequestEvent());
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

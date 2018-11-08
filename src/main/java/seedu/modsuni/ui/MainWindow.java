@@ -19,6 +19,7 @@ import seedu.modsuni.commons.core.GuiSettings;
 import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.DatabaseModulePanelSelectionChangedEvent;
 import seedu.modsuni.commons.events.ui.ExitAppRequestEvent;
+import seedu.modsuni.commons.events.ui.LogoutRequestEvent;
 import seedu.modsuni.commons.events.ui.NewCommandResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.NewGenerateResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.SaveDisplayRequestEvent;
@@ -355,5 +356,12 @@ public class MainWindow extends UiPart<Stage> {
         moduleDisplay = new ModuleDisplay(event.getNewSelection());
         browserPlaceholder.getChildren().clear();
         browserPlaceholder.getChildren().add(moduleDisplay.getRoot());
+    }
+
+    @Subscribe
+    private void handleLogoutResetUiEvent(LogoutRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        browserPlaceholder.getChildren().clear();
+        browserPlaceholder.getChildren().add(loadingPanel.getRoot());
     }
 }
