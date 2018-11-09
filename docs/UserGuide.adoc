@@ -560,7 +560,6 @@ image::RemoveModuleFromDatabaseCommandExample.png[width="700"]
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
 * *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 * *Edit Student* : `edit [OPTION]/[INPUT]...`
-* *Encryption* : `no-encrypt`
 * *Add Admin* : `addAdmin user/<USERNAME> pass/<PASSWORD> n/<NAME> sp/<SAVE_PATH> salary/<SALARY> date/<EMPLOYMENT_DATE>`
 * *Edit Admin* : `editAdmin n/[NAME] salary/[SALARY] date/[EMPLOYMENT_DATE]`
 * *Remove User* : `removeUser <USERNAME>`
