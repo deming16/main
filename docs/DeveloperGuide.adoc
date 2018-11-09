@@ -1025,6 +1025,18 @@ _Figure 2. Sequence Diagram for the interaction between Logic Component and Data
 * **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
 ** Pros: The key will be more secured compared to the key generated from alternative 1.
 ** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
+
+===== Aspect: What fields to encrypt
+
+* **Alternative 1 (current choice):** Encrypt some fields (Username and Salary).
+** Pros: Encryption of username ensures that a malicious user is unable to correlate a specific user data file to a credential in the credential store.
+In addition, advance users are able to edit unencrypted fields in the user data file.
+** Cons: Not all information are encrypted.
+* **Alternative 2:** Encrypt every field.
+** Pros: All user data is secure due to encryption.
+** Cons: Advance users are unable to manually edit from the user data file.
+
+
 // end::datasecurity[]
 
 // tag::loaduser[]
