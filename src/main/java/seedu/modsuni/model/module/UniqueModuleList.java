@@ -3,6 +3,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,10 @@ public class UniqueModuleList implements Iterable<Module> {
     public boolean contains(Module toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::isSameModule);
+    }
+
+    public Module get(int index) {
+        return internalList.get(index);
     }
 
     public boolean isEmpty() {
@@ -154,6 +159,111 @@ public class UniqueModuleList implements Iterable<Module> {
             throw new DuplicateModuleException();
         }
         internalList.setAll(modules);
+    }
+
+    /**
+     * Get a list of module codes without prereqs.
+     */
+    public List<Code> getModuleCodesWithNoPrereq() {
+        List<Code> modulesWithNoPrereq = new ArrayList<>();
+        for (Module module : internalList) {
+            if (!module.hasPrereq()) {
+                modulesWithNoPrereq.add(module.getCode());
+            }
+        }
+        return modulesWithNoPrereq;
+    }
+
+    public void sortMajorThenPrereq() {
+        internalList.sort(new Comparator<Module>() {
+            @Override
+            public int compare(Module o1, Module o2) {
+                int result = o1.getCode().compareTo(o2.getCode());
+                if (result == 0) {
+                    int noOfDependentModuleO1 = 0;
+                    int noOfDependentModuleO2 = 0;
+                    for (Module module : internalList) {
+                        if (o1.getLockedModules().contains(module.getCode())) {
+                            noOfDependentModuleO1++;
+                        }
+                        if (o2.getLockedModules().contains(module.getCode())) {
+                            noOfDependentModuleO2++;
+                        }
+                    }
+                    return Integer.compare(noOfDependentModuleO1, noOfDependentModuleO2);
+                } else {
+                    return result;
+                }
+            }
+        });
+    }
+
+    public void sortMajorThenLocked() {
+        internalList.sort(new Comparator<Module>() {
+            @Override
+            public int compare(Module o1, Module o2) {
+                int result = o1.getCode().compareTo(o2.getCode());
+                if (result == 0) {
+                    int noOfDependentModuleO1 = 0;
+                    int noOfDependentModuleO2 = 0;
+                    for (Module module : internalList) {
+                        if (o1.getLockedModules().contains(module.getCode())) {
+                            noOfDependentModuleO1++;
+                        }
+                        if (o2.getLockedModules().contains(module.getCode())) {
+                            noOfDependentModuleO2++;
+                        }
+                    }
+                    return Integer.compare(noOfDependentModuleO1, noOfDependentModuleO2);
+                } else {
+                    return result;
+                }
+            }
+        });
+    }
+
+    public void sortPrereqThenMajor() {
+        internalList.sort(new Comparator<Module>() {
+            @Override
+            public int compare(Module o1, Module o2) {
+                if (o1.hasPrereq() && !o2.hasPrereq()) {
+                    return -1;
+                } else if (o1.hasPrereq() && o2.hasPrereq()) {
+                    return o1.getCode().compareTo(o2.getCode());
+                } else {
+                    return 1;
+                }
+                /*
+                int result = o1.getCode().compareTo(o2.getCode());
+                if (result == 0) {
+                    int noOfDependentModuleO1 = 0;
+                    int noOfDependentModuleO2 = 0;
+                    for (Module module : internalList) {
+                        if (o1.getLockedModules().contains(module.getCode())) {
+                            noOfDependentModuleO1++;
+                        }
+                        if (o2.getLockedModules().contains(module.getCode())) {
+                            noOfDependentModuleO2++;
+                        }
+                    }
+                    return Integer.compare(noOfDependentModuleO1, noOfDependentModuleO2);
+                } else {
+                    return result;
+                }*/
+            }
+        });
+    }
+
+    /**
+     * Rearranges the list of modules by placing those core modules in front.
+     */
+    public void sortMajorModuleFirst() {
+        internalList.sort(new Comparator<Module>() {
+            @Override
+            public int compare(Module o1, Module o2) {
+                return o1.getCode().compareTo(o2.getCode());
+            }
+        });
     }
 
     /**

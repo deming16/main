@@ -1,12 +1,14 @@
 package seedu.modsuni.model.module;
 
+import java.util.Collections;
+
 import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Module's code in the application
  */
-public class Code {
+public class Code implements Comparable<Code> {
 
     public static final String MESSAGE_CODE_CONSTRAINTS =
             "Code should only contain alphanumeric characters and spaces, and it should not be blank";
@@ -55,4 +57,14 @@ public class Code {
         return code.hashCode();
     }
 
+    @Override
+    public int compareTo(Code compareCode) {
+        if (this.code.startsWith("CS") && compareCode.code.startsWith("CS")) {
+            return 0;
+        } else if (!code.startsWith("CS") && compareCode.code.startsWith("CS")) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
 }

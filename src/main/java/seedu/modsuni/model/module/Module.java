@@ -88,6 +88,7 @@ public class Module {
     public Prereq getPrereq() {
         return prereq;
     }
+
     public boolean[] getSems() {
         boolean[] sems = new boolean[4];
         for (int i = 0; i < 4; i++) {
@@ -106,6 +107,10 @@ public class Module {
             sems[3] = true;
         }
         return sems;
+    }
+
+    public boolean hasPrereq() {
+        return prereq.hasPrereq();
     }
 
     public boolean checkPrereq(List<Code> codeChecklist) {

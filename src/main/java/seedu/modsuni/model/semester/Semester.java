@@ -5,8 +5,12 @@ import static java.util.Objects.requireNonNull;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Encapsulates data required for a semester.
@@ -43,9 +47,19 @@ public class Semester {
     }
 
     public ObservableList<String> getModuleCodeList() {
-        ObservableList<String> codes = FXCollections.observableArrayList();
+        ObservableList<String> codesString = FXCollections.observableArrayList();
+        List<Code> codes = getCode();
+        for (Code code : codes) {
+            codesString.add(code.code);
+        }
+        return codesString;
+    }
+
+    public List<Code> getCode() {
+        toBeTaken.sortMajorModuleFirst();
+        List<Code> codes = new ArrayList<>();
         for (Module module : toBeTaken) {
-            codes.add(module.getCode().code);
+            codes.add(module.getCode());
         }
         return codes;
     }

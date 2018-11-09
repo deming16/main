@@ -80,6 +80,18 @@ public class Prereq {
         }
     }
 
+    /**
+     * Checks if prereq condition exists.
+     * @return true if there is a prereq, false otherwise.
+     */
+    public boolean hasPrereq() {
+        if (!and.isPresent() && !or.isPresent()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     @Override
     public String toString() {
         if (!or.isPresent() && !and.isPresent()) {

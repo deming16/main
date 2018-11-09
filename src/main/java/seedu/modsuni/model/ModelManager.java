@@ -475,7 +475,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public SemesterList generateSchedule() {
         Generate generate = new Generate((Student) getCurrentUser());
-        return generate.getSchedule();
+        return generate.generateSchedule();
     }
 
     @Override
