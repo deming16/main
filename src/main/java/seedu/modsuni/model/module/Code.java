@@ -59,12 +59,6 @@ public class Code implements Comparable<Code> {
 
     @Override
     public int compareTo(Code compareCode) {
-        if (this.code.startsWith("CS") && compareCode.code.startsWith("CS")) {
-            return 0;
-        } else if (!code.startsWith("CS") && compareCode.code.startsWith("CS")) {
-            return 1;
-        } else {
-            return -1;
-        }
+        return this.code.compareTo(compareCode.code);
     }
 }

@@ -56,7 +56,7 @@ public class Semester {
     }
 
     public List<Code> getCode() {
-        toBeTaken.sortMajorModuleFirst();
+        toBeTaken.sortByModuleCode();
         List<Code> codes = new ArrayList<>();
         for (Module module : toBeTaken) {
             codes.add(module.getCode());
