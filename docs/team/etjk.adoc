@@ -33,7 +33,7 @@ My contribution includes the implementation of saving a user's information secur
 
 * *Minor enhancement*: Added a switch tab command that allows the user to navigate between different tabs within the application using CLI.
 
-* *Code contributed*: [https://google.com[Functional code]] [https://google.com[Test code]]
+* *Code contributed*: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=etjk&sort=displayName&since=2018-09-12&until=&timeframe=day&reverse=false&repoSort=false[Functional code]]
 
 * *Other contributions*:
 
