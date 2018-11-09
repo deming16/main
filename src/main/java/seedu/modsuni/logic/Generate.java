@@ -23,22 +23,27 @@ public class Generate {
     private int noOfModules; // No. of vertices
     private LinkedList<Integer>[] adj; // Adjacency List
     private List<Code> codesToTake;
-    private Student student;
+    private List<Code> codesWithNoPrereq;
+
+    private UniqueModuleList modulesStaged;
 
     public Generate(Student student) {
-        this.student = student;
         codesToTake = new ArrayList<>();
-        UniqueModuleList modulesTaken = student.getModulesTaken();
-        UniqueModuleList modulesToTake = student.getModulesStaged();
-        noOfModules = modulesToTake.size();
+        modulesStaged = student.getModulesStaged();
+
+        modulesStaged.sortMajorThenPrereq();
+        codesToTake.addAll(modulesStaged.getAllCode());
+
+        codesWithNoPrereq = modulesStaged.getModuleCodesWithNoPrereq();
+
+        noOfModules = modulesStaged.size();
 
         adj = new LinkedList[noOfModules];
         for (int i = 0; i < noOfModules; ++i) {
             adj[i] = new LinkedList();
         }
 
-        codesToTake.addAll(modulesToTake.getAllCode());
-        for (Module moduleToTake : modulesToTake) {
+        for (Module moduleToTake : modulesStaged) {
             for (Code code : moduleToTake.getLockedModules()) {
                 if (codesToTake.contains(code)) {
                     addEdge(moduleToTake.getCode(), code);
@@ -96,7 +101,7 @@ public class Generate {
     /**
      * Creates a linear arrangement of modules to take.
      */
-    public ArrayList<Code> getLinearSchedule() {
+    private ArrayList<Code> getLinearSchedule() {
         ArrayList<Code> linearSchedule = new ArrayList<>();
         Stack stack = new Stack();
 
@@ -116,28 +121,95 @@ public class Generate {
             linearSchedule.add(codesToTake.get(position));
         }
 
+        for (Code code : codesWithNoPrereq) {
+            if (linearSchedule.contains(code)) {
+                linearSchedule.remove(code);
+                linearSchedule.add(0, code);
+            }
+        }
+
         return linearSchedule;
+    }
+
+    public SemesterList generateSchedule() {
+        SemesterList semesterList = new SemesterList();
+        Semester newSemester = new Semester();
+
+        List<Code> taken = new ArrayList<>();
+        List<Module> toBeRemoved = new ArrayList<>();
+
+        while (modulesStaged.size() > 0) {
+            modulesStaged.sortMajorThenLocked();
+            toBeRemoved.clear();
+            for (Module element : modulesStaged) {
+                if (element.checkPrereq(taken)) {
+                    if (newSemester.getTotalCredits() + element.getCredit() > 20) {
+                        semesterList.addSemester(newSemester);
+                        newSemester = new Semester();
+                    }
+                    newSemester.addModule(element);
+                    toBeRemoved.add(element);
+                }
+            }
+            for (Module module : toBeRemoved) {
+                taken.add(module.getCode());
+                modulesStaged.remove(module);
+            }
+            semesterList.addSemester(newSemester);
+            newSemester = new Semester();
+        }
+        return semesterList;
     }
 
     /**
      * Creates a schedule of semesters containing the modules to take for each semester.
      */
     public SemesterList getSchedule() {
-        List<Code> unlockedModules = new ArrayList<>();
+        ArrayList<Code> linearSchedule = getLinearSchedule();
+
         SemesterList semesterList = new SemesterList();
-        UniqueModuleList modulesToTake = this.student.getModulesStaged();
 
         Semester newSem = new Semester();
 
-        ArrayList<Code> linearSchedule = getLinearSchedule();
         System.out.println(linearSchedule.toString());
 
+        for (Code code : linearSchedule) {
+            Module module = modulesStaged.getModuleByCode(code);
+
+            if (!module.hasPrereq()) {
+                if (newSem.getTotalCredits() + module.getCredit() > 20) {
+                    semesterList.addSemester(newSem);
+                    newSem = new Semester();
+                }
+                newSem.addModule(module);
+                continue;
+            }
+
+            if (module.checkPrereq(newSem.getCode())) {
+                semesterList.addSemester(newSem);
+                newSem = new Semester();
+                newSem.addModule(module);
+            } else {
+                if (newSem.getTotalCredits() + module.getCredit() > 20) {
+                    semesterList.addSemester(newSem);
+                    newSem = new Semester();
+                }
+                newSem.addModule(module);
+            }
+
+        }
+        semesterList.addSemester(newSem);
+
+        return semesterList;
+
+
+        /*
         Collections.reverse(linearSchedule);
 
         Optional<Code> previousCode = Optional.empty();
 
         for (Code code : linearSchedule) {
-            Module module = modulesToTake.getModuleByCode(code);
+            Module module = modulesStaged.getModuleByCode(code);
             List<Code> lockedModules = module.getLockedModules();
 
             if (!previousCode.isPresent()) {
@@ -151,7 +223,7 @@ public class Generate {
                 newSem = new Semester();
             }
 
-            if (newSem.getTotalCredits() > 16) {
+            if (newSem.getTotalCredits() > 20) {
                 semesterList.addSemester(newSem);
                 newSem = new Semester();
             }
@@ -161,6 +233,6 @@ public class Generate {
         }
         semesterList.addSemester(newSem);
         semesterList.reverseOrder();
-        return semesterList;
+        return semesterList;*/
     }
 }
