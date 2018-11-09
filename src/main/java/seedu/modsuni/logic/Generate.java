@@ -1,12 +1,8 @@
 package seedu.modsuni.logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
@@ -20,10 +16,7 @@ import seedu.modsuni.model.user.student.Student;
  */
 public class Generate {
 
-    private int noOfModules; // No. of vertices
-    private LinkedList<Integer>[] adj; // Adjacency List
     private List<Code> codesToTake;
-    private List<Code> codesWithNoPrereq;
 
     private UniqueModuleList modulesStaged;
 
@@ -31,25 +24,7 @@ public class Generate {
         codesToTake = new ArrayList<>();
         modulesStaged = student.getModulesStaged();
 
-        modulesStaged.sortMajorThenPrereq();
         codesToTake.addAll(modulesStaged.getAllCode());
-
-        codesWithNoPrereq = modulesStaged.getModuleCodesWithNoPrereq();
-
-        noOfModules = modulesStaged.size();
-
-        adj = new LinkedList[noOfModules];
-        for (int i = 0; i < noOfModules; ++i) {
-            adj[i] = new LinkedList();
-        }
-
-        for (Module moduleToTake : modulesStaged) {
-            for (Code code : moduleToTake.getLockedModules()) {
-                if (codesToTake.contains(code)) {
-                    addEdge(moduleToTake.getCode(), code);
-                }
-            }
-        }
     }
 
     /**
@@ -73,64 +48,8 @@ public class Generate {
     }
 
     /**
-     * Creates an edge from a module code to another module code.
+     * Creates a schedule of semesters containing the modules to take for each semester.
      */
-    public void addEdge(Code fromCode, Code toCode) {
-        int v = codesToTake.indexOf(fromCode);
-        int code = codesToTake.indexOf(toCode);
-        adj[v].add(code);
-    }
-
-    /**
-     * Topological sort recursive function to arrange the modules.
-     */
-    public void topologicalSortUtil(int v, boolean[] visited, Stack stack) {
-        visited[v] = true;
-        int i;
-
-        Iterator<Integer> it = adj[v].iterator();
-        while (it.hasNext()) {
-            i = it.next();
-            if (!visited[i]) {
-                topologicalSortUtil(i, visited, stack);
-            }
-        }
-        stack.push(new Integer(v));
-    }
-
-    /**
-     * Creates a linear arrangement of modules to take.
-     */
-    private ArrayList<Code> getLinearSchedule() {
-        ArrayList<Code> linearSchedule = new ArrayList<>();
-        Stack stack = new Stack();
-
-        boolean[] visited = new boolean[noOfModules];
-        for (int i = 0; i < noOfModules; i++) {
-            visited[i] = false;
-        }
-
-        for (int i = 0; i < noOfModules; i++) {
-            if (visited[i] == false) {
-                topologicalSortUtil(i, visited, stack);
-            }
-        }
-
-        while (stack.empty() == false) {
-            int position = (Integer) stack.pop();
-            linearSchedule.add(codesToTake.get(position));
-        }
-
-        for (Code code : codesWithNoPrereq) {
-            if (linearSchedule.contains(code)) {
-                linearSchedule.remove(code);
-                linearSchedule.add(0, code);
-            }
-        }
-
-        return linearSchedule;
-    }
-
     public SemesterList generateSchedule() {
         SemesterList semesterList = new SemesterList();
         Semester newSemester = new Semester();
@@ -139,7 +58,6 @@ public class Generate {
         List<Module> toBeRemoved = new ArrayList<>();
 
         while (modulesStaged.size() > 0) {
-            modulesStaged.sortMajorThenLocked();
             toBeRemoved.clear();
             for (Module element : modulesStaged) {
                 if (element.checkPrereq(taken)) {
@@ -161,78 +79,4 @@ public class Generate {
         return semesterList;
     }
 
-    /**
-     * Creates a schedule of semesters containing the modules to take for each semester.
-     */
-    public SemesterList getSchedule() {
-        ArrayList<Code> linearSchedule = getLinearSchedule();
-
-        SemesterList semesterList = new SemesterList();
-
-        Semester newSem = new Semester();
-
-        System.out.println(linearSchedule.toString());
-
-        for (Code code : linearSchedule) {
-            Module module = modulesStaged.getModuleByCode(code);
-
-            if (!module.hasPrereq()) {
-                if (newSem.getTotalCredits() + module.getCredit() > 20) {
-                    semesterList.addSemester(newSem);
-                    newSem = new Semester();
-                }
-                newSem.addModule(module);
-                continue;
-            }
-
-            if (module.checkPrereq(newSem.getCode())) {
-                semesterList.addSemester(newSem);
-                newSem = new Semester();
-                newSem.addModule(module);
-            } else {
-                if (newSem.getTotalCredits() + module.getCredit() > 20) {
-                    semesterList.addSemester(newSem);
-                    newSem = new Semester();
-                }
-                newSem.addModule(module);
-            }
-
-        }
-        semesterList.addSemester(newSem);
-
-        return semesterList;
-
-
-        /*
-        Collections.reverse(linearSchedule);
-
-        Optional<Code> previousCode = Optional.empty();
-
-        for (Code code : linearSchedule) {
-            Module module = modulesStaged.getModuleByCode(code);
-            List<Code> lockedModules = module.getLockedModules();
-
-            if (!previousCode.isPresent()) {
-                newSem.addModule(module);
-                previousCode = Optional.of(module.getCode());
-                continue;
-            }
-
-            if (lockedModules.contains(previousCode.get())) {
-                semesterList.addSemester(newSem);
-                newSem = new Semester();
-            }
-
-            if (newSem.getTotalCredits() > 20) {
-                semesterList.addSemester(newSem);
-                newSem = new Semester();
-            }
-            newSem.addModule(module);
-
-            previousCode = Optional.of(module.getCode());
-        }
-        semesterList.addSemester(newSem);
-        semesterList.reverseOrder();
-        return semesterList;*/
-    }
 }
