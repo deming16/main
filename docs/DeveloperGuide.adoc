@@ -782,8 +782,6 @@ It stores the following attributes of a `User` object: +
     The name of the user.
 *** Role +
     The role of the user.
-*** Path to Profile Picture +
-    The path to the user's profile picture.
 
 ** Admin
 
