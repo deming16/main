@@ -114,22 +114,38 @@ public class DataSecurityUtilTest {
     }
 
     @Test
-    public void testBytesToHex() {
+    public void testBytesToHexSuccess() {
         String convertedData = DataSecurityUtil.bytesToHex(TEST_STRING.getBytes());
         assertEquals(EXPECTED_ENCODED_BYTES_TO_HEX, convertedData);
     }
 
     @Test
-    public void testBytesToBase64() {
+    public void testBytesToHexNullException() {
+        thrown.expect(NullPointerException.class);
+        DataSecurityUtil.bytesToHex(null);
+    }
+
+    @Test
+    public void testBytesToBase64Success() {
         String convertedData = DataSecurityUtil.bytesToBase64(TEST_STRING.getBytes());
         assertEquals(EXPECTED_ENCODED_BYTES_TO_BASE64, convertedData);
     }
 
     @Test
-    public void testBase64ToBytes() {
+    public void testBytesToBase64NullException() {
+        thrown.expect(NullPointerException.class);
+        DataSecurityUtil.bytesToBase64(null);
+    }
+
+    @Test
+    public void testBase64ToBytesSuccess() {
         byte[] convertedData = DataSecurityUtil.base64ToBytes(EXPECTED_ENCODED_BYTES_TO_BASE64);
         assertEquals(TEST_STRING, new String(convertedData));
     }
 
-
+    @Test
+    public void testBase64ToBytesNullException() {
+        thrown.expect(NullPointerException.class);
+        DataSecurityUtil.base64ToBytes(null);
+    }
 }
