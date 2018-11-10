@@ -5,8 +5,11 @@ import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_SAVE_PATH;
 
 import java.nio.file.Path;
+import java.util.logging.Logger;
 
+import seedu.modsuni.MainApp;
 import seedu.modsuni.commons.core.EventsCenter;
+import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.events.ui.NewSaveResultAvailableEvent;
 import seedu.modsuni.commons.events.ui.SaveDisplayRequestEvent;
 import seedu.modsuni.commons.events.ui.UserTabChangedEvent;
@@ -34,6 +37,8 @@ public class SaveCommand extends Command {
 
     private final Path savePath;
 
+    private static final Logger logger = LogsCenter.getLogger(MainApp.class);
+
     public SaveCommand(Path savePath) {
         requireAllNonNull(savePath);
         this.savePath = savePath;
@@ -45,6 +50,7 @@ public class SaveCommand extends Command {
         User currentUser = model.getCurrentUser();
 
         if (currentUser == null) {
+            logger.warning("User is not logged in");
             throw new CommandException(MESSAGE_ERROR);
         }
 

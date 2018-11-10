@@ -8,11 +8,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.annotation.XmlElement;
 
+import seedu.modsuni.MainApp;
+import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
 import seedu.modsuni.commons.exceptions.InvalidPasswordException;
@@ -63,69 +66,13 @@ public class XmlAdaptedUser {
     @XmlElement
     private List<XmlAdaptedModule> modulesStaged = new ArrayList<>();
 
+    private static final Logger logger = LogsCenter.getLogger(MainApp.class);
+
     /**
      * Creates an empty XmlAdaptedUser.
      * This empty constructor is required for marshalling.
      */
     public XmlAdaptedUser() {}
-
-    /**
-     * Constructs an {@code XmlAdaptedUser} with the given user details.
-     */
-    public XmlAdaptedUser(Username username, Name name, Role role,
-                          Salary salary, EmployDate employmentDate) {
-        this.username = username.toString();
-        this.name = name.toString();
-        this.role = role.toString();
-        this.salary = salary.toString();
-        this.employmentDate = employmentDate.toString();
-    }
-
-    /**
-     * Constructs an {@code XmlAdaptedUser} with the given user details.
-     */
-    public XmlAdaptedUser(Username username, Name name, Role role,
-                          EnrollmentDate enrollmentDate, List<String> major, List<String> minor,
-                          List<Module> modulesTaken) {
-        this.username = username.toString();
-        this.name = name.toString();
-        this.role = role.toString();
-        this.enrollmentDate = enrollmentDate.toString();
-        this.major = major.toString();
-        this.minor = minor.toString();
-        this.modulesTaken.addAll(modulesTaken.stream().map(XmlAdaptedModule::new).collect(Collectors.toList()));
-    }
-
-    /**
-     * Converts a given User into this class for JAXB use.
-     *
-     * @param user future changes to this will not affect the created XmlAdaptedUser
-     */
-    public XmlAdaptedUser(User user) {
-        requireNonNull(user);
-        this.username = user.getUsername().toString();
-        this.name = user.getName().toString();
-        this.role = user.getRole().toString();
-
-        if (user.getRole() == Role.ADMIN) {
-            Admin admin = (Admin) user;
-            this.salary = admin.getSalary().toString();
-            this.employmentDate = admin.getEmploymentDate().toString();
-        }
-
-        if (user.getRole() == Role.STUDENT) {
-            Student student = (Student) user;
-            this.enrollmentDate = student.getEnrollmentDate().toString();
-            this.major = student.getMajor().toString();
-            this.minor = student.getMinor().toString();
-            for (Module module : student.getModulesTaken()) {
-                modulesTaken.add(new XmlAdaptedModule(module));
-            }
-            for (Module module : student.getModulesStaged()) {
-                modulesStaged.add(new XmlAdaptedModule(module));
-            }
-        }
-    }
 
     /**
      * Converts a given User into this class for JAXB use.
@@ -137,13 +84,16 @@ public class XmlAdaptedUser {
         requireNonNull(password);
 
         // All users
+        logger.info("Converting user attributes (username, name, role)");
         this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encryptData(
                 user.getUsername().toString().getBytes(), password));
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
 
+
         // Admin
         if (user.getRole() == Role.ADMIN) {
+            logger.info("Converting admin attributes (salary, employment date)");
             Admin admin = (Admin) user;
             this.salary = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encryptData(
                     admin.getSalary().toString().getBytes(), password));
@@ -152,6 +102,7 @@ public class XmlAdaptedUser {
 
         // Student
         if (user.getRole() == Role.STUDENT) {
+            logger.info("Converting student attributes (enrollment date, major, minor)");
             Student student = (Student) user;
             this.enrollmentDate = student.getEnrollmentDate().toString();
             this.major = student.getMajor().toString();
@@ -204,6 +155,7 @@ public class XmlAdaptedUser {
                     majorConverted, minorConverted, modulesTakenConverted, modulesStagedConverted);
         }
 
+        logger.info("Conversion to XmlAdaptedUser complete");
         return user;
     }
 
@@ -235,6 +187,7 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated
      */
     private void checkMandatoryFields() throws IllegalValueException {
+        logger.info("Checking mandatory fields");
         // Username
         if (username == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Username"));
@@ -261,6 +214,7 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated
      */
     private void checkAdminFields() throws IllegalValueException {
+        logger.info("Checking admin fields");
         // Salary
         if (salary == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "salary"));
@@ -281,6 +235,7 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated
      */
     private void checkStudentFields() throws IllegalValueException {
+        logger.info("Checking student fields");
         if (enrollmentDate == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "enrollment"));
         }

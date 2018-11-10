@@ -2,11 +2,14 @@ package seedu.modsuni.storage;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
 
 import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import seedu.modsuni.MainApp;
+import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
 import seedu.modsuni.commons.exceptions.InvalidPasswordException;
@@ -19,6 +22,8 @@ import seedu.modsuni.model.user.User;
 @XmlRootElement(name = "user")
 public class XmlSerializableUser {
 
+    private static final Logger logger = LogsCenter.getLogger(MainApp.class);
+
     @XmlElement
     private XmlAdaptedUser user;
 
@@ -28,13 +33,6 @@ public class XmlSerializableUser {
      */
     public XmlSerializableUser() {
 
-    }
-
-    /**
-     * Conversion
-     */
-    public XmlSerializableUser(User user) {
-        this.user = new XmlAdaptedUser(user);
     }
 
     /**
@@ -53,6 +51,7 @@ public class XmlSerializableUser {
      */
     public User toModelType(String password) throws IllegalValueException, NoSuchAlgorithmException,
             InvalidKeyException, InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+        logger.info("Converting to model type in XMLSerializableUser");
         return this.user.toModelType(password);
     }
 }

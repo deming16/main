@@ -372,8 +372,8 @@ public class ModelManager extends ComponentManager implements Model {
     //=========== Save current User to file ====================================
     @Override
     public void saveUserFile(User user, Path savePath) {
-        raise(new SaveUserChangedEvent(user, getCredentialPassword(user),
-            savePath));
+        raise(new SaveUserChangedEvent(user, getCredentialPassword(user), savePath));
+        logger.info("Event raised to Storage component");
     }
 
     @Override
