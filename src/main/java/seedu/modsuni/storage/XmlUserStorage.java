@@ -40,18 +40,21 @@ public class XmlUserStorage implements UserStorage {
 
     @Override
     public Optional<User> readUser() throws DataConversionException, IOException {
-        return readUser(filePath);
-    }
-
-    @Override
-    public Optional<User> readUser(Path filePath) throws DataConversionException, IOException {
-        return readUser(filePath);
+        return readUser();
     }
 
     /**
-     * Similar to {@link #readUser()}
+     * Reads user data from the file and decrypts using the given password
      * @param filePath location of the data. Cannot be null
-     * @throws DataConversionException if the file is not in the correct format.
+     * @param password to decrypt the encrypted files
+     * @return
+     * @throws DataConversionException
+     * @throws FileNotFoundException
+     * @throws CorruptedFileException
+     * @throws NoSuchPaddingException
+     * @throws InvalidPasswordException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
      */
     @Override
     public Optional<User> readUser(Path filePath, String password)
@@ -73,26 +76,12 @@ public class XmlUserStorage implements UserStorage {
         }
     }
 
-    @Override
-    public void saveUser(User user) throws IOException {
-        saveUser(user, filePath);
-    }
-
     /**
-     * Similar to {@link #saveUser(User)}
-     * @param filePath location of the data. Cannot be null
-     */
-    public void saveUser(User user, Path filePath) throws IOException {
-        requireNonNull(user);
-        requireNonNull(filePath);
-
-        FileUtil.createIfMissing(filePath);
-        XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
-    }
-
-    /**
-     * Similar to {@link #saveUser(User)}
-     * @param filePath location of the data. Cannot be null
+     * Save the current object to the file path
+     * @param user cannot be null
+     * @param filePath the path to save the user data
+     * @param password the password for encryption
+     * @throws IOException
      */
     public void saveUser(User user, Path filePath, String password) throws IOException {
         requireNonNull(user);

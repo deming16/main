@@ -2,8 +2,12 @@ package seedu.modsuni.storage;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import javax.crypto.NoSuchPaddingException;
 
 import com.google.common.eventbus.Subscribe;
 
@@ -14,7 +18,9 @@ import seedu.modsuni.commons.events.model.CredentialStoreChangedEvent;
 import seedu.modsuni.commons.events.model.ModuleListChangedEvent;
 import seedu.modsuni.commons.events.model.SaveUserChangedEvent;
 import seedu.modsuni.commons.events.storage.DataSavingExceptionEvent;
+import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
+import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 import seedu.modsuni.commons.util.DataSecurityUtil;
 import seedu.modsuni.model.ReadOnlyAddressBook;
 import seedu.modsuni.model.ReadOnlyModuleList;
@@ -203,36 +209,19 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public Optional<User> readUser(Path filePath)
-            throws DataConversionException, IOException {
-        logger.fine("Attempting to read data from file: " + filePath);
-        return userStorage.readUser();
-    }
-
-    @Override
     public Optional<User> readUser(Path filePath, String password)
-            throws DataConversionException, IOException {
+            throws DataConversionException, IOException, NoSuchAlgorithmException,
+            InvalidKeyException, InvalidPasswordException, CorruptedFileException,
+            NoSuchPaddingException {
         logger.fine("Attempting to read data from file: " + filePath);
-        return userStorage.readUser();
-    }
-
-    @Override
-    public void saveUser(User user) throws IOException {
-        userStorage.saveUser(user, userStorage.getUserSavedFilePath());
-    }
-
-    @Override
-    public void saveUser(User user, Path filePath) throws IOException {
-        logger.fine("Attempting to write to data file: " + filePath);
-        userStorage.saveUser(user, filePath);
+        return userStorage.readUser(filePath, password);
     }
 
     @Override
     public void saveUser(User user, Path filePath, String password) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        userStorage.saveUser(user, filePath);
+        userStorage.saveUser(user, filePath, password);
     }
-
 
     @Override
     @Subscribe

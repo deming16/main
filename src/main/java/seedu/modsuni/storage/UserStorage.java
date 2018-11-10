@@ -34,29 +34,16 @@ public interface UserStorage {
     /**
      * @see #getUserSavedFilePath()
      */
-    Optional<User> readUser(Path filePath) throws DataConversionException, IOException;
-
-    /**
-     * @see #getUserSavedFilePath()
-     */
     Optional<User> readUser(Path filePath, String password) throws DataConversionException,
             IOException, CorruptedFileException, NoSuchPaddingException, InvalidPasswordException,
             NoSuchAlgorithmException, InvalidKeyException;
 
     /**
      * Saves the given {@link User} to the storage.
-     * @param user cannot be null.
-     * @throws IOException if there was any problem writing to the file.
-     */
-    void saveUser(User user) throws IOException;
-
-    /**
-     * @see #saveUser(User)
-     */
-    void saveUser(User user, Path filePath) throws IOException;
-
-    /**
-     * @see #saveUser(User)
+     * @param user cannot be null
+     * @param filePath the path to save the user data
+     * @param password the password for encryption
+     * @throws IOException
      */
     void saveUser(User user, Path filePath, String password) throws IOException;
 
