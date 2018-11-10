@@ -69,4 +69,28 @@ public class AdminTest {
         assertFalse(ALICE.equals(editedAlice));
 
     }
+
+    @Test
+    public void testHashCode() {
+        // same admin
+        Admin max = new AdminBuilder().withName("Max").build();
+        Admin maxCopy = new AdminBuilder(max).build();
+        assertTrue(max.hashCode() == maxCopy.hashCode());
+
+        // diff admin
+        Admin seb = new AdminBuilder().withName("Seb").build();
+        assertFalse(max.hashCode() == seb.hashCode());
+    }
+
+    @Test
+    public void toDisplayUi() {
+        // same UI details
+        Admin max = new AdminBuilder().withUsername("Max").build();
+        Admin maxCopy = new AdminBuilder(max).build();
+        assertTrue(max.toDisplayUi().equals(maxCopy.toDisplayUi()));
+
+        // diff UI details
+        Admin seb = new AdminBuilder().withUsername("Seb").build();
+        assertFalse(max.toDisplayUi().equals(seb.toDisplayUi()));
+    }
 }

@@ -2,6 +2,7 @@ package seedu.modsuni.storage;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -58,6 +59,14 @@ public class XmlUserStorageTest {
     @Test
     public void read_missingFile_emptyResult() throws Exception {
         assertFalse(readUser(Paths.get("NonExistentFile.xml"), "").isPresent());
+    }
+
+    @Test
+    public void getUserSaveFileSuccess() throws Exception {
+        String path = "dummy.xml";
+        XmlUserStorage userStorage = new XmlUserStorage(Paths.get(path));
+        Path userFilePath = userStorage.getUserSavedFilePath();
+        assertTrue(path.equals(userFilePath.toString()));
     }
 
     @Test
