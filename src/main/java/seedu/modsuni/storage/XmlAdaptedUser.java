@@ -188,12 +188,12 @@ public class XmlAdaptedUser {
     private void checkMandatoryFields() throws IllegalValueException {
         logger.info("Checking mandatory fields");
         // Username
-        if (username == null) {
+        if (username.equals("")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Username"));
         }
 
         // Name
-        if (name == null) {
+        if (name.equals("")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "name"));
         }
         if (!Name.isValidName(name)) {
@@ -201,7 +201,7 @@ public class XmlAdaptedUser {
         }
 
         // Role
-        if (role == null) {
+        if (role.equals("")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "role"));
         }
 
@@ -215,12 +215,12 @@ public class XmlAdaptedUser {
     private void checkAdminFields() throws IllegalValueException {
         logger.info("Checking admin fields");
         // Salary
-        if (salary == null) {
+        if (salary.equals("")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "salary"));
         }
 
         // employment date
-        if (employmentDate == null) {
+        if (employmentDate.equals("")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "employment"));
         }
         if (!EmployDate.isValidEmployDate(employmentDate)) {
@@ -235,16 +235,16 @@ public class XmlAdaptedUser {
      */
     private void checkStudentFields() throws IllegalValueException {
         logger.info("Checking student fields");
-        if (enrollmentDate == null) {
+        if (enrollmentDate.equals("")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "enrollment"));
         }
         if (!EnrollmentDate.isValidEnrollmentDate(enrollmentDate)) {
             throw new IllegalValueException(EnrollmentDate.MESSAGE_DATE_CONSTRAINTS);
         }
-        if (major == null) {
+        if (major.equals("")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "major"));
         }
-        if (minor == null) {
+        if (minor.equals("")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "minor"));
         }
     }
