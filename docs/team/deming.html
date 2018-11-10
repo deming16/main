@@ -426,11 +426,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_project_modsuni">PROJECT: ModsUni</h2>
 <div class="sectionbody">
-<hr>
+
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview">Overview</h2>
+<h2 id="_overview">1. Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>modsUni is a desktop timetable management application created by students for students. It incorporates a simple GUI with majority of its user interactions occurring in its in-built CLI.</p>
@@ -438,32 +438,145 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_summary_of_contributions">Summary of contributions</h2>
+<h2 id="_about_this_portfolio">2. About this portfolio</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This project portfolio documents my contributions to the ModsUni project.
+It includes a summary of features that I implemented and other contributions to the project.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary_of_contributions">3. Summary of contributions</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement</strong>: <strong>The ability to add/remove/edit modules</strong> was added.</p>
+<p><strong>Major enhancement</strong>: This enhancement added functionality to <strong>manage modules in the database.</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: It allows administrators to make changes to any module in the database.</p>
+<p>What it does: The add module feature adds a non-existing module to the database. Conversely, the remove module feature
+removes a existing module from the database. In addition, the edit module feature allows modification of the information
+of existing modules.</p>
 </li>
 <li>
-<p>Justification: This feature allows administrators to keep the module database up to date so that students can continue to generate schedules that are valid.</p>
+<p>Justification: When there is a change in module information, introduction of new modules or removal of modules, the
+database should match the changes. The administrator will then have to do modify the database to keep it up to date. The
+<code>addModuleDB</code>, <code>removeModuleDB</code> and <code>editModule</code> command allows the administrator to perform such tasks.</p>
+</li>
+<li>
+<p>Highlights: This enhancement is an end-to-end feature and makes use of almost all components of the software. Though
+the implementation of these features is intuitive and makes use of existing code wherever possible, it was challenging
+as it required the creation of a PrereqGenerator class (to handle parsing) from scratch.</p>
+</li>
+<li>
+<p>Relevant pull requests: <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/92">#92</a>,
+<a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/123">#123</a> and <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/186">#186</a></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>: The show user command was added that show the list of usernames to facilitate user account management.</p>
+<p><strong>Minor enhancement</strong>: This enhancement added support for multiple administrator accounts.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: This enhancement allows logged in admin users to create new admin accounts. Similarly, they can choose to
+remove other admin users as well.</p>
+</li>
+<li>
+<p>Justification: Since the database have a large number of modules, administrator may find it difficult to manage the
+entire database by alone. Having the ability to assign new administrators to help spread the workload makes it much easier
+to manage the database.</p>
+</li>
+<li>
+<p>Highlights: This enhancement is an end-to-end feature and makes use of almost all components of the software, from
+<code>Storage</code> to <code>Ui</code>. It was challenging as the feature had to handle validation of different data types, to ensure that
+the feature functions sensibly.</p>
+</li>
+<li>
+<p>Relevant pull requests: <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/46">#46</a>,
+<a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/169">#169</a> and <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/186">#186</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Code contributed: [<a href="https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&amp;search=deming16&amp;sort=displayName&amp;since=2018-09-12&amp;until=2018-11-07&amp;timeframe=day&amp;reverse=false&amp;repoSort=true">Functional code</a>]</p>
+</li>
+<li>
+<p>Other contributions:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Project management on GitHub:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Updated descriptions and labels of PRs (where necessary)</p>
+</li>
+<li>
+<p>Organised and assigned issues</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Enhancements to existing features:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Refactored some existing <code>Person</code> fields to fit the new <code>User</code> fields (Pull request
+<a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/46">#46</a>)</p>
+</li>
+<li>
+<p>Updated existing test cases to fit new code (Pull request <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/92">#92</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Documentation:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Updated the User Guide (Pull requests <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/55">#55</a>,
+<a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/128">#128</a>, <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/204">#204</a>
+and <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/267">#267</a>)</p>
+</li>
+<li>
+<p>Updated the Developer Guide (Pull requests <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/128">#128</a>,
+<a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/142">#142</a> and <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/204">#204</a>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Community:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Reported bugs for other teams in the class (<a href="https://github.com/CS2103-AY1819S1-T12-1/main/issues/147">1</a>,
+<a href="https://github.com/CS2103-AY1819S1-T12-1/main/issues/153">2</a>, <a href="https://github.com/CS2103-AY1819S1-T12-1/main/issues/161">3</a> and
+<a href="https://github.com/CS2103-AY1819S1-T12-1/main/issues/135">4</a>)</p>
+</li>
+<li>
+<p>Reviewed PRs (with non-trivial review comments): <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/131">#131</a> and
+<a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/184">#184</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contributions_to_the_user_guide">Contributions to the User Guide</h2>
+<h2 id="_contributions_to_the_user_guide">4. Contributions to the User Guide</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -476,7 +589,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_add_a_new_module_to_database_code_addmoduledb_code">Add a new module to database: <code>addModuleDB</code></h3>
+<h3 id="_add_a_new_module_to_database_code_addmoduledb_code">4.1. Add a new module to database: <code>addModuleDB</code></h3>
 <div class="paragraph">
 <p>Creates a new module and add it to the module database.<br>
 Format: <code>addModuleDB OPTION/INPUT&#8230;&#8203;</code><br></p>
@@ -552,7 +665,7 @@ Create and add a new module with module code "CS2103T" and the stated details to
 <div style="page-break-after: always;"></div>
 </div>
 <div class="sect2">
-<h3 id="_edit_details_of_a_module_in_database_code_editmodule_code">Edit details of a module in database: <code>editModule</code></h3>
+<h3 id="_edit_details_of_a_module_in_database_code_editmodule_code">4.2. Edit details of a module in database: <code>editModule</code></h3>
 <div class="paragraph">
 <p>Edit the details of a module specified by its index in database panel in database.<br>
 Format: <code>editModule &lt;INDEX&gt; OPTION/INPUT&#8230;&#8203;</code><br></p>
@@ -647,7 +760,7 @@ After editing, the database panel will display the updated list as shown below.
 <div style="page-break-after: always;"></div>
 </div>
 <div class="sect2">
-<h3 id="_remove_a_existing_module_from_database_code_removemoduledb_code">Remove a existing module from database: <code>removeModuleDB</code></h3>
+<h3 id="_remove_a_existing_module_from_database_code_removemoduledb_code">4.3. Remove a existing module from database: <code>removeModuleDB</code></h3>
 <div class="paragraph">
 <p>Removes a existing module from the module database.<br>
 Format: <code>removeModuleDB &lt;MODULE_CODE&gt;</code></p>
@@ -685,7 +798,7 @@ After removing, the database panel will display the updated list as shown below.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contributions_to_the_developer_guide">Contributions to the Developer Guide</h2>
+<h2 id="_contributions_to_the_developer_guide">5. Contributions to the Developer Guide</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -698,7 +811,7 @@ After removing, the database panel will display the updated list as shown below.
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_module_database_administration">Module Database Administration</h3>
+<h3 id="_module_database_administration">5.1. Module Database Administration</h3>
 <div class="paragraph">
 <p>Module database administration is a series of commands that administrators can use to make necessary changes to keep
 the module database up to date, or to cater to their own needs.</p>
@@ -977,7 +1090,7 @@ diagram of the <code>EditModuleCommandParser</code>.</p>
 <p><em>Figure 10. High-level sequence diagram of editing a module from database.</em></p>
 </div>
 <div class="sect3">
-<h4 id="_design_considerations">Design Considerations</h4>
+<h4 id="_design_considerations">5.1.1. Design Considerations</h4>
 <div class="sect4">
 <h5 id="_aspect_how_add_remove_executes">Aspect: How add &amp; remove executes</h5>
 <div class="ulist">
@@ -1053,7 +1166,7 @@ another module just to store the other module codes. This can be heavy on memory
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-10 13:22:59 +08
+Last updated 2018-11-10 15:13:08 +08
 </div>
 </div>
 </body>

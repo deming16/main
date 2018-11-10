@@ -2,12 +2,9 @@
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets
-:sectnums:
 
 == PROJECT: ModsUni
-
----
-
+:sectnums:
 == Overview
 
 modsUni is a desktop timetable management application created by students for students. It incorporates a simple GUI with majority of its user interactions occurring in its in-built CLI.
@@ -31,12 +28,51 @@ database should match the changes. The administrator will then have to do modify
 the implementation of these features is intuitive and makes use of existing code wherever possible, it was challenging
 as it required the creation of a PrereqGenerator class (to handle parsing) from scratch.
 
-** Relevant pull requests:
+** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/92[#92],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/123[#123] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/186[#186]
 
-* *Minor enhancement*: The show user command was added that show the list of usernames to facilitate user account management.
+* *Minor enhancement*: This enhancement added support for multiple administrator accounts.
+** What it does: This enhancement allows logged in admin users to create new admin accounts. Similarly, they can choose to
+remove other admin users as well.
+
+** Justification: Since the database have a large number of modules, administrator may find it difficult to manage the
+entire database by alone. Having the ability to assign new administrators to help spread the workload makes it much easier
+to manage the database.
+
+** Highlights: This enhancement is an end-to-end feature and makes use of almost all components of the software, from
+`Storage` to `Ui`. It was challenging as the feature had to handle validation of different data types, to ensure that
+the feature functions sensibly.
+
+** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/46[#46],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/169[#169] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/186[#186]
+
+* Code contributed: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=deming16&sort=displayName&since=2018-09-12&until=2018-11-07&timeframe=day&reverse=false&repoSort=true[Functional code]]
+
+* Other contributions:
+** Project management on GitHub:
+*** Updated descriptions and labels of PRs (where necessary)
+*** Organised and assigned issues
+
+** Enhancements to existing features:
+*** Refactored some existing `Person` fields to fit the new `User` fields (Pull request
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/46[#46])
+*** Updated existing test cases to fit new code (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/92[#92])
+
+** Documentation:
+*** Updated the User Guide (Pull requests https://github.com/CS2103-AY1819S1-W17-2/main/pull/55[#55],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/128[#128], https://github.com/CS2103-AY1819S1-W17-2/main/pull/204[#204]
+and https://github.com/CS2103-AY1819S1-W17-2/main/pull/267[#267])
+*** Updated the Developer Guide (Pull requests https://github.com/CS2103-AY1819S1-W17-2/main/pull/128[#128],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/142[#142] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/204[#204])
+
+** Community:
+*** Reported bugs for other teams in the class (https://github.com/CS2103-AY1819S1-T12-1/main/issues/147[1],
+https://github.com/CS2103-AY1819S1-T12-1/main/issues/153[2], https://github.com/CS2103-AY1819S1-T12-1/main/issues/161[3] and
+https://github.com/CS2103-AY1819S1-T12-1/main/issues/135[4])
+*** Reviewed PRs (with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-2/main/pull/131[#131] and
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/184[#184]
 
 == Contributions to the User Guide
-
 
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
