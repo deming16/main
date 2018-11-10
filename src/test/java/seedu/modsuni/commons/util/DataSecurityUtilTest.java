@@ -8,14 +8,19 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.DatatypeConverter;
 
+import org.junit.Rule;
 import org.junit.Test;
 
 import com.google.common.base.Charsets;
 
+import org.junit.rules.ExpectedException;
 import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 
 public class DataSecurityUtilTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     private static final String PASSWORD = "p@ssW0Rd";
     private static final String WRONG_PASSWORD = "1";
@@ -35,18 +40,21 @@ public class DataSecurityUtilTest {
         assertEquals(EXPECTED_ENCRYPTION, encryptedDataString);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testEncryptingNullBytesValidPassword() {
+        thrown.expect(NullPointerException.class);
         DataSecurityUtil.encryptData(null, PASSWORD);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testEncryptingValidBytesAndNullPassword() {
+        thrown.expect(NullPointerException.class);
         DataSecurityUtil.encryptData(TEST_DATA_ENCRYPTION, null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testEncryptingNullBytesAndNullPassword() {
+        thrown.expect(NullPointerException.class);
         DataSecurityUtil.encryptData(null, null);
     }
 
@@ -60,25 +68,29 @@ public class DataSecurityUtilTest {
         assertEquals(EXPECTED_DECRYPTION, decryptedDataString);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testDecryptingNullBytesValidPassword() throws CorruptedFileException,
             InvalidPasswordException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        thrown.expect(NullPointerException.class);
         DataSecurityUtil.decryptData(null, PASSWORD);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testDecryptingValidBytesAndNullPassword() {
+        thrown.expect(NullPointerException.class);
         DataSecurityUtil.encryptData(TEST_DATA_DECRYPTION, null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testDecryptingNullBytesAndNullPassword() {
+        thrown.expect(NullPointerException.class);
         DataSecurityUtil.encryptData(null, null);
     }
 
-    @Test(expected = InvalidPasswordException.class)
+    @Test
     public void testDecryptingBytesWrongPassword() throws CorruptedFileException, InvalidPasswordException,
             NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        thrown.expect(InvalidPasswordException.class);
         DataSecurityUtil.decryptData(TEST_DATA_DECRYPTION, WRONG_PASSWORD);
     }
 
