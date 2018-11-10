@@ -86,7 +86,7 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
         pathBuilder.append(user.getUsername().getUsername());
         pathBuilder.append("_");
         try {
-            pathBuilder.append(DataSecurityUtil.randomSha1());
+            pathBuilder.append(DataSecurityUtil.generateRandomSha1());
         } catch (NoSuchAlgorithmException e) {
             throw new CommandException(RegisterCommand.MESSAGE_REGISTER_FAILURE);
         }

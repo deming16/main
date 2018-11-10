@@ -149,7 +149,7 @@ public class DataSecurityUtil {
     /**
      * Generates a random string of length 7
      */
-    public static String randomSha1() throws NoSuchAlgorithmException {
+    public static String generateRandomSha1() throws NoSuchAlgorithmException {
         SecureRandom secureRandom = SecureRandom.getInstance(SECURE_RANDOM_INSTANCE);
         byte[] seed = secureRandom.generateSeed(SEED_BYTE_COUNT);
 
@@ -164,8 +164,10 @@ public class DataSecurityUtil {
 
     /**
      * Converts bytes to a hex string.
-     * DatatypeConverter is not used since it not longer included in default path of Java SE 9 and is completely removed in Java 11.
-     * Source: https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j
+     * DatatypeConverter is not used since it not longer included in default path of Java SE 9
+     * and is completely removed in Java 11.
+     * Source: https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-
+     * javax-xml-bind-jaxbexception-in-j
      *
      * @param bytes
      * @return String of hex

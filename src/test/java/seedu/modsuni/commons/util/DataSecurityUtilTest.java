@@ -1,6 +1,7 @@
 package seedu.modsuni.commons.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -25,11 +26,16 @@ public class DataSecurityUtilTest {
     private static final String PASSWORD = "p@ssW0Rd";
     private static final String WRONG_PASSWORD = "1";
 
-    private static final byte[] TEST_DATA_ENCRYPTION = "TEST DATA".getBytes();
+    private static final String TEST_STRING = "TEST DATA";
+
+    private static final byte[] TEST_DATA_ENCRYPTION = TEST_STRING.getBytes();
     private static final String EXPECTED_ENCRYPTION = "D91B9E39621EACE5877DCD6158393F0F";
 
     private static final byte[] TEST_DATA_DECRYPTION = convertStringToByteArray("D91B9E39621EACE5877DCD6158393F0F");
-    private static final String EXPECTED_DECRYPTION = "TEST DATA";
+    private static final String EXPECTED_DECRYPTION = TEST_STRING;
+
+    private static final String EXPECTED_ENCODED_BYTES_TO_HEX = "544553542044415441";
+    private static final String EXPECTED_ENCODED_BYTES_TO_BASE64 = "VEVTVCBEQVRB";
 
     // Encryption test case
     @Test
@@ -94,6 +100,7 @@ public class DataSecurityUtilTest {
         DataSecurityUtil.decryptData(TEST_DATA_DECRYPTION, WRONG_PASSWORD);
     }
 
+    // Testing utility
     private static String convertByteArrayToHexString(byte[] data) {
         return DatatypeConverter.printHexBinary(data);
     }
@@ -101,5 +108,32 @@ public class DataSecurityUtilTest {
     private static byte[] convertStringToByteArray(String s) {
         return DatatypeConverter.parseHexBinary(s);
     }
+
+    // Test for supporting utility
+    @Test
+    public void testGenerateRandomSha1_Random() throws NoSuchAlgorithmException {
+        String baseSha1 = DataSecurityUtil.generateRandomSha1();
+        String compareSha1 = DataSecurityUtil.generateRandomSha1();
+        assertNotEquals(baseSha1, compareSha1);
+    }
+
+    @Test
+    public void testBytesToHex() {
+        String convertedData = DataSecurityUtil.bytesToHex(TEST_STRING.getBytes());
+        assertEquals(EXPECTED_ENCODED_BYTES_TO_HEX, convertedData);
+    }
+
+    @Test
+    public void testBytesToBase64() {
+        String convertedData = DataSecurityUtil.bytesToBase64(TEST_STRING.getBytes());
+        assertEquals(EXPECTED_ENCODED_BYTES_TO_BASE64, convertedData);
+    }
+
+    @Test
+    public void testBase64ToBytes() {
+        byte[] convertedData = DataSecurityUtil.base64ToBytes(EXPECTED_ENCODED_BYTES_TO_BASE64);
+        assertEquals(TEST_STRING, new String(convertedData));
+    }
+
 
 }
