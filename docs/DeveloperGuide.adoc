@@ -1962,7 +1962,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 .. Download the jar file and copy into an empty folder
 .. Double-click the jar file +
-   Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   Expected: Shows the GUI. You should be greeted with a prompt to login or register. The window size may not be optimum.
 
 . Saving window preferences
 
@@ -1970,7 +1970,71 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-_{ more test cases ... }_
+=== Registering a Student Account
+Below are some test cases you can perform to test the `RegisterCommand` for User Account Management feature.
+
+[NOTE]
+The below test cases only cater to `Student` accounts
+
+.   Test case: `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
+    Expected: A new account is created. The `Student` details as provided in the command should be automatically displayed in `UserTab`. A successful message should be displayed in the Output Display. Additionally, a save location is provided to the user. Examine the project's root folder to determine if the file is indeed created.
+
+
+.   Test case: `register user/m@x33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
+    Expected: No new account is created. A invalid `Username` error should be shown in the the Output Display. Rest of the UI remains unchanged.
+
+.   Prerequisite: A Student Account with `Username` max33 already exists in `CredentialStore` +
+    Test case: `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
+  Expected: No new account is created. Error details should be shown in the Output Display. Rest of the UI remains unchanged.
+
+. Other incorrect `register` commands to try: +
+.. `register user/max33 pass/Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
+.. `register user/max33 pass/#Qwerty4321 enroll/15/03/2015 maj/CS maj/DA min/BA min/MA`
+.. `register user/max33 pass/#Qwerty4321 n/Max Verstappen maj/CS maj/DA min/BA min/MA`
+.. `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 min/BA min/MA`
+
+
+=== Logging in into a Student Account
+Below are some test cases you can perform to test the `LoginCommand` for User Account Management feature.
+
+.   Prerequisite: A student account should already be registered(i.e. max33) and the respective userdata file be available. +
+    Test case: `login user/max33 pass/#Qwerty4321 userdata/max33.xml` +
+    Expected: Student will be logged in. The `Student` details will be loaded from the file provided and will be displayed in the application(in their respective tabs). Additionally, a successful message will be displayed in the Output Display.
+
+.   Test case: `login user/max33 pass/wrongPass userdata/max33.xml` +
+    Expected: User will not be logged in. Error details should be shown in the Output Display. Rest of the UI remains unchanged.
+
+.   Other incorrect `login` commands to try:
+.. `login user/max33 pass/#Qwerty4321 userdata/fileNotFound.xml`
+.. `login user/inv@lidUsername pass/#Qwerty4321 userdata/max33.xml`
+.. `login user/max33 pass/wrongPass userdata/max33.xml`
+.. `login user/max33 userdata/max33.xml`
+.. `login user/max33 pass/#Qwerty4321`
+.. `login pass/#Qwerty4321 userdata/max33.xml`
+.. `login`
+
+
+=== Editing Student Details
+Below are some test cases you can perform to test the `EditStudentCommand` for the User Account Management feature.
+
+.   Prerequisite: A student account should already be registered(i.e. max33) and the respective userdata file be available. Student should also be logged in. +
+    Test case: `edit n/Max Emilian Verstappen maj/CS min/` +
+    Expected: `Student` details will be updated accordingly. The new details will be displayed in `User Tab`. Additionally, a successful message will be displayed in the Output Display. +
+
+.   Test case: `edit` +
+.   Expected: `Student` details will not be updated. Error details would be shown in the Output Display. Rest of the UI remains unchanged.
+
+
+=== Logging out from account
+Below are the test case you can perform to test the `LogoutCommand` for the User Account Management feature.
+
+.   Prerequisite: You should already be logged in either with a `Student` or an `Admin` account.
+.   Test case: `logout` +
+.   Expected: `User` will be logged out. User details as displayed in the UI will be removed and all UI elements should be reset to its original state. Additionally, a successful message would be shown in the Output Display. +
+
+.   Prerequisite: No user should be logged in. +
+    Test case: `logout` +
+    Expected: Logout attempt will fail. Error details would be shown in the Output Display. Rest of the UI remains unchanged.
 
 === Generating a schedule
 
@@ -1993,20 +2057,6 @@ _{ more test cases ... }_
  `generate` without logging in
  ... No modules in staged list +
  `generate` without adding modules to staged list
-
-=== Deleting a person
-
-. Deleting a person while all persons are listed
-
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-.. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-.. Test case: `delete 0` +
-   Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
-   Expected: Similar to previous.
-
-_{ more test cases ... }_
 
 === Saving a user
 
@@ -2071,14 +2121,6 @@ Expected: You should see an error message at the bottom.
 
 .. Other invalid modification to try: removing the entire <code> tag from a module in <modulesStaged> or <modulesTaken>, remove characters from mandatory tags (code, department, title, description in <modulesTaken or <modulesStaged>),  . +
 Expected: Similar to previous.
-
-=== Saving data
-
-. Dealing with missing/corrupted data files
-
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
-
-_{ more test cases ... }_
 
 === Adding a module
 
