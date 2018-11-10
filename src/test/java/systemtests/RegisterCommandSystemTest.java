@@ -54,6 +54,9 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
                 + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
         assertCommandSuccess(command, toAdd);
 
+        /* ----------------------------------- Perform invalid register
+        operations --------------------------------------- */
+
         /* Case: add another student account in a non-empty modsUni credential
          * store, where user is already logged in.
          * -> rejected
@@ -72,7 +75,7 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
                 + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
         assertCommandFailure(command, RegisterCommand.MESSAGE_ALREADY_LOGGED_IN);
 
-        // logouts from amy account
+        // logouts from currentUser
         executeCommand(LogoutCommand.COMMAND_WORD);
 
         /* Case: add another student account in a non-empty modsUni credential
@@ -80,6 +83,14 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
          * -> new student registered
          */
         assertCommandSuccess(command, toAdd);
+
+        // logouts from currentUser
+        executeCommand(LogoutCommand.COMMAND_WORD);
+
+        /* ----------------------------------- Perform invalid register
+        operations --------------------------------------- */
+
+
 
     }
 
