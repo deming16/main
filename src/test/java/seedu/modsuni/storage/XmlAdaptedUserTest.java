@@ -77,77 +77,79 @@ public class XmlAdaptedUserTest {
     }
 
     @Test
-    public void toModelType_invalid_user_username_null() throws Exception {
+    public void toModelTypeInvalidUser_username_null() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_USER_USERNAME_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_user_name_null() throws Exception {
+    public void toModelTypeInvalidUser_name_null() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_USER_NAME_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_user_name_invalid() throws Exception {
+    public void toModelTypeInvalidUser_name_invalid() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_USER_NAME_INVALID);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_user_role_null() throws Exception {
+    public void toModelTypeInvalidUser_role_null() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_USER_ROLE_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_admin_salary_null() throws Exception {
+    public void toModelTypeInvalidAdmin_salary_null() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_ADMIN_SALARY_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_admin_employmentdate_null() throws Exception {
+    public void toModelTypeInvalidAdmin_employmentdate_null() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_ADMIN_EMPLOYMENTDATE_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_admin_employmentdate_invalid() throws Exception {
+    public void toModelTypeInvalidAdmin_employmentdate_invalid() throws Exception {
         thrown.expect(IllegalValueException.class);
-        XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_ADMIN_EMPLOYMENTDATE_INVALID);
+        XmlSerializableUser dataFromFile =
+                XmlFileStorage.loadUserDataFromSaveFile(INVALID_ADMIN_EMPLOYMENTDATE_INVALID);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_student_enrollmentdate_null() throws Exception {
+    public void toModelTypeInvalidStudent_enrollmentdate_null() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_STUDENT_ENROLLMENTDATE_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_student_enrollmentdate_invalid() throws Exception {
+    public void toModelTypeInvalidStudent_enrollmentdate_invalid() throws Exception {
         thrown.expect(IllegalValueException.class);
-        XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_STUDENT_ENROLLMENTDATE_INVALID);
+        XmlSerializableUser dataFromFile =
+                XmlFileStorage.loadUserDataFromSaveFile(INVALID_STUDENT_ENROLLMENTDATE_INVALID);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_student_major_null() throws Exception {
+    public void toModelTypeInvalidStudent_major_null() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_STUDENT_MAJOR_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
-    public void toModelType_invalid_student_minor_null() throws Exception {
+    public void toModelTypeInvalidStudent_minor_null() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_STUDENT_MINOR_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);

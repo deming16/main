@@ -2,19 +2,17 @@ package seedu.modsuni.logic.commands;
 
 import static junit.framework.TestCase.assertTrue;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.modsuni.logic.commands.SwitchTabCommand.MESSAGE_SUCCESS;
 import static seedu.modsuni.testutil.TypicalCredentials.getTypicalCredentialStore;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
 import seedu.modsuni.logic.CommandHistory;
-import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
@@ -22,6 +20,9 @@ import seedu.modsuni.model.ModuleList;
 import seedu.modsuni.model.UserPrefs;
 
 public class SwitchTabCommandTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     private Model model;
     private CommandHistory commandHistory = new CommandHistory();
@@ -34,9 +35,6 @@ public class SwitchTabCommandTest {
                 new UserPrefs(),
                 getTypicalCredentialStore());
     }
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void constructorNullCredentialThrowsNullPointerException() {
