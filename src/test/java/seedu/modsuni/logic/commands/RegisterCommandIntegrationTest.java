@@ -4,6 +4,7 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalCredentials.getTypicalCredentialStore;
+import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,7 +43,7 @@ public class RegisterCommandIntegrationTest {
     }
 
     @Test
-    public void executeNewCredentialSuccess() {
+    public void execute_newCredential_success() {
         model = new ModelManager(
             new ModuleList(),
             new AddressBook(),
@@ -73,7 +74,7 @@ public class RegisterCommandIntegrationTest {
     }
 
     @Test
-    public void executeDuplicateCredentialThrowsCommandException() {
+    public void execute_duplicateCredential_throwsCommandException() {
         model = new ModelManager(
             new ModuleList(),
             new AddressBook(),
@@ -90,4 +91,21 @@ public class RegisterCommandIntegrationTest {
     }
 
 
+    @Test
+    public void execute_alreadyLoggedIn_throwsCommandException() {
+        model = new ModelManager(
+            new ModuleList(),
+            new AddressBook(),
+            new UserPrefs(),
+            getTypicalCredentialStore());
+        model.setCurrentUser(STUDENT_MAX);
+
+        Path dummyPath = Paths.get("dummy.xml");
+
+        assertCommandFailure(new RegisterCommand(CREDENTIAL_STUDENT_MAX,
+                new StudentBuilder().build(), dummyPath),
+            model,
+            commandHistory,
+            RegisterCommand.MESSAGE_ALREADY_LOGGED_IN);
+    }
 }
