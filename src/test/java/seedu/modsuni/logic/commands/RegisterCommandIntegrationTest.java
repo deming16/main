@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import seedu.modsuni.logic.CommandHistory;
-import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.ModuleList;
@@ -37,7 +36,6 @@ public class RegisterCommandIntegrationTest {
     public void setUp() {
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
     }
@@ -46,7 +44,6 @@ public class RegisterCommandIntegrationTest {
     public void execute_newCredential_success() {
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
@@ -57,7 +54,6 @@ public class RegisterCommandIntegrationTest {
 
         Model expectedModel = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
         expectedModel.addCredential(validCredential);
@@ -77,7 +73,6 @@ public class RegisterCommandIntegrationTest {
     public void execute_duplicateCredential_throwsCommandException() {
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
@@ -95,7 +90,6 @@ public class RegisterCommandIntegrationTest {
     public void execute_alreadyLoggedIn_throwsCommandException() {
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
         model.setCurrentUser(STUDENT_MAX);

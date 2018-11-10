@@ -43,7 +43,6 @@ import seedu.modsuni.logic.commands.LogoutCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
 import seedu.modsuni.logic.commands.SaveCommand;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
-import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.ModuleList;
@@ -68,6 +67,8 @@ public class UserTabTest extends GuiUnitTest {
         TEST_DATA_FOLDER.resolve("studentData.xml");
     private static final Path TYPICAL_ADMIN_DATA_FILE =
         TEST_DATA_FOLDER.resolve("adminData.xml");
+    private static final Path TEMP_USER_DATA_FILE =
+        TEST_DATA_FOLDER.resolve("dummy.xml");
 
     private static final String INITIAL_LAST_SAVE_TEXT = "2018-01-01 00:00";
 
@@ -88,11 +89,9 @@ public class UserTabTest extends GuiUnitTest {
             null,
             null,
             null,
-            null,
             new XmlUserStorage(Paths.get("dummy.xml")));
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
@@ -106,22 +105,22 @@ public class UserTabTest extends GuiUnitTest {
         toRemove.delete();
         toRemove = TYPICAL_ADMIN_DATA_FILE.toFile();
         toRemove.delete();
+        toRemove = TEMP_USER_DATA_FILE.toFile();
+        toRemove.delete();
     }
 
     @Test
     public void userTab_successfulRegisterCommand() throws CommandException, InterruptedException {
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             new CredentialStore());
 
         Credential validCredential = CREDENTIAL_STUDENT_MAX;
         User dummyUser = STUDENT_MAX;
-        Path dummyPath = Paths.get("dummy.xml");
 
         RegisterCommand command = new RegisterCommand(validCredential,
-            dummyUser, dummyPath);
+            dummyUser, TEMP_USER_DATA_FILE);
 
         command.execute(model, commandHistory);
 
@@ -150,7 +149,6 @@ public class UserTabTest extends GuiUnitTest {
     public void userTab_successfulLoginCommand() throws CommandException, InterruptedException {
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
@@ -192,7 +190,6 @@ public class UserTabTest extends GuiUnitTest {
         // Check only lastSavedText
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
@@ -215,7 +212,6 @@ public class UserTabTest extends GuiUnitTest {
         // Student
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 

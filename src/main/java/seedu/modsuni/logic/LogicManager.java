@@ -12,7 +12,6 @@ import seedu.modsuni.logic.parser.ModsUniParser;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.Module;
-import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.user.User;
 
 /**
@@ -40,11 +39,6 @@ public class LogicManager extends ComponentManager implements Logic {
         } finally {
             history.add(commandText);
         }
-    }
-
-    @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return model.getFilteredPersonList();
     }
 
     @Override

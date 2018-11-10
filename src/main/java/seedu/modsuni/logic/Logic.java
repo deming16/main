@@ -5,7 +5,6 @@ import seedu.modsuni.logic.commands.CommandResult;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.module.Module;
-import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.user.User;
 
 /**
@@ -20,9 +19,6 @@ public interface Logic {
      * @throws ParseException If an error occurs during parsing.
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
-
-    /** Returns an unmodifiable view of the filtered list of persons */
-    ObservableList<Person> getFilteredPersonList();
 
     /** Returns an unmodifiable view of the filtered database list of modules */
     ObservableList<Module> getFilteredDatabaseModuleList();

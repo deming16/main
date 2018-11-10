@@ -20,17 +20,14 @@ import seedu.modsuni.commons.util.ConfigUtil;
 import seedu.modsuni.commons.util.StringUtil;
 import seedu.modsuni.logic.Logic;
 import seedu.modsuni.logic.LogicManager;
-import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.ModuleList;
-import seedu.modsuni.model.ReadOnlyAddressBook;
 import seedu.modsuni.model.ReadOnlyModuleList;
 import seedu.modsuni.model.UserPrefs;
 import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.util.SampleDataUtil;
-import seedu.modsuni.storage.AddressBookStorage;
 import seedu.modsuni.storage.CredentialStoreStorage;
 import seedu.modsuni.storage.JsonUserPrefsStorage;
 import seedu.modsuni.storage.ModuleListStorage;
@@ -38,7 +35,6 @@ import seedu.modsuni.storage.Storage;
 import seedu.modsuni.storage.StorageManager;
 import seedu.modsuni.storage.UserPrefsStorage;
 import seedu.modsuni.storage.UserStorage;
-import seedu.modsuni.storage.XmlAddressBookStorage;
 import seedu.modsuni.storage.XmlCredentialStoreStorage;
 import seedu.modsuni.storage.XmlModuleListStorage;
 import seedu.modsuni.storage.XmlUserStorage;
@@ -75,11 +71,13 @@ public class MainApp extends Application {
         userPrefs = initPrefs(userPrefsStorage);
         CredentialStoreStorage credentialStoreStorage =
             new XmlCredentialStoreStorage(userPrefs.getCredentialStoreFilePath());
-        AddressBookStorage addressBookStorage = new XmlAddressBookStorage(userPrefs.getAddressBookFilePath());
         ModuleListStorage moduleListStorage = new XmlModuleListStorage(userPrefs.getModuleFilePath());
         UserStorage userStorage = new XmlUserStorage(userPrefs.getUserStorageFilePath());
-        storage = new StorageManager(moduleListStorage, addressBookStorage,
-            userPrefsStorage, credentialStoreStorage, userStorage);
+        storage = new StorageManager(
+            moduleListStorage,
+            userPrefsStorage,
+            credentialStoreStorage,
+            userStorage);
 
         initLogging(config);
 
@@ -100,9 +98,7 @@ public class MainApp extends Application {
 
         Optional<ReadOnlyModuleList> moduleListOptional;
         Optional<ReadOnlyCredentialStore> credentialStoreOptional;
-        Optional<ReadOnlyAddressBook> addressBookOptional;
 
-        ReadOnlyAddressBook initialData;
         ReadOnlyModuleList initialModuleListData;
         ReadOnlyCredentialStore initialCredentialStore;
 
@@ -121,24 +117,18 @@ public class MainApp extends Application {
             }
             initialModuleListData = moduleListOptional.orElseGet(SampleDataUtil::getSampleModuleList);
             // initAddressBook
-            addressBookOptional = storage.readAddressBook();
-            if (!addressBookOptional.isPresent()) {
-                logger.info("Data file not found. Will be starting with a sample AddressBook");
-            }
-            initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
+
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
-            initialData = new AddressBook();
             initialCredentialStore = new CredentialStore();
             initialModuleListData = new ModuleList();
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
-            initialData = new AddressBook();
             initialCredentialStore = new CredentialStore();
             initialModuleListData = new ModuleList();
         }
 
-        return new ModelManager(initialModuleListData, initialData, userPrefs,
+        return new ModelManager(initialModuleListData, userPrefs,
             initialCredentialStore);
     }
 

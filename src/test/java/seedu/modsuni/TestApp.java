@@ -1,6 +1,5 @@
 package seedu.modsuni;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
@@ -8,16 +7,14 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seedu.modsuni.commons.core.Config;
 import seedu.modsuni.commons.core.GuiSettings;
-import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.commons.util.FileUtil;
 import seedu.modsuni.commons.util.XmlUtil;
-import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
-import seedu.modsuni.model.ReadOnlyAddressBook;
 import seedu.modsuni.model.UserPrefs;
+import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.storage.UserPrefsStorage;
-import seedu.modsuni.storage.XmlSerializableAddressBook;
+import seedu.modsuni.storage.XmlSerializableCredentialStore;
 import seedu.modsuni.testutil.TestUtil;
 import systemtests.ModelHelper;
 
@@ -27,28 +24,30 @@ import systemtests.ModelHelper;
  */
 public class TestApp extends MainApp {
 
-    public static final Path SAVE_LOCATION_FOR_TESTING = TestUtil.getFilePathInSandboxFolder("sampleData.xml");
+    public static final Path SAVE_LOCATION_FOR_CREDENTIAL_TESTING =
+        TestUtil.getFilePathInSandboxFolder("sampleData.xml");
     public static final Path SAVE_LOCATION_FOR_MODULELIST_TESTING = TestUtil.getFilePathInSandboxFolder
             ("sampleModuleListData.xml");
     public static final String APP_TITLE = "Test App";
 
     protected static final Path DEFAULT_PREF_FILE_LOCATION_FOR_TESTING =
             TestUtil.getFilePathInSandboxFolder("pref_testing.json");
-    protected Supplier<ReadOnlyAddressBook> initialDataSupplier = () -> null;
-    protected Path saveFileLocation = SAVE_LOCATION_FOR_TESTING;
+    protected Supplier<CredentialStore> initialDataSupplier = () -> null;
+    protected Path saveFileLocation = SAVE_LOCATION_FOR_CREDENTIAL_TESTING;
     protected Path saveModuleListFileLocation = SAVE_LOCATION_FOR_MODULELIST_TESTING;
 
     public TestApp() {
     }
 
-    public TestApp(Supplier<ReadOnlyAddressBook> initialDataSupplier, Path saveFileLocation) {
+    public TestApp(Supplier<CredentialStore> initialDataSupplier,
+                   Path saveFileLocation) {
         super();
         this.initialDataSupplier = initialDataSupplier;
         this.saveFileLocation = saveFileLocation;
 
         // If some initial local data has been provided, write those to the file
         if (initialDataSupplier.get() != null) {
-            createDataFileWithData(new XmlSerializableAddressBook(this.initialDataSupplier.get()),
+            createDataFileWithData(new XmlSerializableCredentialStore(this.initialDataSupplier.get()),
                     this.saveFileLocation);
         }
     }
@@ -67,29 +66,9 @@ public class TestApp extends MainApp {
         double x = Screen.getPrimary().getVisualBounds().getMinX();
         double y = Screen.getPrimary().getVisualBounds().getMinY();
         userPrefs.updateLastUsedGuiSetting(new GuiSettings(600.0, 600.0, (int) x, (int) y));
-        userPrefs.setAddressBookFilePath(saveFileLocation);
+        userPrefs.setCredentialStoreFilePath(saveFileLocation);
         userPrefs.setModuleFilePath(saveModuleListFileLocation);
         return userPrefs;
-    }
-
-    /**
-     * Returns a defensive copy of the modsuni book data stored inside the storage file.
-     */
-    public AddressBook readStorageAddressBook() {
-        try {
-            return new AddressBook(storage.readAddressBook().get());
-        } catch (DataConversionException dce) {
-            throw new AssertionError("Data is not in the AddressBook format.", dce);
-        } catch (IOException ioe) {
-            throw new AssertionError("Storage file cannot be found.", ioe);
-        }
-    }
-
-    /**
-     * Returns the file path of the storage file.
-     */
-    public Path getStorageSaveLocation() {
-        return storage.getAddressBookFilePath();
     }
 
     /**
@@ -98,7 +77,6 @@ public class TestApp extends MainApp {
     public Model getModel() {
         Model copy = new ModelManager(
             model.getModuleList(),
-            model.getAddressBook(),
             new UserPrefs(),
             model.getCredentialStore());
         ModelHelper.setFilteredList(copy, model.getFilteredDatabaseModuleList());

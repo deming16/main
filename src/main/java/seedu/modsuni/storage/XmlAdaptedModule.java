@@ -119,7 +119,7 @@ public class XmlAdaptedModule {
         if (other == this) {
             return true;
         }
-        if (!(other instanceof XmlAdaptedPerson)) {
+        if (!(other instanceof XmlAdaptedModule)) {
             return false;
         }
         XmlAdaptedModule otherModule = (XmlAdaptedModule) other;

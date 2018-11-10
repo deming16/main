@@ -42,7 +42,7 @@ public class XmlAdaptedLockedModules {
             return true;
         }
 
-        if (!(other instanceof XmlAdaptedTag)) {
+        if (!(other instanceof XmlAdaptedLockedModules)) {
             return false;
         }
 

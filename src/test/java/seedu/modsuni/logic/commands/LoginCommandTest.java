@@ -7,7 +7,6 @@ import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
 import static seedu.modsuni.testutil.TypicalCredentials.getTypicalCredentialStore;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_SEB;
 
 import java.nio.file.Paths;
@@ -30,7 +29,6 @@ public class LoginCommandTest {
 
     private Model model = new ModelManager(
         getTypicalModuleList(),
-        getTypicalAddressBook(),
         new UserPrefs(),
         getTypicalCredentialStore());
     private CommandHistory commandHistory = new CommandHistory();
@@ -56,7 +54,6 @@ public class LoginCommandTest {
 
         ModelManager newModel = new ModelManager(
             model.getModuleList(),
-            model.getAddressBook(),
             new UserPrefs(),
             model.getCredentialStore());
         newModel.setCurrentUser(STUDENT_SEB);

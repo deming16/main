@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.modsuni.testutil.TypicalCredentials.getTypicalCredentialStore;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_SEB;
 
@@ -33,7 +32,6 @@ public class EditStudentCommandTest {
 
     private Model model = new ModelManager(
         getTypicalModuleList(),
-        getTypicalAddressBook(),
         new UserPrefs(),
         getTypicalCredentialStore());
     private CommandHistory commandHistory = new CommandHistory();
@@ -69,7 +67,6 @@ public class EditStudentCommandTest {
 
         ModelManager expectedModel = new ModelManager(
             model.getModuleList(),
-            model.getAddressBook(),
             new UserPrefs(),
             model.getCredentialStore());
         expectedModel.setCurrentUser(editedStudent);
@@ -99,7 +96,6 @@ public class EditStudentCommandTest {
 
         ModelManager expectedModel = new ModelManager(
             model.getModuleList(),
-            model.getAddressBook(),
             new UserPrefs(),
             model.getCredentialStore());
         expectedModel.setCurrentUser(editedStudent);
@@ -125,7 +121,6 @@ public class EditStudentCommandTest {
 
         ModelManager expectedModel = new ModelManager(
             model.getModuleList(),
-            model.getAddressBook(),
             new UserPrefs(),
             model.getCredentialStore());
         expectedModel.setCurrentUser(editedStudent);
@@ -156,7 +151,6 @@ public class EditStudentCommandTest {
 
         ModelManager newModel = new ModelManager(
             model.getModuleList(),
-            model.getAddressBook(),
             new UserPrefs(),
             model.getCredentialStore());
 

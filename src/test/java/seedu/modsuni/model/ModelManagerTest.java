@@ -4,14 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import static seedu.modsuni.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.modsuni.testutil.TypicalAdmins.BRAD;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
 import static seedu.modsuni.testutil.TypicalModules.ACC1002;
 import static seedu.modsuni.testutil.TypicalModules.CS1010;
-import static seedu.modsuni.testutil.TypicalPersons.ALICE;
-import static seedu.modsuni.testutil.TypicalPersons.BENSON;
 
 import java.nio.file.Paths;
 
@@ -24,7 +21,6 @@ import seedu.modsuni.model.credential.CredentialStore;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.user.exceptions.NotStudentUserException;
 import seedu.modsuni.model.user.student.Student;
-import seedu.modsuni.testutil.AddressBookBuilder;
 import seedu.modsuni.testutil.CredentialStoreBuilder;
 import seedu.modsuni.testutil.ModuleListBuilder;
 import seedu.modsuni.testutil.StudentBuilder;
@@ -38,12 +34,6 @@ public class ModelManagerTest {
     @Before
     public void setUp() {
         modelManager = new ModelManager();
-    }
-
-    @Test
-    public void hasPerson_nullPerson_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        modelManager.hasPerson(null);
     }
 
     @Test
@@ -237,23 +227,6 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hasPerson_personNotInAddressBook_returnsFalse() {
-        assertFalse(modelManager.hasPerson(ALICE));
-    }
-
-    @Test
-    public void hasPerson_personInAddressBook_returnsTrue() {
-        modelManager.addPerson(ALICE);
-        assertTrue(modelManager.hasPerson(ALICE));
-    }
-
-    @Test
-    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        thrown.expect(UnsupportedOperationException.class);
-        modelManager.getFilteredPersonList().remove(0);
-    }
-
-    @Test
     public void addModuleToDatabase_nullModule_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         modelManager.addModuleToDatabase(null);
@@ -320,8 +293,6 @@ public class ModelManagerTest {
     @Test
     public void equals() {
         ModuleList moduleList = new ModuleListBuilder().withModule(CS1010).build();
-        AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
-        AddressBook differentAddressBook = new AddressBook();
         UserPrefs userPrefs = new UserPrefs();
         CredentialStore credentialStore = new CredentialStoreBuilder()
             .withCredentials(CREDENTIAL_STUDENT_MAX)
@@ -329,10 +300,10 @@ public class ModelManagerTest {
         CredentialStore differentCredentialStore = new CredentialStore();
 
         // same values -> returns true
-        modelManager = new ModelManager(moduleList, addressBook, userPrefs,
+        modelManager = new ModelManager(moduleList, userPrefs,
             credentialStore);
         ModelManager modelManagerCopy = new ModelManager(moduleList,
-            addressBook, userPrefs, credentialStore);
+            userPrefs, credentialStore);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -345,8 +316,9 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(5));
 
         // different addressBook -> returns false
-        assertFalse(modelManager.equals(new ModelManager(moduleList, differentAddressBook, userPrefs,
-                                                        differentCredentialStore)));
+        assertFalse(modelManager.equals(new ModelManager(moduleList,
+            userPrefs,
+            differentCredentialStore)));
 
         // different filteredList -> returns false
         // String[] keywords = ALICE.getName().fullName.split("\\s+");
@@ -357,12 +329,13 @@ public class ModelManagerTest {
         //                                                  credentialStore, configStore)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         // different userPrefs -> returns true
         UserPrefs differentUserPrefs = new UserPrefs();
-        differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
-        assertTrue(modelManager.equals(new ModelManager(moduleList,
-            addressBook, differentUserPrefs, credentialStore)));
+        differentUserPrefs.setCredentialStoreFilePath(Paths.get("differentFilePath"));
+        assertTrue(modelManager.equals(new ModelManager(
+            moduleList,
+            differentUserPrefs,
+            credentialStore)));
     }
 }

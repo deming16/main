@@ -2,7 +2,6 @@ package seedu.modsuni.logic.commands;
 
 import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.nio.file.Paths;
 
@@ -31,7 +30,6 @@ public class AddAdminCommandIntegrationTest {
     public void setUp() {
         model = new ModelManager(
             getTypicalModuleList(),
-            getTypicalAddressBook(),
             new UserPrefs(),
             new CredentialStore());
     }
@@ -45,7 +43,6 @@ public class AddAdminCommandIntegrationTest {
 
         Model expectedModel = new ModelManager(
             model.getModuleList(),
-            model.getAddressBook(),
             new UserPrefs(),
             new CredentialStore());
         expectedModel.addCredential(validCredential);
