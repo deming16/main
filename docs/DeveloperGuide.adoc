@@ -1824,6 +1824,28 @@ _{ more test cases ... }_
 .. Other incorrect save commands to try: `save sp`, `save sp/.xml.xml`, `save xx/userdata.xml` +
    Expected: Similar to previous.
 
+=== Modifying of user data file
+
+. Modify of admin data file
+
+.. Prerequisites: You must have an admin data file (the master admin is provided).
+.. Test case: Open up the admin file and edit the contents in the <name> tag. Now login as the admin using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated name of the admin account. The timestamp in the user tab should be the time you logged in.
+.. Test case: Open up the admin file and edit the contents in the <employmentDate> tag (follow the original format of dd/mm/yyyy). Now login as the admin using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated employment data of the admin account. The timestamp in the user tab should be the time you logged in.
+.. Test case: Open up the admin file and change the order of tags (e.g. swap the order of name and role). Ensure that there are no extra spaces or empty lines.
+Now login as the admin using the updated user data file. +
+Expected: You should be able to login as per normal and see a success login message at the bottom. The timestamp in the user tab should be the time you logged in.
+.. Test case: Open up the admin file and duplicate the tags (e.g. add <name>master2</name> below the existing <name>master</name> tag). Ensure that there are no extra spaces or empty lines.
+Now login as the admin using the updated user data file. +
+   Expected: You should see a success login message at the bottom. In addition, you should see the admin name to be "master2". The timestamp in the user tab should be the time you logged in.
+   You can also duplicate restricted tags(username, role, employmentDate), however the furthest (from the first line) tag will be the one that is read. So you can have invalid values in prior duplicated tags.
+
+.. Test case: Open up the admin file and edit the contents in the <username> tag . Now login as the admin using the updated user data file. +
+    Expected: You should see an error message at the bottom.
+.. Other invalid modification to try: removing the entire tag, modifying contents from role and salary  +
+   Expected: Similar to previous.
+
 === Saving data
 
 . Dealing with missing/corrupted data files

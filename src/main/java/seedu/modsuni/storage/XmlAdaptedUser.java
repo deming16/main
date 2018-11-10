@@ -211,6 +211,11 @@ public class XmlAdaptedUser {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "role"));
         }
 
+        // Role
+        if (!(role.equals("ADMIN") || role.equals("STUDENT"))) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "role"));
+        }
+
     }
 
     /**
