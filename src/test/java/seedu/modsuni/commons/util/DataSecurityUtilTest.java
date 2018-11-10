@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.DatatypeConverter;
@@ -94,6 +95,14 @@ public class DataSecurityUtilTest {
             NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         thrown.expect(InvalidPasswordException.class);
         DataSecurityUtil.decryptData(TEST_DATA_DECRYPTION, WRONG_PASSWORD);
+    }
+
+    @Test
+    public void testDecryptingBytesCorrupted() throws CorruptedFileException, InvalidPasswordException,
+            NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        thrown.expect(CorruptedFileException.class);
+        DataSecurityUtil.decryptData(Arrays.copyOfRange(TEST_DATA_DECRYPTION, 0,
+                TEST_DATA_DECRYPTION.length - 1), PASSWORD);
     }
 
     // Testing utility

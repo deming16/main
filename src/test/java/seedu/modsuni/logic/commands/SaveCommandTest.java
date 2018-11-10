@@ -9,16 +9,32 @@ import java.nio.file.Paths;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import seedu.modsuni.logic.CommandHistory;
+import seedu.modsuni.logic.commands.exceptions.CommandException;
+import seedu.modsuni.model.Model;
+import seedu.modsuni.model.ModelManager;
 
 public class SaveCommandTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    private CommandHistory commandHistory = new CommandHistory();
+
+    private Model model = new ModelManager();
+
     @Test
     public void constructorNullCredentialThrowsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new SaveCommand(null);
+    }
+
+    @Test
+    public void notLoggedIn_throwsCommandException() throws Exception {
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(SaveCommand.MESSAGE_ERROR);
+        SaveCommand sc = new SaveCommand(Paths.get("path1.xml"));
+        sc.execute(model, commandHistory);
     }
 
     @Test
