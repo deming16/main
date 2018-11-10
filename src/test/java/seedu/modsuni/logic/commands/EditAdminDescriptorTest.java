@@ -42,7 +42,7 @@ public class EditAdminDescriptorTest {
         // different Employment Date -> returns false
         EditAdminDescriptor differentEnrollmentDateDescriptor =
                 new EditAdminDescriptorBuilder(DESC_ALICE)
-                        .withEmploymentDate("11/11/1111")
+                        .withEmploymentDate("11/11/2018")
                         .build();
         assertFalse(DESC_ALICE.equals(differentEnrollmentDateDescriptor));
 

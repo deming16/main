@@ -42,7 +42,7 @@ public class EditStudentDescriptorTest {
         // different Enrollment Date -> returns false
         EditStudentDescriptor differentEnrollmentDateDescriptor =
             new EditStudentDescriptorBuilder(DESC_MAX)
-                .withEnrollmentDate("11/11/1111")
+                .withEnrollmentDate("11/11/2018")
                 .build();
         assertFalse(DESC_MAX.equals(differentEnrollmentDateDescriptor));
 
