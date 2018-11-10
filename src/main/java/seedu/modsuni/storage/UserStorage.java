@@ -24,14 +24,6 @@ public interface UserStorage {
     Path getUserSavedFilePath();
 
     /**
-     * Returns User data as a {@link User}.
-     *   Returns {@code Optional.empty()} if storage file is not found.
-     * @throws DataConversionException if the data in storage is not in the expected format.
-     * @throws IOException if there was any problem when reading from the storage.
-     */
-    Optional<User> readUser() throws DataConversionException, IOException;
-
-    /**
      * @see #getUserSavedFilePath()
      */
     Optional<User> readUser(Path filePath, String password) throws DataConversionException,

@@ -204,11 +204,6 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public Optional<User> readUser() throws DataConversionException, IOException {
-        return userStorage.readUser();
-    }
-
-    @Override
     public Optional<User> readUser(Path filePath, String password)
             throws DataConversionException, IOException, NoSuchAlgorithmException,
             InvalidKeyException, InvalidPasswordException, CorruptedFileException,

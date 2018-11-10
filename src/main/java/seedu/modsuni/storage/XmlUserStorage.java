@@ -38,11 +38,6 @@ public class XmlUserStorage implements UserStorage {
         return filePath;
     }
 
-    @Override
-    public Optional<User> readUser() throws DataConversionException, IOException {
-        return readUser();
-    }
-
     /**
      * Reads user data from the file and decrypts using the given password
      * @param filePath location of the data. Cannot be null
