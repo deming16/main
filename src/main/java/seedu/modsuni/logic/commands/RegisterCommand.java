@@ -2,7 +2,13 @@ package seedu.modsuni.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.modsuni.logic.parser.CliSyntax.*;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PASSWORD;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import java.nio.file.Path;
 

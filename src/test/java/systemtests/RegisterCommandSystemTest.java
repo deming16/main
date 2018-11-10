@@ -1,11 +1,25 @@
 package systemtests;
 
-import static seedu.modsuni.logic.commands.CommandTestUtil.*;
+import static seedu.modsuni.logic.commands.CommandTestUtil.ENROLLMENT_DESC;
+import static seedu.modsuni.logic.commands.CommandTestUtil.LOGIN_PASSWORD_DESC;
+import static seedu.modsuni.logic.commands.CommandTestUtil.LOGIN_USERDATA_DESC;
+import static seedu.modsuni.logic.commands.CommandTestUtil.MAJOR_DESC;
+import static seedu.modsuni.logic.commands.CommandTestUtil.MINOR_DESC;
+import static seedu.modsuni.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.modsuni.logic.commands.CommandTestUtil.NAME_DESC_BOB;
+import static seedu.modsuni.logic.commands.CommandTestUtil.REGISTER_AMY_DESC;
+import static seedu.modsuni.logic.commands.CommandTestUtil.REGISTER_BOB_DESC;
+import static seedu.modsuni.logic.commands.CommandTestUtil.USERNAME_AMY;
+import static seedu.modsuni.logic.commands.CommandTestUtil.USERNAME_BOB;
+import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_ENROLLMENT;
+import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MAJOR;
+import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MINOR;
+import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 
 import java.util.Arrays;
 
 import org.junit.Test;
-
 
 import seedu.modsuni.logic.commands.LogoutCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
@@ -34,8 +48,10 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
             .build();
 
         String command =
-            "   " + RegisterCommand.COMMAND_WORD + "  " + REGISTER_AMY_DESC + "  " + LOGIN_PASSWORD_DESC + " "
-            + NAME_DESC_AMY + " " + ENROLLMENT_DESC + " " + MAJOR_DESC + " " + MINOR_DESC + " " +LOGIN_USERDATA_DESC;
+            "   " + RegisterCommand.COMMAND_WORD + "  " + REGISTER_AMY_DESC + "  "
+                + LOGIN_PASSWORD_DESC + " "
+                + NAME_DESC_AMY + " " + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
+                + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add another student account in a non-empty modsUni credential
@@ -52,8 +68,8 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
 
         command =
             "   " + RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + "  " + LOGIN_PASSWORD_DESC + " "
-                + NAME_DESC_BOB + " " + ENROLLMENT_DESC + " " + MAJOR_DESC +
-                " " + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+                + NAME_DESC_BOB + " " + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
+                + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
         assertCommandFailure(command, RegisterCommand.MESSAGE_ALREADY_LOGGED_IN);
 
         // logouts from amy account
@@ -81,6 +97,7 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
      * 5. UI Elements other than the {@code UserTab} remains unchanged.<br>
      * Verifications 1, 3 and 4 are performed by
      * {@code ModsUniSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
+     *
      * @see ModsUniSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
     private void assertCommandSuccess(Student toAdd) {
@@ -90,6 +107,7 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
     /**
      * Performs the same verification as {@code assertCommandSuccess(Person)}. Executes {@code command}
      * instead.
+     *
      * @see RegisterCommandSystemTest#assertCommandSuccess(Student)
      */
     private void assertCommandSuccess(String command, Student toAdd) {
@@ -108,6 +126,7 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
      * 2. {@code Storage} and {@code currentUser} equal to the corresponding
      * components in
      * {@code expectedModel}.<br>
+     *
      * @see RegisterCommandSystemTest#assertCommandSuccess(String, Student)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
@@ -125,6 +144,7 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
      * Verifications 1, 3 and 4 are performed by
      * {@code ModsUniSystemTest#assertApplicationDisplaysExpected(String,
      * String, Model)}.<br>
+     *
      * @see ModsUniSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
     private void assertCommandFailure(String command, String expectedResultMessage) {
