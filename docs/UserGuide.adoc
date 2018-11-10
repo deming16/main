@@ -407,7 +407,6 @@ Examples:
 The commands in this section can only be executed when logged into an administrator account. Otherwise, the message
 `Only an admin user can execute this command` will be displayed in the output window.
 
-// tag::admincommands[]
 === Add a new administrator account: `addAdmin`
 
 Create and add a new adminstrator account. +
@@ -460,6 +459,7 @@ Removes a administrator account with username "Username" if it exists.
 Display the list of usernames on the main display. +
 Format: `showUser`
 
+// tag::addmoddbcommand[]
 === Add a new module to database: `addModuleDB`
 
 Creates a new module and add it to the module database. +
@@ -490,7 +490,9 @@ Example:
 description/This course is newly offered by the school of computing. Visit the module website for more details
 prereq/|(|CS1020,CS1020E,CS2020,)(&CS2030,(|CS2040,CS2040C,))` +
 Create and add a new module with module code "CS2103T" and the stated details to the module database.
+// end::addmoddbcommand[]
 
+// tag::editmodcommand[]
 === Edit details of a module in database: `editModule`
 
 Edit the details of a module specified by its index in database panel in database. +
@@ -526,7 +528,9 @@ Change the module code and credit of module with index "4" to "CS2103" and "4" r
 After editing, the database panel will display the updated list as shown below.
 +
 image::EditModuleCommandExample.png[width="700"]
+// end::editmodcommand[]
 
+// tag::removemodcommand[]
 === Remove a existing module from database: `removeModuleDB`
 
 Removes a existing module from the module database. +
@@ -541,7 +545,7 @@ Removes a module with module code "CS2109" if it exists.
 After removing, the database panel will display the updated list as shown below.
 +
 image::RemoveModuleFromDatabaseCommandExample.png[width="700"]
-// end::admincommands[]
+// end::removemodcommand[]
 
 == FAQ
 

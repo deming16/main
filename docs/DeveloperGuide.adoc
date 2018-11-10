@@ -603,7 +603,7 @@ A `CommandResult` containing the log of execution result will be returned.
 ** Cons: May not be cost-efficient to refactor `moduleList` only to support this feature.
 // end::usermodulemanagement[]
 
-// tag::moduledatabaseadministration[]
+// tag::moduledatabaseadministration1[]
 === Module Database Administration
 
 Module database administration is a series of commands that administrators can use to make necessary changes to keep
@@ -619,6 +619,7 @@ of the module database in an activity diagram.
 
 image::ADforModuleDatabaseAdministration.png[width="800]
 _Figure 1. Activity diagram for module database administration._
+// end::moduledatabaseadministration1[]
 
 ==== Current Implementation
 
@@ -640,6 +641,7 @@ illustrates each command and their respective command class:
 * `removeModuleDB` -- `RemoveModuleFromDatabaseCommand`
 * `editModule` -- `EditModuleCommand`
 
+// tag::moduledatabaseadministration2[]
 **Adding module to database**
 
 `addModuleDB` mechanism is facilitated by `AddModuleToDatabaseCommand`. It allows the addition of modules to database.
@@ -677,6 +679,62 @@ and subsequently update the `moduleList.xml` file with the new list.
 `addModuleDB`. The `addModuleDB` command calls `Model#hasModuleInDatabase(...)`, causing a feedback to return,
 informing the admin that the module already exists, and the module is not added.
 
+The code snippet below shows how user input is parsed into a `AddModuleToDatabaseCommand` object.
+[source, java]
+----
+    public AddModuleToDatabaseCommand parse(String args) throws ParseException {
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_MODULE_CODE, PREFIX_MODULE_DEPARTMENT, PREFIX_MODULE_TITLE,
+                        PREFIX_MODULE_DESCRIPTION, PREFIX_MODULE_CREDIT, PREFIX_MODULE_AVAILABLE, PREFIX_MODULE_PREREQ);
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE_CODE, PREFIX_MODULE_DEPARTMENT, PREFIX_MODULE_TITLE,
+                PREFIX_MODULE_DESCRIPTION, PREFIX_MODULE_CREDIT, PREFIX_MODULE_AVAILABLE, PREFIX_MODULE_PREREQ)
+            || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AddModuleToDatabaseCommand.MESSAGE_USAGE));
+        }
+
+        String codeName = argMultimap.getValue(PREFIX_MODULE_CODE).get();
+        Code code = new Code(codeName);
+        String department = argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).get();
+        String title = argMultimap.getValue(PREFIX_MODULE_TITLE).get();
+        String description = argMultimap.getValue(PREFIX_MODULE_DESCRIPTION).get();
+        int credit = Integer.parseInt(argMultimap.getValue(PREFIX_MODULE_CREDIT).get());
+        boolean[] sems = getAvailableSems(argMultimap.getValue(PREFIX_MODULE_AVAILABLE).get());
+        Prereq prereq = ParserUtil.parsePrereq(argMultimap.getValue(PREFIX_MODULE_PREREQ).get());
+
+        Module module = new Module(code, department, title, description, credit,
+                sems[0], sems[1], sems[2], sems[3], new ArrayList<Code>(), prereq);
+
+        return new AddModuleToDatabaseCommand(module);
+    }
+----
+
+The created `Command` object then execute the command, shown in the code snippet below.
+[source, java]
+----
+    public CommandResult execute(Model model, CommandHistory history) throws CommandException {
+        requireNonNull(model);
+        if (model.getCurrentUser() == null) {
+            throw new CommandException(MESSAGE_NOT_LOGGED_IN);
+        }
+
+        if (!model.isAdmin()) {
+            throw new CommandException(MESSAGE_NOT_ADMIN);
+        }
+
+        if (model.hasModuleInDatabase(toAdd)) {
+            throw new CommandException(MESSAGE_DUPLICATE_MODULE);
+        }
+
+        model.addModuleToDatabase(toAdd);
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS));
+    }
+----
+// end::moduledatabaseadministration2[]
+
+// tag::moduledatabaseadministration3[]
 **Deleting module from database**
 
 `removeModuleDB` mechanism is facilitated by the `RemoveModuleFromDatabaseCommand` class. It allows `Admin` to remove
@@ -756,7 +814,7 @@ time they execute command that requires reading the module list.
 ** Pros: We can simply check if a `ModuleCode` key exists, which is fast as it is in constant time.
 ** Cons: Each module can only have one module code. Thus if a module have multiple module codes, we have to create
 another module just to store the other module codes. This can be heavy on memory usage.
-// end::moduledatabaseadministration[]
+// end::moduledatabaseadministration3[]
 
 // tag::saveuser[]
 === Save User Feature

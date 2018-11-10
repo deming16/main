@@ -2,6 +2,7 @@
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets
+:sectnums:
 
 == PROJECT: ModsUni
 
@@ -11,11 +12,26 @@
 
 modsUni is a desktop timetable management application created by students for students. It incorporates a simple GUI with majority of its user interactions occurring in its in-built CLI.
 
+== About this portfolio
+This project portfolio documents my contributions to the ModsUni project.
+It includes a summary of features that I implemented and other contributions to the project.
+
 == Summary of contributions
 
-* *Major enhancement*: **The ability to add/remove/edit modules** was added.
-** What it does: It allows administrators to make changes to any module in the database.
-** Justification: This feature allows administrators to keep the module database up to date so that students can continue to generate schedules that are valid.
+* *Major enhancement*: This enhancement added functionality to **manage modules in the database.**
+** What it does: The add module feature adds a non-existing module to the database. Conversely, the remove module feature
+removes a existing module from the database. In addition, the edit module feature allows modification of the information
+of existing modules.
+
+** Justification: When there is a change in module information, introduction of new modules or removal of modules, the
+database should match the changes. The administrator will then have to do modify the database to keep it up to date. The
+`addModuleDB`, `removeModuleDB` and `editModule` command allows the administrator to perform such tasks.
+
+** Highlights: This enhancement is an end-to-end feature and makes use of almost all components of the software. Though
+the implementation of these features is intuitive and makes use of existing code wherever possible, it was challenging
+as it required the creation of a PrereqGenerator class (to handle parsing) from scratch.
+
+** Relevant pull requests:
 
 * *Minor enhancement*: The show user command was added that show the list of usernames to facilitate user account management.
 
@@ -26,7 +42,17 @@ modsUni is a desktop timetable management application created by students for st
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=admincommands]
+include::../UserGuide.adoc[tag=addmoddbcommand]
+
+<<<
+
+include::../UserGuide.adoc[tag=editmodcommand]
+
+<<<
+
+include::../UserGuide.adoc[tag=removemodcommand]
+
+<<<
 
 == Contributions to the Developer Guide
 
@@ -34,5 +60,14 @@ include::../UserGuide.adoc[tag=admincommands]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=moduledatabaseadministration]
+include::../DeveloperGuide.adoc[tag=moduledatabaseadministration1]
+
+<<<
+
+include::../DeveloperGuide.adoc[tag=moduledatabaseadministration2]
+
+<<<
+
+include::../DeveloperGuide.adoc[tag=moduledatabaseadministration3]
+
 
