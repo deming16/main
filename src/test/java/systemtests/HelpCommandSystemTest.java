@@ -23,7 +23,6 @@ public class HelpCommandSystemTest extends ModsUniSystemTest {
     private final GuiRobot guiRobot = new GuiRobot();
 
     @Test
-    @Ignore
     public void openHelpWindow() {
         //use accelerator
         getCommandBox().click();
@@ -56,7 +55,6 @@ public class HelpCommandSystemTest extends ModsUniSystemTest {
     }
 
     @Test
-    @Ignore
     public void help_multipleCommands_onlyOneHelpWindowOpen() {
         getMainMenu().openHelpWindowUsingMenu();
 

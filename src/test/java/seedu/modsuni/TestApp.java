@@ -25,7 +25,7 @@ import systemtests.ModelHelper;
 public class TestApp extends MainApp {
 
     public static final Path SAVE_LOCATION_FOR_CREDENTIAL_TESTING =
-        TestUtil.getFilePathInSandboxFolder("sampleData.xml");
+        TestUtil.getFilePathInSandboxFolder("sampleCredentialStore.xml");
     public static final Path SAVE_LOCATION_FOR_MODULELIST_TESTING = TestUtil.getFilePathInSandboxFolder
             ("sampleModuleListData.xml");
     public static final String APP_TITLE = "Test App";
