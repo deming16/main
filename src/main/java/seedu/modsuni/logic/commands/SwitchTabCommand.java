@@ -32,12 +32,12 @@ public class SwitchTabCommand extends Command {
 
     public static final String MESSAGE_INVALID_OPTION = "Invalid option.\n" + MESSAGE_USAGE;
 
-    private final String switchToTab;
-
     private static final String USER_TAB = "user";
     private static final String STAGED_TAB = "staged";
     private static final String TAKEN_TAB = "taken";
     private static final String DATABASE_TAB = "database";
+
+    private final String switchToTab;
 
     public SwitchTabCommand(String switchToTab) {
         requireAllNonNull(switchToTab);

@@ -35,9 +35,9 @@ public class SaveCommand extends Command {
 
     public static final String MESSAGE_ERROR = "Unable to save. Please ensure that you are registered or logged in.";
 
-    private final Path savePath;
-
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
+
+    private final Path savePath;
 
     public SaveCommand(Path savePath) {
         requireAllNonNull(savePath);

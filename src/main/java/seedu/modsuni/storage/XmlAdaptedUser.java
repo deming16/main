@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.annotation.XmlElement;
@@ -40,6 +39,8 @@ public class XmlAdaptedUser {
     private static final String MISSING_FIELD_MESSAGE_FORMAT = "User's "
             + "%s field is missing!";
 
+    private static final Logger logger = LogsCenter.getLogger(MainApp.class);
+
     // Must have for all users
     @XmlElement(required = true)
     private String username;
@@ -65,8 +66,6 @@ public class XmlAdaptedUser {
     private List<XmlAdaptedModule> modulesTaken = new ArrayList<>();
     @XmlElement
     private List<XmlAdaptedModule> modulesStaged = new ArrayList<>();
-
-    private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     /**
      * Creates an empty XmlAdaptedUser.

@@ -11,31 +11,27 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.google.common.base.Charsets;
 
-import org.junit.rules.ExpectedException;
 import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 
 public class DataSecurityUtilTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     private static final String PASSWORD = "p@ssW0Rd";
     private static final String WRONG_PASSWORD = "1";
-
     private static final String TEST_STRING = "TEST DATA";
-
     private static final byte[] TEST_DATA_ENCRYPTION = TEST_STRING.getBytes();
     private static final String EXPECTED_ENCRYPTION = "D91B9E39621EACE5877DCD6158393F0F";
-
     private static final byte[] TEST_DATA_DECRYPTION = convertStringToByteArray("D91B9E39621EACE5877DCD6158393F0F");
     private static final String EXPECTED_DECRYPTION = TEST_STRING;
-
     private static final String EXPECTED_ENCODED_BYTES_TO_HEX = "544553542044415441";
     private static final String EXPECTED_ENCODED_BYTES_TO_BASE64 = "VEVTVCBEQVRB";
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     // Encryption test case
     @Test
@@ -111,7 +107,7 @@ public class DataSecurityUtilTest {
 
     // Test for supporting utility
     @Test
-    public void testGenerateRandomSha1_Random() throws NoSuchAlgorithmException {
+    public void testGenerateRandomSha1Random() throws NoSuchAlgorithmException {
         String baseSha1 = DataSecurityUtil.generateRandomSha1();
         String compareSha1 = DataSecurityUtil.generateRandomSha1();
         assertNotEquals(baseSha1, compareSha1);
