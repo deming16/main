@@ -117,8 +117,14 @@ public class XmlAdaptedUser {
 
     /**
      * Converts this User into the model's {@code User} object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated
+     * @param password for decryption
+     * @return
+     * @throws IllegalValueException
+     * @throws CorruptedFileException
+     * @throws NoSuchPaddingException
+     * @throws InvalidPasswordException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
      */
     public User toModelType(String password) throws IllegalValueException, CorruptedFileException,
             NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
