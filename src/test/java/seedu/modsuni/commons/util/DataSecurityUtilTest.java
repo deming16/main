@@ -29,7 +29,7 @@ public class DataSecurityUtilTest {
     // Encryption test case
     @Test
     public void testEncryptingBytes() {
-        byte[] encryptedData = DataSecurityUtil.encrypt(TEST_DATA_ENCRYPTION, PASSWORD);
+        byte[] encryptedData = DataSecurityUtil.encryptData(TEST_DATA_ENCRYPTION, PASSWORD);
         String encryptedDataString = convertByteArrayToHexString(encryptedData);
 
         assertEquals(EXPECTED_ENCRYPTION, encryptedDataString);
@@ -37,24 +37,24 @@ public class DataSecurityUtilTest {
 
     @Test(expected = NullPointerException.class)
     public void testEncryptingNullBytesValidPassword() {
-        DataSecurityUtil.encrypt(null, PASSWORD);
+        DataSecurityUtil.encryptData(null, PASSWORD);
     }
 
     @Test(expected = NullPointerException.class)
     public void testEncryptingValidBytesAndNullPassword() {
-        DataSecurityUtil.encrypt(TEST_DATA_ENCRYPTION, null);
+        DataSecurityUtil.encryptData(TEST_DATA_ENCRYPTION, null);
     }
 
     @Test(expected = NullPointerException.class)
     public void testEncryptingNullBytesAndNullPassword() {
-        DataSecurityUtil.encrypt(null, null);
+        DataSecurityUtil.encryptData(null, null);
     }
 
     // Decryption test case
     @Test
     public void testDecryptingBytes() throws CorruptedFileException, InvalidPasswordException,
             NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        byte[] decryptedData = DataSecurityUtil.decrypt(TEST_DATA_DECRYPTION, PASSWORD);
+        byte[] decryptedData = DataSecurityUtil.decryptData(TEST_DATA_DECRYPTION, PASSWORD);
         String decryptedDataString = new String(decryptedData, Charsets.UTF_8);
 
         assertEquals(EXPECTED_DECRYPTION, decryptedDataString);
@@ -63,23 +63,23 @@ public class DataSecurityUtilTest {
     @Test(expected = NullPointerException.class)
     public void testDecryptingNullBytesValidPassword() throws CorruptedFileException,
             InvalidPasswordException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        DataSecurityUtil.decrypt(null, PASSWORD);
+        DataSecurityUtil.decryptData(null, PASSWORD);
     }
 
     @Test(expected = NullPointerException.class)
     public void testDecryptingValidBytesAndNullPassword() {
-        DataSecurityUtil.encrypt(TEST_DATA_DECRYPTION, null);
+        DataSecurityUtil.encryptData(TEST_DATA_DECRYPTION, null);
     }
 
     @Test(expected = NullPointerException.class)
     public void testDecryptingNullBytesAndNullPassword() {
-        DataSecurityUtil.encrypt(null, null);
+        DataSecurityUtil.encryptData(null, null);
     }
 
     @Test(expected = InvalidPasswordException.class)
     public void testDecryptingBytesWrongPassword() throws CorruptedFileException, InvalidPasswordException,
             NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
-        DataSecurityUtil.decrypt(TEST_DATA_DECRYPTION, WRONG_PASSWORD);
+        DataSecurityUtil.decryptData(TEST_DATA_DECRYPTION, WRONG_PASSWORD);
     }
 
     private static String convertByteArrayToHexString(byte[] data) {

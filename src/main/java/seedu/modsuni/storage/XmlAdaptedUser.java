@@ -137,7 +137,7 @@ public class XmlAdaptedUser {
         requireNonNull(password);
 
         // All users
-        this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+        this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encryptData(
                 user.getUsername().toString().getBytes(), password));
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
@@ -145,7 +145,7 @@ public class XmlAdaptedUser {
         // Admin
         if (user.getRole() == Role.ADMIN) {
             Admin admin = (Admin) user;
-            this.salary = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+            this.salary = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encryptData(
                     admin.getSalary().toString().getBytes(), password));
             this.employmentDate = admin.getEmploymentDate().toString();
         }
@@ -214,7 +214,7 @@ public class XmlAdaptedUser {
      */
     private String decryptUsername(String password) throws NoSuchAlgorithmException, InvalidKeyException,
             InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
-        return new String(DataSecurityUtil.decrypt(
+        return new String(DataSecurityUtil.decryptData(
                 DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
     }
 
@@ -225,7 +225,7 @@ public class XmlAdaptedUser {
      */
     private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
             InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
-        return new String(DataSecurityUtil.decrypt(
+        return new String(DataSecurityUtil.decryptData(
                 DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
     }
 

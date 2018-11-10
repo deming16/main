@@ -45,12 +45,13 @@ public class DataSecurityUtil {
      * Encrypts the given data using a password
      *
      * @param data     The data to be encrypted
-     * @param password Used to encrypt data
+     * @param password Used to encryptData data
      * @return byte[] of the encrypted data
      */
-    public static byte[] encrypt(byte[] data, String password) {
+    public static byte[] encryptData(byte[] data, String password) {
         requireNonNull(data);
         requireNonNull(password);
+
         try {
             Key secretKey = generateSecretKey(password);
             Cipher aesCipher = Cipher.getInstance(CIPHER_INSTANCE);
@@ -58,7 +59,7 @@ public class DataSecurityUtil {
             logger.info("Data encrypted");
             return aesCipher.doFinal(data);
         } catch (Exception e) {
-            logger.severe("Unable to encrypt data: " + e);
+            logger.severe("Unable to encryptData data: " + e);
         }
 
         return new byte[0];
@@ -68,18 +69,19 @@ public class DataSecurityUtil {
      * Decrypts the data using a given password
      *
      * @param data     The data to be decrypted
-     * @param password Used to decrypt data
+     * @param password Used to decryptData data
      * @return byte[] of the decrypted data
      * @throws InvalidPasswordException if an invalid password is supplied
      */
-    public static byte[] decrypt(byte[] data, String password) throws InvalidPasswordException,
+    public static byte[] decryptData(byte[] data, String password) throws InvalidPasswordException,
         CorruptedFileException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         requireNonNull(data);
         requireNonNull(password);
+
         try {
             Key secretKey = generateSecretKey(password);
             Cipher aesCipher = Cipher.getInstance(CIPHER_INSTANCE);
-            aesCipher.init(Cipher.DECRYPT_MODE, secretKey);
+            aesCipher.init(Cipher.DECRYPT_MODE, secretKey); // set Cipher to decryption mode
             logger.info("Data decrypted");
             return aesCipher.doFinal(data);
         } catch (BadPaddingException e) {
@@ -96,12 +98,12 @@ public class DataSecurityUtil {
     /**
      * Generates a key
      *
-     * @param password The password to generate the key
+     * @param password The password to generate a key
      * @return A secret key
      */
     private static Key generateSecretKey(String password) {
         requireNonNull(password);
-        return new SecretKeySpec(getFirst16Bytes(hash(password).getBytes()), ALGORITHM);
+        return new SecretKeySpec(getFirst16Bytes(generateSha1Hash(password).getBytes()), ALGORITHM);
     }
 
     /**
@@ -126,9 +128,9 @@ public class DataSecurityUtil {
      * Generates a SHA-1 hash using a string
      *
      * @param password The string to be hashed
-     * @return
+     * @return a string of SHA-1 hash
      */
-    private static String hash(String password) {
+    private static String generateSha1Hash(String password) {
         requireNonNull(password);
         return Hashing.sha1().hashString(password, CHARSET).toString();
     }
@@ -161,7 +163,9 @@ public class DataSecurityUtil {
     }
 
     /**
-     * Converts bytes to a hex string
+     * Converts bytes to a hex string.
+     * DatatypeConverter is not used since it not longer included in default path of Java SE 9 and is completely removed in Java 11.
+     * Source: https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j
      *
      * @param bytes
      * @return String of hex
@@ -176,10 +180,22 @@ public class DataSecurityUtil {
         return new String(hexChars);
     }
 
+    /**
+     * Converts bytes to a base64 string
+     *
+     * @param bytes data to convert to base 64
+     * @return String of base64
+     */
     public static String bytesToBase64(byte[] bytes) {
         return new String(Base64.getEncoder().encode(bytes));
     }
 
+    /**
+     * Converts a string from base64 to a byte[]
+     *
+     * @param base64 data to convert to base 64
+     * @return String of base64
+     */
     public static byte[] base64ToBytes(String base64) {
         return Base64.getDecoder().decode(base64.getBytes());
     }
