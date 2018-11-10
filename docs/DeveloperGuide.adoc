@@ -1809,6 +1809,21 @@ _{ more test cases ... }_
 
 _{ more test cases ... }_
 
+=== Saving a user
+
+. Saving a user
+
+.. Prerequisites: You must be logged in as a User (Admin or Student).
+.. Test case: `save sp/userdata.xml` +
+   Expected: You should see a success message at the bottom and a file should be created/overwritten.
+    In addition, the main panel should display your current user information.
+    The timestamp in the user tab should also be updated.
+.. Test case: `save sp/userdata` (without extension) +
+   Expected: No data is saved. Error details shown at the bottom of the application.
+   Timestamp in user tab should remain the same.
+.. Other incorrect save commands to try: `save sp`, `save sp/.xml.xml`, save xx/userdata.xml +
+   Expected: Similar to previous.
+
 === Saving data
 
 . Dealing with missing/corrupted data files
