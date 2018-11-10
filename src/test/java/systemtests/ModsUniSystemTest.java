@@ -164,7 +164,6 @@ public abstract class ModsUniSystemTest {
      */
     protected void assertSelectedCardDeselected() {
         assertFalse(getBrowserPanel().isUrlChanged());
-        //assertFalse(getPersonListPanel().isAnyCardSelected());
     }
 
     /**
@@ -202,7 +201,6 @@ public abstract class ModsUniSystemTest {
         assertEquals("", getCommandBox().getInput());
         assertEquals("", getResultDisplay().getText());
         assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE), getBrowserPanel().getLoadedUrl());
-        //assertListMatching(getPersonListPanel(), getModel().getFilteredPersonList());
         assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + LOADING_PAGE), getBrowserPanel().getLoadedUrl());
     }
 
