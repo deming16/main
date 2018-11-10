@@ -127,28 +127,28 @@ public class XmlAdaptedUserTest {
 
     @Test
     public void toModelType_invalid_student_enrollmentdate_null() throws Exception {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_STUDENT_ENROLLMENTDATE_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
     public void toModelType_invalid_student_enrollmentdate_invalid() throws Exception {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_STUDENT_ENROLLMENTDATE_INVALID);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
     public void toModelType_invalid_student_major_null() throws Exception {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_STUDENT_MAJOR_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
     @Test
     public void toModelType_invalid_student_minor_null() throws Exception {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_STUDENT_MINOR_NULL);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
