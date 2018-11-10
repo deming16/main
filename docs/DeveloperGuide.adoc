@@ -1821,7 +1821,7 @@ _{ more test cases ... }_
 .. Test case: `save sp/userdata` (without extension) +
    Expected: No data is saved. Error details shown at the bottom of the application.
    Timestamp in user tab should remain the same.
-.. Other incorrect save commands to try: `save sp`, `save sp/.xml.xml`, save xx/userdata.xml +
+.. Other incorrect save commands to try: `save sp`, `save sp/.xml.xml`, `save xx/userdata.xml` +
    Expected: Similar to previous.
 
 === Saving data
