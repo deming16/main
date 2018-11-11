@@ -217,7 +217,6 @@ public class ParserUtil {
         return new EnrollmentDate(trimmedDate);
     }
     /**
-     * TODO check if moduleCode is valid
      * Parses a {@code String moduleCode} into a {@code Code}.
      */
     public static String parseModuleCode(String moduleCode) throws ParseException {
