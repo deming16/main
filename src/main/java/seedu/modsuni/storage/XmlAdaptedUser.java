@@ -256,14 +256,14 @@ public class XmlAdaptedUser {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "major"));
         }
         // must have at least one e.g. [x]
-        if (!major.matches("^\\[([a-zA-Z,])+\\]$")) {
+        if (!major.matches("^\\[([a-zA-Z, ])+\\]$")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "major"));
         }
         if (minor.equals("")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "minor"));
         }
         // can be empty []
-        if (!minor.matches("^\\[([a-zA-Z,])*\\]$")) {
+        if (!minor.matches("^\\[([a-zA-Z, ])*\\]$")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "minor"));
         }
     }
