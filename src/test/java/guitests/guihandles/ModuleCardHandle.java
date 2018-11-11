@@ -16,7 +16,6 @@ public class ModuleCardHandle extends NodeHandle<Node> {
     private static final String CODE_FIELD_ID = "#code";
     private static final String DEPARTMENT_FIELD_ID = "#department";
     private static final String TITLE_FIELD_ID = "#title";
-    private static final String DESCRIPTION_FIELD_ID = "#description";
     private static final String CREDIT_FIELD_ID = "#credit";
     private static final String AVAILABILITY_FIELD_ID = "#availability";
     private static final String SEM1 = "Sem1";
@@ -28,7 +27,6 @@ public class ModuleCardHandle extends NodeHandle<Node> {
     private final Label codeLabel;
     private final Label departmentLabel;
     private final Label titleLabel;
-    private final Label descriptionLabel;
     private final Label creditLabel;
     private final List<Label> availabilityLabels;
 
@@ -39,7 +37,6 @@ public class ModuleCardHandle extends NodeHandle<Node> {
         codeLabel = getChildNode(CODE_FIELD_ID);
         departmentLabel = getChildNode(DEPARTMENT_FIELD_ID);
         titleLabel = getChildNode(TITLE_FIELD_ID);
-        descriptionLabel = getChildNode(DESCRIPTION_FIELD_ID);
         creditLabel = getChildNode(CREDIT_FIELD_ID);
 
         Region availabilityContainer = getChildNode(AVAILABILITY_FIELD_ID);
@@ -66,10 +63,6 @@ public class ModuleCardHandle extends NodeHandle<Node> {
         return titleLabel.getText();
     }
 
-    public String getDescription() {
-        return descriptionLabel.getText();
-    }
-
     public String getCredit() {
         return creditLabel.getText();
     }
@@ -88,8 +81,7 @@ public class ModuleCardHandle extends NodeHandle<Node> {
         return getCode().equals(module.getCode().code)
                 && getDepartment().equals(module.getDepartment())
                 && getTitle().equals(module.getTitle())
-                && getDescription().equals(module.getDescription())
-                && getCredit().equals(String.valueOf(module.getCredit()))
+                && getCredit().equals(String.valueOf(module.getCredit()).concat(" MCs"))
                 && module.isAvailableInSem1() == getAvailability().contains(SEM1)
                 && module.isAvailableInSem2() == getAvailability().contains(SEM2)
                 && module.isAvailableInSpecialTerm1() == getAvailability().contains(SPECIAL_TERM1)
