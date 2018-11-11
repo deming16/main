@@ -9,13 +9,13 @@ import static seedu.modsuni.commons.util.AppUtil.checkArgument;
 public class Code {
 
     public static final String MESSAGE_CODE_CONSTRAINTS =
-            "Code should only contain alphanumeric characters and spaces, and it should not be blank";
+            "Code should only contain alphanumeric characters and forward slash";
 
     /*
      * The first character of the modsuni must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String NAME_VALIDATION_REGEX = ".*";
+    public static final String NAME_VALIDATION_REGEX = "^[A-Za-z0-9/]+$";
 
     public final String code;
 
@@ -34,7 +34,7 @@ public class Code {
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidCode(String test) {
-        return test.matches(NAME_VALIDATION_REGEX);
+        return test != null && test.matches(NAME_VALIDATION_REGEX);
     }
 
 
