@@ -85,11 +85,7 @@ public class Prereq {
      * @return true if there is a prereq, false otherwise.
      */
     public boolean hasPrereq() {
-        if (!(and.isPresent() && or.isPresent())) {
-            return false;
-        } else {
-            return true;
-        }
+        return (and.isPresent() || or.isPresent());
     }
 
     @Override
