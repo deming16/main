@@ -1,5 +1,7 @@
 package seedu.modsuni.logic.parser;
 
+import static java.util.Objects.requireNonNull;
+
 import seedu.modsuni.logic.commands.ShowModuleCommand;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.module.Code;
@@ -14,6 +16,7 @@ public class ShowModuleCommandParser implements Parser<ShowModuleCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ShowModuleCommand parse(String args) throws ParseException {
+        requireNonNull(args);
         String inputModuleCode = args.toUpperCase().trim();
 
         if (!Code.isValidCode(inputModuleCode)) {
