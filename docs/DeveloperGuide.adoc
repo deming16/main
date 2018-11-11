@@ -1858,7 +1858,7 @@ Expected: You should see a success login message at the bottom. In addition, you
 .. Test case: Open up the student file and edit the contents in the <enrollmentDate> tag (follow the original format of dd/mm/yyyy). Now login as the student using the updated user data file. +
 Expected: You should see a success login message at the bottom. In addition, you should see the updated enrollment date data of the student account. The timestamp in the user tab should be the time you logged in.
 
-.. Test case: Open up the student file and edit the contents in the <major> and <minor> tag (follow the original format of [major,minor]). Contraints are that you must have at least one major and can have zero minor. The inputs for major and minor must consist of only unaccented alphabetical letters (e.g. a-zA-Z). Now login as the student using the updated user data file. +
+.. Test case: Open up the student file and edit the contents in the <major> and <minor> tag (you must follow the original format of [a, b, c], with comma and space in-between). Contraints are that you must have at least one major and can have zero minor. The inputs for major and minor must consist of only unaccented alphabetical letters (e.g. a-zA-Z). Now login as the student using the updated user data file. +
 Expected: You should see a success login message at the bottom. In addition, you should see the updated major or minor data of the student account. The timestamp in the user tab should be the time you logged in.
 
 .. Test case: Open up the student file and edit the <lockModules> or <parsedPrereq> tag from <moduleStaged> (e.g. instead of <lockModules>CS2030</lockModules> it should look like <lock>CS2030</lock> after editing). Now login as the student using the updated user data file. +
