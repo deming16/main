@@ -24,7 +24,8 @@ public class GenerateCommand extends Command {
 
     public static final String COMMAND_WORD = "generate";
     public static final String MESSAGE_SUCCESS = "Generate success!";
-    public static final String MESSAGE_FAILURE = "Generate failed!";
+    public static final String MESSAGE_FAILURE = "Generate failed! The following module(s) are missing it's"
+            + " prerequisites.";
     public static final String MESSAGE_INVALID_ROLE = "Only students can generate a schedule, please login"
             + " with a student account and try again";
     public static final String MESSAGE_NO_MODULES = "Ensure that you have added module(s) that you "

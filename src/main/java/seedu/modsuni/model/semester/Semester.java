@@ -2,6 +2,9 @@ package seedu.modsuni.model.semester;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,8 +12,6 @@ import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Encapsulates data required for a semester.

@@ -1,4 +1,5 @@
 package seedu.modsuni.model.module;
+
 import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.model.module.exceptions.DuplicateModuleException;
 import seedu.modsuni.model.module.exceptions.ModuleNotFoundException;

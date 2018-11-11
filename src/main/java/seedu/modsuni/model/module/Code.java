@@ -1,7 +1,5 @@
 package seedu.modsuni.model.module;
 
-import java.util.Collections;
-
 import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.AppUtil.checkArgument;
 

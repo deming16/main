@@ -458,7 +458,7 @@ public class GenerateCommandTest {
         @Override
         public SemesterList generateSchedule() {
             Generate generate = new Generate((Student) getCurrentUser());
-            return generate.getSchedule();
+            return generate.generateSchedule();
         }
     }
 
