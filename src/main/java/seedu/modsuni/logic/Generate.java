@@ -16,15 +16,10 @@ import seedu.modsuni.model.user.student.Student;
  */
 public class Generate {
 
-    private List<Code> codesToTake;
-
     private UniqueModuleList modulesStaged;
 
     public Generate(Student student) {
-        codesToTake = new ArrayList<>();
         modulesStaged = student.getModulesStaged();
-
-        codesToTake.addAll(modulesStaged.getAllCode());
     }
 
     /**
