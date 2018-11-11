@@ -55,6 +55,8 @@ import seedu.modsuni.testutil.EditStudentDescriptorBuilder;
  */
 public class CommandTestUtil {
 
+    public static final String EMPTY = "";
+
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_PHONE_AMY = "11111111";
@@ -162,6 +164,13 @@ public class CommandTestUtil {
     public static final Code VALID_CODE_CS1010 = new Code("CS1010");
     public static final Code VALID_CODE_ACC1002 = new Code("ACC1002");
     public static final Code VALID_CODE_ACC1002X = new Code("ACC1002X");
+
+    public static final String CODE_DESC_CS1010 = " CS1010";
+    public static final String CODE_DESC_CS2103T = " CS2103T";
+    public static final String CODE_DESC_ACC1002 = " ACC1002";
+    public static final String CODE_DESC_ACC1002X = " ACC1002X";
+    public static final String CODE_DESC_LOWER_ACC1002X = " acc1002x";
+    public static final String CODE_DESC_CS9999 = " CS9999";
 
     public static final String CODE_DESC_CS2109 = " " + PREFIX_MODULE_CODE + VALID_CODE_CS2109;
     public static final String CREDIT_DESC_CS2109 = " " + PREFIX_MODULE_CREDIT + VALID_CREDIT_CS2109;
