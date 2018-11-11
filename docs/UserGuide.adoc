@@ -472,19 +472,19 @@ Input fields:
 * Title : `title/<TITLE>`
 * Description : `description/<DESCRIPTION>`
 * Credit : `credit/<CREDIT>`
-* Available semesters : `available/<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2>`
+* Available semesters : `available/[SEM1][SEM2][SPECIAL_TERM1][SPECIAL_TERM2]`
 +
 [NOTE]
 For each entry enter '1' if the module will be available. Otherwise, enter '0'. +
 Only the first four digits will be taken into account and if there are less than four digits the remaining input will be
 '0' by default.
-* Prerequisites : `prereq/<PREREQ_STRING>`
+* Prerequisites : `prereq/[PREREQ_STRING]`
 +
 [NOTE]
-Format for PREREQ_STRING: `<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]` +
-Format for BRANCH: `(<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])` +
-Every branch should be enclosed in parentheses followed by `&` or `|`, then the list of module codes or branches.
-The end of a module code should be indicated with a `,`.
+Format for PREREQ_STRING: `<&OR|>[<MODULE_CODE,>[MORE_MODULE_CODE,]][BRANCH][MORE_BRANCH]` +
+Format for BRANCH: `(<&OR|>[<MODULE_CODE,>[MORE_MODULE_CODE,]][BRANCH][MORE_BRANCH])` +
+To represent no prerequisite, use an empty string or a string that consist of only '&' or '|' +
+To represent only 1 prerequisite, use '&' or '|' followed by the module code.
 
 Example:
 
@@ -502,12 +502,12 @@ Format: `editModule <INDEX> OPTION/INPUT...` +
 
 Input fields:
 
-* Module code : `code/[MODULE_CODE]` -- It should contain only alphanumeric characters.
+* Module code : `code/<MODULE_CODE>` -- It should contain only alphanumeric characters.
 * Department : `department/[DEPARTMENT]`
 * Title : `title/[TITLE]`
 * Description : `description/[DESCRIPTION]`
 * Credit : `credit/[CREDIT]`
-* Available semesters : `available/[<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2>]`
+* Available semesters : `available/[SEM1][SEM2][SPECIAL_TERM1][SPECIAL_TERM2]`
 +
 [NOTE]
 For each entry enter '1' if the module will be available. Otherwise, enter '0'. +
@@ -516,10 +516,10 @@ Only the first four digits will be taken into account and if there are less than
 * Prerequisites : `prereq/[PREREQ_STRING]`
 +
 [NOTE]
-Format for PREREQ_STRING: `[&OR|][<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]` +
-Format for BRANCH: `(<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])` +
-Every branch should be enclosed in parentheses followed by `&` or `|`, then the list of module codes or branches.
-The end of a module code should be indicated with a `,`.
+Format for PREREQ_STRING: `<&OR|>[<MODULE_CODE,>[MORE_MODULE_CODE,]][BRANCH][MORE_BRANCH]` +
+Format for BRANCH: `(<&OR|>[<MODULE_CODE,>[MORE_MODULE_CODE,]][BRANCH][MORE_BRANCH])` +
+To represent no prerequisite, use an empty string or a string that consist of only '&' or '|' +
+To represent only 1 prerequisite, use '&' or '|' followed by the module code.
 
 Example:
 
