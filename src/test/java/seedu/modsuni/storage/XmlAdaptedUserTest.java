@@ -26,6 +26,8 @@ public class XmlAdaptedUserTest {
             TEST_DATA_FOLDER.resolve("invalid_user_name_invalid.xml");
     private static final Path INVALID_USER_ROLE_NULL =
             TEST_DATA_FOLDER.resolve("invalid_user_role_null.xml");
+    private static final Path INVALID_USER_ROLE_INVALID =
+            TEST_DATA_FOLDER.resolve("invalid_user_role_invalid.xml");
 
     private static final Path INVALID_ADMIN_SALARY_NULL =
             TEST_DATA_FOLDER.resolve("invalid_admin_salary_null.xml");
@@ -40,8 +42,12 @@ public class XmlAdaptedUserTest {
             TEST_DATA_FOLDER.resolve("invalid_student_enrollmentdate_invalid.xml");
     private static final Path INVALID_STUDENT_MAJOR_NULL =
             TEST_DATA_FOLDER.resolve("invalid_student_major_null.xml");
+    private static final Path INVALID_STUDENT_MAJOR_INVALID =
+            TEST_DATA_FOLDER.resolve("invalid_student_major_invalid.xml");
     private static final Path INVALID_STUDENT_MINOR_NULL =
             TEST_DATA_FOLDER.resolve("invalid_student_minor_null.xml");
+    private static final Path INVALID_STUDENT_MINOR_INVALID =
+            TEST_DATA_FOLDER.resolve("invalid_student_minor_invalid.xml");
 
 
     private static final String VALID_PASSWORD_HASH =
@@ -91,6 +97,13 @@ public class XmlAdaptedUserTest {
     public void toModelTypeInvalidUser_role_null() throws Exception {
         thrown.expect(IllegalValueException.class);
         XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_USER_ROLE_NULL);
+        dataFromFile.toModelType(VALID_PASSWORD_HASH);
+    }
+
+    @Test
+    public void toModelTypeInvalidUser_role_invalid() throws Exception {
+        thrown.expect(IllegalValueException.class);
+        XmlSerializableUser dataFromFile = XmlFileStorage.loadUserDataFromSaveFile(INVALID_USER_ROLE_INVALID);
         dataFromFile.toModelType(VALID_PASSWORD_HASH);
     }
 
