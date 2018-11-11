@@ -467,7 +467,7 @@ Format: `addModuleDB OPTION/INPUT...` +
 
 Input fields `(Input restriction and validation coming in v1.4)`:
 
-* Module code : `code/<MODULE_CODE>`
+* Module code : `code/<MODULE_CODE>` -- It should contain only alphanumeric characters.
 * Department : `department/<DEPARTMENT>`
 * Title : `title/<TITLE>`
 * Description : `description/<DESCRIPTION>`
@@ -475,7 +475,9 @@ Input fields `(Input restriction and validation coming in v1.4)`:
 * Available semesters : `available/<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2>`
 +
 [NOTE]
-For each entry enter '1' if the module will be available. Otherwise, enter '0'.
+For each entry enter '1' if the module will be available. Otherwise, enter '0'. +
+Only the first four digits will be taken into account and if there are less than four digits the remaining input will be
+'0' by default.
 * Prerequisites : `prereq/<PREREQ_STRING>`
 +
 [NOTE]
@@ -500,7 +502,7 @@ Format: `editModule <INDEX> OPTION/INPUT...` +
 
 Input fields `(Input restriction and validation coming in v1.4)`:
 
-* Module code : `code/[MODULE_CODE]`
+* Module code : `code/[MODULE_CODE]` -- It should contain only alphanumeric characters.
 * Department : `department/[DEPARTMENT]`
 * Title : `title/[TITLE]`
 * Description : `description/[DESCRIPTION]`
@@ -508,7 +510,9 @@ Input fields `(Input restriction and validation coming in v1.4)`:
 * Available semesters : `available/[<SEM1><SEM2><SPECIAL_TERM1><SPECIAL_TERM2>]`
 +
 [NOTE]
-For each entry enter '1' if available, '0' if not
+For each entry enter '1' if the module will be available. Otherwise, enter '0'. +
+Only the first four digits will be taken into account and if there are less than four digits the remaining input will be
+'0' by default.
 * Prerequisites : `prereq/[PREREQ_STRING]`
 +
 [NOTE]
@@ -536,7 +540,7 @@ image::EditModuleCommandExample.png[width="700"]
 Removes a existing module from the module database. +
 Format: `removeModuleDB <MODULE_CODE>`
 
-Examples:
+Example:
 
 * `removeModuleDB CS2109` +
 Removes a module with module code "CS2109" if it exists.
