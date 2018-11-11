@@ -215,7 +215,7 @@ public class PrereqGenerator {
     private static void checkCommaPosition(char current, char prev, StringBuilder builder) throws ParseException {
         if (current == ',' && (prev == '&' || prev == '|' || prev == ',' || prev == '(' || prev == ')')) {
             throw new ParseException(MESSAGE_COMMA_WRONG_POSITION);
-        } else {
+        } else if (current == ',') {
             String code = builder.toString();
             if (!Code.isValidCode(code)) {
                 throw new ParseException(Code.MESSAGE_CODE_CONSTRAINTS);
