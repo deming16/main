@@ -223,7 +223,7 @@ public class ParserUtil {
     public static String parseModuleCode(String moduleCode) throws ParseException {
         requireNonNull(moduleCode);
         String trimmedModuleCode = moduleCode.trim();
-        if (!Code.isValidCode(moduleCode)) {
+        if (!Code.isValidCode(trimmedModuleCode)) {
             throw new ParseException(Code.MESSAGE_CODE_CONSTRAINTS);
         }
         return trimmedModuleCode;
