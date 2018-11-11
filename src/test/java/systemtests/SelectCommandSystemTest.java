@@ -130,7 +130,6 @@ public class SelectCommandSystemTest extends ModsUniSystemTest {
         }*/
 
         assertCommandBoxShowsDefaultStyle();
-        assertStatusBarUnchanged();
     }
 
     /**
@@ -151,6 +150,5 @@ public class SelectCommandSystemTest extends ModsUniSystemTest {
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
         assertCommandBoxShowsErrorStyle();
-        assertStatusBarUnchanged();
     }
 }
