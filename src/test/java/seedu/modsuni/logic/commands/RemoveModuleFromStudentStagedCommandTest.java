@@ -551,7 +551,7 @@ public class RemoveModuleFromStudentStagedCommandTest {
     /**
      * Create a command result with three types of Code.
      */
-    private String createCommandResult(String duplicateCodeInCommand, String notExistDataCode,
+    public static String createCommandResult(String duplicateCodeInCommand, String notExistDataCode,
                                        String notExistOwnCode, String removeSuccessCode) {
         if (duplicateCodeInCommand != "") {
             duplicateCodeInCommand = RemoveModuleFromStudentStagedCommand.MESSAGE_DUPLICATE_FOUND_IN_COMMAND
