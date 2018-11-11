@@ -194,12 +194,12 @@ public class XmlAdaptedUser {
     private void checkMandatoryFields() throws IllegalValueException {
         logger.info("Checking mandatory fields");
         // Username
-        if (username.equals("")) {
+        if ("".equals(username)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Username"));
         }
 
         // Name
-        if (name.equals("")) {
+        if ("".equals(name)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "name"));
         }
         if (!Name.isValidName(name)) {
@@ -207,12 +207,12 @@ public class XmlAdaptedUser {
         }
 
         // Role
-        if (role.equals("")) {
+        if ("".equals(role)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "role"));
         }
 
         // Role
-        if (!(role.equals("ADMIN") || role.equals("STUDENT"))) {
+        if (!("ADMIN".equals(role) || "STUDENT".equals(role))) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "role"));
         }
 
@@ -226,12 +226,12 @@ public class XmlAdaptedUser {
     private void checkAdminFields() throws IllegalValueException {
         logger.info("Checking admin fields");
         // Salary
-        if (salary.equals("")) {
+        if ("".equals(salary)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "salary"));
         }
 
         // employment date
-        if (employmentDate.equals("")) {
+        if ("".equals(employmentDate)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "employment"));
         }
         if (!EmployDate.isValidEmployDate(employmentDate)) {
@@ -246,13 +246,14 @@ public class XmlAdaptedUser {
      */
     private void checkStudentFields() throws IllegalValueException {
         logger.info("Checking student fields");
-        if (enrollmentDate.equals("")) {
+
+        if ("".equals(enrollmentDate)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "enrollment"));
         }
         if (!EnrollmentDate.isValidEnrollmentDate(enrollmentDate)) {
             throw new IllegalValueException(EnrollmentDate.MESSAGE_DATE_CONSTRAINTS);
         }
-        if (major.equals("")) {
+        if ("".equals(major)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "major"));
         }
         // must have at least one letter followed by a comma and space
@@ -263,7 +264,7 @@ public class XmlAdaptedUser {
         if (!major.matches("^\\[(\\w+)((,\\s)(\\w+))*\\]$")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "major"));
         }
-        if (minor.equals("")) {
+        if ("".equals(minor)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "minor"));
         }
         // can be empty []
