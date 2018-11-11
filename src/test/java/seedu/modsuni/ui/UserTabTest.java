@@ -204,7 +204,7 @@ public class UserTabTest extends GuiUnitTest {
         String initialSaveTest = userTabHandle.getLastSaveText();
 
         SaveCommand saveCommand = new SaveCommand(TYPICAL_STUDENT_DATA_FILE);
-        Thread.sleep(60000);
+        Thread.sleep(600);
         saveCommand.execute(model, commandHistory);
         System.out.println(initialSaveTest + ": " + userTabHandle.getLastSaveText());
         assertNotEquals(initialSaveTest, userTabHandle.getLastSaveText());
