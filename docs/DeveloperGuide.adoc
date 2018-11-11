@@ -1858,8 +1858,8 @@ Expected: You should see a success login message at the bottom. In addition, you
 .. Test case: Open up the student file and edit the contents in the <major> and <minor> tag (follow the original format of [major,minor]). Contraints are that you must have at least one major and can have zero minor. The inputs for major and minor must consist of only unaccented alphabetical letters (e.g. a-zA-Z). Now login as the student using the updated user data file. +
 Expected: You should see a success login message at the bottom. In addition, you should see the updated major or minor data of the student account. The timestamp in the user tab should be the time you logged in.
 
-.. Test case: Open up the student file and remove the contents in the <code> tag from <moduleStaged> (e.g. instead of <code>CS1231</code> it should look like <code></code> after editing). Now login as the student using the updated user data file and issue the generate command. +
-Expected: You should see that
+.. Test case: Open up the student file and edit the <lockModules> or <parsedPrereq> tag from <moduleStaged> (e.g. instead of <lockModules>CS2030</lockModules> it should look like <lock>CS2030</lock> after editing). Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. The timestamp in the user tab should be the time you logged in. However, that information will not be loaded and may cause generate feature to fail.
 
 .. Test case: Open up the student file and edit any contents in the <moduleTaken> or <moduleStaged> tag (it is recommended to start with <code> so you get a feel of the update). Now login as the student using the updated user data file. +
 Expected: You should see a success login message at the bottom. The timestamp in the user tab should be the time you logged in. Now navigate (switch tab/staged or switch tab/taken) staged or taken tab depending on where you change, you should see the updated module code. +
@@ -1870,7 +1870,7 @@ An example would be to remove CS1010 as a prerequisite for CS2030 in the user da
 .. Test case: Open up the student file and edit the contents in the <username> tag . Now login as the student using the updated user data file. +
 Expected: You should see an error message at the bottom.
 
-.. Other invalid modification to try: removing the entire <code> tag from a module in <modulesStaged> or <modulesTaken>,  . +
+.. Other invalid modification to try: removing the entire <code> tag from a module in <modulesStaged> or <modulesTaken>, remove characters from mandatory tags (code, department, title, description in <modulesTaken or <modulesStaged>),  . +
 Expected: Similar to previous.
 
 === Saving data
