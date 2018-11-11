@@ -79,6 +79,6 @@ public class BrowserPanel extends UiPart<Region> {
     @Subscribe
     private void handleMainWindowClearResourceEvent(MainWindowClearResourceEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        browser.getEngine().load(null);
+        loadDefaultPage();
     }
 }
