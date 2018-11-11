@@ -39,6 +39,9 @@ public class PrereqGenerator {
         if (strings.isEmpty()) {
             return start;
         }
+        if ((strings.charAt(0) == '&' || strings.charAt(0) == '|') && strings.length() == 1) {
+            return start;
+        }
         initialisePrereq();
         for (int i = 1; i < strings.length(); i++) {
             if (strings.charAt(i) == '(') {
