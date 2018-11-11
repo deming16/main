@@ -15,7 +15,7 @@ public class Code {
      * The first character of the modsuni must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String NAME_VALIDATION_REGEX = ".*";
+    public static final String NAME_VALIDATION_REGEX = "^[A-Za-z0-9/]+$";
 
     public final String code;
 
@@ -27,7 +27,7 @@ public class Code {
     public Code(String code) {
         requireNonNull(code);
         checkArgument(isValidCode(code), MESSAGE_CODE_CONSTRAINTS);
-        this.code = code;
+        this.code = code.toUpperCase();
     }
 
     /**

@@ -16,14 +16,8 @@ import seedu.modsuni.model.module.PrereqDetails;
  * This class is used to facilitate the generation of a {@code Prereq} object.
  */
 public class PrereqGenerator {
-    private static final String MESSAGE_INVALID_CHARACTERS =
-            "Only alphanumeric, parentheses, commas, ampersand and pipe are allowed.";
-    private static final String MESSAGE_INVALID_PREFIX = "Prereq string must start with ampersand or pipe.";
-    private static final String MESSAGE_WRONG_ORDER_PREFIX = "No consecutive & or |.";
-    private static final String MESSAGE_PAREN_NOT_CLOSED = "Make sure all parenthesis are closed properly.";
-    private static final String MESSAGE_COMMA_WRONG_POSITION = "Commas should be at the end of module code only.";
-    private static final String MESSAGE_CODE_WRONG_POSITION = "Code should only be after '&' or '|' or ',' and must "
-            + "end with ','.";
+    private static final String MESSAGE_ERROR =
+            "Invalid prereq string. Refer to the help window for the prereq string format.";
     private Stack<String> stack;
     private Stack<Optional<List<PrereqDetails>>> listStack;
     private Prereq start;
@@ -160,10 +154,10 @@ public class PrereqGenerator {
         Pattern pattern = Pattern.compile("[^&|()A-Za-z0-9,]");
         Matcher matcher = pattern.matcher(string);
         if (matcher.find()) {
-            throw new ParseException(MESSAGE_INVALID_CHARACTERS);
+            throw new ParseException(MESSAGE_ERROR);
         }
         if (string.charAt(0) != '&' && string.charAt(0) != '|') {
-            throw new ParseException(MESSAGE_INVALID_PREFIX);
+            throw new ParseException(MESSAGE_ERROR);
         }
         StringBuilder builder = new StringBuilder();
         int openParenthesis = 0;
@@ -182,7 +176,7 @@ public class PrereqGenerator {
                 openParenthesis--;
             }
             if (openParenthesis < 0) {
-                throw new ParseException(MESSAGE_PAREN_NOT_CLOSED);
+                throw new ParseException(MESSAGE_ERROR);
             }
             checkCommaPosition(current, prev, builder);
             checkCodePosition(current, prev, builder);
@@ -191,7 +185,7 @@ public class PrereqGenerator {
     }
     private static void checkConsecutiveAndOr(char current, char prev) throws ParseException {
         if ((current == '&' || current == '|') && prev != '(') {
-            throw new ParseException(MESSAGE_WRONG_ORDER_PREFIX);
+            throw new ParseException(MESSAGE_ERROR);
         }
     }
 
@@ -202,7 +196,7 @@ public class PrereqGenerator {
         if ((current >= 'a' && current <= 'z') || (current >= 'A' && current <= 'Z')
                 || (current >= '0' && current <= '9')) {
             if (builder.length() == 0 && (prev == '(' || prev == ')')) {
-                throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
+                throw new ParseException(MESSAGE_ERROR);
             }
             builder.append(current);
         }
@@ -214,8 +208,8 @@ public class PrereqGenerator {
      */
     private static void checkCommaPosition(char current, char prev, StringBuilder builder) throws ParseException {
         if (current == ',' && (prev == '&' || prev == '|' || prev == ',' || prev == '(' || prev == ')')) {
-            throw new ParseException(MESSAGE_COMMA_WRONG_POSITION);
-        } else {
+            throw new ParseException(MESSAGE_ERROR);
+        } else if (current == ',') {
             String code = builder.toString();
             if (!Code.isValidCode(code)) {
                 throw new ParseException(Code.MESSAGE_CODE_CONSTRAINTS);
@@ -230,10 +224,10 @@ public class PrereqGenerator {
      */
     private static void checkParenPosition(char prev, StringBuilder builder) throws ParseException {
         if (builder.length() != 0) {
-            throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
+            throw new ParseException(MESSAGE_ERROR);
         }
         if (prev == '(' || prev == '&' || prev == '|') {
-            throw new ParseException("Empty paren");
+            throw new ParseException(MESSAGE_ERROR);
         }
     }
 
@@ -242,10 +236,10 @@ public class PrereqGenerator {
      */
     private static void checkClosing(int openParenthesis, StringBuilder builder) throws ParseException {
         if (builder.length() != 0) {
-            throw new ParseException(MESSAGE_CODE_WRONG_POSITION);
+            throw new ParseException(MESSAGE_ERROR);
         }
         if (openParenthesis > 0) {
-            throw new ParseException(MESSAGE_PAREN_NOT_CLOSED);
+            throw new ParseException(MESSAGE_ERROR);
         }
     }
 }
