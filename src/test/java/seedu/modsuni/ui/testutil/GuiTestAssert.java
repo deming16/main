@@ -4,9 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import guitests.guihandles.DatabaseModuleListPanelHandle;
 import guitests.guihandles.ModuleCardHandle;
 import guitests.guihandles.ModuleListPanelHandle;
 import guitests.guihandles.OutputDisplayHandle;
+import guitests.guihandles.StagedModuleListPanelHandle;
+import guitests.guihandles.TakenModuleListPanelHandle;
 import seedu.modsuni.model.module.Module;
 
 /**
@@ -26,7 +29,6 @@ public class GuiTestAssert {
         assertEquals(expectedCard.getCode(), actualCard.getCode());
         assertEquals(expectedCard.getDepartment(), actualCard.getDepartment());
         assertEquals(expectedCard.getTitle(), actualCard.getTitle());
-        assertEquals(expectedCard.getDescription(), actualCard.getDescription());
         assertEquals(expectedCard.getCredit(), actualCard.getCredit());
         assertEquals(expectedCard.getAvailability(), actualCard.getAvailability());
     }
@@ -37,9 +39,8 @@ public class GuiTestAssert {
     public static void assertCardDisplaysModule(Module expectedModule, ModuleCardHandle actualCard) {
         assertEquals(expectedModule.getCode().code, actualCard.getCode());
         assertEquals(expectedModule.getDepartment(), actualCard.getDepartment());
-        assertEquals(expectedModule.getDescription(), actualCard.getDescription());
         assertEquals(expectedModule.getTitle(), actualCard.getTitle());
-        assertEquals(String.valueOf(expectedModule.getCredit()), actualCard.getCredit());
+        assertEquals(String.valueOf(expectedModule.getCredit()).concat(" MCs"), actualCard.getCredit());
         assertEquals(expectedModule.isAvailableInSem1(), actualCard.getAvailability().contains(SEM1));
         assertEquals(expectedModule.isAvailableInSem2(), actualCard.getAvailability().contains(SEM2));
         assertEquals(expectedModule.isAvailableInSpecialTerm1(), actualCard.getAvailability().contains(SPECIAL_TERM1));
@@ -47,22 +48,66 @@ public class GuiTestAssert {
     }
 
     /**
-     * Asserts that the list in {@code moduleListPanelHandle} displays the details of {@code modules} correctly and
-     * in the correct order.
+     * Asserts that the list in {@code stagedModuleListPanelHandle} displays the details of {@code modules}
+     * correctly and in the correct order.
      */
-    public static void assertListMatching(ModuleListPanelHandle moduleListPanelHandle, Module... modules) {
+    public static void assertStagedListMatching(StagedModuleListPanelHandle stagedModuleListPanelHandle,
+                                                Module... modules) {
         for (int i = 0; i < modules.length; i++) {
-            moduleListPanelHandle.navigateToCard(i);
-            assertCardDisplaysModule(modules[i], moduleListPanelHandle.getModuleCardHandle(i));
+            stagedModuleListPanelHandle.navigateToCard(i);
+            assertCardDisplaysModule(modules[i], stagedModuleListPanelHandle.getModuleCardHandle(i));
         }
     }
 
     /**
-     * Asserts that the list in {@code moduleListPanelHandle} displays the details of {@code modules} correctly and
+     * Asserts that the list in {@code stagedModuleListPanelHandle} displays the details of {@code modules} correctly
+     * and in the correct order.
+     */
+    public static void assertStagedListMatching(StagedModuleListPanelHandle stagedModuleListPanelHandle,
+                                                List<Module> modules) {
+        assertStagedListMatching(stagedModuleListPanelHandle, modules.toArray(new Module[0]));
+    }
+
+    /**
+     * Asserts that the list in {@code takenModuleListPanelHandle} displays the details of {@code modules} correctly and
      * in the correct order.
      */
-    public static void assertListMatching(ModuleListPanelHandle moduleListPanelHandle, List<Module> modules) {
-        assertListMatching(moduleListPanelHandle, modules.toArray(new Module[0]));
+    public static void assertTakenListMatching(TakenModuleListPanelHandle takenModuleListPanelHandle,
+                                               Module... modules) {
+        for (int i = 0; i < modules.length; i++) {
+            takenModuleListPanelHandle.navigateToCard(i);
+            assertCardDisplaysModule(modules[i], takenModuleListPanelHandle.getModuleCardHandle(i));
+        }
+    }
+
+    /**
+     * Asserts that the list in {@code takenModuleListPanelHandle} displays the details of {@code modules} correctly and
+     * in the correct order.
+     */
+    public static void assertTakenListMatching(TakenModuleListPanelHandle takenModuleListPanelHandle,
+                                               List<Module> modules) {
+        assertTakenListMatching(takenModuleListPanelHandle, modules.toArray(new Module[0]));
+    }
+
+    /**
+     * Asserts that the list in {@code databaseModuleListPanelHandle} displays the details of {@code modules}
+     * correctly and in the correct order.
+     */
+    public static void assertDatabaseListMatching(DatabaseModuleListPanelHandle databaseModuleListPanelHandle,
+                                                  Module... modules) {
+        for (int i = 0; i < modules.length; i++) {
+            databaseModuleListPanelHandle.navigateToCard(i);
+            assertCardDisplaysModule(modules[i], databaseModuleListPanelHandle.getModuleCardHandle(i));
+        }
+    }
+
+    /**
+     * Asserts that the list in {@code databaseModuleListPanelHandle} displays the details of {@code modules}
+     * correctly and in the correct order.
+     */
+    public static void assertDatabaseListMatching(DatabaseModuleListPanelHandle databaseModuleListPanelHandle,
+                                                  List<Module> modules) {
+        assertDatabaseListMatching(databaseModuleListPanelHandle, modules.toArray(new Module[0]));
     }
 
     /**
