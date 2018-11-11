@@ -136,16 +136,6 @@ public class UniqueModuleList implements Iterable<Module> {
         }
     }
 
-    public Module getModuleByCode(Code code) {
-        requireNonNull(code);
-        for (Module module : internalList) {
-            if (module.getCode().equals(code)) {
-                return module;
-            }
-        }
-        throw new ModuleNotFoundException();
-    }
-
     public void setModules(UniqueModuleList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
