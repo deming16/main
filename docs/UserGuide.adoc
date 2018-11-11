@@ -465,7 +465,7 @@ Format: `showUser`
 Creates a new module and add it to the module database. +
 Format: `addModuleDB OPTION/INPUT...` +
 
-Input fields `(Input restriction and validation coming in v1.4)`:
+Input fields:
 
 * Module code : `code/<MODULE_CODE>` -- It should contain only alphanumeric characters.
 * Department : `department/<DEPARTMENT>`
@@ -500,7 +500,7 @@ Create and add a new module with module code "CS2103T" and the stated details to
 Edit the details of a module specified by its index in database panel in database. +
 Format: `editModule <INDEX> OPTION/INPUT...` +
 
-Input fields `(Input restriction and validation coming in v1.4)`:
+Input fields:
 
 * Module code : `code/[MODULE_CODE]` -- It should contain only alphanumeric characters.
 * Department : `department/[DEPARTMENT]`
@@ -516,7 +516,7 @@ Only the first four digits will be taken into account and if there are less than
 * Prerequisites : `prereq/[PREREQ_STRING]`
 +
 [NOTE]
-Format for PREREQ_STRING: `<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]` +
+Format for PREREQ_STRING: `[&OR|][<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]` +
 Format for BRANCH: `(<&OR|>[<MODULE_CODE,> [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])` +
 Every branch should be enclosed in parentheses followed by `&` or `|`, then the list of module codes or branches.
 The end of a module code should be indicated with a `,`.
