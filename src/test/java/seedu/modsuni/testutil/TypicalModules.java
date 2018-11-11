@@ -71,6 +71,8 @@ public class TypicalModules {
             .withisAvailableInSpecialTerm1(false).withisAvailableInSpecialTerm2(false)
             .withLockedModules(new ArrayList<Code>()).withPrereq(new Prereq()).build();
 
+    public static final String KEYWORD_MATCHING_ACC = "ACC"; // A keyword that matches ACC
+
     private TypicalModules() {} // prevents instantiation
 
     /**

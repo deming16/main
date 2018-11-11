@@ -19,6 +19,14 @@ public class ModuleUtil {
     /**
      * Returns an addModuleDB command string for adding the {@code module}.
      */
+    public static String getAddModuleToStudentStagedCommand(Module module) {
+        return AddModuleToDatabaseCommand.COMMAND_WORD + " "
+                + module.getCode().toString();
+    }
+
+    /**
+     * Returns an addModuleDB command string for adding the {@code module}.
+     */
     public static String getAddModuleToDatabase(Module module) {
         return AddModuleToDatabaseCommand.COMMAND_WORD + " "
                 + getModuleDetails(module);

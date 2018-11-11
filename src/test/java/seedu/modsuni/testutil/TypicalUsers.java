@@ -20,6 +20,8 @@ public class TypicalUsers {
         .withEnrollmentDate("17/06/2007")
         .withMajor(Arrays.asList("CS", "BA"))
         .withMinor(Arrays.asList("IS", "MA")).build();
+    public static final Student STUDENT_TEST = new StudentBuilder()
+            .withName("Test").build();
     // private static final User ADMIN_TOTO = new AdminBuilder().build();
 
     private TypicalUsers() {
