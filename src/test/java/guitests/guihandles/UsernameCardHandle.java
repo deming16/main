@@ -4,6 +4,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import seedu.modsuni.model.credential.Username;
 
+/**
+ * Provides a handle to a username card in the username display.
+ */
 public class UsernameCardHandle extends NodeHandle<Node> {
     public static final String ID_FIELD_ID = "#id";
     public static final String USERNAME_FIELD_ID = "#username";

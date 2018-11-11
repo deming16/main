@@ -4,9 +4,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.modsuni.ui.testutil.GuiTestAssert.assertCardDisplaysUsername;
 
-import guitests.guihandles.UsernameCardHandle;
 import org.junit.Assert;
 import org.junit.Test;
+
+import guitests.guihandles.UsernameCardHandle;
 
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.testutil.CredentialBuilder;
