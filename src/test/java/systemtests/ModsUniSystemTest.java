@@ -4,15 +4,14 @@ import static guitests.guihandles.WebViewUtil.waitUntilBrowserLoaded;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static seedu.modsuni.ui.BrowserPanel.DEFAULT_PAGE;
-import static seedu.modsuni.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
-import static seedu.modsuni.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
+import static seedu.modsuni.ui.BrowserPanel.LOADING_PAGE;
 import static seedu.modsuni.ui.UiPart.FXML_FILE_FOLDER;
+import static seedu.modsuni.ui.testutil.GuiTestAssert.assertDatabaseListMatching;
+import static seedu.modsuni.ui.testutil.GuiTestAssert.assertStagedListMatching;
+import static seedu.modsuni.ui.testutil.GuiTestAssert.assertTakenListMatching;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
@@ -22,11 +21,13 @@ import org.junit.ClassRule;
 
 import guitests.guihandles.BrowserPanelHandle;
 import guitests.guihandles.CommandBoxHandle;
+import guitests.guihandles.DatabaseModuleListPanelHandle;
 import guitests.guihandles.MainMenuHandle;
 import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.OutputDisplayHandle;
 import guitests.guihandles.PersonListPanelHandle;
-import guitests.guihandles.StatusBarFooterHandle;
+import guitests.guihandles.StagedModuleListPanelHandle;
+import guitests.guihandles.TakenModuleListPanelHandle;
 import seedu.modsuni.MainApp;
 import seedu.modsuni.TestApp;
 import seedu.modsuni.commons.core.EventsCenter;
@@ -99,9 +100,17 @@ public abstract class ModsUniSystemTest {
         return mainWindowHandle.getCommandBox();
     }
 
-    /*public PersonListPanelHandle getPersonListPanel() {
-        return mainWindowHandle.getPersonListPanel();
-    }*/
+    public StagedModuleListPanelHandle getStagedModuleListPanel() {
+        return mainWindowHandle.getStagedModuleListPanel();
+    }
+
+    public TakenModuleListPanelHandle getTakenModuleListPanel() {
+        return mainWindowHandle.getTakenModuleListPanel();
+    }
+
+    public DatabaseModuleListPanelHandle getDatabaseModuleListPanel() {
+        return mainWindowHandle.getDatabaseModuleListPanel();
+    }
 
     public MainMenuHandle getMainMenu() {
         return mainWindowHandle.getMainMenu();
@@ -109,10 +118,6 @@ public abstract class ModsUniSystemTest {
 
     public BrowserPanelHandle getBrowserPanel() {
         return mainWindowHandle.getBrowserPanel();
-    }
-
-    public StatusBarFooterHandle getStatusBarFooter() {
-        return mainWindowHandle.getStatusBarFooter();
     }
 
     public OutputDisplayHandle getResultDisplay() {
@@ -175,20 +180,20 @@ public abstract class ModsUniSystemTest {
             Model expectedModel) {
         assertEquals(expectedCommandInput, getCommandBox().getInput());
         assertEquals(expectedResultMessage, getResultDisplay().getText());
-        assertEquals(new AddressBook(expectedModel.getAddressBook()), testApp.readStorageAddressBook());
-        //assertListMatching(getPersonListPanel(), expectedModel.getFilteredPersonList());
+        assertStagedListMatching(getStagedModuleListPanel(), expectedModel.getFilteredStagedModuleList());
+        assertTakenListMatching(getTakenModuleListPanel(), expectedModel.getFilteredTakenModuleList());
+        assertDatabaseListMatching(getDatabaseModuleListPanel(), expectedModel.getFilteredDatabaseModuleList());
     }
 
     /**
-     * Calls {@code BrowserPanelHandle}, {@code PersonListPanelHandle} and {@code StatusBarFooterHandle} to remember
+     * Calls {@code BrowserPanelHandle}, {@code ModuleListPanelHandle}  to remember
      * their current state.
      */
     private void rememberStates() {
-        StatusBarFooterHandle statusBarFooterHandle = getStatusBarFooter();
         getBrowserPanel().rememberUrl();
-        statusBarFooterHandle.rememberSaveLocation();
-        statusBarFooterHandle.rememberSyncStatus();
-        //getPersonListPanel().rememberSelectedPersonCard();
+        getStagedModuleListPanel().rememberSelectedModuleCard();
+        getTakenModuleListPanel().rememberSelectedModuleCard();
+        getDatabaseModuleListPanel().rememberSelectedModuleCard();
     }
 
     /**
@@ -224,11 +229,15 @@ public abstract class ModsUniSystemTest {
     /**
      * Asserts that the browser's url and the selected card in the person list panel remain unchanged.
      * @see BrowserPanelHandle#isUrlChanged()
-     * @see PersonListPanelHandle#isSelectedPersonCardChanged()
+     * @see StagedModuleListPanelHandle#isSelectedModuleCardChanged()
+     * @see TakenModuleListPanelHandle#isSelectedModuleCardChanged()
+     * @see DatabaseModuleListPanelHandle#isSelectedModuleCardChanged()
      */
     protected void assertSelectedCardUnchanged() {
         assertFalse(getBrowserPanel().isUrlChanged());
-        //assertFalse(getPersonListPanel().isSelectedPersonCardChanged());
+        assertFalse(getStagedModuleListPanel().isSelectedModuleCardChanged());
+        assertFalse(getTakenModuleListPanel().isSelectedModuleCardChanged());
+        assertFalse(getDatabaseModuleListPanel().isSelectedModuleCardChanged());
     }
 
     /**
@@ -245,26 +254,6 @@ public abstract class ModsUniSystemTest {
         assertEquals(COMMAND_BOX_ERROR_STYLE, getCommandBox().getStyleClass());
     }
 
-    /**
-     * Asserts that the entire status bar remains the same.
-     */
-    protected void assertStatusBarUnchanged() {
-        StatusBarFooterHandle handle = getStatusBarFooter();
-        assertFalse(handle.isSaveLocationChanged());
-        assertFalse(handle.isSyncStatusChanged());
-    }
-
-    /**
-     * Asserts that only the sync status in the status bar was changed to the timing of
-     * {@code ClockRule#getInjectedClock()}, while the save location remains the same.
-     */
-    protected void assertStatusBarUnchangedExceptSyncStatus() {
-        StatusBarFooterHandle handle = getStatusBarFooter();
-        String timestamp = new Date(clockRule.getInjectedClock().millis()).toString();
-        String expectedSyncStatus = String.format(SYNC_STATUS_UPDATED, timestamp);
-        assertEquals(expectedSyncStatus, handle.getSyncStatus());
-        assertFalse(handle.isSaveLocationChanged());
-    }
 
     /**
      * Asserts that the starting state of the application is correct.
@@ -273,10 +262,7 @@ public abstract class ModsUniSystemTest {
         assertEquals("", getCommandBox().getInput());
         assertEquals("", getResultDisplay().getText());
         //assertListMatching(getPersonListPanel(), getModel().getFilteredPersonList());
-        assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE), getBrowserPanel().getLoadedUrl());
-        assertEquals(Paths.get(".").resolve(testApp.getStorageSaveLocation()).toString(),
-                getStatusBarFooter().getSaveLocation());
-        assertEquals(SYNC_STATUS_INITIAL, getStatusBarFooter().getSyncStatus());
+        assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + LOADING_PAGE), getBrowserPanel().getLoadedUrl());
     }
 
     /**
