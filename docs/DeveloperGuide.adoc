@@ -894,7 +894,7 @@ A new registered `Student` would be initialized and automatically logged in whic
 
 // tag::datasecurity[]
 === Data Security Feature
-The data security feature mainly involves the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
+The data security feature involves mainly the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
 
 [NOTE]
 Advanced Encryption Standard (AES) is the algorithm used for encryption.
@@ -1832,7 +1832,7 @@ _{ more test cases ... }_
 .. Test case: Open up the admin file and edit the contents in the <name> tag. Now login as the admin using the updated user data file. +
 Expected: You should see a success login message at the bottom. In addition, you should see the updated name of the admin account. The timestamp in the user tab should be the time you logged in.
 .. Test case: Open up the admin file and edit the contents in the <employmentDate> tag (follow the original format of dd/mm/yyyy). Now login as the admin using the updated user data file. +
-Expected: You should see a success login message at the bottom. In addition, you should see the updated employment data of the admin account. The timestamp in the user tab should be the time you logged in.
+Expected: You should see a success login message at the bottom. In addition, you should see the updated employment date data of the admin account. The timestamp in the user tab should be the time you logged in.
 .. Test case: Open up the admin file and change the order of tags (e.g. swap the order of name and role). Ensure that there are no extra spaces or empty lines.
 Now login as the admin using the updated user data file. +
 Expected: You should be able to login as per normal and see a success login message at the bottom. The timestamp in the user tab should be the time you logged in.
@@ -1845,6 +1845,33 @@ Now login as the admin using the updated user data file. +
     Expected: You should see an error message at the bottom.
 .. Other invalid modification to try: removing the entire tag, modifying contents from role and salary  +
    Expected: Similar to previous.
+
+. Modify of student data file
+.. Prerequisites: You must have a student data file (you can obtain one by registering an account and adding some modules to staged and taken).
+
+.. Test case: Open up the student file and edit the contents in the <name> tag. Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated name of the student account. The timestamp in the user tab should be the time you logged in.
+
+.. Test case: Open up the student file and edit the contents in the <enrollmentDate> tag (follow the original format of dd/mm/yyyy). Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated enrollment date data of the student account. The timestamp in the user tab should be the time you logged in.
+
+.. Test case: Open up the student file and edit the contents in the <major> and <minor> tag (follow the original format of [major,minor]). Contraints are that you must have at least one major and can have zero minor. The inputs for major and minor must consist of only unaccented alphabetical letters (e.g. a-zA-Z). Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated major or minor data of the student account. The timestamp in the user tab should be the time you logged in.
+
+.. Test case: Open up the student file and remove the contents in the <code> tag from <moduleStaged> (e.g. instead of <code>CS1231</code> it should look like <code></code> after editing). Now login as the student using the updated user data file and issue the generate command. +
+Expected: You should see that
+
+.. Test case: Open up the student file and edit any contents in the <moduleTaken> or <moduleStaged> tag (it is recommended to start with <code> so you get a feel of the update). Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. The timestamp in the user tab should be the time you logged in. Now navigate (switch tab/staged or switch tab/taken) staged or taken tab depending on where you change, you should see the updated module code. +
+Module information (represented by <code>, <department>, <title>, <description>, <credit>, <isAvailableInSem1>, <isAvailableInSem2>, <isAvailableInSpecialTerm1>, <isAvailableInSpecialTerm2>, <lockedModules>, <parsedPrereq>) are given as it is for testing purpose. If you change the information (module code/prerequisite), the application will generate based on the information in the user data.
+So the generate feature may fail depending on what you changed. You can create unique cases such as taking CS2030 without completing CS1010.
+An example would be to remove CS1010 as a prerequisite for CS2030 in the user data file. Now when log back in and add CS2030 to staged, you will be able to use the generate feature as expected even without having to add CS1010 to staged or taken.
+
+.. Test case: Open up the student file and edit the contents in the <username> tag . Now login as the student using the updated user data file. +
+Expected: You should see an error message at the bottom.
+
+.. Other invalid modification to try: removing the entire <code> tag from a module in <modulesStaged> or <modulesTaken>,  . +
+Expected: Similar to previous.
 
 === Saving data
 
