@@ -158,21 +158,21 @@ the filtered database module list.
 
 === Saving user data: `save`
 
-Saves current user information for the restoration of a user when logging in. +
+Saves current user information locally to a file. The saved file is used to login so the information of a user will be restored. +
 Format: `save sp/<FILE_NAME>.xml`
 
 Example:
 
 * `save sp/userdata.xml` +
-Saves the current user data to the file name `userdata.xml`.
+Saves the current user's data to the file name `userdata.xml`.
 
 [TIP]
 The prefix `"sp"` is the short form for `"save path"`.
 
-Figure 1 shows an example of the usage of the save command in the application.
+Figure 1 shows an example on the usage of the save command in the application.
 
 image::SaveCommandExample.jpg[width="450"]
-_Figure 1. An example of a save command_
+_Figure 1. An example of a save command typed in the CLI_
 
 Upon entering the command, you will see the types of information stored as well as a successful message as shown in Figure 2.
 
@@ -186,7 +186,7 @@ This file will be required when logging in.
 Modifying the saved file may result in the loss of data that is unrecoverable. Edit at your own risk!
 
 image::SaveFileExample.jpg[width="400"]
-_Figure 3. An example of a user's information in a saved file_
+_Figure 3. An example of a saved file containing a user's information_
 // end::saveuser[]
 
 // tag::switchtab[]

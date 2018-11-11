@@ -761,10 +761,10 @@ another module just to store the other module codes. This can be heavy on memory
 // tag::saveuser[]
 === Save User Feature
 The save user feature involves mainly the saving process of a user's attributes.
-A user can save their data only after they have logged in/registered an account.
+A user can save their data only after they have logged in or registered an account.
 
 [NOTE]
-Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature.
+Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature in the next section.
 
 This section will describe in details the current implementation and the design considerations of the save user feature.
 
@@ -772,34 +772,37 @@ This section will describe in details the current implementation and the design 
 The save mechanism is facilitated by the following classes:
 
 * `SaveCommand` +
-It stores the following attributes of a `User` object: +
+The `SaveCommand` stores the following attributes of a `User` object: +
 
-** All user
+** Attributes that exist in all user
+
 
 *** Username +
-    The username used for logging in.
+    The username of a user.
 *** Name +
     The name of the user.
 *** Role +
     The role of the user.
+[TIP]
+`Username` is unique to every user and is used for logging in. `Name` is non-unique and multiple users can use the same `Name`.
 
-** Admin
+** Attributes that only exist in an admin
 
 *** Salary +
     The salary of an administrator.
-*** Employ Date +
+*** Employment Date +
     The employment date of an administrator.
 
-** Student
+** Attributes that only exist in a student
 
 *** Enrollment Date +
     The enrollment date of a student.
 *** Major(s) +
-    A list of the student's major.
+    A list of a student's major.
 *** Minor(s) +
-    A list of the student's minor.
+    A list of a student's minor.
 *** Modules Taken +
-    A list of modules took by the student.
+    A list of modules took by a student.
 *** Modules Staged +
     A list of modules staged for the generation of candidature.
 
@@ -812,7 +815,7 @@ Additionally, it implements the following operations:
 ===== Implementation of the save feature
 
 The `save` mechanism of modsUni is facilitated by `SaveCommand` class and is event-driven.
-It allows a user to save their data in modsUni as a XML file.
+It allows a user to save their data as a XML file.
 
 [NOTE]
 Both admin and student can use the save feature.
@@ -839,20 +842,20 @@ _Figure 3. High-Level Sequence Diagram for the `save sp/userdata.xml` command_
 The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as shown in Figure 4.
 
 image::SequenceDiagramforSaveEventHandling.png[width="650"]
-_Figure 4. High-Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
+_Figure 4. High-Level Sequence Diagram showing how the Storage component handles `SaveUserChangedEvent` which was triggered by EventsCenter_
 
-The Storage component makes use of `XmlUserStorage` class to write `User` to the file specified by the file path.
+The Storage component makes use of `XmlUserStorage` class to write `User` to a file specified by the file path.
 Both the conversion of `User` object to `XmlSerializableUser` as well as writing to file is shown in the following code snippet below:
 
 [source, java]
 ----
-public void saveUser(User user, Path filePath) throws IOException {
+public void saveUser(User user, Path filePath, String password) throws IOException {
     // ... null checks ...
     FileUtil.createIfMissing(filePath);
-    XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
+    XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user, password));
 }
 ----
-The newly created `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)` as shown in the code snipplets below:
+`XmlFileStorage#saveDataToFile(...)` utilizes `XmlUtil#saveDataToFile(...)` to save the newly created `XmlSerializableUser` object to the file as shown in the code snipplets below:
 
 [source, java]
 ----
@@ -871,13 +874,13 @@ Given below is an example usage scenario and how the save mechanism behaves:
 
 1. A student will first log into their account and add their preferred modules.
 
-2. Upon issuing the command `save sp/userdata.xml`, the save command will call `Model#saveUserFile(...)` which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` will be handled by `StorageManager`.
+2. Upon issuing the command `save sp/userdata.xml`, the save command will call `Model#saveUserFile(...)` which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` is then handled by `StorageManager`.
 
 3. `StorageManager` then utilizes `XmlUserStorage#saveUser(...)` which saves the file to the file path specified by the user.
 
 
 [TIP]
-A new registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
+A newly registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
 
 
 ==== Design Considerations
@@ -917,10 +920,10 @@ Both encryption and decryption is performed in `XMLAdaptedUser`.
 
 ===== Implementation of the encryption feature
 
-The encryption feature is integrated with the save user feature (3.6).
+The encryption feature is integrated with the *Save User Feature*.
 
 During the conversion of a `User` object to XML, the encryption is performed in `XMLAdapterUser`, right before the file is written locally.
-Currently, we only encrypt the `Username` (for all users) and `Salary` (for administrators).
+Currently, only `Username` (for all users) and `Salary` (for administrators) is encrypted.
 
 The following code snippet shown below illustrates the encryption process:
 
@@ -929,14 +932,12 @@ The following code snippet shown below illustrates the encryption process:
 public XmlAdaptedUser(User user, String password) {
     // ... null checks ...
 
-
     // All users
     this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
             user.getUsername().toString().getBytes(), password));
     this.name = user.getName().toString();
     this.role = user.getRole().toString();
     this.pathToProfilePic = user.getPathToProfilePic().toString();
-
 
     // Admin
     if (user.getRole() == Role.ADMIN) {
@@ -957,7 +958,7 @@ _Figure 1. Sequence Diagram for the interaction between EventsCenter and Storage
 
 
 ===== Implementation of the decryption feature
-The decryption feature is integrated with the login feature under user account management(3.1). +
+The decryption feature is integrated with the login feature under *User Account Management*. +
 
 When `LoginCommand` calls `model.readUser(...)` the loading of user file will commence and the decryption will occur in `XMLAdapterUser#toModelType(...)`.
 
@@ -967,16 +968,18 @@ This is shown in the following code snippets below:
 ----
 public User toModelType(String password) throws IllegalValueException, CorruptedFileException,
         NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
+
     User user = null;
     checkMandatoryFields();
 
+    // Applies to all user
     String decryptedUsername = decryptUsername(password);
 
+    // Applies to only admin
     if ("ADMIN".equals(role)) {
         checkAdminFields();
         String decryptedSalary = decryptSalary(password);
-        user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary),
-                new EmployDate(employmentDate));
+        user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary), new EmployDate(employmentDate));
     }
     // ... removed for brevity ...
 
@@ -994,11 +997,11 @@ private String decryptUsername(String password) throws NoSuchAlgorithmException,
             DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
 }
 
- private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
-            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+        InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
     return new String(DataSecurityUtil.decrypt(
-            DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
- }
+        DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
+}
 ----
 
 The sequence diagram shown below in Figure 2 illustrates the integration of decryption with the login feature.
@@ -1023,7 +1026,7 @@ _Figure 2. Sequence Diagram for the interaction between Logic Component and Data
 ** Pros: User does not need to supply additional information or file for encryption/decryption.
 ** Cons: User is unable to decrypt their user data file if they forget their password.
 * **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
-** Pros: The key will be more secured compared to the key generated from alternative 1.
+** Pros: The key will be more secured compared to the key generated from alternative 1 since a weak password may be used by a user (susceptible to password cracking).
 ** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
 
 ===== Aspect: What fields to encrypt

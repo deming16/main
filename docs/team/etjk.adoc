@@ -3,14 +3,14 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: modsUNI
+== PROJECT: modsUni
 
 == 1. Overview
 
-This portfolio documents my contribution to the project - modsUni.
-This open-sourced project is in collaboration with four other course mates from the module CS2103 (Introduction to Software Engineering).
+This portfolio documents my contribution to the project - *modsUni*.
+modsUni is an open-sourced project was in collaboration with four other course mates from the module CS2103 (Introduction to Software Engineering).
 
-Project modsUni is a desktop application that was developed in 6 weeks which allowed us to practice our software engineering skills in a short time frame.
+Project *modsUni* is a desktop application that was developed in 6 weeks which allowed us to practice our software engineering skills in a short time frame.
 This project aims to accelerate the process of planning a candidature for a student.
 It was developed for users who prefer to interact with a Command Line Interface (CLI) over a Graphical User Interface (GUI).
 We have managed to contribute ~27,000 lines of code to a code base of 10,000 lines of code.
@@ -20,29 +20,31 @@ My contribution includes the implementation of saving a user's information secur
 
 == 2. Summary of contributions
 
-* *Major enhancement*: Added Save user (Admin/Student) data feature
+* *Major enhancement*: This enhancement added functionality to save and load a user (Admin/Student) data feature.
 
 ** What it does:
 *** Allows a user to save their information as a file locally.
+*** The feature allows returning users to restore their information using the previously saved file.
 *** Information saved are encrypted.
 *** Displays the saved information upon issue the save command.
 
 ** Justification: This feature improves the user experience of modsUni significantly by having the ability to save their information locally, allowing them to restore their data during the login process.
 
-** Highlights: This enhancement puts confidentiality in high regard with multiple security concerns raised and discussed prior to implementation. The inbuilt security feature was also made robust to prevent frustration of the users.
+** Highlights: This enhancement puts confidentiality in high regard with multiple security concerns raised and discussed prior to implementation. The inbuilt security feature was also made robust to prevent users from being frustrated.
 
-* *Minor enhancement*: Added a switch tab command that allows the user to navigate between different tabs within the application using CLI.
+* *Minor enhancement*: This enhancement added functionality to enable a user to navigate between different tabs within the application using CLI.
 
 * *Code contributed*: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=etjk&sort=displayName&since=2018-09-12&until=&timeframe=day&reverse=false&repoSort=false[Functional code]]
 
 * *Other contributions*:
 
 ** Project management: +
-Managed releases v1.3 - v1.5rc (4 releases) on GitHub
+*** Updated https://github.com/CS2103-AY1819S1-W17-2/main/projects/1[Project Dashboard] on GitHub to ensure cards are up-to-date.
+*** Updated PRs with the relevant tags.
 
 ** Documentation:
 *** Maintained the Glossary section of the Developer Guide (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/83[#83])
-*** Updated User Guide and Developer Guide feedback (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/83[#83])
+*** Updated User Guide and Developer Guide (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/53[#53], https://github.com/CS2103-AY1819S1-W17-2/main/pull/131[#131], https://github.com/CS2103-AY1819S1-W17-2/main/pull/200[#200], https://github.com/CS2103-AY1819S1-W17-2/main/pull/277[#277])
 
 ** Community:
 *** Reviewed pull requests (with non-trivial review comments): (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/127[#127] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/189[#189])
