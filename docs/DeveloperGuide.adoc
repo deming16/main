@@ -356,7 +356,7 @@ _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Comp
 
 Figure 3 below shows the high-level sequence diagram of the command execution.
 
-image::SDforLoginCommandOverview.png[width="800",align="center"]
+image::SDforLoginCommandOverviewWithLoad.png[width="800",align="center"]
 [.text-center]
 _Figure 3. High-Level Sequence Diagram of the login process._
 
