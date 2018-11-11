@@ -83,12 +83,14 @@ public class EditModuleCommandParser implements Parser<EditModuleCommand> {
     private boolean[] getAvailableSems(String sem) {
         boolean[] sems = new boolean[4];
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < sems.length; i++) {
+            sems[i] = false;
+        }
+
+        for (int i = 0; i < sem.length() && i < sems.length; i++) {
 
             if (sem.charAt(i) == '1') {
                 sems[i] = true;
-            } else {
-                sems[i] = false;
             }
         }
 
