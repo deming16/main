@@ -8,10 +8,10 @@
 == 1. Overview
 
 This portfolio documents my contribution to the project - *modsUni*.
-modsUni is an open-sourced project was in collaboration with four other course mates from the module CS2103 (Introduction to Software Engineering).
+modsUni is an open-sourced project that was collaborated with 4 other coursemates from the module CS2103 (Introduction to Software Engineering).
 
 Project *modsUni* is a desktop application that was developed in 6 weeks which allowed us to practice our software engineering skills in a short time frame.
-This project aims to accelerate the process of planning a candidature for a student.
+This project aims to accelerate the process of planning a candidature for a university student.
 It was developed for users who prefer to interact with a Command Line Interface (CLI) over a Graphical User Interface (GUI).
 We have managed to contribute ~27,000 lines of code to a code base of 10,000 lines of code.
 Currently, we are targeting undergraduates from the National University of Singapore (NUS), and plan to expand to other local universities.
@@ -23,10 +23,10 @@ My contribution includes the implementation of saving a user's information secur
 * *Major enhancement*: This enhancement added functionality to save and load a user (Admin/Student) data feature.
 
 ** What it does:
-*** Allows a user to save their information as a file locally.
-*** The feature allows returning users to restore their information using the previously saved file.
-*** Information saved are encrypted.
-*** Displays the saved information upon issue the save command.
+*** This feature allows a user to save their information as a file locally.
+*** This feature allows returning users to restore their information using the previously saved file.
+*** This feature encrypts information that are saved.
+*** This feature displays the saved information upon issue the save command.
 
 ** Justification: This feature improves the user experience of modsUni significantly by having the ability to save their information locally, allowing them to restore their data during the login process.
 
