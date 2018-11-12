@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Represents the students schedule.
+ * Encapsulates the list of semesters in the schedule.
  */
 public class SemesterList implements Iterable<Semester> {
     private List<Semester> semesterList;

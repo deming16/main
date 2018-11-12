@@ -109,10 +109,11 @@ public class Module {
         return sems;
     }
 
-    public boolean hasPrereq() {
-        return prereq.hasPrereq();
-    }
-
+    /**
+     * Checks if this module's prerequisite can be satisfied using the list of codes.
+     * @param codeChecklist List of codes to be checked against.
+     * @return true if this prerequisite can be satisfied, false otherwise.
+     */
     public boolean checkPrereq(List<Code> codeChecklist) {
         return prereq.checkPrereq(codeChecklist);
     }

@@ -14,7 +14,7 @@ import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.PrereqDetails;
 
 /**
- * JAXB-friendly version of the And Prereq.
+ * JAXB-friendly version of the "And" type of PrereqDetails.
  */
 @XmlRootElement(name = "and")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -34,8 +34,6 @@ public class XmlAdaptedAnd {
 
     /**
      * Converts a given PrereqDetails into this class for JAXB use.
-     *
-     * @param source future changes to this will not affect the created XmlAdaptedAnd
      */
     public XmlAdaptedAnd(PrereqDetails source) {
         if (source.getAnd().isPresent()) {
@@ -62,9 +60,9 @@ public class XmlAdaptedAnd {
     }
 
     /**
-     * Converts this jaxb-friendly adapted PrereqAnd object into the model's Module object.
+     * Converts this jaxb-friendly adapted object into the model's PrereqDetails object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted PrereqAnd code
+     * @throws IllegalValueException if there were any data constraints violated in the adapted code
      */
     public PrereqDetails toModelType() throws IllegalValueException {
         PrereqDetails prereqAnd = new PrereqDetails();

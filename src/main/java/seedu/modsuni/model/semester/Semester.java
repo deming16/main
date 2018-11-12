@@ -56,13 +56,13 @@ public class Semester {
         return codesString;
     }
 
+    /**
+     * Gets a list of code from the modules in the semester.
+     * @return A list of codes.
+     */
     public List<Code> getCode() {
         toBeTaken.sortByModuleCode();
-        List<Code> codes = new ArrayList<>();
-        for (Module module : toBeTaken) {
-            codes.add(module.getCode());
-        }
-        return codes;
+        return toBeTaken.getAllCode();
     }
 
     @Override

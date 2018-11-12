@@ -25,8 +25,6 @@ public class XmlAdaptedPrereq {
 
     /**
      * Converts a given Prereq into this class for JAXB use.
-     *
-     * @param source future changes to this will not affect the created XmlAdaptedPrereq
      */
     public XmlAdaptedPrereq(Prereq source) {
         if (source.getAnd().isPresent()) {

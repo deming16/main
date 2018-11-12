@@ -16,6 +16,8 @@ import seedu.modsuni.model.user.student.Student;
  */
 public class Generate {
 
+    public static final int MAX_MC_IN_SEMESTER = 20;
+
     private UniqueModuleList modulesStaged;
 
     public Generate(Student student) {
@@ -23,8 +25,9 @@ public class Generate {
     }
 
     /**
-     * Checks if a schedule can be generated or not.
-     * @return
+     * Checks if a schedule can be generated or not. If not, it will return a list of codes that does not
+     * meet the prerequisites condition.
+     * @return Empty is it's possible to generate, or list of codes that did not meet the prerequisites.
      */
     public static Optional<List<Code>> canGenerate(Student student) {
         List<Code> cannotTakeCode = new ArrayList<>();
@@ -44,6 +47,7 @@ public class Generate {
 
     /**
      * Creates a schedule of semesters containing the modules to take for each semester.
+     * @return A semester list object containing the semesters.
      */
     public SemesterList generateSchedule() {
         SemesterList semesterList = new SemesterList();
@@ -56,7 +60,7 @@ public class Generate {
             toBeRemoved.clear();
             for (Module element : modulesStaged) {
                 if (element.checkPrereq(taken)) {
-                    if (newSemester.getTotalCredits() + element.getCredit() > 20) {
+                    if (newSemester.getTotalCredits() + element.getCredit() > MAX_MC_IN_SEMESTER) {
                         semesterList.addSemester(newSemester);
                         newSemester = new Semester();
                     }

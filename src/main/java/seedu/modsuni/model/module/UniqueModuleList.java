@@ -52,6 +52,10 @@ public class UniqueModuleList implements Iterable<Module> {
         return internalList.size();
     }
 
+    /**
+     * Gets a list of code from the modules in the list.
+     * @return A list of codes.
+     */
     public List<Code> getAllCode() {
         List<Code> codes = new ArrayList<>();
         for (Module module : internalList) {
