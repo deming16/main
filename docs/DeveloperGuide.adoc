@@ -244,7 +244,6 @@ This section describes some noteworthy details on how certain features are imple
 
 User Account Management involves mainly the authentication process of the users.
 Only once they are authenticated, will their respective user data be loaded into the application.
-+
 Additionally, it is only by registering/logging in will users be able to access and manipulate their account details. +
 This section will describe in detail the Current Implementation and the Design Considerations of the User Account Management feature. +
 
@@ -324,43 +323,14 @@ _Figure 5. High-Level Sequence diagram of registering a new student account._
 
 Given below is an example usage scenario and how the register mechanism behaves at each step:
 
-Step 1. The user launches the application for the first time. Only `register` and `login` command is available this is because `currentUser` in `Model` is not yet instantiated.
+Step 1. The user launches the application for the first time. At start up, the `currentUser` in `Model` is not yet instantiated,
+this would prevent any commands aside from `register` and `login` to be available to the user. +
 
 [NOTE]
 `currentUser` refers to the user account currently loaded in the modsUni Application.
 
 Step 2. The user executes `register user/demo ...` to register a new `Student` account.
-
-Step 3. `RegisterCommandParser` would process the user inputs and create a `Student`, `Credential` and `Path` object, which will be used to construct a `register` command. +
-
-Below is a small code snippet of the aforementioned procedure:
-
-[source,java]
-----
-public RegisterCommand parse(String userInput) throws ParseException {
-        // initial prefix checks, omitted for brevity
-
-        Username username = ParserUtil.parseUsername(argMultimap.getValue(PREFIX_USERNAME).get());
-        Password password = ParserUtil.parsePassword(argMultimap.getValue(PREFIX_PASSWORD).get());
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        EnrollmentDate enrollmentDate = ParserUtil.parseEnrollmentDate(
-            argMultimap.getValue(PREFIX_STUDENT_ENROLLMENT_DATE).get());
-        List<String> majors = argMultimap.getAllValues(PREFIX_STUDENT_MAJOR);
-        List<String> minors = argMultimap.getAllValues(PREFIX_STUDENT_MINOR);
-
-        User user = new Student(username, name, Role.STUDENT,
-            enrollmentDate, majors, minors);
-        Credential credential = new Credential(username, password);
-
-        // constructs and returns RegisterCommand, omitted for brevity
-    }
-
-----
-
-Step 4. The `register` command will next call `Model#addCredential(...)` and `Model#setCurrentUser(...)`. +
-
-Step 5. At this point, `Model` will insert a new entry in `CredentialStore` and indicate to `Storage` to commit the changes to file. Additionally, the event raised by the `register` command will be handled by `UI`, making the necessary changes to all UI elements.
-
+The `register` command will call `Model#addCredential(...)` and `Model#setCurrentUser(...)`. +
 
 [NOTE]
 A new `Student` would be initialized and automatically set as the `currentUser`, enabling the user to perform additional commands automatically. +
@@ -386,7 +356,7 @@ _Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Comp
 
 Figure 3 below shows the high-level sequence diagram of the command execution.
 
-image::SDforLoginCommandOverviewWithLoad.png[width="800",align="center"]
+image::SDforLoginCommandOverview.png[width="800",align="center"]
 [.text-center]
 _Figure 3. High-Level Sequence Diagram of the login process._
 
@@ -399,7 +369,7 @@ the user will only be able to execute either the `register` or `login` command. 
 The `login` command will call `Model#isVerifiedCredential(...)` to determine if the user input matches a credential in `CredentialStore`. +
 
 3. Should the credential be valid and verified, a `User` will be loaded from a the default `userData.xml` file.
-Subsequently, the `Model#setCurrentUser(...)` will be called to set the loaded user data as the `currentUser`. +
+Subseqently, the `Model#setCurrentUser(...)` will be called to set the loaded user data as the `currentUser`. +
 
 4. Should the credential not be valid or does not match an existing credential in the `CredentialStore`, the user will simply be shown a failure message.
 
@@ -651,7 +621,7 @@ encapsulate the processes for generating a schedule.
 ** Cons: The command might end up with an infinite loop as it keeps on trying to arrange the modules.
 // end::generate[]
 
-// tag::usermodulemanagement1[]
+// tag::usermodulemanagement[]
 === User Module Management
 User Module Management involves mainly the interaction between users and their module lists.
 A user is able to add and remove the module only if he is a student and the module exists in the database.
@@ -678,7 +648,7 @@ It is the actor of the command. Add and remove commands are limited to a user wh
 
 ** `Student` stores two `ModuleList` namely `modulesTaken` and `modulesStaged`, to store the modules chosen by the student.
 *** `modulesTaken` represents the module student has taken before.
-*** `modulesStaged` represents the module student is intending to take.
+*** `modulesStaged` represents the module student wants to take later.
 
 ===== Implementation of the add feature
 
@@ -690,7 +660,7 @@ A user is allowed to add only if: +
 the user has logged in +
 the user is a student +
 the module exists in the database at this moment +
-both staged and taken module list do not contain the module already
+his staged/taken module list does not contains the module already
 
 `AddModuleToStudentStaged/TakenCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of `AddModuleToStudentStaged/TakenCommand`.
 
@@ -723,72 +693,15 @@ The second is a `String` contains the duplicate code entered by user.
 
 Step 3. When the command is executed, `AddModuleToStudentStaged/TakenCommand` will call `Model#getCurrentUser()` and `Model#isStudent()` to check whether the user is a `Student`. +
 `Model#searchCodeInDatabase(...)` to check whether the module exists in the database and update `toAdd` to the searched module,
-`Model#hasModuleStaged(...)` and `Model#hasModuleTaken(...)` to check whether the module has already existed in the student's staged or taken module list,
+`Model#hasModuleStaged/Taken(...)` to check whether the module has already existed in the student's staged/taken module list,
 `Model#addModuleStaged/Taken(...)` to finally add the module to the student's staged/taken module list.
 
-Step 4. After the module is added, the command will post a `ShowStaged/TakenTabRequestEvent` to show the user updated staged/taken module list. +
+Step 4. After the module is added, the command will post an `ShowStaged/TakenTabRequestEvent` to show the user updated staged/taken module list. +
 A `CommandResult` containing the log of execution result will be returned.
 
-===== Implementation of the remove feature
-The `remove` feature is facilitated by the `RemoveModuleFromStudentStagedCommand` and `RemoveModuleFromStudentTakenCommand` class.
-It allows a user to remove modules from his staged/taken module list by giving their code.
-[NOTE]
-A user is allowed to remove only if: +
-the user has logged in +
-the user is a student +
-the module exists in the database at this moment +
-his staged/taken module list contains the module need to be removed
-
-The implementation of `remove` feature is similar to `add` feature. They have generally the same mechanism, except remove
-command only use `Model#hasModuleStaged/Taken(...)` to ensure the respective module list contains the module, while add
-command use both methods to ensure the ensure does not exist in neither module list. See Step 3 of the adding mechanism for reference.
-
-// end::usermodulemanagement1[]
-===== Implementation of the search feature
-The `search` feature is facilitated by the `SearchCommand` class.
-It allows a user to search modules in the database using one or several prefixes.
-[NOTE]
-The command does not require user to login or register.
-
-[NOTE]
-The command does not support using a substring for searching. +
-Eg. `search 1010` can not being used for searching "CS1010"
-
-[NOTE]
-The command only supports to search within database module list. +
-The design consideration is that it does not make sense to search staged or taken module list
-as the scale of these two lists tend to be small.
-
-`SearchCommand` extends the `Command` class. Figure 4(shown below) depicts the UML representation of `SearchModule`.
-
-image::SearchCommandUML.png[width="400"]
-_Figure 4. UML Diagram of `SearchCommand`._
-
-The Sequence Diagram shown below in Figure 5 illustrates the interactions between the `Logic` & `Model` components when `SearchCommand` is being executed.
-
-image::SDforSearchCommandLogicAndModel.png[width="900"]
-_Figure 5. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `SearchCommand`._
-
-Figure 6 below shows the high-level sequence diagram of the command execution.
-
-image::SDforSearchCommandOverview.png[width="800"]
-_Figure 6. High-Level Sequence Diagram of search modules in database module list._
-
-Given below is an example usage scenario and how the searching mechanism behaves at each step: +
-Step 1. User enters the command, then `ModsUniParser` will handle it and create a `SearchCommandPraser`.
-`SearchCommandPraser` will use `CodeStartsKeywordsPredicate` to create a `predicate`. `SearchCommandPraser` then will
-use the `predicate` as a parameter to create a `SearchCommand`.
-
-Step 2. When the command is executed, `SearchCommand` will call `Model#updateFilteredDatabaseModuleList(...)` to use
-the `predicate` to filter `filteredDatabaseModules`. UI of `DatabaseModuleListPanel` will change accordingly.
-
-Step 3. The command will  post a `DatabaseTabRequestEvent` to show the user updated database module list. +
-A `CommandResult` containing the execution result will be returned.
-
-// tag::usermodulemanagement2[]
 ==== Design Considerations
 
-===== Aspect: How to search database using Code
+===== Aspect: Search the module in the database
 
 * **Alternative 1 (current choice):** Use `Code` as a key to search `moduleList` one by one.
 ** Pros: Easy to implement. Do not need to refactor `moduleList` to support this feature.
@@ -796,7 +709,7 @@ A `CommandResult` containing the execution result will be returned.
 * **Alternative 2:** Refactor `moduleList` to be a `HashMap` for searching.
 ** Pros: Efficiency of searching will increase. The time complexity is `O(1)`.
 ** Cons: May not be cost-efficient to refactor `moduleList` only to support this feature.
-// end::usermodulemanagement2[]
+// end::usermodulemanagement[]
 
 // tag::moduledatabaseadministration1[]
 === Module Database Administration
@@ -1745,6 +1658,10 @@ Use case ends.
 [[cli]] CLI::
 CLI is an acronym for Command Line Interface. It is a text-based interface which facilitates interaction between the user and the software.
 
+[[gui]] GUI::
+GUI is an acronym for Graphical User Interface. It is a graphical interface which facilitates interaction
+between the user and the software using visual elements.
+
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
 
@@ -1772,7 +1689,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 .. Download the jar file and copy into an empty folder
 .. Double-click the jar file +
-   Expected: Shows the GUI. You should be greeted with a prompt to login or register. The window size may not be optimum.
+   Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 . Saving window preferences
 
@@ -1780,74 +1697,7 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-=== Registering a Student Account
-Below are some test cases you can perform to test the `RegisterCommand` for User Account Management feature.
-
-[NOTE]
-The below test cases only cater to `Student` accounts
-
-.   Test case: `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
-    Expected: A new account is created. The `Student` details as provided in the command should be automatically displayed in `UserTab`. A successful message should be displayed in the Output Display. Additionally, a save location is provided to the user. Examine the project's root folder to determine if the file is indeed created.
-
-[NOTE]
-Do note that registering a `Student` account is possible without any `min/` parameters. This is in consideration that certain students do not have any minors
-
-
-.   Test case: `register user/m@x33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
-    Expected: No new account is created. A invalid `Username` error should be shown in the the Output Display. Rest of the UI remains unchanged.
-
-.   Prerequisite: A Student Account with `Username` max33 already exists in `CredentialStore` +
-    Test case: `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
-  Expected: No new account is created. Error details should be shown in the Output Display. Rest of the UI remains unchanged.
-
-. Other incorrect `register` commands to try: +
-.. `register user/max33 pass/Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
-.. `register user/max33 pass/#Qwerty4321 enroll/15/03/2015 maj/CS maj/DA min/BA min/MA`
-.. `register user/max33 pass/#Qwerty4321 n/Max Verstappen maj/CS maj/DA min/BA min/MA`
-.. `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 min/BA min/MA`
-
-
-=== Logging in into a Student Account
-Below are some test cases you can perform to test the `LoginCommand` for User Account Management feature.
-
-.   Prerequisite: A student account should already be registered(i.e. an account registered under `max33`) and the respective userdata file be available. +
-    Test case: `login user/max33 pass/#Qwerty4321 userdata/max33.xml` +
-    Expected: Student will be logged in. The `Student` details will be loaded from the file provided and will be displayed in the application(in their respective tabs). Additionally, a successful message will be displayed in the Output Display.
-
-.   Test case: `login user/max33 pass/wrongPass userdata/max33.xml` +
-    Expected: User will not be logged in. Error details should be shown in the Output Display. Rest of the UI remains unchanged.
-
-.   Other incorrect `login` commands to try:
-.. `login user/max33 pass/#Qwerty4321 userdata/fileNotFound.xml`
-.. `login user/inv@lidUsername pass/#Qwerty4321 userdata/max33.xml`
-.. `login user/max33 pass/wrongPass userdata/max33.xml`
-.. `login user/max33 userdata/max33.xml`
-.. `login user/max33 pass/#Qwerty4321`
-.. `login pass/#Qwerty4321 userdata/max33.xml`
-.. `login`
-
-
-=== Editing Student Details
-Below are some test cases you can perform to test the `EditStudentCommand` for the User Account Management feature.
-
-.   Prerequisite: A student account should already be registered(i.e. max33) and the respective userdata file be available. Student should also be logged in. +
-    Test case: `edit n/Max Emilian Verstappen maj/CS min/` +
-    Expected: `Student` details will be updated accordingly. The new details will be displayed in `User Tab`. Additionally, a successful message will be displayed in the Output Display. +
-
-.   Test case: `edit` +
-.   Expected: `Student` details will not be updated. Error details would be shown in the Output Display. Rest of the UI remains unchanged.
-
-
-=== Logging out from account
-Below are the test case you can perform to test the `LogoutCommand` for the User Account Management feature.
-
-.   Prerequisite: You should already be logged in either with a `Student` or an `Admin` account.
-.   Test case: `logout` +
-.   Expected: `User` will be logged out. User details as displayed in the UI will be removed and all UI elements should be reset to its original state. Additionally, a successful message would be shown in the Output Display. +
-
-.   Prerequisite: No user should be logged in. +
-    Test case: `logout` +
-    Expected: Logout attempt will fail. Error details would be shown in the Output Display. Rest of the UI remains unchanged.
+_{ more test cases ... }_
 
 === Generating a schedule
 
