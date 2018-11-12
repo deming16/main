@@ -453,7 +453,7 @@ Example:
   ** Username : `max33`
   ** Password : `#Qwerty4321`
   ** Name : `Max Verstappen`
-  ** Enrollment Date: `15/03/2015>`
+  ** Enrollment Date: `15/03/2015`
   ** Major(s) : `CS`, `DA`
   ** Minor(s) : `BA`, `MA`
 

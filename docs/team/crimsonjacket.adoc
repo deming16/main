@@ -12,9 +12,11 @@
 It aims to make the tedious process of planning your entire candidature easier and more effective.
 It provides students with the ability to view module details and manage their personal candidature plans.
 
-Targeted at individuals whom prefer the use of their keyboards over a click-and-point interface,
-it incorporates an in-built Command Line Interface(CLI) for majority of its user interactions and
+Targeted at individuals who prefer the use of their keyboards over a click-and-point interface,
+it incorporates an in-built Command Line Interface(CLI) for the majority of its user interactions and
 a simple Graphical User Interface(GUI) for the displaying of output.
+
+This project is initiated by a team of 5. Tasked to morph an existing open-source project consisting of ~10k lines of base code to a completely distinct application.
 
 == 2. About this Portfolio
 
@@ -32,7 +34,7 @@ been included.
 Using a traditional account management system, users can expect a familiar and
 intuitive structure when managing their personal details.
 
-** Justification: This enhancement enhances the general user experience, allowing users
+** Justification: This feature allows users
 to set user specific details and configurations for the application.
 
 ** Highlights: This is a full-stack feature incorporating all the components of the application from `Storage` to `UI`.
@@ -40,7 +42,7 @@ This enhancement will give users the necessary control over their personal prefe
 
 ** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/44[#44], https://github.com/CS2103-AY1819S1-W17-2/main/pull/87[#87] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161]
 
-* *Minor enhancement(s)*: Standardized the *User Interface* of the application.
+* *Minor enhancement(s)*: Standardized the *User Interface(UI)* of the application.
 
 ** What it does: Provides an intuitive and familiar user interface to greatly boost
 User Experience(UX).
@@ -49,11 +51,9 @@ User Experience(UX).
 an easy-to-use and familiar tool, users can avoid the need to ascertain new processes and
 procedures.
 
-** Highlights: Switching of relevant panels will automatically be done after the successful
-execution of commands. This brings the focus of the users to the relevant display panels. It is
-also noted that commands have been included to allow users to set the front-most display panels manually.
+** Highlights: Switching between relevant UI panels is automatic(after each successive command).
 
-** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/189[#189]
+** Relevant pull requests:  https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/189[#189]
 
 ** Code contributed: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=crimsonjacket[Functional code]]
 
@@ -62,7 +62,7 @@ also noted that commands have been included to allow users to set the front-most
 ** Project Management:
 
 *** Assumed responsibility as Team Lead, making critical decisions regarding the project development and overseeing task allocation and deadlines.
-*** Created https://github.com/CS2103-AY1819S1-W17-2/main/projects/1[Project Dashboard] on GitHub.
+*** Managed *Project Dashboard* on GitHub.
 Utilized by the team to better manage individual tasks and visualize the various stages of development throughout the project.
 *** Set up Labels, Issue Tracker and Milestone in GitHub.
 *** Managed all GitHub https://github.com/CS2103-AY1819S1-W17-2/main/releases[releases].
@@ -74,15 +74,14 @@ Utilized by the team to better manage individual tasks and visualize the various
 
 ** Documentation:
 
-*** Included User Account Management Documentation to User Guide & Developer Guide (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/56[#56] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/127[#127])
+*** Included User Account Management Documentation to User Guide & Developer Guide (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/56[#56], https://github.com/CS2103-AY1819S1-W17-2/main/pull/127[#127] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/280[#280])
 
 *** Updated various Component Structures in DeveloperGuide (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/201[#201])
 
 ** Community:
 
 *** Reviewed PRs(with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-2/main/pull/119[#119], https://github.com/CS2103-AY1819S1-W17-2/main/pull/124[#124] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/200[#200]
-*** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103-AY1819S1-W17-2/main/issues/181[1], https://github.com/CS2103-AY1819S1-W17-2/main/issues/138[2], https://github.com[3])
-
+*** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103-AY1819S1-W17-2/main/issues/181[1] and https://github.com/CS2103-AY1819S1-W17-2/main/issues/138[2])
 ** Tools:
 
 *** Set up project's Travis and AppVeyor Continuous Integration(CI) platforms.
@@ -96,7 +95,9 @@ Utilized by the team to better manage individual tasks and visualize the various
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=useraccountmanagement]
+include::../UserGuide_portfolio(Daniel).adoc[tag=useraccountmanagement]
+
+<<<
 
 == 5. Contributions to the Developer Guide
 
@@ -104,4 +105,4 @@ include::../UserGuide.adoc[tag=useraccountmanagement]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=useraccountmanagement]
+include::../DeveloperGuide_portfolio(Daniel).adoc[tag=useraccountmanagement]

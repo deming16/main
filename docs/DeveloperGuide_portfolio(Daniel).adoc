@@ -242,17 +242,18 @@ This section describes some noteworthy details on how certain features are imple
 // tag::useraccountmanagement[]
 === User Account Management
 
-User Account Management involves mainly the authentication process of the users.
-Only once they are authenticated, will their respective user data be loaded into the application.
-+
+User Account Management involves mainly the authentication process of the users. User data will only be loaded into the application after a successful login procedure.
+
 Additionally, it is only by registering/logging in will users be able to access and manipulate their account details. +
 This section will describe in detail the Current Implementation and the Design Considerations of the User Account Management feature. +
 
 Figure 1(shown below) describes the general flow of the user account management in an activity diagram.
 
-image::ADforUserAccountManagement.png[width="800",align="center"]
+image::ADforUserAccountManagement.png[width="600",align="center"]
 [.text-center]
 _Figure 1. Activity Diagram for User Account Management._
+
+<<<
 
 ==== Current Implementation
 
@@ -285,9 +286,11 @@ Refers to the majority of the users. It stores variables pertaining to a student
 *** `Admin` +
 Refers to the application managers. It stores variables pertaining to an administrator.
 
+<<<
+
 Figure 2(shown below) is the Class Diagrams illustrating the inheritance between `User`, `Student` and `Admin`
 
-image::UserClassDiagram.png[width="500",align="center"]
+image::UserClassDiagram2.png[width="600",align="center"]
 [.text-center]
 _Figure 2. User, Student and Admin Class Diagrams_
 
@@ -304,15 +307,18 @@ Registering only applies to students. For the creation of `Admin` Accounts, only
 
 The `RegisterCommand` extends the `Command` class. Figure 3(shown below) depicts the UML representation of the `RegisterCommand`. +
 
-image::RegisterCommandUML.png[width="350",align="center"]
+image::RegisterCommandUML.png[width="200",align="center"]
 [.text-center]
 _Figure 3. UML Diagram of `RegisterCommand`._
 
 Parsing of command is performed by `RegisterCommandParser`,
-which returns a `RegisterCommand` object after parsing Username, Password, Name, Path to Profile Picture, Enrollment Date, Major(s) and Minor(s).
-The Sequence Diagram shown below in Figure 4 illustrates the interactions between the `Logic` & `Model` components when the `RegisterCommand` is being executed.
+which returns a `RegisterCommand` object after processing the user inputs. +
 
-image::SDforRegisterCommandLogicAndModel.png[width="900",align="center"]
+<<<
+
+Figure 4 illustrates the interactions between the `Logic` & `Model` components when the `RegisterCommand` is being executed.
+
+image::SDforRegisterCommandLogicAndModel.png[width="600",align="center"]
 [.text-center]
 _Figure 4. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `RegisterCommand`._
 
@@ -361,7 +367,6 @@ Step 4. The `register` command will next call `Model#addCredential(...)` and `Mo
 
 Step 5. At this point, `Model` will insert a new entry in `CredentialStore` and indicate to `Storage` to commit the changes to file. Additionally, the event raised by the `register` command will be handled by `UI`, making the necessary changes to all UI elements.
 
-
 [NOTE]
 A new `Student` would be initialized and automatically set as the `currentUser`, enabling the user to perform additional commands automatically. +
 
@@ -369,79 +374,78 @@ A new `Student` would be initialized and automatically set as the `currentUser`,
 ===== Implementation of the login feature
 
 The `login` feature is facilitated by the `LoginCommand` class.
-It allows for students to log into their existing modsUni account, granting them access to their respective user data. +
+It allows for students to log into their existing modsUni account. +
 
-The `LoginCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `LoginCommand`. +
-
-image::LoginCommandUML.png[width="350",align="center"]
-[.text-center]
-_Figure 1. UML Diagram of `LoginCommand`._
-
+The `LoginCommand` extends the `Command` class.
+//Figure 1(shown below) depicts the UML representation of the `LoginCommand`. +
+//
+//image::LoginCommandUML.png[width="200",align="center"]
+//[.text-center]
+//_Figure 1. UML Diagram of `LoginCommand`._
 Parsing of command is performed by `LoginCommandParser`, which returns a `LoginCommand` after parsing the username and password inputs.
-The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `LoginCommand` is being executed.
-
-image::SDforLoginCommandLogicAndModel.png[width="900",align="center"]
-[.text-center]
-_Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `LoginCommand`._
-
-Figure 3 below shows the high-level sequence diagram of the command execution.
-
-image::SDforLoginCommandOverviewWithLoad.png[width="800",align="center"]
-[.text-center]
-_Figure 3. High-Level Sequence Diagram of the login process._
+//The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `LoginCommand` is being executed.
+//
+//image::SDforLoginCommandLogicAndModel.png[width="700",align="center"]
+//[.text-center]
+//_Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `LoginCommand`._
+//
+//Figure 3 below shows the high-level sequence diagram of the command execution.
+//
+//image::SDforLoginCommandOverviewWithLoad.png[width="600",align="center"]
+//[.text-center]
+//_Figure 3. High-Level Sequence Diagram of the login process._
 
 Given below is an example usage scenario and how the login mechanism behaves at each step:
 
-1. The user launches the application. As explained earlier, since the `currentUser` in `Model` is not yet instantiated,
-the user will only be able to execute either the `register` or `login` command. +
+1. The user launches the application. As explained earlier, only `register` and `login` command are available. +
 
-2. Having already registered an account, the user can proceed to execute `login user/demo pass/#Qwerty123` to log in to their account.
+2. The user can proceed to execute a `login` command to log in to their account.
 The `login` command will call `Model#isVerifiedCredential(...)` to determine if the user input matches a credential in `CredentialStore`. +
 
-3. Should the credential be valid and verified, a `User` will be loaded from a the default `userData.xml` file.
+3. Should the credential be valid and verified, a `User` will be loaded from a the userdata file provided.
 Subsequently, the `Model#setCurrentUser(...)` will be called to set the loaded user data as the `currentUser`. +
 
 4. Should the credential not be valid or does not match an existing credential in the `CredentialStore`, the user will simply be shown a failure message.
 
-===== Implementation of the edit feature
-
-The `edit` feature is facilitated by the `EditStudentCommand` class.
-It allows for students to edit their existing modsUni account, granting them the ability
-to modify personal details. +
-
-The `EditStudentCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of the `EditStudentCommand`. +
-
-image::EditStudentCommandUML.png[width="350",align="center"]
-[.text-center]
-_Figure 1. UML Diagram of `EditStudentCommand`._
-
-Parsing the command is performed by `EditStudentCommandParser`, which returns a `EditCommand` after parsing the user input.
-The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `EditStudentCommand` is being executed.
-
-image::SDforEditStudentCommandLogicAndModel.png[width="900",align="center"]
-[.text-center]
-_Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `EditStudentCommand`._
-
-Figure 3 below shows the high-level sequence diagram of the command execution:
-
-image::SDforEditStudentCommand.png[width="800",align="center"]
-[.text-center]
-_Figure 3. High-Level Sequence Diagram of the edit process._
-
-Given below is an example usage scenario and how the edit mechanism behaves at each step:
-
-1. The user launches the application. Depending on whether the user already has an account registered, he would proceed to login. +
-2. Now that the `currentUser` is being loaded. The student can proceed to execute an edit command `edit n/demo enroll/03/08/2017` +
-At this point,`ModsUniParser` would instantiate `EditStudentCommandParser` which would parse the `edit` command.
-3. `EditStudentCommandParser` would instantiate `EditStudentDescriptor`. `EditStudentDescriptor` contains the respective user details that is provided in the user input. +
-[NOTE]
-`EditStudentDescriptor` contains *only* the details as provided in the user input and will be used in `EditCommand#execute()` to update `currentUser`
-
-4. `EditStudentCommandParser` would return a `EditCommand` with the descriptor class. Subsequently, `EditCommand#execute()` would be called.
-5. At this point, `EditCommand#createEditedStudent(...)` would be called constructing a new Student object, with the `currentUser` and the descriptor.
-6. Finally, `Model#setCurrentUser(...)` would be called to update `currentUser` with the new details.
-[NOTE]
-Upon the successful execute of the `edit` command, `UserTab` would also be updated with the new user details.
+//===== Implementation of the edit feature
+//
+//The `edit` feature is facilitated by the `EditStudentCommand` class.
+//It allows for students to edit their existing modsUni account, granting them the ability
+//to modify personal details. +
+//
+//The `EditStudentCommand` extends the `Command` class.
+//Figure 1(shown below) depicts the UML representation of the `EditStudentCommand`. +
+//
+//image::EditStudentCommandUML.png[width="200",align="center"]
+//[.text-center]
+//_Figure 1. UML Diagram of `EditStudentCommand`._
+//
+//Parsing the command is performed by `EditStudentCommandParser`, which returns a `EditCommand` after parsing the user input.
+//The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `EditStudentCommand` is being executed.
+//
+//image::SDforEditStudentCommandLogicAndModel.png[width="700",align="center"]
+//[.text-center]
+//_Figure 2. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `EditStudentCommand`._
+//
+//Figure 3 below shows the high-level sequence diagram of the command execution:
+//
+//image::SDforEditStudentCommand.png[width="600",align="center"]
+//[.text-center]
+//_Figure 3. High-Level Sequence Diagram of the edit process._
+//
+//Given below is an example usage scenario and how the edit mechanism behaves at each step:
+//
+//1. Assuming that the user is currently logged in.  The student can proceed to execute an `edit` command(i.e. `edit n/demo enroll/03/08/2017`). +
+//At this point,`ModsUniParser` would instantiate `EditStudentCommandParser` which would parse the `edit` command.
+//2. `EditStudentCommandParser` would instantiate `EditStudentDescriptor`. `EditStudentDescriptor` contains the respective user details that is provided in the user input. +
+//[NOTE]
+//`EditStudentDescriptor` contains *only* the details as provided in the user input and will be used in `EditCommand#execute()` to update `currentUser`.
+//
+//3. `EditStudentCommandParser` would return a `EditCommand` with the descriptor class. Subsequently, `EditCommand#execute()` would be called.
+//4. At this point, `EditCommand#createEditedStudent(...)` would be called constructing a new Student object, with the `currentUser` and the descriptor.
+//5. Finally, `Model#setCurrentUser(...)` would be called to update `currentUser` with the new details.
+//[NOTE]
+//Upon the successful execute of the `edit` command, `UserTab` would also be updated with the new user details.
 
 ==== Design Considerations
 
@@ -465,150 +469,52 @@ Upon the successful execute of the `edit` command, `UserTab` would also be updat
 // end::useraccountmanagement[]
 
 // tag::generate[]
-=== Generate Schedule Feature
+=== Generate
 
-This feature is for student users to generate a schedule containing the modules to take in each semester
-during their entire university candidature. It is executed using the `generate` command.
+Generate is a command for student users to generate a schedule containing the modules to take in each
+semester during their entire university candidature.
 
 [NOTE]
-The `generate` command can only be executed by users of type `Student`.
+The generate command can only be executed by users of type `Student`.
 
 The section below will describe in detail the current implementation and design considerations of the
-`generate` command.
+generate feature.
 
 ==== Current Implementation
-The sequence diagram shown below in Figure 1 illustrates the interactions between some of these components
- when the command is executed.
 
-image::SequenceDiagramforGenerate.png[width="200]
-_Figure 1. High Level Sequence Diagram for `generate` command_
+The generate command is facilitated by the `GenerateCommand` class and the following methods in the Model
+class:
 
-The command is facilitated by the following classes:
+* `Model#isStudent()` -- This method checks if the current user is a student.
+* `Model#canGenerate()` -- This method checks if it is possible to generate a schedule.
+* `Model#generateSchedule()` -- This method generates a schedule.
 
-* `Generate` command class +
-The `Generate` command class extends from the `Command` class. Figure 2 below depicts the UML
-diagram for the `Generate` command class.
+It generates a schedule based on the student’s staged modules. It also makes use of the `Generate`
+class from the `Logic` package to create a schedule.
 
-+
-image::GenerateCommandUML.png[width="400"]
-_Figure 2. Generate command UML Diagram_
+The `GenerateCommand` class extends from the `Command` class. Figure 1 as shown below depicts the UML
+diagram for the `GenerateCommand` class.
 
-* `Model` class +
-The following methods in the `Model` class are used in this command:
+image::GenerateCommandUML.png[width="250]
+_Figure 1. GenerateCommand UML Diagram_
 
-** `isStudent()` +
-This method checks if the current user is a student.
-** `canGenerate()` +
-This method checks if it is possible to generate a schedule.
-** `generateSchedule()` +
-This method generates a schedule.
-
-* `Generate` from the `Logic` package. +
-This class is used to encapsulate the processes for generating a schedule. The following methods are used
-in this command: +
-** `canGenerate(Student)` +
-This methods checks if all the module prerequisites from the student's staged list is met. It does this by
-merging the staged and taken module list together. +
-Using the merged list, it extracts out the list of module codes. Each module in the staged list is checked
-to see if the prerequisite condition can be met. The following code snippet shows this process:
-+
-[source, java]
-----
-public static Optional<List<Code>> canGenerate(Student student) {
-    List<Code> cannotTakeCode = new ArrayList<>();
-    List<Code> codeChecklist = student.getTakenAndStageCode();
-    UniqueModuleList modulesStaged = student.getModulesStaged();
-    for (Module module : modulesStaged) {
-        if (!module.checkPrereq(codeChecklist)) {
-            cannotTakeCode.add(module.getCode());
-        }
-    }
-    // return list of codes that failed to met prerequisite condition or an empty value if the list is empty.
-}
-----
-** `generateSchedule()` +
-This method will create a schedule using modules that are in the student's staged list. +
-It does this by going though the list of modules and removing those that satisfies the prerequisite condition. As it removes,
-the module code is added to a temporary list. This list is used during the checking of prerequisite
-conditions for the remaining modules. +
-The following code snippet will provide a clearer explanation of how the method works:
-+
-[source, java]
-----
-public SemesterList generateSchedule() {
-    SemesterList semesterList = new SemesterList();
-    Semester newSemester = new Semester();
-
-    List<Code> taken = new ArrayList<>();
-
-    while (modulesStaged.size() > 0) {
-        for (Module element : modulesStaged) {
-            if (element.checkPrereq(taken)) {
-                // Remove module from staged list
-                // Add module to semester and temporary list
-            }
-        }
-
-        semesterList.addSemester(newSemester);
-        newSemester = new Semester();
-    }
-    return semesterList;
-}
-----
-
-[NOTE]
-This class is different from the `Generate` command class. The command class is for the execution of the
-command, while the current one is for creating the schedule.
-
-===== Execution phase of the `generate` command
-Figure 3 below shows an overview of the steps performed during the execution phase of the command.
+In the execute method of the Generate command, it will first check if the current user is a Student. Next
+it will proceed on to check if all prerequisites of the student’s staged modules have been met. It does the
+ prerequisite checks using the student’s taken module list. If the conditions are satisfactory, it will
+ generate a schedule. Figure 2(shown below) shows the sequence diagram when executing the `GenerateCommand`.
 
 image::SDforGenerateCommandLogicAndModel.png[width="250]
-_Figure 3. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
- `generate`._
+_Figure 2. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
+ `GenerateCommand`._
 
-In the execute method of the command, the following checks are performed:
+`GenerateCommand` uses multiple components of the modsUni application. Upon completion of generating the
+schedule, two events will be posted. The first event is `MainWindowClearResourceEvent`. It will be posted to
+inform the current UI that is in the main window to clear it's resources. The second event is
+`NewGenerateResultAvailableEvent`. This event will show the UI for the schedule in the main window.
+The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
 
-. Type of user account +
-This step checks if a user has logged in and the current user is a student. It is performed as only student
-accounts are able to generate a schedule.
-
-. Modules in staged list +
-This step ensures that there modules are available to add into the schedule.
-
-. Staged modules prerequisites +
-This step verifies that the prerequisites for all modules in the staged list are met. It is done to ensure
- that it is possible to generate a schedule.
-
-If any of the checks fails, an error will be thrown. The following code snippet illustrates the
-checking process: +
-[source, java]
-----
-if (model.getCurrentUser() == null) {
-    throw new CommandException(MESSAGE_ERROR);
-}
-
-if (!model.isStudent()) {
-    throw new CommandException(MESSAGE_INVALID_ROLE);
-}
-
-if (!currentStudent.hasModuleToTake()) {
-    throw new CommandException(MESSAGE_NO_MODULES);
-}
-
-if (cannotTakeCodes.isPresent()) {
-    return new CommandResult(MESSAGE_FAILURE + cannotTakeCodes.toString());
-}
-----
-After passing all the checks, the command will proceed on and generate a schedule. To display the schedule
-in the user interface, two events will be created.
-
-. `MainWindowClearResourceEvent` +
-It is created to inform the current panel in the main window to clear it's resources.
-. `NewGenerateResultAvailableEvent` +
-This event will show the generated schedule in the main window.
-
-These events will be sent to `EventsCenter` to process and execute it.
+image::SequenceDiagramforGenerate.png[width="250]
+_Figure 3. High Level Sequence Diagram for the `generate` command_
 
 ===== Example scenario of the generate command
 Given below is an example usage scenario of how the generate command behaves:
@@ -622,8 +528,7 @@ In order to utilise the generate command, the user must perform one of the follo
 * The user executes `register user/demo ...` to register a new `Student` account, followed by `addModuleS
 cs1010`.
 
-* The user executes `login user/demo pass/P@ssw0rd userdata/saveFile.xml` to log into account, followed by
-`addModuleS cs1010`.
+* The user executes `login user/demo pass/P@ssw0rd` to log into account, followed by `addModuleS cs1010`.
 
 [NOTE]
 A new `Student` would be initialized and automatically set as the `currentUser`. The module cs1010 would
@@ -631,27 +536,18 @@ also be added to the student's staged module list, enabling the student to perfo
 
 ==== Design Considerations
 
-===== Aspect: Placement of methods for generating a schedule
-* **Alternative 1 (current choice):** Use a separate `Generate` class in the `Logic` package to
-encapsulate the processes for generating a schedule.
+===== Aspect: How to generate a schedule
+
+* **Alternative 1 (current choice):** Using of a separate `Generate` class to encapsulate the logic for
+generating the schedule.
 ** Pros: Modification made to the generating of schedule does not affect the `Student` model.
 ** Cons: This approach adds complexity to the design of the application.
 * **Alternative 2:** Adding the logic for generating the schedule to the `Student` model.
 ** Pros: This alternative is easier to implement.
 ** Cons: It breaks the single responsibility principle of the `Student` model.
-
-===== Aspect: Checking of prerequisites before generating a schedule
-* **Alternative 1 (current choice):** Perform checks to ensure that all prerequisites for modules in staged
- list are fulfilled.
- ** Pros: Ensures that the command will not cause an infinite loop.
- ** Cons: The command will not always be able to generate a schedule as students may forget to add in the
- prerequisite modules.
-* **Alterative 2:** Assume that prerequisites for all modules are met.
-** Pros: Reduces the time complexity of the command.
-** Cons: The command might end up with an infinite loop as it keeps on trying to arrange the modules.
 // end::generate[]
 
-// tag::usermodulemanagement1[]
+// tag::usermodulemanagement[]
 === User Module Management
 User Module Management involves mainly the interaction between users and their module lists.
 A user is able to add and remove the module only if he is a student and the module exists in the database.
@@ -678,7 +574,7 @@ It is the actor of the command. Add and remove commands are limited to a user wh
 
 ** `Student` stores two `ModuleList` namely `modulesTaken` and `modulesStaged`, to store the modules chosen by the student.
 *** `modulesTaken` represents the module student has taken before.
-*** `modulesStaged` represents the module student is intending to take.
+*** `modulesStaged` represents the module student wants to take later.
 
 ===== Implementation of the add feature
 
@@ -690,7 +586,7 @@ A user is allowed to add only if: +
 the user has logged in +
 the user is a student +
 the module exists in the database at this moment +
-both staged and taken module list do not contain the module already
+his staged/taken module list does not contains the module already
 
 `AddModuleToStudentStaged/TakenCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of `AddModuleToStudentStaged/TakenCommand`.
 
@@ -723,72 +619,15 @@ The second is a `String` contains the duplicate code entered by user.
 
 Step 3. When the command is executed, `AddModuleToStudentStaged/TakenCommand` will call `Model#getCurrentUser()` and `Model#isStudent()` to check whether the user is a `Student`. +
 `Model#searchCodeInDatabase(...)` to check whether the module exists in the database and update `toAdd` to the searched module,
-`Model#hasModuleStaged(...)` and `Model#hasModuleTaken(...)` to check whether the module has already existed in the student's staged or taken module list,
+`Model#hasModuleStaged/Taken(...)` to check whether the module has already existed in the student's staged/taken module list,
 `Model#addModuleStaged/Taken(...)` to finally add the module to the student's staged/taken module list.
 
-Step 4. After the module is added, the command will post a `ShowStaged/TakenTabRequestEvent` to show the user updated staged/taken module list. +
+Step 4. After the module is added, the command will post an `ShowStaged/TakenTabRequestEvent` to show the user updated staged/taken module list. +
 A `CommandResult` containing the log of execution result will be returned.
 
-===== Implementation of the remove feature
-The `remove` feature is facilitated by the `RemoveModuleFromStudentStagedCommand` and `RemoveModuleFromStudentTakenCommand` class.
-It allows a user to remove modules from his staged/taken module list by giving their code.
-[NOTE]
-A user is allowed to remove only if: +
-the user has logged in +
-the user is a student +
-the module exists in the database at this moment +
-his staged/taken module list contains the module need to be removed
-
-The implementation of `remove` feature is similar to `add` feature. They have generally the same mechanism, except remove
-command only use `Model#hasModuleStaged/Taken(...)` to ensure the respective module list contains the module, while add
-command use both methods to ensure the ensure does not exist in neither module list. See Step 3 of the adding mechanism for reference.
-
-// end::usermodulemanagement1[]
-===== Implementation of the search feature
-The `search` feature is facilitated by the `SearchCommand` class.
-It allows a user to search modules in the database using one or several prefixes.
-[NOTE]
-The command does not require user to login or register.
-
-[NOTE]
-The command does not support using a substring for searching. +
-Eg. `search 1010` can not being used for searching "CS1010"
-
-[NOTE]
-The command only supports to search within database module list. +
-The design consideration is that it does not make sense to search staged or taken module list
-as the scale of these two lists tend to be small.
-
-`SearchCommand` extends the `Command` class. Figure 4(shown below) depicts the UML representation of `SearchModule`.
-
-image::SearchCommandUML.png[width="400"]
-_Figure 4. UML Diagram of `SearchCommand`._
-
-The Sequence Diagram shown below in Figure 5 illustrates the interactions between the `Logic` & `Model` components when `SearchCommand` is being executed.
-
-image::SDforSearchCommandLogicAndModel.png[width="900"]
-_Figure 5. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `SearchCommand`._
-
-Figure 6 below shows the high-level sequence diagram of the command execution.
-
-image::SDforSearchCommandOverview.png[width="800"]
-_Figure 6. High-Level Sequence Diagram of search modules in database module list._
-
-Given below is an example usage scenario and how the searching mechanism behaves at each step: +
-Step 1. User enters the command, then `ModsUniParser` will handle it and create a `SearchCommandPraser`.
-`SearchCommandPraser` will use `CodeStartsKeywordsPredicate` to create a `predicate`. `SearchCommandPraser` then will
-use the `predicate` as a parameter to create a `SearchCommand`.
-
-Step 2. When the command is executed, `SearchCommand` will call `Model#updateFilteredDatabaseModuleList(...)` to use
-the `predicate` to filter `filteredDatabaseModules`. UI of `DatabaseModuleListPanel` will change accordingly.
-
-Step 3. The command will  post a `DatabaseTabRequestEvent` to show the user updated database module list. +
-A `CommandResult` containing the execution result will be returned.
-
-// tag::usermodulemanagement2[]
 ==== Design Considerations
 
-===== Aspect: How to search database using Code
+===== Aspect: Search the module in the database
 
 * **Alternative 1 (current choice):** Use `Code` as a key to search `moduleList` one by one.
 ** Pros: Easy to implement. Do not need to refactor `moduleList` to support this feature.
@@ -796,9 +635,9 @@ A `CommandResult` containing the execution result will be returned.
 * **Alternative 2:** Refactor `moduleList` to be a `HashMap` for searching.
 ** Pros: Efficiency of searching will increase. The time complexity is `O(1)`.
 ** Cons: May not be cost-efficient to refactor `moduleList` only to support this feature.
-// end::usermodulemanagement2[]
+// end::usermodulemanagement[]
 
-// tag::moduledatabaseadministration1[]
+// tag::moduledatabaseadministration[]
 === Module Database Administration
 
 Module database administration is a series of commands that administrators can use to make necessary changes to keep
@@ -814,7 +653,6 @@ of the module database in an activity diagram.
 
 image::ADforModuleDatabaseAdministration.png[width="800]
 _Figure 1. Activity diagram for module database administration._
-// end::moduledatabaseadministration1[]
 
 ==== Current Implementation
 
@@ -836,7 +674,6 @@ illustrates each command and their respective command class:
 * `removeModuleDB` -- `RemoveModuleFromDatabaseCommand`
 * `editModule` -- `EditModuleCommand`
 
-// tag::moduledatabaseadministration2[]
 **Adding module to database**
 
 `addModuleDB` mechanism is facilitated by `AddModuleToDatabaseCommand`. It allows the addition of modules to database.
@@ -844,7 +681,7 @@ illustrates each command and their respective command class:
 The `AddModuleToDatabaseCommand` extends for `Command`. Figure 2(shown below) depicts the UML representation of the
 `AddModuleToDatabaseCommand`.
 
-image::AddModuleToDatabaseCommandUML.png[width="300"]
+image::AddModuleToDatabaseCommandUML.png[width="400"]
 _Figure 2. UML diagram of `AddModuleToDatabaseCommand`._
 
 Parsing of command is performed by `AddModuleToDatabaseCommandParser`, which returns a `AddModuleToDatabaseCommand`
@@ -864,7 +701,7 @@ _Figure 4. High-Level Sequence diagram of adding a module to database._
 Given below is an example usage scenario and how the `addModuleDB` mechanism behaves at each step:
 
 [NOTE]
-For this example usage scenario, we assume that module "CS2109" did not exist in the database initially.
+For this example usage scenario, we assume that module "CS2109" did not exist in initially.
 
 . An admin executes `addAdminDB` with valid arguments to add a module with module code “CS2109” to the module list.
 The `addModuleDB` command calls `Model#addModuleToDatabase(...)`, causing the new model to be added to `ModuleList`
@@ -874,62 +711,6 @@ and subsequently update the `moduleList.xml` file with the new list.
 `addModuleDB`. The `addModuleDB` command calls `Model#hasModuleInDatabase(...)`, causing a feedback to return,
 informing the admin that the module already exists, and the module is not added.
 
-The code snippet below shows how user input is parsed into a `AddModuleToDatabaseCommand` object.
-[source, java]
-----
-    public AddModuleToDatabaseCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_MODULE_CODE, PREFIX_MODULE_DEPARTMENT, PREFIX_MODULE_TITLE,
-                        PREFIX_MODULE_DESCRIPTION, PREFIX_MODULE_CREDIT, PREFIX_MODULE_AVAILABLE, PREFIX_MODULE_PREREQ);
-
-        if (!arePrefixesPresent(argMultimap, PREFIX_MODULE_CODE, PREFIX_MODULE_DEPARTMENT, PREFIX_MODULE_TITLE,
-                PREFIX_MODULE_DESCRIPTION, PREFIX_MODULE_CREDIT, PREFIX_MODULE_AVAILABLE, PREFIX_MODULE_PREREQ)
-            || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    AddModuleToDatabaseCommand.MESSAGE_USAGE));
-        }
-
-        String codeName = argMultimap.getValue(PREFIX_MODULE_CODE).get();
-        Code code = new Code(codeName);
-        String department = argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).get();
-        String title = argMultimap.getValue(PREFIX_MODULE_TITLE).get();
-        String description = argMultimap.getValue(PREFIX_MODULE_DESCRIPTION).get();
-        int credit = Integer.parseInt(argMultimap.getValue(PREFIX_MODULE_CREDIT).get());
-        boolean[] sems = getAvailableSems(argMultimap.getValue(PREFIX_MODULE_AVAILABLE).get());
-        Prereq prereq = ParserUtil.parsePrereq(argMultimap.getValue(PREFIX_MODULE_PREREQ).get());
-
-        Module module = new Module(code, department, title, description, credit,
-                sems[0], sems[1], sems[2], sems[3], new ArrayList<Code>(), prereq);
-
-        return new AddModuleToDatabaseCommand(module);
-    }
-----
-
-The created `Command` object then execute the command, shown in the code snippet below.
-[source, java]
-----
-    public CommandResult execute(Model model, CommandHistory history) throws CommandException {
-        requireNonNull(model);
-        if (model.getCurrentUser() == null) {
-            throw new CommandException(MESSAGE_NOT_LOGGED_IN);
-        }
-
-        if (!model.isAdmin()) {
-            throw new CommandException(MESSAGE_NOT_ADMIN);
-        }
-
-        if (model.hasModuleInDatabase(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_MODULE);
-        }
-
-        model.addModuleToDatabase(toAdd);
-
-        return new CommandResult(String.format(MESSAGE_SUCCESS));
-    }
-----
-// end::moduledatabaseadministration2[]
-
-// tag::moduledatabaseadministration3[]
 **Deleting module from database**
 
 `removeModuleDB` mechanism is facilitated by the `RemoveModuleFromDatabaseCommand` class. It allows `Admin` to remove
@@ -938,7 +719,7 @@ The created `Command` object then execute the command, shown in the code snippet
 The `RemoveModuleFromDatabaseCommand` extends for `Command`. Figure 5(shown below) depicts the UML representation of the
 `RemoveModuleFromDatabaseCommand`.
 
-image::RemoveModuleFromDatabaseCommandUML.png[width="300"]
+image::RemoveModuleFromDatabaseCommandUML.png[width="400"]
 _Figure 5. UML diagram of `RemoveModuleFromDatabaseCommand`._
 
 Parsing of command is performed by `RemoveModuleFromDatabaseParser`, which returns a `RemoveModuleFromDatabase` object
@@ -1009,15 +790,15 @@ time they execute command that requires reading the module list.
 ** Pros: We can simply check if a `ModuleCode` key exists, which is fast as it is in constant time.
 ** Cons: Each module can only have one module code. Thus if a module have multiple module codes, we have to create
 another module just to store the other module codes. This can be heavy on memory usage.
-// end::moduledatabaseadministration3[]
+// end::moduledatabaseadministration[]
 
 // tag::saveuser[]
 === Save User Feature
 The save user feature involves mainly the saving process of a user's attributes.
-A user can save their data only after they have logged in or registered an account.
+A user can save their data only after they have logged in/registered an account.
 
 [NOTE]
-Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature in the next section.
+Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature.
 
 This section will describe in details the current implementation and the design considerations of the save user feature.
 
@@ -1025,90 +806,89 @@ This section will describe in details the current implementation and the design 
 The save mechanism is facilitated by the following classes:
 
 * `SaveCommand` +
-The `SaveCommand` stores the following attributes of a `User` object: +
+It stores the following attributes of a `User` object: +
 
-** Attributes that exist in all user:
+** All user
 
 *** Username +
-    The username of a user.
+    The username used for logging in.
 *** Name +
     The name of the user.
 *** Role +
     The role of the user.
-[NOTE]
-`Username` is unique to every user and is used for logging in. `Name` is non-unique and multiple users can use the same `Name`.
+*** Path to Profile Picture +
+    The path to the user's profile picture.
 
-** Attributes that only exist in an admin:
+** Admin
 
 *** Salary +
     The salary of an administrator.
-*** Employment Date +
+*** Employ Date +
     The employment date of an administrator.
 
-** Attributes that only exist in a student:
+** Student
 
 *** Enrollment Date +
     The enrollment date of a student.
 *** Major(s) +
-    A list of a student's major.
+    A list of the student's major.
 *** Minor(s) +
-    A list of a student's minor.
+    A list of the student's minor.
 *** Modules Taken +
-    A list of modules took by a student.
+    A list of modules took by the student.
 *** Modules Staged +
     A list of modules staged for the generation of candidature.
-[IMPORTANT]
-A student must have *at least one* major and can have no minor.
 
 * `UserStorage` +
 It provides methods to save the current user's attributes as well as to load a file containing previously saved data. +
-`UserStorage` implements the following operations:
+Additionally, it implements the following operations:
 ** `StorageManager#saveUser(…​)` — Save the user's data into the specified file path.
 ** `StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
 
 ===== Implementation of the save feature
 
 The `save` mechanism of modsUni is facilitated by `SaveCommand` class and is event-driven.
-It allows a user to save their data as an XML file.
+It allows a user to save their data in modsUni as a XML file.
 
 [NOTE]
 Both admin and student can use the save feature.
 
-The `SaveCommand` class extends from the `Command` class as shown below in Figure 1.
+The `SaveCommand` class extends from the `Command` class.
+Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
 
 image::SaveCommandUML.png[width="250"]
 _Figure 1. SaveCommand UML Diagram_
 
-The parsing of command is performed by `SaveCommandParser`, which returns a `SaveCommand` object after parsing the save file path.
-The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic and Model components when the SaveCommand is being executed.
+Parsing of command is performed by `SaveCommandParser`, which returns a `SaveCommand` object after parsing the save file path.
+The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic & Model components when the SaveCommand is being executed.
 
-image::SDforSaveCommandLogicAndModel.png[width="800"]
+image::SDforSaveCommandLogicAndModel.png[width="900"]
 _Figure 2. Sequence Diagram for the interaction between Logic and Model Components when executing SaveCommand_
 
 The `save` feature uses multiple components of the modsUni application.
 The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
-In addition, the sequence diagram also illustrates that `SaveCommand` is driven by the `SaveUserChangedEvent`.
+As seen from the diagram, the `SaveCommand` is driven by the `SaveUserChangedEvent`.
 
 image::SequenceDiagramforSave.png[width="800"]
 _Figure 3. High-Level Sequence Diagram for the `save sp/userdata.xml` command_
 
 The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as shown in Figure 4.
 
-image::SequenceDiagramforSaveEventHandling.png[width="550"]
-_Figure 4. High-Level Sequence Diagram showing how the Storage component handles `SaveUserChangedEvent` which was triggered by EventsCenter_
+image::SequenceDiagramforSaveEventHandling.png[width="650"]
+_Figure 4. High-Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
 
-The Storage component makes use of `XmlUserStorage` class to write `User` to a file specified by the file path.
+The Storage component makes use of `XmlUserStorage` class to write `User` to the file specified by the file path.
 Both the conversion of `User` object to `XmlSerializableUser` as well as writing to file is shown in the following code snippet below:
 
 [source, java]
 ----
-public void saveUser(User user, Path filePath, String password) throws IOException {
+public void saveUser(User user, Path filePath) throws IOException {
     // ... null checks ...
     FileUtil.createIfMissing(filePath);
-    XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user, password));
+    XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
 }
 ----
-`XmlFileStorage#saveDataToFile(...)` utilizes `XmlUtil#saveDataToFile(...)` to save the newly created `XmlSerializableUser` object to the file as shown in the code snipplets below:
+The newly created `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)` as shown in the code snipplets below:
 
 [source, java]
 ----
@@ -1127,34 +907,30 @@ Given below is an example usage scenario and how the save mechanism behaves:
 
 1. A student will first log into their account and add their preferred modules.
 
-2. Upon issuing the command `save sp/userdata.xml`, the save command will call `Model#saveUserFile(...)` which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` is then handled by `StorageManager`.
+2. Upon issuing the command `save sp/userdata.xml`, the save command will call `Model#saveUserFile(...)` which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` will be handled by `StorageManager`.
 
 3. `StorageManager` then utilizes `XmlUserStorage#saveUser(...)` which saves the file to the file path specified by the user.
 
 
 [TIP]
-A newly registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
+A new registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
 
-The following activity diagram shown in Figure 5 summarizes what happens when a user executes the save command.
-
-image::SaveActivityDiagram.png[width="550"]
-_Figure 5. Activity Diagram for the save command_
 
 ==== Design Considerations
 
 ===== Aspect: Data to save
 
-* **Alternative 1 (current choice):** Save every attribute of a `User`.
-** Pros: Able to restore to any state of a user.
+* **Alternative 1 (current choice):** Saves the entire `User` object.
+** Pros: Able to restore to any state of the user.
 ** Cons: Harder to implement as support for converting data of user to XML format needs to be added.
-* **Alternative 2:** Save only the staged modules.
+* **Alternative 2:** Saves only the staged modules.
 ** Pros: Will use less storage space (saving only staged module vs saving all user data).
-** Cons: Does not restore the state of a user entirely.
+** Cons: Does not restore the state of the user entirely.
 // end::saveuser[]
 
 // tag::datasecurity[]
 === Data Security Feature
-The data security feature involves mainly the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
+The data security feature mainly involves the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
 
 [NOTE]
 Advanced Encryption Standard (AES) is the algorithm used for encryption.
@@ -1164,23 +940,23 @@ This section will describe in details the current implementation and the design 
 ---
 ==== Current Implementation
 The data security feature is facilitated by `DataSecurityUtil` class. +
-`DataSecurityUtil` implements the following operations:
+It implements the following operations(s):
 
 * `DataSecurityUtil#encrypt(…​)` — Encrypts a `byte[]` with the specified password and returns the encrypted `byte[]`.
 * `DataSecurityUtil#decrypt(…​)` — Decrypts a `byte[]` with the specified password and returns the decrypted `byte[]`.
 
 `DataSecurityUtil` class utilizes `javax.crypto.cipher` and `javax.crypto.spec.SecretKeySpec` packages for the operations mentioned above.
 
-The `Hashing` class is also used to generate an SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which is required to generate `SecretKeySpec`.
+The `Hashing` class is used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which are required to generate `SecretKeySpec`.
 
-The encryption and decryption of user data are performed in `XMLAdaptedUser`.
+Both encryption and decryption is performed in `XMLAdaptedUser`.
 
 ===== Implementation of the encryption feature
 
-The encryption feature is integrated with the *Save User Feature*.
+The encryption feature is integrated with the save user feature (3.6).
 
 During the conversion of a `User` object to XML, the encryption is performed in `XMLAdapterUser`, right before the file is written locally.
-Currently, only `Username` (for all users) and `Salary` (for administrators) is encrypted.
+Currently, we only encrypt the `Username` (for all users) and `Salary` (for administrators).
 
 The following code snippet shown below illustrates the encryption process:
 
@@ -1189,12 +965,14 @@ The following code snippet shown below illustrates the encryption process:
 public XmlAdaptedUser(User user, String password) {
     // ... null checks ...
 
+
     // All users
     this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
             user.getUsername().toString().getBytes(), password));
     this.name = user.getName().toString();
     this.role = user.getRole().toString();
     this.pathToProfilePic = user.getPathToProfilePic().toString();
+
 
     // Admin
     if (user.getRole() == Role.ADMIN) {
@@ -1210,12 +988,12 @@ public XmlAdaptedUser(User user, String password) {
 
 The sequence diagram shown below in Figure 1 illustrates the integration of encryption with the save user feature.
 
-image::SequenceDiagramforSaveEventHandlingWithEncryption.png[width="550"]
+image::SequenceDiagramforSaveEventHandlingWithEncryption.png[width="650"]
 _Figure 1. Sequence Diagram for the interaction between EventsCenter and Storage Components when executing SaveCommand with encryption_
 
 
 ===== Implementation of the decryption feature
-The decryption feature is integrated with the login feature under *User Account Management*. +
+The decryption feature is integrated with the login feature under user account management(3.1). +
 
 When `LoginCommand` calls `model.readUser(...)` the loading of user file will commence and the decryption will occur in `XMLAdapterUser#toModelType(...)`.
 
@@ -1225,18 +1003,16 @@ This is shown in the following code snippets below:
 ----
 public User toModelType(String password) throws IllegalValueException, CorruptedFileException,
         NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
-
     User user = null;
     checkMandatoryFields();
 
-    // Applies to all user
     String decryptedUsername = decryptUsername(password);
 
-    // Applies to only admin
     if ("ADMIN".equals(role)) {
         checkAdminFields();
         String decryptedSalary = decryptSalary(password);
-        user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary), new EmployDate(employmentDate));
+        user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary),
+                new EmployDate(employmentDate));
     }
     // ... removed for brevity ...
 
@@ -1244,7 +1020,7 @@ public User toModelType(String password) throws IllegalValueException, Corrupted
 }
 ----
 
-The code snippets of `decryptUsername(...)` and `decryptSalary(...)` are shown below respectively:
+The code snippets of `decryptUsername(...)` and `decryptSalary(...)` is as follows:
 
 [source, java]
 ----
@@ -1254,53 +1030,37 @@ private String decryptUsername(String password) throws NoSuchAlgorithmException,
             DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
 }
 
-private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
-        InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+ private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
     return new String(DataSecurityUtil.decrypt(
-        DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
-}
+            DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
+ }
 ----
 
 The sequence diagram shown below in Figure 2 illustrates the integration of decryption with the login feature.
 
-image::SDforSaveCommandLogicAndModelUserDecryption.png[width="800"]
+image::SDforSaveCommandLogicAndModelUserDecryption.png[width="900"]
 _Figure 2. Sequence Diagram for the interaction between Logic Component and DataSecurityUtil when executing LoginCommand_
-
-The following activity diagram shown in Figure 3 summarizes what happens in the decryption process when a user executes the login command.
-
-image::DecryptionActivityDiagram.png[width="550"]
-_Figure 3. Activity Diagram for decryption feature in the login command_
 
 ==== Design Considerations
 
 ===== Aspect: How encryption is implemented
 
-* **Alternative 1 (current choice):** Implement as an inbuilt feature.
-** Pros: Confidentiality of a user's data file is preserved at all times.
-** Cons: User does not have full control over user data file.
+* **Alternative 1 (current choice):** Implement as an in-built feature.
+** Pros: Ensures that the confidentiality of a user's data file is preserved at all times.
+** Cons: Users do not have full control.
 * **Alternative 2:** Implement as a command.
-** Pros: User will have more control over data security.
-** Cons: Enforcement of data security outside of the application would be harder.
+** Pros: Users will have more control on the data security.
+** Cons: Unable to enforce the data security of the application.
 
 ===== Aspect: Generation of security key for encryption/decryption
 
 * **Alternative 1 (current choice):** Generate the key using a user's password.
-** Pros: User does not need to supply additional information or file for encryption or decryption.
+** Pros: User does not need to supply additional information or file for encryption/decryption.
 ** Cons: User is unable to decrypt their user data file if they forget their password.
 * **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
-** Pros: The key will be more secured compared to the key generated from alternative one since a weak password that is susceptible to password cracking may be used by a user.
+** Pros: The key will be more secured compared to the key generated from alternative 1.
 ** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
-
-===== Aspect: What fields to encrypt
-
-* **Alternative 1 (current choice):** Encrypt some fields (Username and Salary).
-** Pros: The encryption of username ensures that a malicious user is unable to correlate a specific user data file to a credential in the credential store.
-In addition, advance users can edit unencrypted fields in the user data file.
-** Cons: The user data file will contain unencrypted information.
-* **Alternative 2:** Encrypt every field.
-** Pros: The user data file is secure since every field is encrypted.
-** Cons: Advance user are unable to edit from the user data file manually.
-
 // end::datasecurity[]
 
 // tag::loaduser[]
@@ -1321,11 +1081,10 @@ The following operation is used for the loading process:
 ===== Implementation of the save feature
 
 The load mechanism of modsUni is facilitated by `LoginCommand` class and is event-driven.
-It allows a user to load their data in modsUni from an XML file.
+It allows a user to load their data in modsUni from a XML file.
 
 The load feature uses multiple components of the modsUni application.
-Parsing of command is performed by `LoginCommandParser`, which returns a `LoginCommand` object after parsing
-the save file path.
+Parsing of command is performed by LoginCommandParser, which returns a LoginCommand object after parsing the save file path.
 
 The sequence diagram shown below in Figure 1 illustrates the interactions between some of these components.
 
@@ -1352,7 +1111,7 @@ public Optional<User> readUser(Path filePath, String password) throws DataConver
     }
 }
 ----
-The method `XmlFileStorage#loadUserDataFromSaveFile(...)` as shown in the code snippets below:
+The method `XmlFileStorage#loadUserDataFromSaveFile(...)` as shown in the code snipplets below:
 
 [source, java]
 ----
@@ -1589,10 +1348,288 @@ Here are the steps to create a new release.
 
 === Managing Dependencies
 
-A project often depends on third-party libraries. For example, modsUni depends on the http://wiki.fasterxml
-.com/JacksonHome[Jackson library] for XML parsing. Managing these _dependencies_ can be automated using Gradle. For example, Gradle can download the dependencies automatically, which is better than these alternatives. +
+A project often depends on third-party libraries. For example, Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing. Managing these _dependencies_ can be automated using Gradle. For example, Gradle can download the dependencies automatically, which is better than these alternatives. +
 a. Include those libraries in the repo (this bloats the repo size) +
 b. Require developers to download those libraries manually (this creates extra work for developers)
+
+[[GetStartedProgramming]]
+[appendix]
+== Suggested Programming Tasks to Get Started
+
+Suggested path for new programmers:
+
+1. First, add small local-impact (i.e. the impact of the change does not go beyond the component) enhancements to one component at a time. Some suggestions are given in <<GetStartedProgramming-EachComponent>>.
+
+2. Next, add a feature that touches multiple components to learn how to implement an end-to-end feature across all components. <<GetStartedProgramming-RemarkCommand>> explains how to go about adding such a feature.
+
+[[GetStartedProgramming-EachComponent]]
+=== Improving each component
+
+Each individual exercise in this section is component-based (i.e. you would not need to modify the other components to get it to work).
+
+[discrete]
+==== `Logic` component
+
+*Scenario:* You are in charge of `logic`. During dog-fooding, your team realize that it is troublesome for the user to type the whole command in order to execute a command. Your team devise some strategies to help cut down the amount of typing necessary, and one of the suggestions was to implement aliases for the command words. Your job is to implement such aliases.
+
+[TIP]
+Do take a look at <<Design-Logic>> before attempting to modify the `Logic` component.
+
+. Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all persons in the list.
++
+****
+* Hints
+** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/modsuni/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for aliases as well (e.g. `FindCommand#COMMAND_ALIAS`).
+** link:{repoURL}/src/main/java/seedu/modsuni/logic/parser/ModsUniParser.java[`ModsUniParser`] is responsible for analyzing command words.
+* Solution
+** Modify the switch statement in link:{repoURL}/src/main/java/seedu/modsuni/logic/parser/ModsUniParser.java[`ModsUniParser#parseCommand(String)`] such that both the proper command word and alias can be used to execute the same intended command.
+** Add new tests for each of the aliases that you have added.
+** Update the user guide to document the new aliases.
+** See this https://github.com/se-edu/addressbook-level4/pull/785[PR] for the full solution.
+****
+
+[discrete]
+==== `Model` component
+
+*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that a student is able to remove all modules in a particular module list, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.
+
+[TIP]
+Do take a look at <<Design-Model>> before attempting to modify the `Model` component.
+
+. Add a `removeAllStagedModules()` method.
+. Add a `removeAllTakenModules()` method.
++
+****
+* Hints
+** The link:{repoURL}/src/main/java/seedu/modsuni/model/Model.java[`Model`] and link:{repoURL}/src/main/java/seedu/modsuni/model/user/student/Student.java[`Student`] API need to be updated.
+** Think about how you can use SLAP to design the method. Where should we place the main logic of deleting the modules?
+**  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/modsuni/model/ModelManager.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/modsuni/model/user/student/Student.java[`Student`] classes can be used to implement the module list removal logic. link:{repoURL}/src/main/java/seedu/modsuni/model/ModelManager.java[`ModelManager`] allows you to update the various module lists, and link:{repoURL}/src/main/java/seedu/modsuni/model/user/student/Student.java[`Student`] allows you to update the module lists.
+* Solution
+** Implement a `removeAllXXXModules()` method in link:{repoURL}/src/main/java/seedu/modsuni/model/ModelManager.java[`ModelManager`]. Reinitialise the respective list.
+** Add a new API method `removeAllXXXModules()` in link:{repoURL}/src/main/java/seedu/modsuni/model/student/Student.java[`Student`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `Student#removeAllXXXModules()`.
+** Add new tests for each of the new public methods that you have added.
+** See this https://github.com/se-edu/addressbook-level4/pull/790[PR] for the full solution.
+****
+
+[discrete]
+==== `Ui` component
+
+*Scenario:* You are in charge of `ui`. During a beta testing session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last person in the list. Your job is to implement improvements to the UI to solve all these problems.
+
+[TIP]
+Do take a look at <<Design-Ui>> before attempting to modify the `UI` component.
+
+. Use different colors for different tags inside person cards. For example, `friends` tags can be all in brown, and `colleagues` tags can be all in yellow.
++
+**Before**
++
+image::getting-started-ui-tag-before.png[width="300"]
++
+**After**
++
+image::getting-started-ui-tag-after.png[width="300"]
++
+****
+* Hints
+** The tag labels are created inside link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[the `PersonCard` constructor] (`new Label(tag.tagName)`). https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Label.html[JavaFX's `Label` class] allows you to modify the style of each Label, such as changing its color.
+** Use the .css attribute `-fx-background-color` to add a color.
+** You may wish to modify link:{repoURL}/src/main/resources/view/DarkTheme.css[`DarkTheme.css`] to include some pre-defined colors using css, especially if you have experience with web-based css.
+* Solution
+** You can modify the existing test methods for `PersonCard` 's to include testing the tag's color as well.
+** See this https://github.com/se-edu/addressbook-level4/pull/798[PR] for the full solution.
+*** The PR uses the hash code of the tag names to generate a color. This is deliberately designed to ensure consistent colors each time the application runs. You may wish to expand on this design to include additional features, such as allowing users to set their own tag colors, and directly saving the colors to storage, so that tags retain their colors even if the hash code algorithm changes.
+****
+
+. Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] such that link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] can show a different style on error (currently it shows the same regardless of errors).
++
+**Before**
++
+image::getting-started-ui-result-before.png[width="200"]
++
+**After**
++
+image::getting-started-ui-result-after.png[width="200"]
++
+****
+* Hints
+** link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] is raised by link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] which also knows whether the result is a success or failure, and is caught by link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] which is where we want to change the style to.
+** Refer to link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] for an example on how to display an error.
+* Solution
+** Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] 's constructor so that users of the event can indicate whether an error has occurred.
+** Modify link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay#handleNewResultAvailableEvent(NewResultAvailableEvent)`] to react to this event appropriately.
+** You can write two different kinds of tests to ensure that the functionality works:
+*** The unit tests for `ResultDisplay` can be modified to include verification of the color.
+*** The system tests link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest#assertCommandBoxShowsDefaultStyle() and AddressBookSystemTest#assertCommandBoxShowsErrorStyle()`] to include verification for `ResultDisplay` as well.
+** See this https://github.com/se-edu/addressbook-level4/pull/799[PR] for the full solution.
+*** Do read the commits one at a time if you feel overwhelmed.
+****
+
+. Modify the link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to show the total number of people in the address book.
++
+**Before**
++
+image::getting-started-ui-status-before.png[width="500"]
++
+**After**
++
+image::getting-started-ui-status-after.png[width="500"]
++
+****
+* Hints
+** link:{repoURL}/src/main/resources/view/StatusBarFooter.fxml[`StatusBarFooter.fxml`] will need a new `StatusBar`. Be sure to set the `GridPane.columnIndex` properly for each `StatusBar` to avoid misalignment!
+** link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] needs to initialize the status bar on application start, and to update it accordingly whenever the address book is updated.
+* Solution
+** Modify the constructor of link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to take in the number of persons when the application just started.
+** Use link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter#handleAddressBookChangedEvent(AddressBookChangedEvent)`] to update the number of persons whenever there are new changes to the addressbook.
+** For tests, modify link:{repoURL}/src/test/java/guitests/guihandles/StatusBarFooterHandle.java[`StatusBarFooterHandle`] by adding a state-saving functionality for the total number of people status, just like what we did for save location and sync status.
+** For system tests, modify link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest`] to also verify the new total number of persons status bar.
+** See this https://github.com/se-edu/addressbook-level4/pull/803[PR] for the full solution.
+****
+
+[discrete]
+==== `Storage` component
+
+*Scenario:* You are in charge of `storage`. For your next project milestone, your team plans to implement a new feature of saving the address book to the cloud. However, the current implementation of the application constantly saves the address book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup API for the address book storage.
+
+[TIP]
+Do take a look at <<Design-Storage>> before attempting to modify the `Storage` component.
+
+. Add a new method `backupAddressBook(ReadOnlyAddressBook)`, so that the address book can be saved in a fixed temporary location.
++
+****
+* Hint
+** Add the API method in link:{repoURL}/src/main/java/seedu/address/storage/AddressBookStorage.java[`AddressBookStorage`] interface.
+** Implement the logic in link:{repoURL}/src/main/java/seedu/address/storage/StorageManager.java[`StorageManager`] and link:{repoURL}/src/main/java/seedu/address/storage/XmlAddressBookStorage.java[`XmlAddressBookStorage`] class.
+* Solution
+** See this https://github.com/se-edu/addressbook-level4/pull/594[PR] for the full solution.
+****
+
+[[GetStartedProgramming-RemarkCommand]]
+=== Creating a new command: `remark`
+
+By creating this command, you will get a chance to learn how to implement a feature end-to-end, touching all major components of the app.
+
+*Scenario:* You are a software maintainer for `addressbook`, as the former developer team has moved on to new projects. The current users of your application have a list of new feature requests that they hope the software will eventually have. The most popular request is to allow adding additional comments/notes about a particular contact, by providing a flexible `remark` field for each contact, rather than relying on tags alone. After designing the specification for the `remark` command, you are convinced that this feature is worth implementing. Your job is to implement the `remark` command.
+
+==== Description
+Edits the remark for a person specified in the `INDEX`. +
+Format: `remark INDEX r/[REMARK]`
+
+Examples:
+
+* `remark 1 r/Likes to drink coffee.` +
+Edits the remark for the first person to `Likes to drink coffee.`
+* `remark 1 r/` +
+Removes the remark for the first person.
+
+==== Step-by-step Instructions
+
+===== [Step 1] Logic: Teach the app to accept 'remark' which does nothing
+Let's start by teaching the application how to parse a `remark` command. We will add the logic of `remark` later.
+
+**Main:**
+
+. Add a `RemarkCommand` that extends link:{repoURL}/src/main/java/seedu/address/logic/commands/Command.java[`Command`]. Upon execution, it should just throw an `Exception`.
+. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to accept a `RemarkCommand`.
+
+**Tests:**
+
+. Add `RemarkCommandTest` that tests that `execute()` throws an Exception.
+. Add new test method to link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`], which tests that typing "remark" returns an instance of `RemarkCommand`.
+
+===== [Step 2] Logic: Teach the app to accept 'remark' arguments
+Let's teach the application to parse arguments that our `remark` command will accept. E.g. `1 r/Likes to drink coffee.`
+
+**Main:**
+
+. Modify `RemarkCommand` to take in an `Index` and `String` and print those two parameters as the error message.
+. Add `RemarkCommandParser` that knows how to parse two arguments, one index and one with prefix 'r/'.
+. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to use the newly implemented `RemarkCommandParser`.
+
+**Tests:**
+
+. Modify `RemarkCommandTest` to test the `RemarkCommand#equals()` method.
+. Add `RemarkCommandParserTest` that tests different boundary values
+for `RemarkCommandParser`.
+. Modify link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`] to test that the correct command is generated according to the user input.
+
+===== [Step 3] Ui: Add a placeholder for remark in `PersonCard`
+Let's add a placeholder on all our link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] s to display a remark for each person later.
+
+**Main:**
+
+. Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/PersonListCard.fxml[`PersonListCard.fxml`].
+. Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] to tie the variable to the actual label.
+
+**Tests:**
+
+. Modify link:{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java[`PersonCardHandle`] so that future tests can read the contents of the remark label.
+
+===== [Step 4] Model: Add `Remark` class
+We have to properly encapsulate the remark in our link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] class. Instead of just using a `String`, let's follow the conventional class structure that the codebase already uses by adding a `Remark` class.
+
+**Main:**
+
+. Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/person/Address.java[`Address`], remove the regex and change the names accordingly).
+. Modify `RemarkCommand` to now take in a `Remark` instead of a `String`.
+
+**Tests:**
+
+. Add test for `Remark`, to test the `Remark#equals()` method.
+
+===== [Step 5] Model: Modify `Person` to support a `Remark` field
+Now we have the `Remark` class, we need to actually use it inside link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
+
+**Main:**
+
+. Add `getRemark()` in link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
+. You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the person will be created without a remark).
+. Modify link:{repoURL}/src/main/java/seedu/address/model/util/SampleDataUtil.java/[`SampleDataUtil`] to add remarks for the sample data (delete your `addressBook.xml` so that the application will load the sample data when you launch it.)
+
+===== [Step 6] Storage: Add `Remark` field to `XmlAdaptedPerson` class
+We now have `Remark` s for `Person` s, but they will be gone when we exit the application. Let's modify link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedPerson.java[`XmlAdaptedPerson`] to include a `Remark` field so that it will be saved.
+
+**Main:**
+
+. Add a new Xml field for `Remark`.
+
+**Tests:**
+
+. Fix `invalidAndValidPersonAddressBook.xml`, `typicalPersonsAddressBook.xml`, `validAddressBook.xml` etc., such that the XML tests will not fail due to a missing `<remark>` element.
+
+===== [Step 6b] Test: Add withRemark() for `PersonBuilder`
+Since `Person` can now have a `Remark`, we should add a helper method to link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`], so that users are able to create remarks when building a link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
+
+**Tests:**
+
+. Add a new method `withRemark()` for link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`]. This method will create a new `Remark` for the person that it is currently building.
+. Try and use the method on any sample `Person` in link:{repoURL}/src/test/java/seedu/address/testutil/TypicalPersons.java[`TypicalPersons`].
+
+===== [Step 7] Ui: Connect `Remark` field to `PersonCard`
+Our remark label in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] is still a placeholder. Let's bring it to life by binding it with the actual `remark` field.
+
+**Main:**
+
+. Modify link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`]'s constructor to bind the `Remark` field to the `Person` 's remark.
+
+**Tests:**
+
+. Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysPerson(...)`] so that it will compare the now-functioning remark label.
+
+===== [Step 8] Logic: Implement `RemarkCommand#execute()` logic
+We now have everything set up... but we still can't modify the remarks. Let's finish it up by adding in actual logic for our `remark` command.
+
+**Main:**
+
+. Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a person.
+
+**Tests:**
+
+. Update `RemarkCommandTest` to test that the `execute()` logic works.
+
+==== Full Solution
+
+See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-by-step solution.
 
 [appendix]
 == Product Scope
@@ -1789,9 +1826,6 @@ The below test cases only cater to `Student` accounts
 .   Test case: `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
     Expected: A new account is created. The `Student` details as provided in the command should be automatically displayed in `UserTab`. A successful message should be displayed in the Output Display. Additionally, a save location is provided to the user. Examine the project's root folder to determine if the file is indeed created.
 
-[NOTE]
-Do note that registering a `Student` account is possible without any `min/` parameters. This is in consideration that certain students do not have any minors
-
 
 .   Test case: `register user/m@x33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
     Expected: No new account is created. A invalid `Username` error should be shown in the the Output Display. Rest of the UI remains unchanged.
@@ -1810,7 +1844,7 @@ Do note that registering a `Student` account is possible without any `min/` para
 === Logging in into a Student Account
 Below are some test cases you can perform to test the `LoginCommand` for User Account Management feature.
 
-.   Prerequisite: A student account should already be registered(i.e. an account registered under `max33`) and the respective userdata file be available. +
+.   Prerequisite: A student account should already be registered(i.e. max33) and the respective userdata file be available. +
     Test case: `login user/max33 pass/#Qwerty4321 userdata/max33.xml` +
     Expected: Student will be logged in. The `Student` details will be loaded from the file provided and will be displayed in the application(in their respective tabs). Additionally, a successful message will be displayed in the Output Display.
 
@@ -1848,126 +1882,3 @@ Below are the test case you can perform to test the `LogoutCommand` for the User
 .   Prerequisite: No user should be logged in. +
     Test case: `logout` +
     Expected: Logout attempt will fail. Error details would be shown in the Output Display. Rest of the UI remains unchanged.
-
-=== Generating a schedule
-
-. Generate a schedule using modules in the student's staged list
-
-.. Prerequisites: Login using a student user account and download the sample modules database.
-.. Test case: +
- ... `addModuleS cs2030 cs2040`
- ... `generate` +
- Expected: Generate fail due to missing prerequisites.
- .. Test case: +
- ... `addModuleS cs1010`
- ... `generate` +
- Expected: Successful execution of the generate command. Schedule will be shown in the panel on the right
- of the application.
- .. Other failures that might occur:
- ... Invalid user account +
- `login` using an admin account +
- ... No logged in user +
- `generate` without logging in
- ... No modules in staged list +
- `generate` without adding modules to staged list
-
-=== Saving a user
-
-. Saving a user
-
-.. Prerequisites: You must be logged in as a User (Admin or Student).
-.. Test case: `save sp/userdata.xml` +
-   Expected: You should see a success message at the bottom and a file should be created/overwritten.
-    In addition, the main panel should display your current user information.
-    The timestamp in the user tab should also be updated.
-.. Test case: `save sp/userdata` (without extension) +
-   Expected: No data is saved. Error details shown at the bottom of the application.
-   Timestamp in user tab should remain the same.
-.. Other incorrect save commands to try: `save sp`, `save sp/.xml.xml`, `save xx/userdata.xml` +
-   Expected: Similar to previous.
-
-=== Modifying of user data file
-
-. Modify of admin data file
-
-.. Prerequisites: You must have an admin data file (the master admin is provided).
-.. Test case: Open up the admin file and edit the contents in the <name> tag. Now login as the admin using the updated user data file. +
-Expected: You should see a success login message at the bottom. In addition, you should see the updated name of the admin account. The timestamp in the user tab should be the time you logged in.
-.. Test case: Open up the admin file and edit the contents in the <employmentDate> tag (follow the original format of dd/mm/yyyy). Now login as the admin using the updated user data file. +
-Expected: You should see a success login message at the bottom. In addition, you should see the updated employment date data of the admin account. The timestamp in the user tab should be the time you logged in.
-.. Test case: Open up the admin file and change the order of tags (e.g. swap the order of name and role). Ensure that there are no extra spaces or empty lines.
-Now login as the admin using the updated user data file. +
-Expected: You should be able to login as per normal and see a success login message at the bottom. The timestamp in the user tab should be the time you logged in.
-.. Test case: Open up the admin file and duplicate the tags (e.g. add <name>master2</name> below the existing <name>master</name> tag). Ensure that there are no extra spaces or empty lines.
-Now login as the admin using the updated user data file. +
-   Expected: You should see a success login message at the bottom. In addition, you should see the admin name to be "master2". The timestamp in the user tab should be the time you logged in.
-   You can also duplicate restricted tags(username, role, employmentDate), however the furthest (from the first line) tag will be the one that is read. So you can have invalid values in prior duplicated tags.
-
-.. Test case: Open up the admin file and edit the contents in the <username> tag . Now login as the admin using the updated user data file. +
-    Expected: You should see an error message at the bottom.
-.. Other invalid modification to try: removing the entire tag, modifying contents from role and salary  +
-   Expected: Similar to previous.
-
-. Modify of student data file
-.. Prerequisites: You must have a student data file (you can obtain one by registering an account and adding some modules to staged and taken).
-
-.. Test case: Open up the student file and edit the contents in the <name> tag. Now login as the student using the updated user data file. +
-Expected: You should see a success login message at the bottom. In addition, you should see the updated name of the student account. The timestamp in the user tab should be the time you logged in.
-
-.. Test case: Open up the student file and edit the contents in the <enrollmentDate> tag (follow the original format of dd/mm/yyyy). Now login as the student using the updated user data file. +
-Expected: You should see a success login message at the bottom. In addition, you should see the updated enrollment date data of the student account. The timestamp in the user tab should be the time you logged in.
-
-.. Test case: Open up the student file and edit the contents in the <major> and <minor> tag (you must follow the original format of [a, b, c], with comma and space in-between). Contraints are that you must have at least one major and can have zero minor. The inputs for major and minor must consist of only unaccented alphabetical letters (e.g. a-zA-Z). Now login as the student using the updated user data file. +
-Expected: You should see a success login message at the bottom. In addition, you should see the updated major or minor data of the student account. The timestamp in the user tab should be the time you logged in.
-
-.. Test case: Open up the student file and edit the <lockModules> or <parsedPrereq> tag from <moduleStaged> (e.g. instead of <lockModules>CS2030</lockModules> it should look like <lock>CS2030</lock> after editing). Now login as the student using the updated user data file. +
-Expected: You should see a success login message at the bottom. The timestamp in the user tab should be the time you logged in. However, that information will not be loaded and may cause generate feature to fail.
-
-.. Test case: Open up the student file and edit any contents in the <moduleTaken> or <moduleStaged> tag (it is recommended to start with <code> so you get a feel of the update). Now login as the student using the updated user data file. +
-Expected: You should see a success login message at the bottom. The timestamp in the user tab should be the time you logged in. Now navigate (switch tab/staged or switch tab/taken) staged or taken tab depending on where you change, you should see the updated module code. +
-Module information (represented by <code>, <department>, <title>, <description>, <credit>, <isAvailableInSem1>, <isAvailableInSem2>, <isAvailableInSpecialTerm1>, <isAvailableInSpecialTerm2>, <lockedModules>, <parsedPrereq>) are given as it is for testing purpose. If you change the information (module code/prerequisite), the application will generate based on the information in the user data.
-So the generate feature may fail depending on what you changed. You can create unique cases such as taking CS2030 without completing CS1010.
-An example would be to remove CS1010 as a prerequisite for CS2030 in the user data file. Now when log back in and add CS2030 to staged, you will be able to use the generate feature as expected even without having to add CS1010 to staged or taken.
-
-.. Test case: Open up the student file and edit the contents in the <username> tag . Now login as the student using the updated user data file. +
-Expected: You should see an error message at the bottom.
-
-.. Other invalid modification to try: removing the entire <code> tag from a module in <modulesStaged> or <modulesTaken>, remove characters from mandatory tags (code, department, title, description in <modulesTaken or <modulesStaged>),  . +
-Expected: Similar to previous.
-
-=== Adding a module
-
-Below are some test cases you can perform to test the `AddModuleToDatabaseCommand` for the database administration feature:
-[NOTE]
-The below test cases only cater to `Admin` accounts
-
-. Test case: `addModuleDB code/CS2103T department/Computing title/The New Module credit/4 available/1100
-             description/This course is newly offered by the school of computing. Visit the module website for more details
-             prereq/|(|CS1020,CS1020E,CS2020,)(&CS2030,(|CS2040,CS2040C,))` +
-  Expected: A new module is created. The `Module` details as provided in the command should be automatically displayed in
-  the database tab. A successful message should be displayed in the Output Display.
-  Additionally, the module details is saved in `modules.xml`.
-   Examine `modules.xml` to determine if the module is indeed created.
-. Prerequisite: A module with module code CS2103T already exists in `modules.xml` +
-Test case: `addModuleDB code/CS2103T department/Computing title/The New Module credit/4 available/1100
-                        description/This course is newly offered by the school of computing. Visit the module website for more details
-                        prereq/|(|CS1020,CS1020E,CS2020,)(&CS2030,(|CS2040,CS2040C,))` +
-Expected: No new module is created. Error details should be shown in the Output Display. Rest of the UI remains unchanged.
-
-
-
-===  Editing module details
-
-Below are some test cases you can perform to test the `EditModuleCommand` for the module database administration feature:
-[NOTE]
-The below test cases only cater to `Admin` accounts
-
-. Prerequisite: A module with index 1 already exists in the database tab. +
-Test case: `editModule 1 code/#CS1010` +
-Expected: module information is not edited. Error details should be shown in the output dsiplay. Rest of the UI remains unchanged.
-
-. Other incorrect `editModule` commands to try:
-.. `editModule code/CS1010`
-.. `editModule 1 prereq/&&`
-.. `editModule 1 prereq/&CS1010`
-.. `editModule 1 prereq/|CS1010,()`
