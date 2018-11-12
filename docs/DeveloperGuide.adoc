@@ -323,14 +323,43 @@ _Figure 5. High-Level Sequence diagram of registering a new student account._
 
 Given below is an example usage scenario and how the register mechanism behaves at each step:
 
-Step 1. The user launches the application for the first time. At start up, the `currentUser` in `Model` is not yet instantiated,
-this would prevent any commands aside from `register` and `login` to be available to the user. +
+Step 1. The user launches the application for the first time. Only `register` and `login` command is available this is because `currentUser` in `Model` is not yet instantiated.
 
 [NOTE]
 `currentUser` refers to the user account currently loaded in the modsUni Application.
 
 Step 2. The user executes `register user/demo ...` to register a new `Student` account.
-The `register` command will call `Model#addCredential(...)` and `Model#setCurrentUser(...)`. +
+
+Step 3. `RegisterCommandParser` would process the user inputs and create a `Student`, `Credential` and `Path` object, which will be used to construct a `register` command. +
+
+Below is a small code snippet of the aforementioned procedure:
+
+[source,java]
+----
+public RegisterCommand parse(String userInput) throws ParseException {
+        // initial prefix checks, omitted for brevity
+
+        Username username = ParserUtil.parseUsername(argMultimap.getValue(PREFIX_USERNAME).get());
+        Password password = ParserUtil.parsePassword(argMultimap.getValue(PREFIX_PASSWORD).get());
+        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+        EnrollmentDate enrollmentDate = ParserUtil.parseEnrollmentDate(
+            argMultimap.getValue(PREFIX_STUDENT_ENROLLMENT_DATE).get());
+        List<String> majors = argMultimap.getAllValues(PREFIX_STUDENT_MAJOR);
+        List<String> minors = argMultimap.getAllValues(PREFIX_STUDENT_MINOR);
+
+        User user = new Student(username, name, Role.STUDENT,
+            enrollmentDate, majors, minors);
+        Credential credential = new Credential(username, password);
+
+        // constructs and returns RegisterCommand, omitted for brevity
+    }
+
+----
+
+Step 4. The `register` command will next call `Model#addCredential(...)` and `Model#setCurrentUser(...)`. +
+
+Step 5. At this point, `Model` will insert a new entry in `CredentialStore` and indicate to `Storage` to commit the changes to file. Additionally, the event raised by the `register` command will be handled by `UI`, making the necessary changes to all UI elements.
+
 
 [NOTE]
 A new `Student` would be initialized and automatically set as the `currentUser`, enabling the user to perform additional commands automatically. +
@@ -369,7 +398,7 @@ the user will only be able to execute either the `register` or `login` command. 
 The `login` command will call `Model#isVerifiedCredential(...)` to determine if the user input matches a credential in `CredentialStore`. +
 
 3. Should the credential be valid and verified, a `User` will be loaded from a the default `userData.xml` file.
-Subseqently, the `Model#setCurrentUser(...)` will be called to set the loaded user data as the `currentUser`. +
+Subsequently, the `Model#setCurrentUser(...)` will be called to set the loaded user data as the `currentUser`. +
 
 4. Should the credential not be valid or does not match an existing credential in the `CredentialStore`, the user will simply be shown a failure message.
 
