@@ -30,7 +30,7 @@ Responsibilities: In charge of Storage, Deliverables and Deadlines
 
 === He ZhenFeng
 image::hzf1174.png[width="150", align="left"]
-{empty}[http://github.com/hzf1174[github]] [<<zhenfeng#, portfolio>>]
+{empty}[http://github.com/hzf1174[github]] [<<hzf1174#, portfolio>>]
 
 Role: Developer +
 Responsibilities: In charge of UI, Model
