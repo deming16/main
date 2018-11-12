@@ -12,7 +12,6 @@ import static seedu.modsuni.ui.testutil.GuiTestAssert.assertCardEquals;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import guitests.guihandles.DatabaseModuleListPanelHandle;
@@ -69,7 +68,6 @@ public class DatabaseModuleListPanelTest extends GuiUnitTest {
      * requires lesser than {@code CARD_CREATION_AND_DELETION_TIMEOUT} milliseconds to execute.
      */
     @Test
-    @Ignore
     public void performanceTest() throws Exception {
         ObservableList<Module> backingList = createBackingList(10000);
 
@@ -96,16 +94,23 @@ public class DatabaseModuleListPanelTest extends GuiUnitTest {
     private Path createXmlFileWithModules(int moduleCount) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
-        builder.append("<moduleList>\n");
+        builder.append("<ModuleList>\n");
         for (int i = 0; i < moduleCount; i++) {
             builder.append("<modules>\n");
-            builder.append("<name>").append(i).append("a</name>\n");
-            builder.append("<phone>000</phone>\n");
-            builder.append("<email>a@aa</email>\n");
+            builder.append("<code>").append(i).append("a</code>\n");
+            builder.append("<description>aaa</description>\n");
+            builder.append("<title>a</title>\n");
+            builder.append("<parsedPrereq><or><code>aaa</code></or></parsedPrereq>\n");
+            builder.append("<credit>4</credit>\n");
+            builder.append("<department>aaa</department>\n");
+            builder.append("<isAvailableInSem1>true</isAvailableInSem1>\n");
+            builder.append("<isAvailableInSem2>true</isAvailableInSem2>\n");
+            builder.append("<isAvailableInSpecialTerm1>true</isAvailableInSpecialTerm1>\n");
+            builder.append("<isAvailableInSpecialTerm2>true</isAvailableInSpecialTerm2>\n");
             builder.append("<modsuni>a</modsuni>\n");
-            builder.append("<modules>\n");
+            builder.append("</modules>\n");
         }
-        builder.append("</moduleList>\n");
+        builder.append("</ModuleList>\n");
 
         Path manyModulesFile = Paths.get(TEST_DATA_FOLDER + "manyModules.xml");
         FileUtil.createFile(manyModulesFile);

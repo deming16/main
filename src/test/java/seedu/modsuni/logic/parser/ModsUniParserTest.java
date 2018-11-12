@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static seedu.modsuni.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.modsuni.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.modsuni.logic.commands.CommandTestUtil.CODE_DESC_ACC1002;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_PASSWORD;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_PATH;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_USERNAME;
@@ -14,7 +15,9 @@ import static seedu.modsuni.testutil.TypicalSavePaths.PATH_USERDATA_SEB;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +28,8 @@ import org.junit.rules.ExpectedException;
 import seedu.modsuni.logic.commands.AddAdminCommand;
 import seedu.modsuni.logic.commands.AddCommand;
 import seedu.modsuni.logic.commands.AddModuleToDatabaseCommand;
+import seedu.modsuni.logic.commands.AddModuleToStudentStagedCommand;
+import seedu.modsuni.logic.commands.AddModuleToStudentTakenCommand;
 import seedu.modsuni.logic.commands.ClearCommand;
 import seedu.modsuni.logic.commands.DeleteCommand;
 import seedu.modsuni.logic.commands.EditStudentCommand;
@@ -40,12 +45,18 @@ import seedu.modsuni.logic.commands.LogoutCommand;
 import seedu.modsuni.logic.commands.RedoCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromDatabaseCommand;
+import seedu.modsuni.logic.commands.RemoveModuleFromStudentStagedCommand;
+import seedu.modsuni.logic.commands.RemoveModuleFromStudentTakenCommand;
 import seedu.modsuni.logic.commands.RemoveUserCommand;
+import seedu.modsuni.logic.commands.SearchCommand;
 import seedu.modsuni.logic.commands.SelectCommand;
+import seedu.modsuni.logic.commands.ShowModuleCommand;
 import seedu.modsuni.logic.commands.UndoCommand;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
+import seedu.modsuni.model.module.CodeStartsKeywordsPredicate;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.person.NameContainsKeywordsPredicate;
 import seedu.modsuni.model.person.Person;
@@ -74,6 +85,53 @@ public class ModsUniParserTest {
         Person person = new PersonBuilder().build();
         AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
         assertEquals(new AddCommand(person), command);
+    }
+
+    @Test
+    public void parseCommand_addModuleS() throws Exception {
+        AddModuleToStudentStagedCommand command = (AddModuleToStudentStagedCommand) parser
+                .parseCommand(AddModuleToStudentStagedCommand.COMMAND_WORD + CODE_DESC_ACC1002);
+        assertEquals(new AddModuleToStudentStagedCommand(new ArrayList<>(Arrays.asList(new Code("ACC1002"))),
+                new HashSet<>()), command);
+    }
+
+    @Test
+    public void parseCommand_addModuleT() throws Exception {
+        AddModuleToStudentTakenCommand command = (AddModuleToStudentTakenCommand) parser
+                .parseCommand(AddModuleToStudentTakenCommand.COMMAND_WORD + CODE_DESC_ACC1002);
+        assertEquals(new AddModuleToStudentTakenCommand(new ArrayList<>(Arrays.asList(new Code("ACC1002"))),
+                new HashSet<>()), command);
+    }
+
+    @Test
+    public void parseCommand_removeModuleS() throws Exception {
+        RemoveModuleFromStudentStagedCommand command = (RemoveModuleFromStudentStagedCommand) parser
+                .parseCommand(RemoveModuleFromStudentStagedCommand.COMMAND_WORD + CODE_DESC_ACC1002);
+        assertEquals(new RemoveModuleFromStudentStagedCommand(new ArrayList<>(Arrays.asList(new Code("ACC1002"))),
+                new HashSet<>()), command);
+    }
+
+    @Test
+    public void parseCommand_removeModuleT() throws Exception {
+        RemoveModuleFromStudentTakenCommand command = (RemoveModuleFromStudentTakenCommand) parser
+                .parseCommand(RemoveModuleFromStudentTakenCommand.COMMAND_WORD + CODE_DESC_ACC1002);
+        assertEquals(new RemoveModuleFromStudentTakenCommand(new ArrayList<>(Arrays.asList(new Code("ACC1002"))),
+                new HashSet<>()), command);
+    }
+
+    @Test
+    public void parseCommand_search() throws Exception {
+        List<String> keywords = Arrays.asList("CS", "AC1");
+        SearchCommand command = (SearchCommand) parser.parseCommand(
+                SearchCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
+        assertEquals(new SearchCommand(new CodeStartsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
+    public void parseCommand_showModule() throws Exception {
+        ShowModuleCommand command = (ShowModuleCommand) parser
+                .parseCommand(ShowModuleCommand.COMMAND_WORD + CODE_DESC_ACC1002);
+        assertEquals(new ShowModuleCommand(new Code("ACC1002")), command);
     }
 
     @Test

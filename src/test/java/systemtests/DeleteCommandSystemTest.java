@@ -170,7 +170,6 @@ public class DeleteCommandSystemTest extends ModsUniSystemTest {
         }
 
         assertCommandBoxShowsDefaultStyle();
-        assertStatusBarUnchangedExceptSyncStatus();
     }
 
     /**
@@ -190,6 +189,5 @@ public class DeleteCommandSystemTest extends ModsUniSystemTest {
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
         assertCommandBoxShowsErrorStyle();
-        assertStatusBarUnchanged();
     }
 }

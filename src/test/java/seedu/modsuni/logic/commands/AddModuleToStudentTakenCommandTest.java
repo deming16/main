@@ -657,7 +657,7 @@ public class AddModuleToStudentTakenCommandTest {
     /**
      * Create a command result with three types of Code.
      */
-    private String createCommandResult(String duplicateCodeInCommand, String notExistCode,
+    public static String createCommandResult(String duplicateCodeInCommand, String notExistCode,
                                        String duplicateCode, String duplicateAnotherCode,
                                        String addSuccessCode) {
         if (duplicateCodeInCommand != "") {

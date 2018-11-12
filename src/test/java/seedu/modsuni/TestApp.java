@@ -101,7 +101,7 @@ public class TestApp extends MainApp {
             model.getAddressBook(),
             new UserPrefs(),
             model.getCredentialStore());
-        ModelHelper.setFilteredList(copy, model.getFilteredPersonList());
+        ModelHelper.setFilteredList(copy, model.getFilteredDatabaseModuleList());
         return copy;
     }
 

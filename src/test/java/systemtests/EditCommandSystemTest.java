@@ -276,7 +276,6 @@ public class EditCommandSystemTest extends ModsUniSystemTest {
         } else {
             assertSelectedCardUnchanged();
         }
-        assertStatusBarUnchangedExceptSyncStatus();
     }
 
     /**
@@ -296,6 +295,5 @@ public class EditCommandSystemTest extends ModsUniSystemTest {
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
         assertCommandBoxShowsErrorStyle();
-        assertStatusBarUnchanged();
     }
 }

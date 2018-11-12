@@ -6,34 +6,34 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import seedu.modsuni.model.Model;
-import seedu.modsuni.model.person.Person;
+import seedu.modsuni.model.module.Module;
 
 /**
  * Contains helper methods to set up {@code Model} for testing.
  */
 public class ModelHelper {
-    private static final Predicate<Person> PREDICATE_MATCHING_NO_PERSONS = unused -> false;
+    private static final Predicate<Module> PREDICATE_MATCHING_NO_MODULES = unused -> false;
 
     /**
      * Updates {@code model}'s filtered list to display only {@code toDisplay}.
      */
-    public static void setFilteredList(Model model, List<Person> toDisplay) {
-        Optional<Predicate<Person>> predicate =
+    public static void setFilteredList(Model model, List<Module> toDisplay) {
+        Optional<Predicate<Module>> predicate =
                 toDisplay.stream().map(ModelHelper::getPredicateMatching).reduce(Predicate::or);
-        model.updateFilteredPersonList(predicate.orElse(PREDICATE_MATCHING_NO_PERSONS));
+        model.updateFilteredDatabaseModuleList(predicate.orElse(PREDICATE_MATCHING_NO_MODULES));
     }
 
     /**
      * @see ModelHelper#setFilteredList(Model, List)
      */
-    public static void setFilteredList(Model model, Person... toDisplay) {
+    public static void setFilteredList(Model model, Module... toDisplay) {
         setFilteredList(model, Arrays.asList(toDisplay));
     }
 
     /**
-     * Returns a predicate that evaluates to true if this {@code Person} equals to {@code other}.
+     * Returns a predicate that evaluates to true if this {@code Module} equals to {@code other}.
      */
-    private static Predicate<Person> getPredicateMatching(Person other) {
-        return person -> person.equals(other);
+    private static Predicate<Module> getPredicateMatching(Module other) {
+        return module -> module.isSameModule(other);
     }
 }

@@ -53,7 +53,7 @@
                              </Text>
                          </children>
                      </HBox>
-                       <Label fx:id="departmentLabel" maxWidth="100.0" minWidth="100.0" text="Department: " HBox.hgrow="ALWAYS">
+                       <Label fx:id="departmentLabel" maxWidth="129.0" minWidth="100.0" prefHeight="17.0" prefWidth="129.0" text="Department: " HBox.hgrow="ALWAYS">
                            <HBox.margin>
                                <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
                            </HBox.margin>
@@ -71,7 +71,7 @@
                <!-- Description Label -->
                <HBox VBox.vgrow="NEVER">
                    <children>
-                       <Label fx:id="descriptionLabel" maxWidth="100.0" minWidth="100.0" text="Description: " HBox.hgrow="ALWAYS">
+                       <Label fx:id="descriptionLabel" maxWidth="135.0" minWidth="100.0" prefHeight="17.0" prefWidth="135.0" text="Description: " HBox.hgrow="ALWAYS">
                            <HBox.margin>
                                <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
                            </HBox.margin>
@@ -102,7 +102,7 @@
                            <!-- Availability Label-->
                      <HBox maxHeight="70.0" prefHeight="67.0" prefWidth="600.0">
                          <children>
-                             <Label fx:id="availabilityLabel" maxWidth="100.0" minWidth="100.0" text="Available in: " HBox.hgrow="ALWAYS">
+                             <Label fx:id="availabilityLabel" maxWidth="122.0" minWidth="100.0" prefHeight="17.0" prefWidth="122.0" text="Available in: " HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                      <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
                                  </HBox.margin>
@@ -119,24 +119,20 @@
                        <Insets />
                    </VBox.margin>
                </HBox>
-               <!-- Locked Modules Label-->
-               <HBox VBox.vgrow="NEVER">
-                   <children>
-                       <Label fx:id="lockedModulesLabel" maxWidth="150.0" minWidth="150.0" text="Locked Modules: " HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
-                           </HBox.margin>
-                       </Label>
-                       <Text fx:id="lockedModulesText" fill="WHITE" wrappingWidth="600.0" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                               <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
-                           </HBox.margin>
-                       </Text>
-                   </children>
-                   <VBox.margin>
-                       <Insets />
-                   </VBox.margin>
-               </HBox>
+            <HBox>
+               <children>
+                  <Label fx:id="prereqLabel" maxWidth="150.0" minWidth="150.0" text="Prerequisite: " HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Text fx:id="prereqText" fill="WHITE" wrappingWidth="600.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="25.0" left="25.0" right="10.0" top="25.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
            </children>
        </VBox>
    </children>

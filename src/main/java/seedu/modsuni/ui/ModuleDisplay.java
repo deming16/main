@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import seedu.modsuni.commons.core.LogsCenter;
-import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 
 
@@ -68,6 +67,12 @@ public class ModuleDisplay extends UiPart<Region> {
     @FXML
     private Text lockedModulesText;
 
+    @FXML
+    private Label prereqLabel;
+
+    @FXML
+    private Text prereqText;
+
     public ModuleDisplay() {
         super(FXML);
         registerAsAnEventHandler(this);
@@ -99,9 +104,7 @@ public class ModuleDisplay extends UiPart<Region> {
             availabilityText.setText(availabilityText.getText().concat(" ").concat(SPECIAL_TERM2));
         }
 
-        for (Code code : module.getLockedModules()) {
-            lockedModulesText.setText(lockedModulesText.getText().concat(code.toString()).concat(" "));
-        }
+        prereqText.setText(module.getPrereq().toString());
     }
 
     public Module getModule() {

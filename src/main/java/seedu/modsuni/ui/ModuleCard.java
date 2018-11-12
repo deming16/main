@@ -39,8 +39,6 @@ public class ModuleCard extends UiPart<Region> {
     @FXML
     private Label title;
     @FXML
-    private Label description;
-    @FXML
     private Label credit;
     @FXML
     private FlowPane availability;
@@ -52,8 +50,7 @@ public class ModuleCard extends UiPart<Region> {
         code.setText(module.getCode().code);
         department.setText(module.getDepartment());
         title.setText(module.getTitle());
-        description.setText(module.getDescription());
-        credit.setText(String.valueOf(module.getCredit()));
+        credit.setText(String.valueOf(module.getCredit()).concat(" MCs"));
         if (module.isAvailableInSem1()) {
             availability.getChildren().add(new Label(SEM1));
         }

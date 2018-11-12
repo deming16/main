@@ -1,14 +1,8 @@
 package guitests.guihandles;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
-import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 
 
@@ -34,9 +28,9 @@ public class ModuleDisplayHandle extends NodeHandle<Node> {
     private static final String AVAILABILITY_LABEL_FIELD_ID = "#availabilityLabel";
     private static final String AVAILABILITY_LABEL_TEXT = "Available in: ";
     private static final String AVAILABILITY_TEXT_FIELD_ID = "#availabilityText";
-    private static final String LOCKED_MODULES_LABEL_FIELD_ID = "#lockedModulesLabel";
-    private static final String LOCKED_MODULES_LABEL_TEXT = "Locked Modules: ";
-    private static final String LOCKED_MODULES_TEXT_FIELD_ID = "#lockedModulesText";
+    private static final String PREREQ_LABEL_FIELD_ID = "#prereqLabel";
+    private static final String PREREQ_LABEL_TEXT = "Prerequisite: ";
+    private static final String PREREQ_TEXT_FIELD_ID = "#prereqText";
     private static final String SEM1 = "Sem1";
     private static final String SEM2 = "Sem2";
     private static final String SPECIAL_TERM1 = "SpecialTerm1";
@@ -54,8 +48,8 @@ public class ModuleDisplayHandle extends NodeHandle<Node> {
     private final Text creditText;
     private final Label availabilityLabel;
     private final Text availabilityText;
-    private final Label lockedModulesLabel;
-    private final Text lockedModulesText;
+    private final Label prereqLabel;
+    private final Text prereqText;
 
     public ModuleDisplayHandle(Node cardNode) {
         super(cardNode);
@@ -72,8 +66,8 @@ public class ModuleDisplayHandle extends NodeHandle<Node> {
         creditText = getChildNode(CREDIT_TEXT_FIELD_ID);
         availabilityLabel = getChildNode(AVAILABILITY_LABEL_FIELD_ID);
         availabilityText = getChildNode(AVAILABILITY_TEXT_FIELD_ID);
-        lockedModulesLabel = getChildNode(LOCKED_MODULES_LABEL_FIELD_ID);
-        lockedModulesText = getChildNode(LOCKED_MODULES_TEXT_FIELD_ID);
+        prereqLabel = getChildNode(PREREQ_LABEL_FIELD_ID);
+        prereqText = getChildNode(PREREQ_TEXT_FIELD_ID);
     }
 
     public String getCodeLabel() {
@@ -124,12 +118,12 @@ public class ModuleDisplayHandle extends NodeHandle<Node> {
         return availabilityText.getText();
     }
 
-    public String getLockedModulesLabel() {
-        return lockedModulesLabel.getText();
+    public String getPrereqLabel() {
+        return prereqLabel.getText();
     }
 
-    public String getLockedModulesText() {
-        return lockedModulesText.getText();
+    public String getPrereqText() {
+        return prereqText.getText();
     }
 
     /**
@@ -142,7 +136,7 @@ public class ModuleDisplayHandle extends NodeHandle<Node> {
                 && getDescriptionLabel().equals(DESCRIPTION_LABEL_TEXT)
                 && getCreditLabel().equals(CREDIT_LABEL_TEXT)
                 && getAvailabilityLabel().equals(AVAILABILITY_LABEL_TEXT)
-                && getLockedModulesLabel().equals(LOCKED_MODULES_LABEL_TEXT);
+                && getPrereqLabel().equals(PREREQ_LABEL_TEXT);
     }
 
 
@@ -159,27 +153,6 @@ public class ModuleDisplayHandle extends NodeHandle<Node> {
                 && module.isAvailableInSem2() == getAvailabilityText().contains(SEM2)
                 && module.isAvailableInSpecialTerm1() == getAvailabilityText().contains(SPECIAL_TERM1)
                 && module.isAvailableInSpecialTerm2() == getAvailabilityText().contains(SPECIAL_TERM2)
-                && isLockedModulesSame(module);
-    }
-
-    /**
-     * Returns true if locked module text is equal to the locked module list in {@code module}.
-     * Returns false otherwise.
-     */
-    public boolean isLockedModulesSame(Module module) {
-        if (getLockedModulesText().equals("") && module.getLockedModules().size() == 0) {
-            return true;
-        }
-
-        List<String> displayText = Arrays.asList(getLockedModulesText().trim().split(" "));
-        List<Code> lockedCode = module.getLockedModules();
-        if (displayText.size() != lockedCode.size()) {
-            return false;
-        }
-
-        List<String> lockedString = lockedCode.stream().map(code -> code.toString()).collect(Collectors.toList());
-        Collections.sort(displayText);
-        Collections.sort(lockedString);
-        return displayText.equals(lockedString);
+                && getPrereqText().equals(module.getPrereq().toString());
     }
 }
