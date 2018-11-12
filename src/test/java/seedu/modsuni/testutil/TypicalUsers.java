@@ -14,6 +14,7 @@ import seedu.modsuni.model.user.student.Student;
 public class TypicalUsers {
 
     public static final String STUDENT_TEST_DATA = "test_8DB6604.xml";
+    public static final String STUDENT_MAX_DATA = "max33.xml";
 
     public static final Student STUDENT_MAX = new StudentBuilder().build();
     public static final Student STUDENT_SEB = new StudentBuilder()

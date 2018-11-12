@@ -15,6 +15,7 @@ public class TypicalAdmins {
     public static final String MASTER_DATA = "masterconfig.xml";
 
     public static final Admin MASTER = new AdminBuilder()
+        .withUsername("master")
         .withName("master")
         .withEmployedDate("01/11/2001")
         .withRole(Role.ADMIN)

@@ -1,5 +1,6 @@
 package systemtests;
 
+import static seedu.modsuni.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.modsuni.logic.commands.CommandTestUtil.ENROLLMENT_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.LOGIN_PASSWORD_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.LOGIN_USERDATA_DESC;
@@ -16,9 +17,10 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MAJOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MINOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_ADMIN;
-import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
-import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
+import static seedu.modsuni.testutil.TypicalAdmins.MASTER_DATA;
+import static seedu.modsuni.testutil.TypicalCredentials.*;
+import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
+import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX_DATA;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -35,12 +37,21 @@ import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.testutil.StudentBuilder;
 import seedu.modsuni.testutil.StudentUtil;
 
-public class UserAccountSystemTest extends ModsUniSystemTest {
+public class RegisterCommandSystemTest extends ModsUniSystemTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data",
         "sandbox");
     private static final Path TYPICAL_CREDENTIALSTORE_FILE =
         TEST_DATA_FOLDER.resolve("sampleCredentialStore.xml");
+
+    private static final Path STUDENT_MAX_DATA_PATH =
+        TEST_DATA_FOLDER.resolve(STUDENT_MAX_DATA);
+
+    private static final Path ADMIN_DATA_PATH =
+        TEST_DATA_FOLDER.resolve(MASTER_DATA);
+
+    private static final Path TEMP_DATA_PATH =
+        TEST_DATA_FOLDER.resolve("temp_data.xml");
 
     @After
     public void cleanUp() {
@@ -108,11 +119,37 @@ public class UserAccountSystemTest extends ModsUniSystemTest {
         // logouts from currentUser
         executeCommand(LogoutCommand.COMMAND_WORD);
 
-        /* ----------------------------------- Perform invalid register
-        operations --------------------------------------- */
+        /* ---------- Perform invalid register  operations ---------- */
 
+        // without username
+        command = RegisterCommand.COMMAND_WORD + "  " + LOGIN_PASSWORD_DESC + " "
+            + NAME_DESC_BOB + " " + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
+            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
 
+        // without password
+        command = RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + " "
+            + NAME_DESC_BOB + " " + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
+            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
 
+        // without name
+        command = RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + "  " + LOGIN_PASSWORD_DESC + " "
+            + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
+            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
+
+        // without enrollment
+        command = RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + "  " + LOGIN_PASSWORD_DESC + " "
+            + NAME_DESC_BOB + " " + MAJOR_DESC + " "
+            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
+
+        // without major
+        command = RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + "  " + LOGIN_PASSWORD_DESC + " "
+            + NAME_DESC_BOB + " " + ENROLLMENT_DESC + " "
+            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
     }
 
     /**
@@ -140,13 +177,13 @@ public class UserAccountSystemTest extends ModsUniSystemTest {
      * Performs the same verification as {@code assertCommandSuccess(Person)}. Executes {@code command}
      * instead.
      *
-     * @see UserAccountSystemTest#assertCommandSuccess(Student)
+     * @see RegisterCommandSystemTest#assertCommandSuccess(Student)
      */
     private void assertCommandSuccess(String command, Student toAdd) {
         Model expectedModel = getModel();
         expectedModel.setCurrentUser(toAdd);
         String expectedResultMessage =
-            String.format(RegisterCommand.MESSAGE_SUCCESS, toAdd, "dummy.xml");
+            String.format(RegisterCommand.MESSAGE_SUCCESS, toAdd, TEMP_DATA_PATH);
 
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
     }
@@ -159,7 +196,7 @@ public class UserAccountSystemTest extends ModsUniSystemTest {
      * components in
      * {@code expectedModel}.<br>
      *
-     * @see UserAccountSystemTest#assertCommandSuccess(String, Student)
+     * @see RegisterCommandSystemTest#assertCommandSuccess(String, Student)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
         executeCommand(command);
