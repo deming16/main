@@ -42,7 +42,8 @@ Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 
 Some example commands you can try:
-
+* **: `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA`
+ : creates a new student account
 * **`addModuleS`**`CS2103T` : adds the module CS2103T to the staged modules configuration
 * **`removeModuleS`**`CS2103T` : removes the module CS2103T to the staged module configuration
 * **`exit`** : exits the app
@@ -275,7 +276,7 @@ _Figure 3. An example of a saved file containing a user's information_
 Switches to the selected tab on the left panel. +
 Format: `switch tab/<OPTION>`
 
-Available Options:
+Available options:
 
 * User tab: `tab/user`
 * Staged tab: `tab/staged`
@@ -312,7 +313,7 @@ This command can only be executed when logged in using a student account.
 
 Example: +
 
-* To generate a schedule successfully, follow these steps.
+* To generate a schedule successfully, follow the following steps:
 . `addModuleS CS1010 CS2030 CS2040 CS2103T`
 . `generate` +
 The schedule will be displayed as shown in figure 1 below.
@@ -335,7 +336,7 @@ Examples of possible failures: +
 
 * Missing prerequisites
 +
-The following message will be shown for this failure.
+The following message in figure 2 will be shown for this failure.
 +
 
 image::generateMissingPrereq.png[width="700"]
@@ -344,10 +345,10 @@ _Figure 2. Error message shown when there are prerequisites are missing._
 +
 Steps to rectify:
 
-. Execute `viewModule CS2030` to identify the missing prerequisite module.
+. Execute `showModule CS2030` to identify the missing prerequisite module as shown in figure 3.
 +
 image::generateMissingPrereqShow.png[width="700"]
-_Figure 3. Output of the `viewModule` command._
+_Figure 3. Output of the `showModule CS2030` command._
 +
 [NOTE]
 The prerequisites are shown in the red box.
@@ -355,7 +356,9 @@ The prerequisites are shown in the red box.
 
 . Add the missing prerequisite module using `addModuleS CS1010`.
 . Run the `generate` command again.
-. Verify the application's output with the image below. The green box should show the schedule and message in
+. Verify the application's output with the figure 4 as shown below. The green box should show the schedule
+and
+message in
 the red box should say "Generate success!".
 +
 image::generateMissingPrereqSuccess.png[width="700"]
@@ -363,7 +366,7 @@ _Figure 4. Output when the schedule has been successfully generated._
 
 * No modules added to staged list
 +
-The following message will be shown for this failure.
+The following message in figure 5 will be shown for this failure.
 +
 
 image::generateNoStagedModules.png[width="700"]
@@ -400,7 +403,7 @@ _Figure 7. Output when the schedule has been successfully generated._
 === Login to User Account : `login`
 
 Login to the User Account with the corresponding credentials. +
-Format: `login user/<USERNAME> pass/<PASSWORD> userData/[PATH_TO_DATA_FILE]`
+Format: `login user/<USERNAME> pass/<PASSWORD> userData/<PATH_TO_DATA_FILE>`
 
 Examples:
 
