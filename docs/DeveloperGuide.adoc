@@ -2008,6 +2008,9 @@ The below test cases only cater to `Student` accounts
 .   Test case: `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
     Expected: A new account is created. The `Student` details as provided in the command should be automatically displayed in `UserTab`. A successful message should be displayed in the Output Display. Additionally, a save location is provided to the user. Examine the project's root folder to determine if the file is indeed created.
 
+[NOTE]
+Do note that registering a `Student` account is possible without any `min/` parameters. This is in consideration that certain students do not have any minors
+
 
 .   Test case: `register user/m@x33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA` +
     Expected: No new account is created. A invalid `Username` error should be shown in the the Output Display. Rest of the UI remains unchanged.
