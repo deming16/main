@@ -244,6 +244,7 @@ This section describes some noteworthy details on how certain features are imple
 
 User Account Management involves mainly the authentication process of the users.
 Only once they are authenticated, will their respective user data be loaded into the application.
++
 Additionally, it is only by registering/logging in will users be able to access and manipulate their account details. +
 This section will describe in detail the Current Implementation and the Design Considerations of the User Account Management feature. +
 
