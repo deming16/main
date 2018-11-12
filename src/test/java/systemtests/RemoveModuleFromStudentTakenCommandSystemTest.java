@@ -26,7 +26,6 @@ import seedu.modsuni.logic.commands.RemoveModuleFromStudentTakenCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromStudentTakenCommandTest;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.Module;
-import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.testutil.StudentUtil;
 
 public class RemoveModuleFromStudentTakenCommandSystemTest extends ModsUniSystemTest {

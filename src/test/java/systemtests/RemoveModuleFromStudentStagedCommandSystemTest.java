@@ -22,12 +22,10 @@ import org.junit.Test;
 
 import seedu.modsuni.logic.commands.AddModuleToStudentStagedCommand;
 import seedu.modsuni.logic.commands.LoginCommand;
-import seedu.modsuni.logic.commands.LogoutCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromStudentStagedCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromStudentStagedCommandTest;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.Module;
-import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.testutil.StudentUtil;
 
 public class RemoveModuleFromStudentStagedCommandSystemTest extends ModsUniSystemTest {

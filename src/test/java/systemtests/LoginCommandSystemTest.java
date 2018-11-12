@@ -6,7 +6,10 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 import static seedu.modsuni.testutil.TypicalAdmins.MASTER;
 import static seedu.modsuni.testutil.TypicalAdmins.MASTER_DATA;
-import static seedu.modsuni.testutil.TypicalCredentials.*;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_MASTER;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
+import static seedu.modsuni.testutil.TypicalCredentials.STUDENT_MAX_PASSWORD;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX_DATA;
 

@@ -3,7 +3,6 @@ package systemtests;
 import static seedu.modsuni.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.modsuni.logic.commands.CommandTestUtil.ENROLLMENT_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.LOGIN_PASSWORD_DESC;
-import static seedu.modsuni.logic.commands.CommandTestUtil.LOGIN_USERDATA_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.MAJOR_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.MINOR_DESC;
 import static seedu.modsuni.logic.commands.CommandTestUtil.NAME_DESC_AMY;
@@ -18,11 +17,9 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MINOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
-import static seedu.modsuni.testutil.TypicalAdmins.MASTER_DATA;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_ADMIN;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
-import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX_DATA;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -45,12 +42,6 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
         "sandbox");
     private static final Path TYPICAL_CREDENTIALSTORE_FILE =
         TEST_DATA_FOLDER.resolve("sampleCredentialStore.xml");
-
-    private static final Path STUDENT_MAX_DATA_PATH =
-        TEST_DATA_FOLDER.resolve(STUDENT_MAX_DATA);
-
-    private static final Path ADMIN_DATA_PATH =
-        TEST_DATA_FOLDER.resolve(MASTER_DATA);
 
     private static final Path TEMP_DATA_PATH =
         TEST_DATA_FOLDER.resolve("temp_data.xml");
