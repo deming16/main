@@ -774,8 +774,7 @@ The save mechanism is facilitated by the following classes:
 * `SaveCommand` +
 The `SaveCommand` stores the following attributes of a `User` object: +
 
-** Attributes that exist in all user
-
+** Attributes that exist in all user:
 
 *** Username +
     The username of a user.
@@ -783,17 +782,17 @@ The `SaveCommand` stores the following attributes of a `User` object: +
     The name of the user.
 *** Role +
     The role of the user.
-[TIP]
+[NOTE]
 `Username` is unique to every user and is used for logging in. `Name` is non-unique and multiple users can use the same `Name`.
 
-** Attributes that only exist in an admin
+** Attributes that only exist in an admin:
 
 *** Salary +
     The salary of an administrator.
 *** Employment Date +
     The employment date of an administrator.
 
-** Attributes that only exist in a student
+** Attributes that only exist in a student:
 
 *** Enrollment Date +
     The enrollment date of a student.
@@ -805,10 +804,12 @@ The `SaveCommand` stores the following attributes of a `User` object: +
     A list of modules took by a student.
 *** Modules Staged +
     A list of modules staged for the generation of candidature.
+[IMPORTANT]
+A student must have *at least one* major and can have no minor.
 
 * `UserStorage` +
 It provides methods to save the current user's attributes as well as to load a file containing previously saved data. +
-Additionally, it implements the following operations:
+`UserStorage` implements the following operations:
 ** `StorageManager#saveUser(…​)` — Save the user's data into the specified file path.
 ** `StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
 
@@ -820,28 +821,27 @@ It allows a user to save their data as a XML file.
 [NOTE]
 Both admin and student can use the save feature.
 
-The `SaveCommand` class extends from the `Command` class.
-Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
+The `SaveCommand` class extends from the `Command` class as shown below in Figure 1.
 
 image::SaveCommandUML.png[width="250"]
 _Figure 1. SaveCommand UML Diagram_
 
-Parsing of command is performed by `SaveCommandParser`, which returns a `SaveCommand` object after parsing the save file path.
-The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic & Model components when the SaveCommand is being executed.
+The parsing of command is performed by `SaveCommandParser`, which returns a `SaveCommand` object after parsing the save file path.
+The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic and Model components when the SaveCommand is being executed.
 
-image::SDforSaveCommandLogicAndModel.png[width="900"]
+image::SDforSaveCommandLogicAndModel.png[width="800"]
 _Figure 2. Sequence Diagram for the interaction between Logic and Model Components when executing SaveCommand_
 
 The `save` feature uses multiple components of the modsUni application.
 The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
-As seen from the diagram, the `SaveCommand` is driven by the `SaveUserChangedEvent`.
+In addition, the sequence diagram also illustrates that `SaveCommand` is driven by the `SaveUserChangedEvent`.
 
 image::SequenceDiagramforSave.png[width="800"]
 _Figure 3. High-Level Sequence Diagram for the `save sp/userdata.xml` command_
 
 The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as shown in Figure 4.
 
-image::SequenceDiagramforSaveEventHandling.png[width="650"]
+image::SequenceDiagramforSaveEventHandling.png[width="550"]
 _Figure 4. High-Level Sequence Diagram showing how the Storage component handles `SaveUserChangedEvent` which was triggered by EventsCenter_
 
 The Storage component makes use of `XmlUserStorage` class to write `User` to a file specified by the file path.
@@ -882,17 +882,21 @@ Given below is an example usage scenario and how the save mechanism behaves:
 [TIP]
 A newly registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
 
+The following activity diagram shown in Figure 5 summarizes what happens when a user executes the save command.
+
+image::SaveActivityDiagram.png[width="550"]
+_Figure 5. Activity Diagram for the save command_
 
 ==== Design Considerations
 
 ===== Aspect: Data to save
 
-* **Alternative 1 (current choice):** Saves the entire `User` object.
-** Pros: Able to restore to any state of the user.
+* **Alternative 1 (current choice):** Save every attribute of a `User`.
+** Pros: Able to restore to any state of a user.
 ** Cons: Harder to implement as support for converting data of user to XML format needs to be added.
-* **Alternative 2:** Saves only the staged modules.
+* **Alternative 2:** Save only the staged modules.
 ** Pros: Will use less storage space (saving only staged module vs saving all user data).
-** Cons: Does not restore the state of the user entirely.
+** Cons: Does not restore the state of a user entirely.
 // end::saveuser[]
 
 // tag::datasecurity[]
@@ -907,16 +911,16 @@ This section will describe in details the current implementation and the design 
 ---
 ==== Current Implementation
 The data security feature is facilitated by `DataSecurityUtil` class. +
-It implements the following operations(s):
+`DataSecurityUtil` implements the following operations:
 
 * `DataSecurityUtil#encrypt(…​)` — Encrypts a `byte[]` with the specified password and returns the encrypted `byte[]`.
 * `DataSecurityUtil#decrypt(…​)` — Decrypts a `byte[]` with the specified password and returns the decrypted `byte[]`.
 
 `DataSecurityUtil` class utilizes `javax.crypto.cipher` and `javax.crypto.spec.SecretKeySpec` packages for the operations mentioned above.
 
-The `Hashing` class is used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which are required to generate `SecretKeySpec`.
+The `Hashing` class is also used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which is required to generate `SecretKeySpec`.
 
-Both encryption and decryption is performed in `XMLAdaptedUser`.
+The encryption and decryption of user data are performed in `XMLAdaptedUser`.
 
 ===== Implementation of the encryption feature
 
@@ -953,7 +957,7 @@ public XmlAdaptedUser(User user, String password) {
 
 The sequence diagram shown below in Figure 1 illustrates the integration of encryption with the save user feature.
 
-image::SequenceDiagramforSaveEventHandlingWithEncryption.png[width="650"]
+image::SequenceDiagramforSaveEventHandlingWithEncryption.png[width="550"]
 _Figure 1. Sequence Diagram for the interaction between EventsCenter and Storage Components when executing SaveCommand with encryption_
 
 
@@ -987,7 +991,7 @@ public User toModelType(String password) throws IllegalValueException, Corrupted
 }
 ----
 
-The code snippets of `decryptUsername(...)` and `decryptSalary(...)` is as follows:
+The code snippets of `decryptUsername(...)` and `decryptSalary(...)` are shown below respectively:
 
 [source, java]
 ----
@@ -1006,39 +1010,43 @@ private String decryptSalary(String password) throws NoSuchAlgorithmException, I
 
 The sequence diagram shown below in Figure 2 illustrates the integration of decryption with the login feature.
 
-image::SDforSaveCommandLogicAndModelUserDecryption.png[width="900"]
+image::SDforSaveCommandLogicAndModelUserDecryption.png[width="800"]
 _Figure 2. Sequence Diagram for the interaction between Logic Component and DataSecurityUtil when executing LoginCommand_
+
+The following activity diagram shown in Figure 3 summarizes what happens in the decryption process when a user executes the login command.
+
+image::DecryptionActivityDiagram.png[width="550"]
+_Figure 3. Activity Diagram for decryption feature in the login command_
 
 ==== Design Considerations
 
 ===== Aspect: How encryption is implemented
 
-* **Alternative 1 (current choice):** Implement as an in-built feature.
-** Pros: Ensures that the confidentiality of a user's data file is preserved at all times.
-** Cons: Users do not have full control.
+* **Alternative 1 (current choice):** Implement as an inbuilt feature.
+** Pros: Confidentiality of a user's data file is preserved at all times.
+** Cons: User does not have full control over user data file.
 * **Alternative 2:** Implement as a command.
-** Pros: Users will have more control on the data security.
-** Cons: Unable to enforce the data security of the application.
+** Pros: User will have more control over data security.
+** Cons: Enforcement of data security outside of the application would be harder.
 
 ===== Aspect: Generation of security key for encryption/decryption
 
 * **Alternative 1 (current choice):** Generate the key using a user's password.
-** Pros: User does not need to supply additional information or file for encryption/decryption.
+** Pros: User does not need to supply additional information or file for encryption or decryption.
 ** Cons: User is unable to decrypt their user data file if they forget their password.
 * **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
-** Pros: The key will be more secured compared to the key generated from alternative 1 since a weak password may be used by a user (susceptible to password cracking).
+** Pros: The key will be more secured compared to the key generated from alternative one since a weak password that is susceptible to password cracking may be used by a user.
 ** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
 
 ===== Aspect: What fields to encrypt
 
 * **Alternative 1 (current choice):** Encrypt some fields (Username and Salary).
-** Pros: Encryption of username ensures that a malicious user is unable to correlate a specific user data file to a credential in the credential store.
-In addition, advance users are able to edit unencrypted fields in the user data file.
-** Cons: Not all information are encrypted.
+** Pros: The encryption of username ensures that a malicious user is unable to correlate a specific user data file to a credential in the credential store.
+In addition, advance users can edit unencrypted fields in the user data file.
+** Cons: The user data file will contain unencrypted information.
 * **Alternative 2:** Encrypt every field.
-** Pros: All user data is secure due to encryption.
-** Cons: Advance users are unable to manually edit from the user data file.
-
+** Pros: The user data file is secure since every field is encrypted.
+** Cons: Advance user are unable to edit from the user data file manually.
 
 // end::datasecurity[]
 
