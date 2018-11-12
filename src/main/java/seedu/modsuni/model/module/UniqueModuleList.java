@@ -1,14 +1,17 @@
 package seedu.modsuni.model.module;
+
 import static java.util.Objects.requireNonNull;
 import static seedu.modsuni.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.model.module.exceptions.DuplicateModuleException;
 import seedu.modsuni.model.module.exceptions.ModuleNotFoundException;
@@ -37,6 +40,10 @@ public class UniqueModuleList implements Iterable<Module> {
         return internalList.stream().anyMatch(toCheck::isSameModule);
     }
 
+    public Module get(int index) {
+        return internalList.get(index);
+    }
+
     public boolean isEmpty() {
         return internalList.isEmpty();
     }
@@ -45,6 +52,10 @@ public class UniqueModuleList implements Iterable<Module> {
         return internalList.size();
     }
 
+    /**
+     * Gets a list of code from the modules in the list.
+     * @return A list of codes.
+     */
     public List<Code> getAllCode() {
         List<Code> codes = new ArrayList<>();
         for (Module module : internalList) {
@@ -129,16 +140,6 @@ public class UniqueModuleList implements Iterable<Module> {
         }
     }
 
-    public Module getModuleByCode(Code code) {
-        requireNonNull(code);
-        for (Module module : internalList) {
-            if (module.getCode().equals(code)) {
-                return module;
-            }
-        }
-        throw new ModuleNotFoundException();
-    }
-
     public void setModules(UniqueModuleList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
@@ -154,6 +155,18 @@ public class UniqueModuleList implements Iterable<Module> {
             throw new DuplicateModuleException();
         }
         internalList.setAll(modules);
+    }
+
+    /**
+     * Rearranges the list of modules by sorting the module code from a-z.
+     */
+    public void sortByModuleCode() {
+        internalList.sort(new Comparator<Module>() {
+            @Override
+            public int compare(Module o1, Module o2) {
+                return o1.getCode().compareTo(o2.getCode());
+            }
+        });
     }
 
     /**

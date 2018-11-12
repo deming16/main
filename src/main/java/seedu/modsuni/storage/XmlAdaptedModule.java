@@ -17,7 +17,6 @@ import seedu.modsuni.model.module.Prereq;
  */
 public class XmlAdaptedModule {
 
-
     @XmlElement(required = true)
     private String code;
     @XmlElement(required = true)

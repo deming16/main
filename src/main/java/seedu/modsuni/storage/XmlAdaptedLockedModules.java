@@ -24,9 +24,10 @@ public class XmlAdaptedLockedModules {
     }
 
     /**
-     * Converts this jaxb-friendly adapted tag object into the model's Tag object.
+     * Converts this jaxb-friendly adapted locked module object into the model's Code object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     * @throws IllegalValueException if there were any data constraints violated in the adapted locked
+     * module code.
      */
     public Code toModelType() throws IllegalValueException {
         if (!Code.isValidCode(lockedModuleCode)) {

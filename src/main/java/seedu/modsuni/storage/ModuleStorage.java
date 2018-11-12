@@ -1,7 +1,7 @@
 package seedu.modsuni.storage;
 import java.nio.file.Path;
 /**
- * Represents a storage for {@link seedu.modsuni.model.Module}.
+ * Represents a storage for {@link seedu.modsuni.model.module.Module}.
  */
 public interface ModuleStorage {
     /**

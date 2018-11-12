@@ -88,6 +88,7 @@ public class Module {
     public Prereq getPrereq() {
         return prereq;
     }
+
     public boolean[] getSems() {
         boolean[] sems = new boolean[4];
         for (int i = 0; i < 4; i++) {
@@ -108,6 +109,11 @@ public class Module {
         return sems;
     }
 
+    /**
+     * Checks if this module's prerequisite can be satisfied using the list of codes.
+     * @param codeChecklist List of codes to be checked against.
+     * @return true if this prerequisite can be satisfied, false otherwise.
+     */
     public boolean checkPrereq(List<Code> codeChecklist) {
         return prereq.checkPrereq(codeChecklist);
     }

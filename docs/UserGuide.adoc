@@ -224,22 +224,97 @@ _Figure 2. A successful example of switching to the database tab_
 // end::switchtab[]
 
 // tag::generate[]
-=== Generate module plan: `generate`
-
-Generates a schedule based on the modules that have been added by the `addModuleS` command. +
+=== Generate schedule: `generate`
+Generates a schedule based on the modules that has been added using `addModuleS` command. +
 Format: `generate`
 
-Examples:
+[IMPORTANT]
+This command can only be executed when logged in using a student account.
 
-* `generate` with missing prerequisites +
-List of modules with missing prerequisites would be shown to the user.
+Example: +
+
+* To generate a schedule successfully, follow these steps.
+. `addModuleS CS1010 CS2030 CS2040 CS2103T`
+. `generate` +
+The schedule will be displayed as shown in figure 1 below.
+
++
+image::generateSuccess.png[width="600"]
+_Figure 1. An example of a schedule_
+
++
 
 [NOTE]
-Only `Student` user accounts can execute the `generate` command.
+If the command has executed successfully, the message in the red box will say "Generate success!".
 
+
+
+There are instances where the command will fail to generate a schedule. The following is a list of
+possible reasons why a failure might occur and the steps required to resolve it.
+
+Examples of possible failures: +
+
+* Missing prerequisites
++
+The following message will be shown for this failure.
++
+
+image::generateMissingPrereq.png[width="700"]
+_Figure 2. Error message shown when there are prerequisites are missing._
+
++
+Steps to rectify:
+
+. Execute `viewModule CS2030` to identify the missing prerequisite module.
++
+image::generateMissingPrereqShow.png[width="700"]
+_Figure 3. Output of the `viewModule` command._
++
 [NOTE]
-To generate successfully, modules and it's prerequisites should be added to the staged/taken list before
-executing.
+The prerequisites are shown in the red box.
+
+
+. Add the missing prerequisite module using `addModuleS CS1010`.
+. Run the `generate` command again.
+. Verify the application's output with the image below. The green box should show the schedule and message in
+the red box should say "Generate success!".
++
+image::generateMissingPrereqSuccess.png[width="700"]
+_Figure 4. Output when the schedule has been successfully generated._
+
+* No modules added to staged list
++
+The following message will be shown for this failure.
++
+
+image::generateNoStagedModules.png[width="700"]
+_Figure 5. Error message shown when there are no modules in the staged list._
+
++
+Steps to rectify:
+
+. Add a module to your staged list using `addModuleS CS1010`.
+. Execute `switch tab/staged` to ensure that the module has been successfully added to your staged list.
++
+image::generateNoStagedModulesAdd.png[width="700"]
+_Figure 6. Before and after ouput after adding a module to the staged list._
+
+. Run the `generate` command again.
+
++
+
+<<<
+
+. Verify the application's output with the image below. The green box should show the schedule and
+message in
+the red box should say "Generate success!".
+
++
+image::generateNoStagedModulesSuccess.png[width="700"]
+_Figure 7. Output when the schedule has been successfully generated._
++
+
+
 // end::generate[]
 
 // tag::useraccountmanagement[]
@@ -372,34 +447,6 @@ Notice that the Data Fields in the User Tab has been reset to its original state
 === Data Encryption
 
 Data stored using the `save` command is encrypted by default.
-
-=== Set module preference: `set-mod`
-
-Setting a preferred semester to take a module. +
-Format: `set-mod <MOD_CODE> <SEMESTER>`
-
-Examples:
-
-* `set-mod CS2103T 3` +
-Configures CS2103T to be taken in year 2 semester 1.
-
-=== Set maximum number of semesters: `set-max-sem <NUM_SEMESTERS>`
-
-Setting the maximum number of semesters during candidature. +
-Format: `set-max-sem <NUM_SEMESTERS>`
-
-Examples:
-
-* `set-max-sem 6`
-
-=== Set theme: `set-theme`
-
-Set a different theme based on a configuration file. +
-Format: `set-theme <FILE_NAME>.xml`
-
-Examples:
-
-* `set-theme <FILE_NAME>.xml`
 
 [[AdminFeatures]]
 == Administrator Features
@@ -563,6 +610,7 @@ image::RemoveModuleFromDatabaseCommandExample.png[width="700"]
 * *Deleter from Taken*: `removeModuleT <MOD_CODE> [MORE_MOD_CODES]`
 * *Search* : `search <KEYWORD> [MORE_KEYWORDS]`
 * *Save* : `save sp/[FILE_NAME]`
+* *Generate Schedule* : `generate`
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
 * *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 * *Edit Student* : `edit [OPTION]/[INPUT]...`

@@ -435,52 +435,150 @@ Upon the successful execute of the `edit` command, `UserTab` would also be updat
 // end::useraccountmanagement[]
 
 // tag::generate[]
-=== Generate
+=== Generate Schedule Feature
 
-Generate is a command for student users to generate a schedule containing the modules to take in each
-semester during their entire university candidature.
+This feature is for student users to generate a schedule containing the modules to take in each semester
+during their entire university candidature. It is executed using the `generate` command.
 
 [NOTE]
-The generate command can only be executed by users of type `Student`.
+The `generate` command can only be executed by users of type `Student`.
 
 The section below will describe in detail the current implementation and design considerations of the
-generate feature.
+`generate` command.
 
 ==== Current Implementation
+The sequence diagram shown below in Figure 1 illustrates the interactions between some of these components
+ when the command is executed.
 
-The generate command is facilitated by the `GenerateCommand` class and the following methods in the Model
-class:
+image::SequenceDiagramforGenerate.png[width="200]
+_Figure 1. High Level Sequence Diagram for `generate` command_
 
-* `Model#isStudent()` -- This method checks if the current user is a student.
-* `Model#canGenerate()` -- This method checks if it is possible to generate a schedule.
-* `Model#generateSchedule()` -- This method generates a schedule.
+The command is facilitated by the following classes:
 
-It generates a schedule based on the student’s staged modules. It also makes use of the `Generate`
-class from the `Logic` package to create a schedule.
+* `Generate` command class +
+The `Generate` command class extends from the `Command` class. Figure 2 below depicts the UML
+diagram for the `Generate` command class.
 
-The `GenerateCommand` class extends from the `Command` class. Figure 1 as shown below depicts the UML
-diagram for the `GenerateCommand` class.
++
+image::GenerateCommandUML.png[width="400"]
+_Figure 2. Generate command UML Diagram_
 
-image::GenerateCommandUML.png[width="250]
-_Figure 1. GenerateCommand UML Diagram_
+* `Model` class +
+The following methods in the `Model` class are used in this command:
 
-In the execute method of the Generate command, it will first check if the current user is a Student. Next
-it will proceed on to check if all prerequisites of the student’s staged modules have been met. It does the
- prerequisite checks using the student’s taken module list. If the conditions are satisfactory, it will
- generate a schedule. Figure 2(shown below) shows the sequence diagram when executing the `GenerateCommand`.
+** `isStudent()` +
+This method checks if the current user is a student.
+** `canGenerate()` +
+This method checks if it is possible to generate a schedule.
+** `generateSchedule()` +
+This method generates a schedule.
+
+* `Generate` from the `Logic` package. +
+This class is used to encapsulate the processes for generating a schedule. The following methods are used
+in this command: +
+** `canGenerate(Student)` +
+This methods checks if all the module prerequisites from the student's staged list is met. It does this by
+merging the staged and taken module list together. +
+Using the merged list, it extracts out the list of module codes. Each module in the staged list is checked
+to see if the prerequisite condition can be met. The following code snippet shows this process:
++
+[source, java]
+----
+public static Optional<List<Code>> canGenerate(Student student) {
+    List<Code> cannotTakeCode = new ArrayList<>();
+    List<Code> codeChecklist = student.getTakenAndStageCode();
+    UniqueModuleList modulesStaged = student.getModulesStaged();
+    for (Module module : modulesStaged) {
+        if (!module.checkPrereq(codeChecklist)) {
+            cannotTakeCode.add(module.getCode());
+        }
+    }
+    // return list of codes that failed to met prerequisite condition or an empty value if the list is empty.
+}
+----
+** `generateSchedule()` +
+This method will create a schedule using modules that are in the student's staged list. +
+It does this by going though the list of modules and removing those that satisfies the prerequisite condition. As it removes,
+the module code is added to a temporary list. This list is used during the checking of prerequisite
+conditions for the remaining modules. +
+The following code snippet will provide a clearer explanation of how the method works:
++
+[source, java]
+----
+public SemesterList generateSchedule() {
+    SemesterList semesterList = new SemesterList();
+    Semester newSemester = new Semester();
+
+    List<Code> taken = new ArrayList<>();
+
+    while (modulesStaged.size() > 0) {
+        for (Module element : modulesStaged) {
+            if (element.checkPrereq(taken)) {
+                // Remove module from staged list
+                // Add module to semester and temporary list
+            }
+        }
+
+        semesterList.addSemester(newSemester);
+        newSemester = new Semester();
+    }
+    return semesterList;
+}
+----
+
+[NOTE]
+This class is different from the `Generate` command class. The command class is for the execution of the
+command, while the current one is for creating the schedule.
+
+===== Execution phrase of the `generate` command
+Figure 3 below shows an overview of the steps performed during the execution phrase of the command.
 
 image::SDforGenerateCommandLogicAndModel.png[width="250]
-_Figure 2. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
- `GenerateCommand`._
+_Figure 3. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
+ `generate`._
 
-`GenerateCommand` uses multiple components of the modsUni application. Upon completion of generating the
-schedule, two events will be posted. The first event is `MainWindowClearResourceEvent`. It will be posted to
-inform the current UI that is in the main window to clear it's resources. The second event is
-`NewGenerateResultAvailableEvent`. This event will show the UI for the schedule in the main window.
-The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
+In the execute method of the command, the following checks are performed:
 
-image::SequenceDiagramforGenerate.png[width="250]
-_Figure 3. High Level Sequence Diagram for the `generate` command_
+. Type of user account +
+This step checks if a user has logged in and the current user is a student. It is performed as only student
+accounts are able to generate a schedule.
+
+. Modules in staged list +
+This step ensures that there modules are available to add into the schedule.
+
+. Staged modules prerequisites +
+This step verifies that the prerequisites for all modules in the staged list are met. It is done to ensure
+ that it is possible to generate a schedule.
+
+If any of the checks fails, an error will be thrown. The following code snippet illustrates the
+checking process: +
+[source, java]
+----
+if (model.getCurrentUser() == null) {
+    throw new CommandException(MESSAGE_ERROR);
+}
+
+if (!model.isStudent()) {
+    throw new CommandException(MESSAGE_INVALID_ROLE);
+}
+
+if (!currentStudent.hasModuleToTake()) {
+    throw new CommandException(MESSAGE_NO_MODULES);
+}
+
+if (cannotTakeCodes.isPresent()) {
+    return new CommandResult(MESSAGE_FAILURE + cannotTakeCodes.toString());
+}
+----
+After passing all the checks, the command will proceed on and generate a schedule. To display the schedule
+in the user interface, two events will be created.
+
+. `MainWindowClearResourceEvent` +
+It is created to inform the current panel in the main window to clear it's resources.
+. `NewGenerateResultAvailableEvent` +
+This event will show the generated schedule in the main window.
+
+These events will be sent to `EventsCenter` to process and execute it.
 
 ===== Example scenario of the generate command
 Given below is an example usage scenario of how the generate command behaves:
@@ -494,7 +592,8 @@ In order to utilise the generate command, the user must perform one of the follo
 * The user executes `register user/demo ...` to register a new `Student` account, followed by `addModuleS
 cs1010`.
 
-* The user executes `login user/demo pass/P@ssw0rd` to log into account, followed by `addModuleS cs1010`.
+* The user executes `login user/demo pass/P@ssw0rd userdata/saveFile.xml` to log into account, followed by
+`addModuleS cs1010`.
 
 [NOTE]
 A new `Student` would be initialized and automatically set as the `currentUser`. The module cs1010 would
@@ -502,15 +601,24 @@ also be added to the student's staged module list, enabling the student to perfo
 
 ==== Design Considerations
 
-===== Aspect: How to generate a schedule
-
-* **Alternative 1 (current choice):** Using of a separate `Generate` class to encapsulate the logic for
-generating the schedule.
+===== Aspect: Placement of methods for generating a schedule
+* **Alternative 1 (current choice):** Use a separate `Generate` class in the `Logic` package to
+encapsulate the processes for generating a schedule.
 ** Pros: Modification made to the generating of schedule does not affect the `Student` model.
 ** Cons: This approach adds complexity to the design of the application.
 * **Alternative 2:** Adding the logic for generating the schedule to the `Student` model.
 ** Pros: This alternative is easier to implement.
 ** Cons: It breaks the single responsibility principle of the `Student` model.
+
+===== Aspect: Checking of prerequisites before generating a schedule
+* **Alternative 1 (current choice):** Perform checks to ensure that all prerequisites for modules in staged
+ list are fulfilled.
+ ** Pros: Ensures that the command will not cause an infinite loop.
+ ** Cons: The command will not always be able to generate a schedule as students may forget to add in the
+ prerequisite modules.
+* **Alterative 2:** Assume that prerequisites for all modules are met.
+** Pros: Reduces the time complexity of the command.
+** Cons: The command might end up with an infinite loop as it keeps on trying to arrange the modules.
 // end::generate[]
 
 // tag::usermodulemanagement[]
@@ -1863,6 +1971,28 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: The most recent window size and location is retained.
 
 _{ more test cases ... }_
+
+=== Generating a schedule
+
+. Generate a schedule using modules in the student's staged list
+
+.. Prerequisites: Login using a student user account and download the sample modules database.
+.. Test case: +
+ ... `addModuleS cs2030 cs2040`
+ ... `generate` +
+ Expected: Generate fail due to missing prerequisites.
+ .. Test case: +
+ ... `addModuleS cs1010`
+ ... `generate` +
+ Expected: Successful execution of the generate command. Schedule will be shown in the panel on the right
+ of the application.
+ .. Other failures that might occur:
+ ... Invalid user account +
+ `login` using an admin account +
+ ... No logged in user +
+ `generate` without logging in
+ ... No modules in staged list +
+ `generate` without adding modules to staged list
 
 === Deleting a person
 

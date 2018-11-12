@@ -6,7 +6,7 @@ import static seedu.modsuni.commons.util.AppUtil.checkArgument;
 /**
  * Represents a Module's code in the application
  */
-public class Code {
+public class Code implements Comparable<Code> {
 
     public static final String MESSAGE_CODE_CONSTRAINTS =
             "Code should only contain alphanumeric characters and forward slash";
@@ -56,4 +56,8 @@ public class Code {
         return code.hashCode();
     }
 
+    @Override
+    public int compareTo(Code compareCode) {
+        return this.code.compareTo(compareCode.code);
+    }
 }

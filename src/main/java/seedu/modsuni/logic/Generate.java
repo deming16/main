@@ -1,12 +1,8 @@
 package seedu.modsuni.logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
@@ -20,36 +16,18 @@ import seedu.modsuni.model.user.student.Student;
  */
 public class Generate {
 
-    private int noOfModules; // No. of vertices
-    private LinkedList<Integer>[] adj; // Adjacency List
-    private List<Code> codesToTake;
-    private Student student;
+    public static final int MAX_MC_IN_SEMESTER = 20;
+
+    private UniqueModuleList modulesStaged;
 
     public Generate(Student student) {
-        this.student = student;
-        codesToTake = new ArrayList<>();
-        UniqueModuleList modulesTaken = student.getModulesTaken();
-        UniqueModuleList modulesToTake = student.getModulesStaged();
-        noOfModules = modulesToTake.size();
-
-        adj = new LinkedList[noOfModules];
-        for (int i = 0; i < noOfModules; ++i) {
-            adj[i] = new LinkedList();
-        }
-
-        codesToTake.addAll(modulesToTake.getAllCode());
-        for (Module moduleToTake : modulesToTake) {
-            for (Code code : moduleToTake.getLockedModules()) {
-                if (codesToTake.contains(code)) {
-                    addEdge(moduleToTake.getCode(), code);
-                }
-            }
-        }
+        modulesStaged = student.getModulesStaged();
     }
 
     /**
-     * Checks if a schedule can be generated or not.
-     * @return
+     * Checks if a schedule can be generated or not. If not, it will return a list of codes that does not
+     * meet the prerequisites condition.
+     * @return Empty is it's possible to generate, or list of codes that did not meet the prerequisites.
      */
     public static Optional<List<Code>> canGenerate(Student student) {
         List<Code> cannotTakeCode = new ArrayList<>();
@@ -68,99 +46,36 @@ public class Generate {
     }
 
     /**
-     * Creates an edge from a module code to another module code.
-     */
-    public void addEdge(Code fromCode, Code toCode) {
-        int v = codesToTake.indexOf(fromCode);
-        int code = codesToTake.indexOf(toCode);
-        adj[v].add(code);
-    }
-
-    /**
-     * Topological sort recursive function to arrange the modules.
-     */
-    public void topologicalSortUtil(int v, boolean[] visited, Stack stack) {
-        visited[v] = true;
-        int i;
-
-        Iterator<Integer> it = adj[v].iterator();
-        while (it.hasNext()) {
-            i = it.next();
-            if (!visited[i]) {
-                topologicalSortUtil(i, visited, stack);
-            }
-        }
-        stack.push(new Integer(v));
-    }
-
-    /**
-     * Creates a linear arrangement of modules to take.
-     */
-    public ArrayList<Code> getLinearSchedule() {
-        ArrayList<Code> linearSchedule = new ArrayList<>();
-        Stack stack = new Stack();
-
-        boolean[] visited = new boolean[noOfModules];
-        for (int i = 0; i < noOfModules; i++) {
-            visited[i] = false;
-        }
-
-        for (int i = 0; i < noOfModules; i++) {
-            if (visited[i] == false) {
-                topologicalSortUtil(i, visited, stack);
-            }
-        }
-
-        while (stack.empty() == false) {
-            int position = (Integer) stack.pop();
-            linearSchedule.add(codesToTake.get(position));
-        }
-
-        return linearSchedule;
-    }
-
-    /**
      * Creates a schedule of semesters containing the modules to take for each semester.
+     * @return A semester list object containing the semesters.
      */
-    public SemesterList getSchedule() {
-        List<Code> unlockedModules = new ArrayList<>();
+    public SemesterList generateSchedule() {
         SemesterList semesterList = new SemesterList();
-        UniqueModuleList modulesToTake = this.student.getModulesStaged();
+        Semester newSemester = new Semester();
 
-        Semester newSem = new Semester();
+        List<Code> taken = new ArrayList<>();
+        List<Module> toBeRemoved = new ArrayList<>();
 
-        ArrayList<Code> linearSchedule = getLinearSchedule();
-        System.out.println(linearSchedule.toString());
-
-        Collections.reverse(linearSchedule);
-
-        Optional<Code> previousCode = Optional.empty();
-
-        for (Code code : linearSchedule) {
-            Module module = modulesToTake.getModuleByCode(code);
-            List<Code> lockedModules = module.getLockedModules();
-
-            if (!previousCode.isPresent()) {
-                newSem.addModule(module);
-                previousCode = Optional.of(module.getCode());
-                continue;
+        while (modulesStaged.size() > 0) {
+            toBeRemoved.clear();
+            for (Module element : modulesStaged) {
+                if (element.checkPrereq(taken)) {
+                    if (newSemester.getTotalCredits() + element.getCredit() > MAX_MC_IN_SEMESTER) {
+                        semesterList.addSemester(newSemester);
+                        newSemester = new Semester();
+                    }
+                    newSemester.addModule(element);
+                    toBeRemoved.add(element);
+                }
             }
-
-            if (lockedModules.contains(previousCode.get())) {
-                semesterList.addSemester(newSem);
-                newSem = new Semester();
+            for (Module module : toBeRemoved) {
+                taken.add(module.getCode());
+                modulesStaged.remove(module);
             }
-
-            if (newSem.getTotalCredits() > 16) {
-                semesterList.addSemester(newSem);
-                newSem = new Semester();
-            }
-            newSem.addModule(module);
-
-            previousCode = Optional.of(module.getCode());
+            semesterList.addSemester(newSemester);
+            newSemester = new Semester();
         }
-        semesterList.addSemester(newSem);
-        semesterList.reverseOrder();
         return semesterList;
     }
+
 }

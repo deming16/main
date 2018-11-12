@@ -6,7 +6,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Encapsulates the details of a prereq.
+ * Encapsulates the details of a prerequisite.
+ * It can only be either another list of "and"/"or" PrereqDetails or a code.
  */
 public class PrereqDetails {
     private Optional<List<PrereqDetails>> or;
@@ -24,7 +25,8 @@ public class PrereqDetails {
     }
 
     /**
-     * Only or can exist, clears the others.
+     * Only "or" can exist, clears the others.
+     * @param or List of "or" PrereqDetails to be set.
      */
     public void setOr(Optional<List<PrereqDetails>> or) {
         if (and.isPresent()) {
@@ -41,7 +43,8 @@ public class PrereqDetails {
     }
 
     /**
-     * Only and can exist, clears the others.
+     * Only "and" can exist, clears the others.
+     * @param and List of "and" PrereqDetails to be set.
      */
     public void setAnd(Optional<List<PrereqDetails>> and) {
         if (or.isPresent()) {
@@ -71,9 +74,9 @@ public class PrereqDetails {
     }
 
     /**
-     * Checks if this prereq can be satisfied using the list of codes.
-     * @param codeChecklist Codes that will be taken or has taken, to be checked against prereq.
-     * @return true if this prereq can be satisfied, false otherwise.
+     * Checks if this prerequisite can be satisfied using the list of codes.
+     * @param codeChecklist Codes to be checked against.
+     * @return true if this prerequisite can be satisfied, false otherwise.
      */
     public boolean checkPrereq(List<Code> codeChecklist) {
         if (code.isPresent()) {
