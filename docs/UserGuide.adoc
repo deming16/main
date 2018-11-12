@@ -30,8 +30,12 @@ Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 .  Ensure you have Java version `9` or later installed in your Computer.
 .  Download the latest `modsUni.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for modsUni.
-.  Create a `data` folder in the home folder.
+.  Create a `data` folder in the home folder and place `modules.xml` and `credentialstore.xml` into this
+folder.
 .  Download the latest `modules.xml` link:{repoURL}/tree/master/data[here]
+.  Download the latest `credentialstore.xml` link:{repoURL}/tree/master/data[here]
+.  Put the `masterconfig.xml` in the root folder.
+.  Download the latest `masterconfig.xml` link:{repoURL}/tree/master/data[here]
 .  Copy the XML file to the `data` folder.
 .  Double-click `modsUni.jar` to start the app. The GUI should appear in a few seconds.
 +
@@ -42,7 +46,8 @@ Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 
 Some example commands you can try:
-* **: `register user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA`
+
+* **`register`**`user/max33 pass/#Qwerty4321 n/Max Verstappen enroll/15/03/2015 maj/CS maj/DA min/BA min/MA`
  : creates a new student account
 * **`addModuleS`**`CS2103T` : adds the module CS2103T to the staged modules configuration
 * **`removeModuleS`**`CS2103T` : removes the module CS2103T to the staged module configuration
