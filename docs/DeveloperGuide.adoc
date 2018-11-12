@@ -1799,6 +1799,13 @@ _{ more test cases ... }_
  ... `generate` +
  Expected: Successful execution of the generate command. Schedule will be shown in the panel on the right
  of the application.
+ .. Other failures that might occur:
+ ... Invalid user account +
+ `login` using an admin account +
+ ... No logged in user +
+ `generate` without logging in
+ ... No modules in staged list +
+ `generate` without adding modules to staged list
 
 === Deleting a person
 

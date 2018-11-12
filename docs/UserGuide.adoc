@@ -447,34 +447,6 @@ Notice that the Data Fields in the User Tab has been reset to its original state
 
 Data stored using the `save` command is encrypted by default.
 
-=== Set module preference: `set-mod`
-
-Setting a preferred semester to take a module. +
-Format: `set-mod <MOD_CODE> <SEMESTER>`
-
-Examples:
-
-* `set-mod CS2103T 3` +
-Configures CS2103T to be taken in year 2 semester 1.
-
-=== Set maximum number of semesters: `set-max-sem <NUM_SEMESTERS>`
-
-Setting the maximum number of semesters during candidature. +
-Format: `set-max-sem <NUM_SEMESTERS>`
-
-Examples:
-
-* `set-max-sem 6`
-
-=== Set theme: `set-theme`
-
-Set a different theme based on a configuration file. +
-Format: `set-theme <FILE_NAME>.xml`
-
-Examples:
-
-* `set-theme <FILE_NAME>.xml`
-
 [[AdminFeatures]]
 == Administrator Features
 [NOTE]
