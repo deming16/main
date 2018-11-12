@@ -21,7 +21,7 @@ Responsibilities: In charge of Git, Project Management
 
 === Edric Teo Jin Kai
 image::etjk.png[width="150", align="left"]
-{empty}[http://github.com/etjk[github]] [<<edricteo#, portfolio>>]
+{empty}[http://github.com/etjk[github]] [<<etjk#, portfolio>>]
 
 Role: Developer +
 Responsibilities: In charge of Storage, Deliverables and Deadlines

@@ -32,6 +32,11 @@ public class SwitchTabCommand extends Command {
 
     public static final String MESSAGE_INVALID_OPTION = "Invalid option.\n" + MESSAGE_USAGE;
 
+    private static final String USER_TAB = "user";
+    private static final String STAGED_TAB = "staged";
+    private static final String TAKEN_TAB = "taken";
+    private static final String DATABASE_TAB = "database";
+
     private final String switchToTab;
 
     public SwitchTabCommand(String switchToTab) {
@@ -44,16 +49,16 @@ public class SwitchTabCommand extends Command {
         requireNonNull(model);
 
         switch(switchToTab) {
-        case "user":
+        case USER_TAB:
             EventsCenter.getInstance().post(new ShowUserTabRequestEvent());
             break;
-        case "staged":
+        case STAGED_TAB:
             EventsCenter.getInstance().post(new ShowStagedTabRequestEvent());
             break;
-        case "taken":
+        case TAKEN_TAB:
             EventsCenter.getInstance().post(new ShowTakenTabRequestEvent());
             break;
-        case "database":
+        case DATABASE_TAB:
             EventsCenter.getInstance().post(new ShowDatabaseTabRequestEvent());
             break;
         default:

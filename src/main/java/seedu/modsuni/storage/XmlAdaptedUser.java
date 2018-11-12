@@ -8,11 +8,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.annotation.XmlElement;
 
+import seedu.modsuni.MainApp;
+import seedu.modsuni.commons.core.LogsCenter;
 import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.IllegalValueException;
 import seedu.modsuni.commons.exceptions.InvalidPasswordException;
@@ -36,6 +38,8 @@ public class XmlAdaptedUser {
 
     private static final String MISSING_FIELD_MESSAGE_FORMAT = "User's "
             + "%s field is missing!";
+
+    private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     // Must have for all users
     @XmlElement(required = true)
@@ -70,64 +74,6 @@ public class XmlAdaptedUser {
     public XmlAdaptedUser() {}
 
     /**
-     * Constructs an {@code XmlAdaptedUser} with the given user details.
-     */
-    public XmlAdaptedUser(Username username, Name name, Role role,
-                          Salary salary, EmployDate employmentDate) {
-        this.username = username.toString();
-        this.name = name.toString();
-        this.role = role.toString();
-        this.salary = salary.toString();
-        this.employmentDate = employmentDate.toString();
-    }
-
-    /**
-     * Constructs an {@code XmlAdaptedUser} with the given user details.
-     */
-    public XmlAdaptedUser(Username username, Name name, Role role,
-                          EnrollmentDate enrollmentDate, List<String> major, List<String> minor,
-                          List<Module> modulesTaken) {
-        this.username = username.toString();
-        this.name = name.toString();
-        this.role = role.toString();
-        this.enrollmentDate = enrollmentDate.toString();
-        this.major = major.toString();
-        this.minor = minor.toString();
-        this.modulesTaken.addAll(modulesTaken.stream().map(XmlAdaptedModule::new).collect(Collectors.toList()));
-    }
-
-    /**
-     * Converts a given User into this class for JAXB use.
-     *
-     * @param user future changes to this will not affect the created XmlAdaptedUser
-     */
-    public XmlAdaptedUser(User user) {
-        requireNonNull(user);
-        this.username = user.getUsername().toString();
-        this.name = user.getName().toString();
-        this.role = user.getRole().toString();
-
-        if (user.getRole() == Role.ADMIN) {
-            Admin admin = (Admin) user;
-            this.salary = admin.getSalary().toString();
-            this.employmentDate = admin.getEmploymentDate().toString();
-        }
-
-        if (user.getRole() == Role.STUDENT) {
-            Student student = (Student) user;
-            this.enrollmentDate = student.getEnrollmentDate().toString();
-            this.major = student.getMajor().toString();
-            this.minor = student.getMinor().toString();
-            for (Module module : student.getModulesTaken()) {
-                modulesTaken.add(new XmlAdaptedModule(module));
-            }
-            for (Module module : student.getModulesStaged()) {
-                modulesStaged.add(new XmlAdaptedModule(module));
-            }
-        }
-    }
-
-    /**
      * Converts a given User into this class for JAXB use.
      *
      * @param user future changes to this will not affect the created XmlAdaptedUser
@@ -137,21 +83,25 @@ public class XmlAdaptedUser {
         requireNonNull(password);
 
         // All users
-        this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+        logger.info("Converting user attributes (username, name, role)");
+        this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encryptData(
                 user.getUsername().toString().getBytes(), password));
         this.name = user.getName().toString();
         this.role = user.getRole().toString();
 
+
         // Admin
         if (user.getRole() == Role.ADMIN) {
+            logger.info("Converting admin attributes (salary, employment date)");
             Admin admin = (Admin) user;
-            this.salary = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
+            this.salary = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encryptData(
                     admin.getSalary().toString().getBytes(), password));
             this.employmentDate = admin.getEmploymentDate().toString();
         }
 
         // Student
         if (user.getRole() == Role.STUDENT) {
+            logger.info("Converting student attributes (enrollment date, major, minor)");
             Student student = (Student) user;
             this.enrollmentDate = student.getEnrollmentDate().toString();
             this.major = student.getMajor().toString();
@@ -167,8 +117,14 @@ public class XmlAdaptedUser {
 
     /**
      * Converts this User into the model's {@code User} object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated
+     * @param password for decryption
+     * @return
+     * @throws IllegalValueException
+     * @throws CorruptedFileException
+     * @throws NoSuchPaddingException
+     * @throws InvalidPasswordException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
      */
     public User toModelType(String password) throws IllegalValueException, CorruptedFileException,
             NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
@@ -204,6 +160,7 @@ public class XmlAdaptedUser {
                     majorConverted, minorConverted, modulesTakenConverted, modulesStagedConverted);
         }
 
+        logger.info("Conversion to XmlAdaptedUser complete");
         return user;
     }
 
@@ -214,7 +171,7 @@ public class XmlAdaptedUser {
      */
     private String decryptUsername(String password) throws NoSuchAlgorithmException, InvalidKeyException,
             InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
-        return new String(DataSecurityUtil.decrypt(
+        return new String(DataSecurityUtil.decryptData(
                 DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
     }
 
@@ -225,7 +182,7 @@ public class XmlAdaptedUser {
      */
     private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
             InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
-        return new String(DataSecurityUtil.decrypt(
+        return new String(DataSecurityUtil.decryptData(
                 DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
     }
 
@@ -235,13 +192,14 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated
      */
     private void checkMandatoryFields() throws IllegalValueException {
+        logger.info("Checking mandatory fields");
         // Username
-        if (username == null) {
+        if ("".equals(username)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Username"));
         }
 
         // Name
-        if (name == null) {
+        if ("".equals(name)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "name"));
         }
         if (!Name.isValidName(name)) {
@@ -249,7 +207,12 @@ public class XmlAdaptedUser {
         }
 
         // Role
-        if (role == null) {
+        if ("".equals(role)) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "role"));
+        }
+
+        // Role
+        if (!("ADMIN".equals(role) || "STUDENT".equals(role))) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "role"));
         }
 
@@ -261,13 +224,14 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated
      */
     private void checkAdminFields() throws IllegalValueException {
+        logger.info("Checking admin fields");
         // Salary
-        if (salary == null) {
+        if ("".equals(salary)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "salary"));
         }
 
         // employment date
-        if (employmentDate == null) {
+        if ("".equals(employmentDate)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "employment"));
         }
         if (!EmployDate.isValidEmployDate(employmentDate)) {
@@ -281,16 +245,34 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated
      */
     private void checkStudentFields() throws IllegalValueException {
-        if (enrollmentDate == null) {
+        logger.info("Checking student fields");
+
+        if ("".equals(enrollmentDate)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "enrollment"));
         }
         if (!EnrollmentDate.isValidEnrollmentDate(enrollmentDate)) {
             throw new IllegalValueException(EnrollmentDate.MESSAGE_DATE_CONSTRAINTS);
         }
-        if (major == null) {
+        if ("".equals(major)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "major"));
         }
-        if (minor == null) {
+        // must have at least one letter followed by a comma and space
+        // [] fail
+        // [x,y] fail, no space after comma
+        // [x] pass
+        // [x, y, z] pass
+        if (!major.matches("^\\[(\\w+)((,\\s)(\\w+))*\\]$")) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "major"));
+        }
+        if ("".equals(minor)) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "minor"));
+        }
+        // can be empty []
+        // [x,y] fail, no space after comma
+        // [] pass
+        // [x] pass
+        // [x, y, z] pass
+        if (!minor.matches("^\\[((\\w+)?|(\\w+)((,\\s)(\\w+))*)\\]$")) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "minor"));
         }
     }

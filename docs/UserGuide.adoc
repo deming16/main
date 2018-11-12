@@ -158,26 +158,26 @@ the filtered database module list.
 
 === Saving user data: `save`
 
-Saves current user information for the restoration of a user when logging in. +
+The save command stores the current user's information locally to a file. The saved file is used during the login process to restore a user's information. +
 Format: `save sp/<FILE_NAME>.xml`
 
 Example:
 
 * `save sp/userdata.xml` +
-Saves the current user data to the file name `userdata.xml`.
+Saves the current user's data to the file name `userdata.xml`.
 
 [TIP]
 The prefix `"sp"` is the short form for `"save path"`.
 
-Figure 1 shows an example of the usage of the save command in the application.
+Figure 1 shows an example on the usage of the save command in the application.
 
 image::SaveCommandExample.jpg[width="450"]
-_Figure 1. An example of a save command_
+_Figure 1. An example of a save command typed in the CLI_
 
 Upon entering the command, you will see the types of information stored as well as a successful message as shown in Figure 2.
 
 image::SaveCommandSuccessful.jpg[width="450"]
-_Figure 2. Saved information and successful message are displayed upon entering save command_
+_Figure 2. An example of the application displaying the saved information and successful message upon entering save command_
 
 Upon entering the save command, a file depicted in Figure 3 will be generated.
 This file will be required when logging in.
@@ -186,7 +186,7 @@ This file will be required when logging in.
 Modifying the saved file may result in the loss of data that is unrecoverable. Edit at your own risk!
 
 image::SaveFileExample.jpg[width="400"]
-_Figure 3. An example of a user's information in a saved file_
+_Figure 3. An example of a saved file containing a user's information_
 // end::saveuser[]
 
 // tag::switchtab[]
@@ -566,7 +566,6 @@ image::RemoveModuleFromDatabaseCommandExample.png[width="700"]
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
 * *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 * *Edit Student* : `edit [OPTION]/[INPUT]...`
-* *Encryption* : `no-encrypt`
 * *Add Admin* : `addAdmin user/<USERNAME> pass/<PASSWORD> n/<NAME> sp/<SAVE_PATH> salary/<SALARY> date/<EMPLOYMENT_DATE>`
 * *Edit Admin* : `editAdmin n/[NAME] salary/[SALARY] date/[EMPLOYMENT_DATE]`
 * *Remove User* : `removeUser <USERNAME>`

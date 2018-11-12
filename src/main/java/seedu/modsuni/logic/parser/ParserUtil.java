@@ -34,7 +34,7 @@ import seedu.modsuni.model.user.student.EnrollmentDate;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
-    private static final String MESSAGE_INVALID_SAVE_PATH = "Save path names should end with a .xml.";
+    private static final String MESSAGE_INVALID_SAVE_PATH = "Save path name should end with a .xml.";
     private static final String PATH_VALIDATION_REGEX = "^(\\w)+(\\.xml)";
 
     /**

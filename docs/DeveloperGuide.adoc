@@ -819,10 +819,10 @@ another module just to store the other module codes. This can be heavy on memory
 // tag::saveuser[]
 === Save User Feature
 The save user feature involves mainly the saving process of a user's attributes.
-A user can save their data only after they have logged in/registered an account.
+A user can save their data only after they have logged in or registered an account.
 
 [NOTE]
-Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature.
+Data refers to a user's attributes listed in `SaveCommand` under the current implementation of the save user feature in the next section.
 
 This section will describe in details the current implementation and the design considerations of the save user feature.
 
@@ -830,89 +830,90 @@ This section will describe in details the current implementation and the design 
 The save mechanism is facilitated by the following classes:
 
 * `SaveCommand` +
-It stores the following attributes of a `User` object: +
+The `SaveCommand` stores the following attributes of a `User` object: +
 
-** All user
+** Attributes that exist in all user:
 
 *** Username +
-    The username used for logging in.
+    The username of a user.
 *** Name +
     The name of the user.
 *** Role +
     The role of the user.
-*** Path to Profile Picture +
-    The path to the user's profile picture.
+[NOTE]
+`Username` is unique to every user and is used for logging in. `Name` is non-unique and multiple users can use the same `Name`.
 
-** Admin
+** Attributes that only exist in an admin:
 
 *** Salary +
     The salary of an administrator.
-*** Employ Date +
+*** Employment Date +
     The employment date of an administrator.
 
-** Student
+** Attributes that only exist in a student:
 
 *** Enrollment Date +
     The enrollment date of a student.
 *** Major(s) +
-    A list of the student's major.
+    A list of a student's major.
 *** Minor(s) +
-    A list of the student's minor.
+    A list of a student's minor.
 *** Modules Taken +
-    A list of modules took by the student.
+    A list of modules took by a student.
 *** Modules Staged +
     A list of modules staged for the generation of candidature.
+[IMPORTANT]
+A student must have *at least one* major and can have no minor.
 
 * `UserStorage` +
 It provides methods to save the current user's attributes as well as to load a file containing previously saved data. +
-Additionally, it implements the following operations:
+`UserStorage` implements the following operations:
 ** `StorageManager#saveUser(…​)` — Save the user's data into the specified file path.
 ** `StorageManager#readUser(…​)` — Reads the user's data from the specified file path.
 
 ===== Implementation of the save feature
 
 The `save` mechanism of modsUni is facilitated by `SaveCommand` class and is event-driven.
-It allows a user to save their data in modsUni as a XML file.
+It allows a user to save their data as an XML file.
 
 [NOTE]
 Both admin and student can use the save feature.
 
-The `SaveCommand` class extends from the `Command` class.
-Figure 1 as shown below depicts the UML diagram for the `SaveCommand` class.
+The `SaveCommand` class extends from the `Command` class as shown below in Figure 1.
 
 image::SaveCommandUML.png[width="250"]
 _Figure 1. SaveCommand UML Diagram_
 
-Parsing of command is performed by `SaveCommandParser`, which returns a `SaveCommand` object after parsing the save file path.
-The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic & Model components when the SaveCommand is being executed.
+The parsing of command is performed by `SaveCommandParser`, which returns a `SaveCommand` object after parsing the save file path.
+The sequence diagram shown below in Figure 2 illustrates the interactions between the Logic and Model components when the SaveCommand is being executed.
 
-image::SDforSaveCommandLogicAndModel.png[width="900"]
+image::SDforSaveCommandLogicAndModel.png[width="800"]
 _Figure 2. Sequence Diagram for the interaction between Logic and Model Components when executing SaveCommand_
 
 The `save` feature uses multiple components of the modsUni application.
 The sequence diagram shown below in Figure 3 illustrates the interactions between some of these components.
-As seen from the diagram, the `SaveCommand` is driven by the `SaveUserChangedEvent`.
+In addition, the sequence diagram also illustrates that `SaveCommand` is driven by the `SaveUserChangedEvent`.
 
 image::SequenceDiagramforSave.png[width="800"]
 _Figure 3. High-Level Sequence Diagram for the `save sp/userdata.xml` command_
 
 The `SaveUserChangedEvent` mentioned above is handled by the `Storage` component as shown in Figure 4.
 
-image::SequenceDiagramforSaveEventHandling.png[width="650"]
-_Figure 4. High-Level Sequence Diagram showing how the Storage component handles the `SaveUserChangedEvent` triggered by EventsCenter_
+image::SequenceDiagramforSaveEventHandling.png[width="550"]
+_Figure 4. High-Level Sequence Diagram showing how the Storage component handles `SaveUserChangedEvent` which was triggered by EventsCenter_
 
-The Storage component makes use of `XmlUserStorage` class to write `User` to the file specified by the file path.
+The Storage component makes use of `XmlUserStorage` class to write `User` to a file specified by the file path.
 Both the conversion of `User` object to `XmlSerializableUser` as well as writing to file is shown in the following code snippet below:
 
 [source, java]
 ----
-public void saveUser(User user, Path filePath) throws IOException {
+public void saveUser(User user, Path filePath, String password) throws IOException {
     // ... null checks ...
     FileUtil.createIfMissing(filePath);
-    XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user));
+    XmlFileStorage.saveDataToFile(filePath, new XmlSerializableUser(user, password));
 }
 ----
-The newly created `XmlSerializableUser` object is saved to the file using `XmlUtil#saveDataToFile(...)` as shown in the code snipplets below:
+`XmlFileStorage#saveDataToFile(...)` utilizes `XmlUtil#saveDataToFile(...)` to save the newly created `XmlSerializableUser` object to the file as shown in the code snipplets below:
 
 [source, java]
 ----
@@ -931,30 +932,34 @@ Given below is an example usage scenario and how the save mechanism behaves:
 
 1. A student will first log into their account and add their preferred modules.
 
-2. Upon issuing the command `save sp/userdata.xml`, the save command will call `Model#saveUserFile(...)` which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` will be handled by `StorageManager`.
+2. Upon issuing the command `save sp/userdata.xml`, the save command will call `Model#saveUserFile(...)` which then raises `SaveUserChangedEvent`. This `SaveUserChangedEvent` is then handled by `StorageManager`.
 
 3. `StorageManager` then utilizes `XmlUserStorage#saveUser(...)` which saves the file to the file path specified by the user.
 
 
 [TIP]
-A new registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
+A newly registered `Student` would be initialized and automatically logged in which enables the student to perform the save command. +
 
+The following activity diagram shown in Figure 5 summarizes what happens when a user executes the save command.
+
+image::SaveActivityDiagram.png[width="550"]
+_Figure 5. Activity Diagram for the save command_
 
 ==== Design Considerations
 
 ===== Aspect: Data to save
 
-* **Alternative 1 (current choice):** Saves the entire `User` object.
-** Pros: Able to restore to any state of the user.
+* **Alternative 1 (current choice):** Save every attribute of a `User`.
+** Pros: Able to restore to any state of a user.
 ** Cons: Harder to implement as support for converting data of user to XML format needs to be added.
-* **Alternative 2:** Saves only the staged modules.
+* **Alternative 2:** Save only the staged modules.
 ** Pros: Will use less storage space (saving only staged module vs saving all user data).
-** Cons: Does not restore the state of the user entirely.
+** Cons: Does not restore the state of a user entirely.
 // end::saveuser[]
 
 // tag::datasecurity[]
 === Data Security Feature
-The data security feature mainly involves the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
+The data security feature involves mainly the encryption of the user data file when using the `save` command and the decryption of a user data file when logging in using the `login` command. +
 
 [NOTE]
 Advanced Encryption Standard (AES) is the algorithm used for encryption.
@@ -964,23 +969,23 @@ This section will describe in details the current implementation and the design 
 ---
 ==== Current Implementation
 The data security feature is facilitated by `DataSecurityUtil` class. +
-It implements the following operations(s):
+`DataSecurityUtil` implements the following operations:
 
 * `DataSecurityUtil#encrypt(…​)` — Encrypts a `byte[]` with the specified password and returns the encrypted `byte[]`.
 * `DataSecurityUtil#decrypt(…​)` — Decrypts a `byte[]` with the specified password and returns the decrypted `byte[]`.
 
 `DataSecurityUtil` class utilizes `javax.crypto.cipher` and `javax.crypto.spec.SecretKeySpec` packages for the operations mentioned above.
 
-The `Hashing` class is used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which are required to generate `SecretKeySpec`.
+The `Hashing` class is also used to generate an SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which is required to generate `SecretKeySpec`.
 
-Both encryption and decryption is performed in `XMLAdaptedUser`.
+The encryption and decryption of user data are performed in `XMLAdaptedUser`.
 
 ===== Implementation of the encryption feature
 
-The encryption feature is integrated with the save user feature (3.6).
+The encryption feature is integrated with the *Save User Feature*.
 
 During the conversion of a `User` object to XML, the encryption is performed in `XMLAdapterUser`, right before the file is written locally.
-Currently, we only encrypt the `Username` (for all users) and `Salary` (for administrators).
+Currently, only `Username` (for all users) and `Salary` (for administrators) is encrypted.
 
 The following code snippet shown below illustrates the encryption process:
 
@@ -989,14 +994,12 @@ The following code snippet shown below illustrates the encryption process:
 public XmlAdaptedUser(User user, String password) {
     // ... null checks ...
 
-
     // All users
     this.username = DataSecurityUtil.bytesToBase64(DataSecurityUtil.encrypt(
             user.getUsername().toString().getBytes(), password));
     this.name = user.getName().toString();
     this.role = user.getRole().toString();
     this.pathToProfilePic = user.getPathToProfilePic().toString();
-
 
     // Admin
     if (user.getRole() == Role.ADMIN) {
@@ -1012,12 +1015,12 @@ public XmlAdaptedUser(User user, String password) {
 
 The sequence diagram shown below in Figure 1 illustrates the integration of encryption with the save user feature.
 
-image::SequenceDiagramforSaveEventHandlingWithEncryption.png[width="650"]
+image::SequenceDiagramforSaveEventHandlingWithEncryption.png[width="550"]
 _Figure 1. Sequence Diagram for the interaction between EventsCenter and Storage Components when executing SaveCommand with encryption_
 
 
 ===== Implementation of the decryption feature
-The decryption feature is integrated with the login feature under user account management(3.1). +
+The decryption feature is integrated with the login feature under *User Account Management*. +
 
 When `LoginCommand` calls `model.readUser(...)` the loading of user file will commence and the decryption will occur in `XMLAdapterUser#toModelType(...)`.
 
@@ -1027,16 +1030,18 @@ This is shown in the following code snippets below:
 ----
 public User toModelType(String password) throws IllegalValueException, CorruptedFileException,
         NoSuchPaddingException, InvalidPasswordException, NoSuchAlgorithmException, InvalidKeyException {
+
     User user = null;
     checkMandatoryFields();
 
+    // Applies to all user
     String decryptedUsername = decryptUsername(password);
 
+    // Applies to only admin
     if ("ADMIN".equals(role)) {
         checkAdminFields();
         String decryptedSalary = decryptSalary(password);
-        user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary),
-                new EmployDate(employmentDate));
+        user = new Admin(new Username(decryptedUsername), new Name(name), Role.ADMIN, new Salary(decryptedSalary), new EmployDate(employmentDate));
     }
     // ... removed for brevity ...
 
@@ -1044,7 +1049,7 @@ public User toModelType(String password) throws IllegalValueException, Corrupted
 }
 ----
 
-The code snippets of `decryptUsername(...)` and `decryptSalary(...)` is as follows:
+The code snippets of `decryptUsername(...)` and `decryptSalary(...)` are shown below respectively:
 
 [source, java]
 ----
@@ -1054,37 +1059,53 @@ private String decryptUsername(String password) throws NoSuchAlgorithmException,
             DataSecurityUtil.base64ToBytes(username), password), StandardCharsets.UTF_8);
 }
 
- private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
-            InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
+private String decryptSalary(String password) throws NoSuchAlgorithmException, InvalidKeyException,
+        InvalidPasswordException, CorruptedFileException, NoSuchPaddingException {
     return new String(DataSecurityUtil.decrypt(
-            DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
- }
+        DataSecurityUtil.base64ToBytes(salary), password), StandardCharsets.UTF_8);
+}
 ----
 
 The sequence diagram shown below in Figure 2 illustrates the integration of decryption with the login feature.
 
-image::SDforSaveCommandLogicAndModelUserDecryption.png[width="900"]
+image::SDforSaveCommandLogicAndModelUserDecryption.png[width="800"]
 _Figure 2. Sequence Diagram for the interaction between Logic Component and DataSecurityUtil when executing LoginCommand_
+
+The following activity diagram shown in Figure 3 summarizes what happens in the decryption process when a user executes the login command.
+
+image::DecryptionActivityDiagram.png[width="550"]
+_Figure 3. Activity Diagram for decryption feature in the login command_
 
 ==== Design Considerations
 
 ===== Aspect: How encryption is implemented
 
-* **Alternative 1 (current choice):** Implement as an in-built feature.
-** Pros: Ensures that the confidentiality of a user's data file is preserved at all times.
-** Cons: Users do not have full control.
+* **Alternative 1 (current choice):** Implement as an inbuilt feature.
+** Pros: Confidentiality of a user's data file is preserved at all times.
+** Cons: User does not have full control over user data file.
 * **Alternative 2:** Implement as a command.
-** Pros: Users will have more control on the data security.
-** Cons: Unable to enforce the data security of the application.
+** Pros: User will have more control over data security.
+** Cons: Enforcement of data security outside of the application would be harder.
 
 ===== Aspect: Generation of security key for encryption/decryption
 
 * **Alternative 1 (current choice):** Generate the key using a user's password.
-** Pros: User does not need to supply additional information or file for encryption/decryption.
+** Pros: User does not need to supply additional information or file for encryption or decryption.
 ** Cons: User is unable to decrypt their user data file if they forget their password.
 * **Alternative 2:** Generate the key using `KeyGenerator` and an additional file is needed to log in.
-** Pros: The key will be more secured compared to the key generated from alternative 1.
+** Pros: The key will be more secured compared to the key generated from alternative one since a weak password that is susceptible to password cracking may be used by a user.
 ** Cons: User is unable to decrypt their user data file if the key file is lost or corrupted.
+
+===== Aspect: What fields to encrypt
+
+* **Alternative 1 (current choice):** Encrypt some fields (Username and Salary).
+** Pros: The encryption of username ensures that a malicious user is unable to correlate a specific user data file to a credential in the credential store.
+In addition, advance users can edit unencrypted fields in the user data file.
+** Cons: The user data file will contain unencrypted information.
+* **Alternative 2:** Encrypt every field.
+** Pros: The user data file is secure since every field is encrypted.
+** Cons: Advance user are unable to edit from the user data file manually.
+
 // end::datasecurity[]
 
 // tag::loaduser[]
@@ -1105,7 +1126,7 @@ The following operation is used for the loading process:
 ===== Implementation of the save feature
 
 The load mechanism of modsUni is facilitated by `LoginCommand` class and is event-driven.
-It allows a user to load their data in modsUni from a XML file.
+It allows a user to load their data in modsUni from an XML file.
 
 The load feature uses multiple components of the modsUni application.
 Parsing of command is performed by LoginCommandParser, which returns a LoginCommand object after parsing the save file path.
@@ -1135,7 +1156,7 @@ public Optional<User> readUser(Path filePath, String password) throws DataConver
     }
 }
 ----
-The method `XmlFileStorage#loadUserDataFromSaveFile(...)` as shown in the code snipplets below:
+The method `XmlFileStorage#loadUserDataFromSaveFile(...)` as shown in the code snippets below:
 
 [source, java]
 ----
@@ -1856,6 +1877,70 @@ _{ more test cases ... }_
    Expected: Similar to previous.
 
 _{ more test cases ... }_
+
+=== Saving a user
+
+. Saving a user
+
+.. Prerequisites: You must be logged in as a User (Admin or Student).
+.. Test case: `save sp/userdata.xml` +
+   Expected: You should see a success message at the bottom and a file should be created/overwritten.
+    In addition, the main panel should display your current user information.
+    The timestamp in the user tab should also be updated.
+.. Test case: `save sp/userdata` (without extension) +
+   Expected: No data is saved. Error details shown at the bottom of the application.
+   Timestamp in user tab should remain the same.
+.. Other incorrect save commands to try: `save sp`, `save sp/.xml.xml`, `save xx/userdata.xml` +
+   Expected: Similar to previous.
+
+=== Modifying of user data file
+
+. Modify of admin data file
+
+.. Prerequisites: You must have an admin data file (the master admin is provided).
+.. Test case: Open up the admin file and edit the contents in the <name> tag. Now login as the admin using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated name of the admin account. The timestamp in the user tab should be the time you logged in.
+.. Test case: Open up the admin file and edit the contents in the <employmentDate> tag (follow the original format of dd/mm/yyyy). Now login as the admin using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated employment date data of the admin account. The timestamp in the user tab should be the time you logged in.
+.. Test case: Open up the admin file and change the order of tags (e.g. swap the order of name and role). Ensure that there are no extra spaces or empty lines.
+Now login as the admin using the updated user data file. +
+Expected: You should be able to login as per normal and see a success login message at the bottom. The timestamp in the user tab should be the time you logged in.
+.. Test case: Open up the admin file and duplicate the tags (e.g. add <name>master2</name> below the existing <name>master</name> tag). Ensure that there are no extra spaces or empty lines.
+Now login as the admin using the updated user data file. +
+   Expected: You should see a success login message at the bottom. In addition, you should see the admin name to be "master2". The timestamp in the user tab should be the time you logged in.
+   You can also duplicate restricted tags(username, role, employmentDate), however the furthest (from the first line) tag will be the one that is read. So you can have invalid values in prior duplicated tags.
+
+.. Test case: Open up the admin file and edit the contents in the <username> tag . Now login as the admin using the updated user data file. +
+    Expected: You should see an error message at the bottom.
+.. Other invalid modification to try: removing the entire tag, modifying contents from role and salary  +
+   Expected: Similar to previous.
+
+. Modify of student data file
+.. Prerequisites: You must have a student data file (you can obtain one by registering an account and adding some modules to staged and taken).
+
+.. Test case: Open up the student file and edit the contents in the <name> tag. Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated name of the student account. The timestamp in the user tab should be the time you logged in.
+
+.. Test case: Open up the student file and edit the contents in the <enrollmentDate> tag (follow the original format of dd/mm/yyyy). Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated enrollment date data of the student account. The timestamp in the user tab should be the time you logged in.
+
+.. Test case: Open up the student file and edit the contents in the <major> and <minor> tag (you must follow the original format of [a, b, c], with comma and space in-between). Contraints are that you must have at least one major and can have zero minor. The inputs for major and minor must consist of only unaccented alphabetical letters (e.g. a-zA-Z). Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. In addition, you should see the updated major or minor data of the student account. The timestamp in the user tab should be the time you logged in.
+
+.. Test case: Open up the student file and edit the <lockModules> or <parsedPrereq> tag from <moduleStaged> (e.g. instead of <lockModules>CS2030</lockModules> it should look like <lock>CS2030</lock> after editing). Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. The timestamp in the user tab should be the time you logged in. However, that information will not be loaded and may cause generate feature to fail.
+
+.. Test case: Open up the student file and edit any contents in the <moduleTaken> or <moduleStaged> tag (it is recommended to start with <code> so you get a feel of the update). Now login as the student using the updated user data file. +
+Expected: You should see a success login message at the bottom. The timestamp in the user tab should be the time you logged in. Now navigate (switch tab/staged or switch tab/taken) staged or taken tab depending on where you change, you should see the updated module code. +
+Module information (represented by <code>, <department>, <title>, <description>, <credit>, <isAvailableInSem1>, <isAvailableInSem2>, <isAvailableInSpecialTerm1>, <isAvailableInSpecialTerm2>, <lockedModules>, <parsedPrereq>) are given as it is for testing purpose. If you change the information (module code/prerequisite), the application will generate based on the information in the user data.
+So the generate feature may fail depending on what you changed. You can create unique cases such as taking CS2030 without completing CS1010.
+An example would be to remove CS1010 as a prerequisite for CS2030 in the user data file. Now when log back in and add CS2030 to staged, you will be able to use the generate feature as expected even without having to add CS1010 to staged or taken.
+
+.. Test case: Open up the student file and edit the contents in the <username> tag . Now login as the student using the updated user data file. +
+Expected: You should see an error message at the bottom.
+
+.. Other invalid modification to try: removing the entire <code> tag from a module in <modulesStaged> or <modulesTaken>, remove characters from mandatory tags (code, department, title, description in <modulesTaken or <modulesStaged>),  . +
+Expected: Similar to previous.
 
 === Saving data
 
