@@ -19,7 +19,6 @@ import static seedu.modsuni.testutil.TypicalUsers.STUDENT_TEST_DATA;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import seedu.modsuni.logic.commands.AddModuleToStudentStagedCommand;
@@ -44,8 +43,7 @@ public class AddModuleToStudentStagedCommandSystemTest extends ModsUniSystemTest
         TEST_DATA_FOLDER.resolve(MASTER_DATA);
 
     private static final String COMMAND_LOGOUT = "logout";
-
-    @Ignore
+    
     @Test
     public void addModuleS() {
 
