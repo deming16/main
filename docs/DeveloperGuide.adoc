@@ -918,7 +918,7 @@ The data security feature is facilitated by `DataSecurityUtil` class. +
 
 `DataSecurityUtil` class utilizes `javax.crypto.cipher` and `javax.crypto.spec.SecretKeySpec` packages for the operations mentioned above.
 
-The `Hashing` class is also used to generate a SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which is required to generate `SecretKeySpec`.
+The `Hashing` class is also used to generate an SHA-1 hash to ensure that there are at least 16 bytes (128 bits) which is required to generate `SecretKeySpec`.
 
 The encryption and decryption of user data are performed in `XMLAdaptedUser`.
 
@@ -1098,7 +1098,7 @@ public Optional<User> readUser(Path filePath, String password) throws DataConver
     }
 }
 ----
-The method `XmlFileStorage#loadUserDataFromSaveFile(...)` as shown in the code snipplets below:
+The method `XmlFileStorage#loadUserDataFromSaveFile(...)` as shown in the code snippets below:
 
 [source, java]
 ----
