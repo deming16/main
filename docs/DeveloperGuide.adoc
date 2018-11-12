@@ -2029,7 +2029,7 @@ Do note that registering a `Student` account is possible without any `min/` para
 === Logging in into a Student Account
 Below are some test cases you can perform to test the `LoginCommand` for User Account Management feature.
 
-.   Prerequisite: A student account should already be registered(i.e. max33) and the respective userdata file be available. +
+.   Prerequisite: A student account should already be registered(i.e. an account registered under `max33`) and the respective userdata file be available. +
     Test case: `login user/max33 pass/#Qwerty4321 userdata/max33.xml` +
     Expected: Student will be logged in. The `Student` details will be loaded from the file provided and will be displayed in the application(in their respective tabs). Additionally, a successful message will be displayed in the Output Display.
 
