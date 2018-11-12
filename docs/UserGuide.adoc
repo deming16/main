@@ -314,6 +314,7 @@ image::generateNoStagedModulesSuccess.png[width="700"]
 _Figure 7. Output when the schedule has been successfully generated._
 +
 
+
 // end::generate[]
 
 // tag::useraccountmanagement[]

@@ -447,21 +447,21 @@ The section below will describe in detail the current implementation and design 
 `generate` command.
 
 ==== Current Implementation
-The sequence diagram shown below in Figure 8 illustrates the interactions between some of these components
+The sequence diagram shown below in Figure 1 illustrates the interactions between some of these components
  when the command is executed.
 
 image::SequenceDiagramforGenerate.png[width="200]
-_Figure 8. High Level Sequence Diagram for `generate` command_
+_Figure 1. High Level Sequence Diagram for `generate` command_
 
 The command is facilitated by the following classes:
 
 * `Generate` command class +
-The `Generate` command class extends from the `Command` class. Figure 9 below depicts the UML
+The `Generate` command class extends from the `Command` class. Figure 2 below depicts the UML
 diagram for the `Generate` command class.
 
 +
 image::GenerateCommandUML.png[width="400"]
-_Figure 9. Generate command UML Diagram_
+_Figure 2. Generate command UML Diagram_
 
 * `Model` class +
 The following methods in the `Model` class are used in this command:
@@ -531,10 +531,10 @@ This class is different from the `Generate` command class. The command class is 
 command, while the current one is for creating the schedule.
 
 ===== Execution phrase of the `generate` command
-Figure 10 below shows an overview of the steps performed during the execution phrase of the command.
+Figure 3 below shows an overview of the steps performed during the execution phrase of the command.
 
 image::SDforGenerateCommandLogicAndModel.png[width="250]
-_Figure 10. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
+_Figure 3. Sequence diagram for the interaction between `Logic` and `Model` Components when executing
  `generate`._
 
 In the execute method of the command, the following checks are performed:
