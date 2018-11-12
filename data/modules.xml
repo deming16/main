@@ -6,31 +6,6 @@
     </modules>
     <modules>
         <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
-        <code>ACC1002</code>
-        <isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1><prerequisite/><description>The course provides an introduction to financial accounting. It examines accounting from an external user&apos;s perspective: an external user being an investor or a creditor. Such users would need to understand financial accounting in order to make investing or lending decisions. However, to attain a good understanding, it is also necessary to be familiar with how the information is derived. Therefore, students would learn how to prepare the reports or statements resulting from financial accounting and how to use them for decision-making.</description><title>Financial Accounting</title><preclusion>Students who have passed FNA1002 are not allowed to take ACC1002.</preclusion><isAvailableInSem2>false</isAvailableInSem2><isAvailableInSem1>true</isAvailableInSem1><lockedModules>ACC1006</lockedModules><lockedModules>ACC2002</lockedModules><lockedModules>ACC3603</lockedModules><lockedModules>ACC3605</lockedModules><lockedModules>ACC3616</lockedModules><lockedModules>FIN2004</lockedModules><lockedModules>FIN2004X</lockedModules><lockedModules>FIN3113</lockedModules><lockedModules>FIN3130</lockedModules><lockedModules>FIN3132</lockedModules><lockedModules>FIN4115</lockedModules><lockedModules>ACC3601</lockedModules><department>Accounting</department><credit>4</credit>
-        <parsedPrereq>
-        </parsedPrereq>
-    </modules>
-    <modules>
-        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
-        <code>ACC1002X</code><isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1><prerequisite/><description>The course provides an introduction to financial accounting. It examines accounting from an external user&apos;s perspective: an external user being an investor or a creditor. Such users would need to understand financial accounting in order to make investing or lending decisions. However, to attain a good understanding, it is also necessary to be familiar with how the information are derived. Therefore, students would learn how to prepare the reports or statements resulting from financial accounting and how to use them for decision-making.</description><title>Financial Accounting</title><preclusion>Students who have passed CS1304 or EC3212 or BK1003 or BZ1002 or BH1002 or BZ1002E or BH1002E or FNA1002E or FNA1002X are not allowed to take ACC1002X.</preclusion><isAvailableInSem2>false</isAvailableInSem2><isAvailableInSem1>false</isAvailableInSem1><lockedModules>ACC2002</lockedModules><lockedModules>ACC2707</lockedModules><lockedModules>FIN2004</lockedModules><lockedModules>FIN2004X</lockedModules><lockedModules>FIN3113</lockedModules><department>Accounting</department><credit>4</credit>
-        <parsedPrereq>
-            <or>
-                <or><code>cs1234</code></or>
-                <or><code>CS1020E</code></or>
-                <or><code>CS1020E</code></or>
-            </or>
-            <or>
-                <and><code>CS1020E</code></and>
-                <and>
-                    <or><code>CS1020E</code></or>
-                    <or><code>CS2040C</code></or>
-                </and>
-            </or>
-        </parsedPrereq>
-    </modules>
-    <modules>
-        <isAvailableInSpecialTerm2>false</isAvailableInSpecialTerm2>
         <code>CS1231</code><isAvailableInSpecialTerm1>false</isAvailableInSpecialTerm1><prerequisite>A-level Mathematics or H2 Mathematics or MA1301 or MA1301FC or MA1301X</prerequisite><description>This module introduces mathematical tools required in the study of computer science. Topics include: (1) Logic and proof techniques: propositions, conditionals, quantifications. (2) Relations and Functions: Equivalence relations and partitions. Partially ordered sets. Well-Ordering Principle. Function equality. Boolean/identity/inverse functions. Bijection. (3) Mathematical formulation of data models (linear model, trees, graphs). (4) Counting and Combinatoric: Pigeonhole Principle. Inclusion-Exclusion Principle. Number of relations on a set, number of injections from one finite set to another, Diagonalisation proof: An infinite countable set has an uncountable power set; Algorithmic proof: An infinite set has a countably infinite subset. Subsets of countable sets are countable.</description><title>Discrete Structures</title><preclusion>MA1100</preclusion><isAvailableInSem2>false</isAvailableInSem2><isAvailableInSem1>false</isAvailableInSem1><lockedModules>CS2102</lockedModules><lockedModules>CS2309</lockedModules><lockedModules>CS3230</lockedModules><lockedModules>CS4232</lockedModules><lockedModules>CS4236</lockedModules><lockedModules>CS4261</lockedModules><lockedModules>MA2202</lockedModules><lockedModules>MA2202S</lockedModules><lockedModules>MA2214</lockedModules><lockedModules>MA3205</lockedModules><lockedModules>CS2102R</lockedModules><lockedModules>CS3234</lockedModules><lockedModules>CS3236</lockedModules><lockedModules>CS3243</lockedModules><lockedModules>CS5232</lockedModules><lockedModules>MA2219</lockedModules><department>Computer Science</department><credit>4</credit>
         <parsedPrereq></parsedPrereq>
     </modules>
