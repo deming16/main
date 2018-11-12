@@ -14,7 +14,6 @@ import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.logic.commands.EditModuleCommand;
 import seedu.modsuni.logic.commands.EditModuleCommand.EditModuleDescriptor;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
-import seedu.modsuni.model.module.Code;
 
 /**
  * Parses input arguments and creates a new EditModuleCommand obejct.
