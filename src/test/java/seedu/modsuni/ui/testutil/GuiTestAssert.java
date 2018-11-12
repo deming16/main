@@ -7,6 +7,8 @@ import java.util.List;
 import guitests.guihandles.ModuleCardHandle;
 import guitests.guihandles.ModuleListPanelHandle;
 import guitests.guihandles.OutputDisplayHandle;
+import guitests.guihandles.UsernameCardHandle;
+import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Module;
 
 /**
@@ -44,6 +46,13 @@ public class GuiTestAssert {
         assertEquals(expectedModule.isAvailableInSem2(), actualCard.getAvailability().contains(SEM2));
         assertEquals(expectedModule.isAvailableInSpecialTerm1(), actualCard.getAvailability().contains(SPECIAL_TERM1));
         assertEquals(expectedModule.isAvailableInSpecialTerm2(), actualCard.getAvailability().contains(SPECIAL_TERM2));
+    }
+
+    /**
+     * Asserts that {@code actualCard} displays the details of {@code expectedUsername}.
+     */
+    public static void assertCardDisplaysUsername(Username expectedUsername, UsernameCardHandle actualCard) {
+        assertEquals(expectedUsername.getUsername(), actualCard.getUsername());
     }
 
     /**

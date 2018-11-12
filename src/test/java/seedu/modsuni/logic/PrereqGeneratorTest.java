@@ -17,8 +17,13 @@ public class PrereqGeneratorTest {
     }
 
     @Test
-    public void onlyPrefix_noParseException() throws ParseException {
+    public void onlyAnd_noParseException() throws ParseException {
         PrereqGenerator.checkValidPrereqString("&");
+    }
+
+    @Test
+    public void onlyOr_noParseException() throws ParseException {
+        PrereqGenerator.checkValidPrereqString("|");
     }
 
     @Test
@@ -89,5 +94,11 @@ public class PrereqGeneratorTest {
     public void closeParenLeft_throwsParseException() throws ParseException {
         thrown.expect(ParseException.class);
         PrereqGenerator.checkValidPrereqString("&())");
+    }
+
+    @Test
+    public void tooManyCloseParen_throwsParseException() throws ParseException {
+        thrown.expect(ParseException.class);
+        PrereqGenerator.checkValidPrereqString("&))(");
     }
 }

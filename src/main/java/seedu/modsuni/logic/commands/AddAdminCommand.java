@@ -37,7 +37,7 @@ public class AddAdminCommand extends Command {
             + PREFIX_USERNAME + "myUsername "
             + PREFIX_PASSWORD + "Password#1 "
             + PREFIX_NAME + "John Doe "
-            + PREFIX_SAVE_PATH + "exampleconfig "
+            + PREFIX_SAVE_PATH + "exampleconfig.xml "
             + PREFIX_SALARY + "3000 "
             + PREFIX_EMPLOYMENT_DATE + "30/09/2018\n";
 
