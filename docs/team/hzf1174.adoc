@@ -5,7 +5,7 @@
 
 == PROJECT: ModsUni
 
----
+:sectnums:
 
 == Overview
 
@@ -23,16 +23,45 @@ users who prefer typing instead of clicking mouse.
 ** What it does: Allows users to add and remove modules in their module lists, and search modules in the database.
 ** Justification: This feature provides users basic actions to plan for their candidature and it is also one of the foundational
 features of modsUni.
+** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/49[#49],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/133[#133], https://github.com/CS2103-AY1819S1-W17-2/main/pull/174[#174],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/202[#202].
 
 
-* *Minor enhancement*: display module and module list
+* *Minor enhancement*: added *Module and Module List Display* feature
 ** What it does: Allows users to figure out the details of every module, and makes the module list visually.
 ** Justification: This feature provides users better module planning experience as visualization provides users overall grasp.
+** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/133[#133],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/202[#202], https://github.com/CS2103-AY1819S1-W17-2/main/pull/288[#288].
 
-* *Code contributed*:
+* *Code contributed*: https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=hzf1174&sort=displayName&since=2018-09-12&until=2018-11-07&timeframe=day&reverse=false&repoSort=true[Functional Code]
 
 * *Other contributions*:
+** Project management:
+*** Added Labels and assign assignees for issues.
 
+** Documentation:
+*** Updated User Guide and Developer Guide(Pull request
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/59[#59],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/136[#136],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/203[#203],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/296[#296]).
+
+** Community:
+*** Reported bugs for other teams in the class (https://github.com/CS2103-AY1819S1-T10-3/main/issues/131[1],
+https://github.com/CS2103-AY1819S1-T10-3/main/issues/132[2],
+https://github.com/CS2103-AY1819S1-T10-3/main/issues/143[3],
+https://github.com/CS2103-AY1819S1-T10-3/main/issues/150[4]).
+
+*** Reported bugs and suggestions for my own team (https://github.com/CS2103-AY1819S1-W17-2/main/issues/121[1],
+https://github.com/CS2103-AY1819S1-W17-2/main/issues/157[2],
+https://github.com/CS2103-AY1819S1-W17-2/main/issues/158[3],
+https://github.com/CS2103-AY1819S1-W17-2/main/issues/188[4],
+https://github.com/CS2103-AY1819S1-W17-2/main/issues/211[5],
+https://github.com/CS2103-AY1819S1-W17-2/main/issues/214[6]).
+
+*** Reviewed pull requests:(Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/127[#127],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/275[#275]).
 
 == Contributions to the User Guide
 
@@ -41,9 +70,11 @@ features of modsUni.
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=undoredo]
+include::../UserGuide.adoc[tag=addmodule]
 
-include::../UserGuide.adoc[tag=dataencryption]
+include::../UserGuide.adoc[tag=search]
+
+include::../UserGuide.adoc[tag=showmodule]
 
 == Contributions to the Developer Guide
 
@@ -51,7 +82,7 @@ include::../UserGuide.adoc[tag=dataencryption]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=undoredo]
+include::../DeveloperGuide.adoc[tag=usermodulemanagement1]
 
-include::../DeveloperGuide.adoc[tag=dataencryption]
+include::../DeveloperGuide.adoc[tag=usermodulemanagement2]
 
