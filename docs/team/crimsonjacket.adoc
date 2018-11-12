@@ -40,7 +40,7 @@ to set user specific details and configurations for the application.
 ** Highlights: This is a full-stack feature incorporating all the components of the application from `Storage` to `UI`.
 This enhancement will give users the necessary control over their personal preferences and configurations in the application.
 
-** Relevant pull requests: *#44*, *#87* and *#161*
+** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/44[#44], https://github.com/CS2103-AY1819S1-W17-2/main/pull/87[#87] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161]
 
 * *Minor enhancement(s)*: Standardized the *User Interface(UI)* of the application.
 
@@ -53,9 +53,9 @@ procedures.
 
 ** Highlights: Switching between relevant UI panels is automatic(after each successive command).
 
-** Relevant pull requests: *#161* and *#189*
+** Relevant pull requests:  https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/189[#189]
 
-** Code contributed: *RepoSense*
+** Code contributed: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=crimsonjacket[Functional code]]
 
 * *Other Contributions*:
 
@@ -65,24 +65,23 @@ procedures.
 *** Managed *Project Dashboard* on GitHub.
 Utilized by the team to better manage individual tasks and visualize the various stages of development throughout the project.
 *** Set up Labels, Issue Tracker and Milestone in GitHub.
-*** Managed all GitHub *releases*.
+*** Managed all GitHub https://github.com/CS2103-AY1819S1-W17-2/main/releases[releases].
 
 ** Enhancements to existing features:
 
-*** Overhaul existing UI to better incorporate UX and sustainability principles. (PRs *#161* and *#189*)
-*** Refactored base code to better represent the *modsUni* application. (PRs *#161* and *#281*)
+*** Overhaul existing UI to better incorporate UX and sustainability principles. (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/189[#189])
+*** Refactored base code to better represent the *modsUni* application. (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/161[#161])
 
 ** Documentation:
 
-*** Included User Account Management Documentation to User Guide & Developer Guide (PRs *#56*, *#127*, *#280*)
+*** Included User Account Management Documentation to User Guide & Developer Guide (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/56[#56], https://github.com/CS2103-AY1819S1-W17-2/main/pull/127[#127] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/280[#280])
 
-*** Updated various Component Structures in DeveloperGuide (PRs *#201*)
+*** Updated various Component Structures in DeveloperGuide (PRs https://github.com/CS2103-AY1819S1-W17-2/main/pull/201[#201])
 
 ** Community:
 
-*** Reviewed PRs(with non-trivial review comments): *#119*, *#124* and *#200*
-*** Reported bugs and suggestions for other teams in the class (examples: *1*, *2*, *3*)
-
+*** Reviewed PRs(with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-2/main/pull/119[#119], https://github.com/CS2103-AY1819S1-W17-2/main/pull/124[#124] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/200[#200]
+*** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103-AY1819S1-W17-2/main/issues/181[1] and https://github.com/CS2103-AY1819S1-W17-2/main/issues/138[2])
 ** Tools:
 
 *** Set up project's Travis and AppVeyor Continuous Integration(CI) platforms.

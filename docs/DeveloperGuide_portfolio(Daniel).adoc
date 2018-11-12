@@ -336,7 +336,36 @@ Step 1. The user launches the application for the first time. Only `register` an
 `currentUser` refers to the user account currently loaded in the modsUni Application.
 
 Step 2. The user executes `register user/demo ...` to register a new `Student` account.
-The `register` command will call `Model#addCredential(...)` and `Model#setCurrentUser(...)`. +
+
+Step 3. `RegisterCommandParser` would process the user inputs and create a `Student`, `Credential` and `Path` object, which will be used to construct a `register` command. +
+
+Below is a small code snippet of the aforementioned procedure:
+
+[source,java]
+----
+public RegisterCommand parse(String userInput) throws ParseException {
+        // initial prefix checks, omitted for brevity
+
+        Username username = ParserUtil.parseUsername(argMultimap.getValue(PREFIX_USERNAME).get());
+        Password password = ParserUtil.parsePassword(argMultimap.getValue(PREFIX_PASSWORD).get());
+        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+        EnrollmentDate enrollmentDate = ParserUtil.parseEnrollmentDate(
+            argMultimap.getValue(PREFIX_STUDENT_ENROLLMENT_DATE).get());
+        List<String> majors = argMultimap.getAllValues(PREFIX_STUDENT_MAJOR);
+        List<String> minors = argMultimap.getAllValues(PREFIX_STUDENT_MINOR);
+
+        User user = new Student(username, name, Role.STUDENT,
+            enrollmentDate, majors, minors);
+        Credential credential = new Credential(username, password);
+
+        // constructs and returns RegisterCommand, omitted for brevity
+    }
+
+----
+
+Step 4. The `register` command will next call `Model#addCredential(...)` and `Model#setCurrentUser(...)`. +
+
+Step 5. At this point, `Model` will insert a new entry in `CredentialStore` and indicate to `Storage` to commit the changes to file. Additionally, the event raised by the `register` command will be handled by `UI`, making the necessary changes to all UI elements.
 
 [NOTE]
 A new `Student` would be initialized and automatically set as the `currentUser`, enabling the user to perform additional commands automatically. +
@@ -378,20 +407,20 @@ Subsequently, the `Model#setCurrentUser(...)` will be called to set the loaded u
 
 4. Should the credential not be valid or does not match an existing credential in the `CredentialStore`, the user will simply be shown a failure message.
 
-===== Implementation of the edit feature
-
-The `edit` feature is facilitated by the `EditStudentCommand` class.
-It allows for students to edit their existing modsUni account, granting them the ability
-to modify personal details. +
-
-The `EditStudentCommand` extends the `Command` class.
+//===== Implementation of the edit feature
+//
+//The `edit` feature is facilitated by the `EditStudentCommand` class.
+//It allows for students to edit their existing modsUni account, granting them the ability
+//to modify personal details. +
+//
+//The `EditStudentCommand` extends the `Command` class.
 //Figure 1(shown below) depicts the UML representation of the `EditStudentCommand`. +
 //
 //image::EditStudentCommandUML.png[width="200",align="center"]
 //[.text-center]
 //_Figure 1. UML Diagram of `EditStudentCommand`._
 //
-Parsing the command is performed by `EditStudentCommandParser`, which returns a `EditCommand` after parsing the user input.
+//Parsing the command is performed by `EditStudentCommandParser`, which returns a `EditCommand` after parsing the user input.
 //The Sequence Diagram shown below in Figure 2 illustrates the interactions between the `Logic` & `Model` components when the `EditStudentCommand` is being executed.
 //
 //image::SDforEditStudentCommandLogicAndModel.png[width="700",align="center"]
@@ -403,20 +432,20 @@ Parsing the command is performed by `EditStudentCommandParser`, which returns a 
 //image::SDforEditStudentCommand.png[width="600",align="center"]
 //[.text-center]
 //_Figure 3. High-Level Sequence Diagram of the edit process._
-
-Given below is an example usage scenario and how the edit mechanism behaves at each step:
-
-1. Assuming that the user is currently logged in.  The student can proceed to execute an `edit` command(i.e. `edit n/demo enroll/03/08/2017`). +
-At this point,`ModsUniParser` would instantiate `EditStudentCommandParser` which would parse the `edit` command.
-2. `EditStudentCommandParser` would instantiate `EditStudentDescriptor`. `EditStudentDescriptor` contains the respective user details that is provided in the user input. +
-[NOTE]
-`EditStudentDescriptor` contains *only* the details as provided in the user input and will be used in `EditCommand#execute()` to update `currentUser`.
-
-3. `EditStudentCommandParser` would return a `EditCommand` with the descriptor class. Subsequently, `EditCommand#execute()` would be called.
-4. At this point, `EditCommand#createEditedStudent(...)` would be called constructing a new Student object, with the `currentUser` and the descriptor.
-5. Finally, `Model#setCurrentUser(...)` would be called to update `currentUser` with the new details.
-[NOTE]
-Upon the successful execute of the `edit` command, `UserTab` would also be updated with the new user details.
+//
+//Given below is an example usage scenario and how the edit mechanism behaves at each step:
+//
+//1. Assuming that the user is currently logged in.  The student can proceed to execute an `edit` command(i.e. `edit n/demo enroll/03/08/2017`). +
+//At this point,`ModsUniParser` would instantiate `EditStudentCommandParser` which would parse the `edit` command.
+//2. `EditStudentCommandParser` would instantiate `EditStudentDescriptor`. `EditStudentDescriptor` contains the respective user details that is provided in the user input. +
+//[NOTE]
+//`EditStudentDescriptor` contains *only* the details as provided in the user input and will be used in `EditCommand#execute()` to update `currentUser`.
+//
+//3. `EditStudentCommandParser` would return a `EditCommand` with the descriptor class. Subsequently, `EditCommand#execute()` would be called.
+//4. At this point, `EditCommand#createEditedStudent(...)` would be called constructing a new Student object, with the `currentUser` and the descriptor.
+//5. Finally, `Model#setCurrentUser(...)` would be called to update `currentUser` with the new details.
+//[NOTE]
+//Upon the successful execute of the `edit` command, `UserTab` would also be updated with the new user details.
 
 ==== Design Considerations
 
