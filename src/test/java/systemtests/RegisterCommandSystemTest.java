@@ -17,9 +17,11 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MAJOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MINOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
 import static seedu.modsuni.testutil.TypicalAdmins.MASTER_DATA;
-import static seedu.modsuni.testutil.TypicalCredentials.*;
-import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_ADMIN;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX_DATA;
 
 import java.io.File;
@@ -83,7 +85,7 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
             "   " + RegisterCommand.COMMAND_WORD + "  " + REGISTER_AMY_DESC + "  "
                 + LOGIN_PASSWORD_DESC + " "
                 + NAME_DESC_AMY + " " + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
-                + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+                + MINOR_DESC + " " + PREFIX_USERDATA + TEMP_DATA_PATH;
         assertCommandSuccess(command, toAdd);
 
         /* ----------------------------------- Perform invalid register
@@ -104,7 +106,7 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
         command =
             "   " + RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + "  " + LOGIN_PASSWORD_DESC + " "
                 + NAME_DESC_BOB + " " + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
-                + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+                + MINOR_DESC + " " + PREFIX_USERDATA + TEMP_DATA_PATH;
         assertCommandFailure(command, RegisterCommand.MESSAGE_ALREADY_LOGGED_IN);
 
         // logouts from currentUser
@@ -124,31 +126,31 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
         // without username
         command = RegisterCommand.COMMAND_WORD + "  " + LOGIN_PASSWORD_DESC + " "
             + NAME_DESC_BOB + " " + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
-            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+            + MINOR_DESC + " " + PREFIX_USERDATA + TEMP_DATA_PATH;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
 
         // without password
         command = RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + " "
             + NAME_DESC_BOB + " " + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
-            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+            + MINOR_DESC + " " + PREFIX_USERDATA + TEMP_DATA_PATH;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
 
         // without name
         command = RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + "  " + LOGIN_PASSWORD_DESC + " "
             + ENROLLMENT_DESC + " " + MAJOR_DESC + " "
-            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+            + MINOR_DESC + " " + PREFIX_USERDATA + TEMP_DATA_PATH;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
 
         // without enrollment
         command = RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + "  " + LOGIN_PASSWORD_DESC + " "
             + NAME_DESC_BOB + " " + MAJOR_DESC + " "
-            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+            + MINOR_DESC + " " + PREFIX_USERDATA + TEMP_DATA_PATH;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
 
         // without major
         command = RegisterCommand.COMMAND_WORD + "  " + REGISTER_BOB_DESC + "  " + LOGIN_PASSWORD_DESC + " "
             + NAME_DESC_BOB + " " + ENROLLMENT_DESC + " "
-            + MINOR_DESC + " " + LOGIN_USERDATA_DESC;
+            + MINOR_DESC + " " + PREFIX_USERDATA + TEMP_DATA_PATH;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
     }
 
