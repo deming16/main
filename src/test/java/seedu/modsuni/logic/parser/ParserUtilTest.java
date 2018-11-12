@@ -37,6 +37,10 @@ public class ParserUtilTest {
     private static final String INVALID_EMPLOY_DATE = "123456";
     private static final String INVALID_USERNAME = "with space";
     private static final String INVALID_CODE = "$%^&";
+    private static final String INVALID_PREREQ_SPECIAL_CHARACTER = "$%";
+    private static final String INVALID_PREREQ_CONSECUTIVE_PREFIX = "&&";
+    private static final String INVALID_PREREQ_NO_COMMA = "&CS1010";
+    private static final String INVALID_PREREQ_EMPTY_PAREN = "&cs1010,()";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
@@ -271,8 +275,28 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parserModuleCode_validValue_returnsCode() throws Exception {
+    public void parseModuleCode_validValue_returnsCode() throws Exception {
         Code expectedCode = new Code(VALID_CODE);
         assertEquals(expectedCode, ParserUtil.parseModuleCode(VALID_CODE));
+    }
+
+    @Test
+    public void parsePrereq_specialChar_throwsParseException() {
+        Assert.assertThrows(ParseException.class, () -> ParserUtil.parsePrereq(INVALID_PREREQ_SPECIAL_CHARACTER));
+    }
+
+    @Test
+    public void parsePrereq_consecutivePrefix_throwsParseException() {
+        Assert.assertThrows(ParseException.class, () -> ParserUtil.parsePrereq(INVALID_PREREQ_CONSECUTIVE_PREFIX));
+    }
+
+    @Test
+    public void parsePrereq_noComma_throwsParseException() {
+        Assert.assertThrows(ParseException.class, () -> ParserUtil.parsePrereq(INVALID_PREREQ_NO_COMMA));
+    }
+
+    @Test
+    public void parsePrereq_emptyParen_throwsParseException() {
+        Assert.assertThrows(ParseException.class, () -> ParserUtil.parsePrereq(INVALID_PREREQ_EMPTY_PAREN));
     }
 }
