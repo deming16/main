@@ -48,7 +48,7 @@ Responsibilities: In charge of UI, Testing
 
 === Reuben Tan Jun Liang
 image::rtjl.png[width="150", align="left"]
-{empty}[http://github.com/RTJL[github]] [<<reubentan#, portfolio>>]
+{empty}[http://github.com/RTJL[github]] [<<rtjl#, portfolio>>]
 
 Role: Developer +
 Responsibilities: In charge of Integration, Code Consistency
