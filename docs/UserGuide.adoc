@@ -177,7 +177,7 @@ _Figure 1. An example of a save command typed in the CLI_
 Upon entering the command, you will see the types of information stored as well as a successful message as shown in Figure 2.
 
 image::SaveCommandSuccessful.jpg[width="450"]
-_Figure 2. The application displays the saved information and successful message upon entering save command_
+_Figure 2. An example of the application displaying the saved information and successful message upon entering save command_
 
 Upon entering the save command, a file depicted in Figure 3 will be generated.
 This file will be required when logging in.
