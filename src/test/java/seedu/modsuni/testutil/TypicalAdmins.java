@@ -12,6 +12,15 @@ import seedu.modsuni.model.user.Role;
  */
 public class TypicalAdmins {
 
+    public static final String MASTER_DATA = "masterconfig.xml";
+
+    public static final Admin MASTER = new AdminBuilder()
+        .withName("master")
+        .withEmployedDate("01/11/2001")
+        .withRole(Role.ADMIN)
+        .withSalary("9999")
+        .build();
+
     public static final Admin ALICE = new AdminBuilder().withName("Alice Pauline")
             .withRole(Role.ADMIN)
             .withSalary("3000")

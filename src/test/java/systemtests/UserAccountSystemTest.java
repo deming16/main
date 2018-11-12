@@ -16,6 +16,9 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MAJOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MINOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_ADMIN;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_SEB;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -32,7 +35,7 @@ import seedu.modsuni.model.user.student.Student;
 import seedu.modsuni.testutil.StudentBuilder;
 import seedu.modsuni.testutil.StudentUtil;
 
-public class RegisterCommandSystemTest extends ModsUniSystemTest {
+public class UserAccountSystemTest extends ModsUniSystemTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data",
         "sandbox");
@@ -48,6 +51,9 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
     @Test
     public void register() {
         Model model = getModel();
+        model.addCredential(CREDENTIAL_STUDENT_MAX);
+        model.addCredential(CREDENTIAL_STUDENT_SEB);
+        model.addCredential(CREDENTIAL_ADMIN);
 
         /* ------------------------ Perform register operations ----------------------------- */
 
@@ -134,7 +140,7 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
      * Performs the same verification as {@code assertCommandSuccess(Person)}. Executes {@code command}
      * instead.
      *
-     * @see RegisterCommandSystemTest#assertCommandSuccess(Student)
+     * @see UserAccountSystemTest#assertCommandSuccess(Student)
      */
     private void assertCommandSuccess(String command, Student toAdd) {
         Model expectedModel = getModel();
@@ -153,7 +159,7 @@ public class RegisterCommandSystemTest extends ModsUniSystemTest {
      * components in
      * {@code expectedModel}.<br>
      *
-     * @see RegisterCommandSystemTest#assertCommandSuccess(String, Student)
+     * @see UserAccountSystemTest#assertCommandSuccess(String, Student)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
         executeCommand(command);

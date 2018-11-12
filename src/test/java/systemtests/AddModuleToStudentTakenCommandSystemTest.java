@@ -6,32 +6,52 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.CODE_DESC_CS1010;
 import static seedu.modsuni.logic.commands.CommandTestUtil.CODE_DESC_CS9999;
 import static seedu.modsuni.logic.commands.CommandTestUtil.CODE_DESC_LOWER_ACC1002X;
 import static seedu.modsuni.logic.commands.CommandTestUtil.EMPTY;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PASSWORD;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
+import static seedu.modsuni.testutil.TypicalAdmins.MASTER_DATA;
+import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_MASTER;
+import static seedu.modsuni.testutil.TypicalCredentials.STUDENT_TEST_PASSWORD;
 import static seedu.modsuni.testutil.TypicalModules.ACC1002;
 import static seedu.modsuni.testutil.TypicalUsers.STUDENT_TEST;
+import static seedu.modsuni.testutil.TypicalUsers.STUDENT_TEST_DATA;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.Test;
 
 import seedu.modsuni.logic.commands.AddModuleToStudentStagedCommand;
 import seedu.modsuni.logic.commands.AddModuleToStudentTakenCommand;
 import seedu.modsuni.logic.commands.AddModuleToStudentTakenCommandTest;
+import seedu.modsuni.logic.commands.LoginCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromStudentStagedCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromStudentTakenCommand;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.user.student.Student;
+import seedu.modsuni.testutil.StudentUtil;
 
 public class AddModuleToStudentTakenCommandSystemTest extends ModsUniSystemTest {
-    private static final String COMMAND_LOGIN = "login user/test pass/#Qwerty4321 userdata/test_8DB6604.xml";
-    private static final String COMMAND_LOGIN_AS_ADMIN = "login user/master pass/Pass#123 userdata/masterconfig.xml";
+
+    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data",
+        "sandbox");
+    private static final Path STUDENT_TEST_DATA_PATH =
+        TEST_DATA_FOLDER.resolve(STUDENT_TEST_DATA);
+
+    private static final Path ADMIN_DATA_PATH =
+        TEST_DATA_FOLDER.resolve(MASTER_DATA);
+
     private static final String COMMAND_LOGOUT = "logout";
 
     @Test
     public void addModuleT() {
 
         Model model = getModel();
-        Student student = STUDENT_TEST;
-        model.setCurrentUser(student);
-        executeCommand(COMMAND_LOGIN);
+        model.addCredential(CREDENTIAL_MASTER);
+
+        executeCommand(StudentUtil.getLoginCommand(STUDENT_TEST,
+            STUDENT_TEST_PASSWORD, STUDENT_TEST_DATA_PATH.toString()));
 
         /* ------------------------ Perform addModuleS operations on the shown list ----------------------------- */
 
@@ -91,7 +111,12 @@ public class AddModuleToStudentTakenCommandSystemTest extends ModsUniSystemTest 
         assertCommandFailure(command, AddModuleToStudentTakenCommand.MESSAGE_NOT_LOGIN);
 
         /* Case: add without login as a student -> rejected */
-        executeCommand(COMMAND_LOGIN_AS_ADMIN);
+        String commandLoginAdmin = LoginCommand.COMMAND_WORD + " "
+            + PREFIX_USERNAME + "master" + " "
+            + PREFIX_PASSWORD + "Pass#123" + " "
+            + PREFIX_USERDATA + ADMIN_DATA_PATH.toString();
+
+        executeCommand(commandLoginAdmin);
         command = AddModuleToStudentTakenCommand.COMMAND_WORD + CODE_DESC_ACC1002;
         assertCommandFailure(command, AddModuleToStudentTakenCommand.MESSAGE_NOT_STUDENT);
 

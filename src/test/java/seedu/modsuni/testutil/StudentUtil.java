@@ -1,7 +1,6 @@
 package seedu.modsuni.testutil;
 
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_PASSWORD;
-import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_USERDATA;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
@@ -9,14 +8,13 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
-import static seedu.modsuni.testutil.TypicalCredentials.STUDENT_MAX_PASSWORD;
-
 
 import java.util.List;
 
 import seedu.modsuni.logic.commands.EditStudentCommand.EditStudentDescriptor;
 import seedu.modsuni.logic.commands.LoginCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
+import seedu.modsuni.model.user.User;
 import seedu.modsuni.model.user.student.Student;
 
 /**
@@ -27,11 +25,12 @@ public class StudentUtil {
     /**
      * Returns a login command string for the respective {@code student}.
      */
-    public static String getLoginCommand(Student student) {
+    public static String getLoginCommand(User user, String password,
+                                         String path) {
         return LoginCommand.COMMAND_WORD + " "
-            + PREFIX_USERNAME + student.getUsername().toString() + " "
-            + PREFIX_PASSWORD + STUDENT_MAX_PASSWORD + " "
-            + PREFIX_USERDATA + VALID_USERDATA;
+            + PREFIX_USERNAME + user.getUsername().toString() + " "
+            + PREFIX_PASSWORD + password + " "
+            + PREFIX_USERDATA + path;
     }
 
 

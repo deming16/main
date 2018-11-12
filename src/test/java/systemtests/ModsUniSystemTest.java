@@ -3,7 +3,6 @@ package systemtests;
 import static guitests.guihandles.WebViewUtil.waitUntilBrowserLoaded;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static seedu.modsuni.ui.BrowserPanel.DEFAULT_PAGE;
 import static seedu.modsuni.ui.BrowserPanel.LOADING_PAGE;
 import static seedu.modsuni.ui.UiPart.FXML_FILE_FOLDER;
 import static seedu.modsuni.ui.testutil.GuiTestAssert.assertDatabaseListMatching;
@@ -200,7 +199,6 @@ public abstract class ModsUniSystemTest {
     private void assertApplicationStartingStateIsCorrect() {
         assertEquals("", getCommandBox().getInput());
         assertEquals("", getResultDisplay().getText());
-        assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE), getBrowserPanel().getLoadedUrl());
         assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + LOADING_PAGE), getBrowserPanel().getLoadedUrl());
     }
 

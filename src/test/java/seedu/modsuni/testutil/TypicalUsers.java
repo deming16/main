@@ -13,6 +13,8 @@ import seedu.modsuni.model.user.student.Student;
  */
 public class TypicalUsers {
 
+    public static final String STUDENT_TEST_DATA = "test_8DB6604.xml";
+
     public static final Student STUDENT_MAX = new StudentBuilder().build();
     public static final Student STUDENT_SEB = new StudentBuilder()
         .withName("Sebestian Vettel")
@@ -22,7 +24,6 @@ public class TypicalUsers {
         .withMinor(Arrays.asList("IS", "MA")).build();
     public static final Student STUDENT_TEST = new StudentBuilder()
             .withName("Test").build();
-    // private static final User ADMIN_TOTO = new AdminBuilder().build();
 
     private TypicalUsers() {
     }
