@@ -120,7 +120,7 @@ Apply to `addModuleS`, `addModuleT`, `removeModuleS`, `removeModuleT`.
 === Adding a module to student's taken module list: `addModuleT`
 
 Adds a module to the student’s taken module list.
-Taken list is the list of module student has taken. +
+Taken list is the list of modules student has taken. +
 This command is case insensitive. +
 Format: `addModuleT <MOD_CODE> [MORE MOD_CODE]`
 
@@ -154,7 +154,7 @@ both staged module list and our database module list.
 === Deleting a module from student's taken module list: `removeModuleT`
 
 Deletes a module form the student’s taken module list.
-Taken list is the list of module student has taken. +
+Taken list is the list of modules student has taken. +
 This command is case insensitive. +
 Format: `removeModuleT <MOD_CODE> [MORE MOD_CODE]`
 
