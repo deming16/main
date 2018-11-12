@@ -4,7 +4,7 @@ import seedu.modsuni.commons.events.BaseEvent;
 import seedu.modsuni.model.module.Module;
 
 /**
- * Represents a selection change in the Module List Panel
+ * Represents a selection change in the Staged Module List Panel
  */
 public class StagedModulePanelSelectionChangedEvent extends BaseEvent {
 

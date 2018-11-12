@@ -10,7 +10,7 @@ import seedu.modsuni.model.Model;
 import seedu.modsuni.model.module.CodeStartsKeywordsPredicate;
 
 /**
- * Finds and lists all modules in the user's profile whose name contains any of the argument keywords.
+ * Finds and lists all modules in the database module list whose code starts with any of the argument keywords.
  * Keyword matching is case insensitive.
  */
 public class SearchCommand extends Command {

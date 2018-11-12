@@ -226,18 +226,6 @@ public class MainWindow extends UiPart<Stage> {
             (int) primaryStage.getX(), (int) primaryStage.getY());
     }
 
-    public StagedModuleListPanel getStagedModuleListPanel() {
-        return stagedModuleListPanel;
-    }
-
-    public TakenModuleListPanel getTakenModuleListPanel() {
-        return takenModuleListPanel;
-    }
-
-    public DatabaseModuleListPanel getDatabaseModuleListPanel() {
-        return databaseModuleListPanel;
-    }
-
     void releaseResources() {
         browserPlaceholder.getChildren().clear();
     }
@@ -336,6 +324,9 @@ public class MainWindow extends UiPart<Stage> {
         browserPlaceholder.getChildren().add(generateDisplay.getRoot());
     }
 
+    /**
+     * Selects a module in the staged module list
+     */
     @Subscribe
     private void handleStagedModulePanelSelectionChangedEvent(StagedModulePanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
@@ -344,6 +335,9 @@ public class MainWindow extends UiPart<Stage> {
         browserPlaceholder.getChildren().add(moduleDisplay.getRoot());
     }
 
+    /**
+     * Selects a module in the taken module list
+     */
     @Subscribe
     private void handleTakenModulePanelSelectionChangedEvent(TakenModulePanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
@@ -352,6 +346,9 @@ public class MainWindow extends UiPart<Stage> {
         browserPlaceholder.getChildren().add(moduleDisplay.getRoot());
     }
 
+    /**
+     * Selects a module in the database module list
+     */
     @Subscribe
     private void handleDatabaseModulePanelSelectionChangedEvent(DatabaseModulePanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
