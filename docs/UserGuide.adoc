@@ -269,7 +269,7 @@ Steps to rectify:
 . Execute `showModule CS2030` to identify the missing prerequisite module as shown in figure 3.
 +
 image::generateMissingPrereqShow.png[width="700"]
-_Figure 3. Output of the `viewModule` command._
+_Figure 3. Output of the `showModule CS2030` command._
 +
 [NOTE]
 The prerequisites are shown in the red box.
