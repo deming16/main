@@ -53,10 +53,6 @@ public class XmlAdaptedOr {
         }
     }
 
-    public String getCode() {
-        return code;
-    }
-
     /**
      * Converts this jaxb-friendly adapted object into the model's PrereqDetails object.
      *
@@ -69,13 +65,13 @@ public class XmlAdaptedOr {
                 throw new IllegalValueException(Code.MESSAGE_CODE_CONSTRAINTS);
             }
             prereqOr.setCode(Optional.of(new Code(code)));
-        } else if (and.size() != 0) {
+        } else if (and != null && and.size() != 0) {
             ArrayList<PrereqDetails> prereqAnds = new ArrayList<>();
             for (XmlAdaptedAnd element : and) {
                 prereqAnds.add(element.toModelType());
             }
             prereqOr.setAnd(Optional.of(prereqAnds));
-        } else if (or.size() != 0) {
+        } else if (or != null && or.size() != 0) {
             ArrayList<PrereqDetails> prereqOrs = new ArrayList<>();
             for (XmlAdaptedOr element : or) {
                 prereqOrs.add(element.toModelType());

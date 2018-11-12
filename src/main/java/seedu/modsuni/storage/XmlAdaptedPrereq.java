@@ -33,8 +33,7 @@ public class XmlAdaptedPrereq {
             for (PrereqDetails element: prereqDetails) {
                 and.add(new XmlAdaptedAnd(element));
             }
-        }
-        if (source.getOr().isPresent()) {
+        } else if (source.getOr().isPresent()) {
             or = new ArrayList<>();
             List<PrereqDetails> prereqDetails = source.getOr().get();
             for (PrereqDetails element: prereqDetails) {
@@ -50,14 +49,13 @@ public class XmlAdaptedPrereq {
      */
     public Prereq toModelType() throws IllegalValueException {
         Prereq prereq = new Prereq();
-        if (and.size() != 0) {
+        if (and != null && and.size() != 0) {
             List<PrereqDetails> prereqAnds = new ArrayList<>();
             for (XmlAdaptedAnd element : and) {
                 prereqAnds.add(element.toModelType());
             }
             prereq.setAnd(Optional.of(prereqAnds));
-        }
-        if (or.size() != 0) {
+        } else if (or != null && or.size() != 0) {
             List<PrereqDetails> prereqOrs = new ArrayList<>();
             for (XmlAdaptedOr element : or) {
                 prereqOrs.add(element.toModelType());
