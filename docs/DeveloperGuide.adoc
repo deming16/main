@@ -816,7 +816,7 @@ It provides methods to save the current user's attributes as well as to load a f
 ===== Implementation of the save feature
 
 The `save` mechanism of modsUni is facilitated by `SaveCommand` class and is event-driven.
-It allows a user to save their data as a XML file.
+It allows a user to save their data as an XML file.
 
 [NOTE]
 Both admin and student can use the save feature.
@@ -1068,7 +1068,7 @@ The following operation is used for the loading process:
 ===== Implementation of the save feature
 
 The load mechanism of modsUni is facilitated by `LoginCommand` class and is event-driven.
-It allows a user to load their data in modsUni from a XML file.
+It allows a user to load their data in modsUni from an XML file.
 
 The load feature uses multiple components of the modsUni application.
 Parsing of command is performed by LoginCommandParser, which returns a LoginCommand object after parsing the save file path.
