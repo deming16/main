@@ -1785,6 +1785,21 @@ These instructions only provide a starting point for testers to work on; testers
 
 _{ more test cases ... }_
 
+=== Generating a schedule
+
+. Generate a schedule using modules in the student's staged list
+
+.. Prerequisites: Login using a student user account and download the sample modules database.
+.. Test case: +
+ ... `addModuleS cs2030 cs2040`
+ ... `generate` +
+ Expected: Generate fail due to missing prerequisites.
+ .. Test case: +
+ ... `addModuleS cs1010`
+ ... `generate` +
+ Expected: Successful execution of the generate command. Schedule will be shown in the panel on the right
+ of the application.
+
 === Deleting a person
 
 . Deleting a person while all persons are listed
