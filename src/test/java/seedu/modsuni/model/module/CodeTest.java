@@ -21,7 +21,7 @@ public class CodeTest {
     }
 
     @Test
-    public void isValidSalary() {
+    public void isValidCode() {
         // null code
         Assert.assertThrows(NullPointerException.class, () -> Code.isValidCode(null));
 
