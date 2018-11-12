@@ -41,8 +41,7 @@ public class AddModuleToDatabaseCommandParser implements Parser<AddModuleToDatab
                     AddModuleToDatabaseCommand.MESSAGE_USAGE));
         }
 
-        String codeName = argMultimap.getValue(PREFIX_MODULE_CODE).get();
-        Code code = new Code(codeName);
+        Code code = ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE_CODE).get());
         String department = argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).get();
         String title = argMultimap.getValue(PREFIX_MODULE_TITLE).get();
         String description = argMultimap.getValue(PREFIX_MODULE_DESCRIPTION).get();

@@ -17,6 +17,7 @@ import org.junit.rules.ExpectedException;
 
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.person.Address;
 import seedu.modsuni.model.person.Email;
 import seedu.modsuni.model.person.Phone;
@@ -35,7 +36,7 @@ public class ParserUtilTest {
     private static final String INVALID_SALARY = "OneHundred";
     private static final String INVALID_EMPLOY_DATE = "123456";
     private static final String INVALID_USERNAME = "with space";
-    private static final String INVALID_PATH = "invalid.invalid";
+    private static final String INVALID_CODE = "$%^&";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
@@ -46,7 +47,7 @@ public class ParserUtilTest {
     private static final String VALID_SALARY = "3000";
     private static final String VALID_EMPLOY_DATE = "01/01/2018";
     private static final String VALID_USERNAME = "username";
-    private static final String VALID_PATH = "valid.img";
+    private static final String VALID_CODE = "CS1010";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -264,5 +265,14 @@ public class ParserUtilTest {
         assertEquals(expectedUsername, ParserUtil.parseUsername(VALID_USERNAME));
     }
 
+    @Test
+    public void parseModuleCode_invalidValue_throwsParseException() {
+        Assert.assertThrows(ParseException.class, () -> ParserUtil.parseModuleCode(INVALID_CODE));
+    }
 
+    @Test
+    public void parserModuleCode_validValue_returnsCode() throws Exception {
+        Code expectedCode = new Code(VALID_CODE);
+        assertEquals(expectedCode, ParserUtil.parseModuleCode(VALID_CODE));
+    }
 }

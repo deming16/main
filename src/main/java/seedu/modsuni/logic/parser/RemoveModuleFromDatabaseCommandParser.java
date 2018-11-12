@@ -4,6 +4,7 @@ import static seedu.modsuni.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import seedu.modsuni.logic.commands.RemoveModuleFromDatabaseCommand;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
+import seedu.modsuni.model.module.Code;
 
 /**
  * Parses input arguments and creates a new RemoveModuleFromDatabaseCommand.
@@ -17,8 +18,8 @@ public class RemoveModuleFromDatabaseCommandParser implements Parser<RemoveModul
      */
     public RemoveModuleFromDatabaseCommand parse(String args) throws ParseException {
         try {
-            String code = ParserUtil.parseModuleCode(args);
-            return new RemoveModuleFromDatabaseCommand(code);
+            Code code = ParserUtil.parseModuleCode(args);
+            return new RemoveModuleFromDatabaseCommand(code.toString());
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     RemoveModuleFromDatabaseCommand.MESSAGE_USAGE));

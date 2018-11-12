@@ -220,13 +220,13 @@ public class ParserUtil {
     /**
      * Parses a {@code String moduleCode} into a {@code Code}.
      */
-    public static String parseModuleCode(String moduleCode) throws ParseException {
+    public static Code parseModuleCode(String moduleCode) throws ParseException {
         requireNonNull(moduleCode);
         String trimmedModuleCode = moduleCode.trim();
         if (!Code.isValidCode(trimmedModuleCode)) {
             throw new ParseException(Code.MESSAGE_CODE_CONSTRAINTS);
         }
-        return trimmedModuleCode;
+        return new Code(trimmedModuleCode);
     }
 
     /**

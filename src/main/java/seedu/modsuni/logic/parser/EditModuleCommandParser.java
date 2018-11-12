@@ -51,7 +51,7 @@ public class EditModuleCommandParser implements Parser<EditModuleCommand> {
                                                 ArgumentMultimap argMultimap) throws ParseException {
         if (argMultimap.getValue(PREFIX_MODULE_CODE).isPresent()) {
             editModuleDescriptor.setCode(
-                    new Code(ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE_CODE).get())));
+                    ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE_CODE).get()));
         }
         if (argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).isPresent()) {
             editModuleDescriptor.setDeparment(argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).get());
