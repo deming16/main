@@ -649,7 +649,7 @@ illustrates each command and their respective command class:
 The `AddModuleToDatabaseCommand` extends for `Command`. Figure 2(shown below) depicts the UML representation of the
 `AddModuleToDatabaseCommand`.
 
-image::AddModuleToDatabaseCommandUML.png[width="400"]
+image::AddModuleToDatabaseCommandUML.png[width="300"]
 _Figure 2. UML diagram of `AddModuleToDatabaseCommand`._
 
 Parsing of command is performed by `AddModuleToDatabaseCommandParser`, which returns a `AddModuleToDatabaseCommand`
@@ -743,7 +743,7 @@ The created `Command` object then execute the command, shown in the code snippet
 The `RemoveModuleFromDatabaseCommand` extends for `Command`. Figure 5(shown below) depicts the UML representation of the
 `RemoveModuleFromDatabaseCommand`.
 
-image::RemoveModuleFromDatabaseCommandUML.png[width="400"]
+image::RemoveModuleFromDatabaseCommandUML.png[width="300"]
 _Figure 5. UML diagram of `RemoveModuleFromDatabaseCommand`._
 
 Parsing of command is performed by `RemoveModuleFromDatabaseParser`, which returns a `RemoveModuleFromDatabase` object

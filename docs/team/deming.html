@@ -430,7 +430,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview">1. Overview</h2>
+<h2 id="_1_overview">1. Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>modsUni is a desktop timetable management application created by students for students. It incorporates a simple GUI with majority of its user interactions occurring in its in-built CLI.</p>
@@ -438,7 +438,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_about_this_portfolio">2. About this portfolio</h2>
+<h2 id="_2_about_this_portfolio">2. About this portfolio</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This project portfolio documents my contributions to the ModsUni project.
@@ -447,7 +447,7 @@ It includes a summary of features that I implemented and other contributions to 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_summary_of_contributions">3. Summary of contributions</h2>
+<h2 id="_3_summary_of_contributions">3. Summary of contributions</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -576,7 +576,7 @@ and <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/267">#267</a>)</
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contributions_to_the_user_guide">4. Contributions to the User Guide</h2>
+<h2 id="_4_contributions_to_the_user_guide">4. Contributions to the User Guide</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -589,18 +589,18 @@ and <a href="https://github.com/CS2103-AY1819S1-W17-2/main/pull/267">#267</a>)</
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_add_a_new_module_to_database_code_addmoduledb_code">4.1. Add a new module to database: <code>addModuleDB</code></h3>
+<h3 id="_add_a_new_module_to_database_code_addmoduledb_code">Add a new module to database: <code>addModuleDB</code></h3>
 <div class="paragraph">
 <p>Creates a new module and add it to the module database.<br>
 Format: <code>addModuleDB OPTION/INPUT&#8230;&#8203;</code><br></p>
 </div>
 <div class="paragraph">
-<p>Input fields <code>(Input restriction and validation coming in v1.4)</code>:</p>
+<p>Input fields:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Module code : <code>code/&lt;MODULE_CODE&gt;</code></p>
+<p>Module code : <code>code/&lt;MODULE_CODE&gt;</code>&#8201;&#8212;&#8201;It should contain only alphanumeric characters.</p>
 </li>
 <li>
 <p>Department : <code>department/&lt;DEPARTMENT&gt;</code></p>
@@ -615,7 +615,7 @@ Format: <code>addModuleDB OPTION/INPUT&#8230;&#8203;</code><br></p>
 <p>Credit : <code>credit/&lt;CREDIT&gt;</code></p>
 </li>
 <li>
-<p>Available semesters : <code>available/&lt;SEM1&gt;&lt;SEM2&gt;&lt;SPECIAL_TERM1&gt;&lt;SPECIAL_TERM2&gt;</code></p>
+<p>Available semesters : <code>available/[SEM1][SEM2][SPECIAL_TERM1][SPECIAL_TERM2]</code></p>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -623,14 +623,16 @@ Format: <code>addModuleDB OPTION/INPUT&#8230;&#8203;</code><br></p>
 <div class="title">Note</div>
 </td>
 <td class="content">
-For each entry enter '1' if the module will be available. Otherwise, enter '0'.
+For each entry enter '1' if the module will be available. Otherwise, enter '0'.<br>
+Only the first four digits will be taken into account and if there are less than four digits the remaining input will be
+'0' by default.
 </td>
 </tr>
 </table>
 </div>
 </li>
 <li>
-<p>Prerequisites : <code>prereq/&lt;PREREQ_STRING&gt;</code></p>
+<p>Prerequisites : <code>prereq/[PREREQ_STRING]</code></p>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -638,10 +640,10 @@ For each entry enter '1' if the module will be available. Otherwise, enter '0'.
 <div class="title">Note</div>
 </td>
 <td class="content">
-Format for PREREQ_STRING: <code>&lt;&amp;OR|&gt;[&lt;MODULE_CODE,&gt; [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]</code><br>
-Format for BRANCH: <code>(&lt;&amp;OR|&gt;[&lt;MODULE_CODE,&gt; [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])</code><br>
-Every branch should be enclosed in parentheses followed by <code>&amp;</code> or <code>|</code>, then the list of module codes or branches.
-The end of a module code should be indicated with a <code>,</code>.
+Format for PREREQ_STRING: <code>&lt;&amp;OR|&gt;[&lt;MODULE_CODE,&gt;[MORE_MODULE_CODE,]][BRANCH][MORE_BRANCH]</code><br>
+Format for BRANCH: <code>(&lt;&amp;OR|&gt;[&lt;MODULE_CODE,&gt;[MORE_MODULE_CODE,]][BRANCH][MORE_BRANCH])</code><br>
+To represent no prerequisite, use an empty string or a string that consist of only '&amp;' or '|'<br>
+To represent only 1 prerequisite, use '&amp;' or '|' followed by the module code.
 </td>
 </tr>
 </table>
@@ -665,18 +667,18 @@ Create and add a new module with module code "CS2103T" and the stated details to
 <div style="page-break-after: always;"></div>
 </div>
 <div class="sect2">
-<h3 id="_edit_details_of_a_module_in_database_code_editmodule_code">4.2. Edit details of a module in database: <code>editModule</code></h3>
+<h3 id="_edit_details_of_a_module_in_database_code_editmodule_code">Edit details of a module in database: <code>editModule</code></h3>
 <div class="paragraph">
 <p>Edit the details of a module specified by its index in database panel in database.<br>
 Format: <code>editModule &lt;INDEX&gt; OPTION/INPUT&#8230;&#8203;</code><br></p>
 </div>
 <div class="paragraph">
-<p>Input fields <code>(Input restriction and validation coming in v1.4)</code>:</p>
+<p>Input fields:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Module code : <code>code/[MODULE_CODE]</code></p>
+<p>Module code : <code>code/&lt;MODULE_CODE&gt;</code>&#8201;&#8212;&#8201;It should contain only alphanumeric characters.</p>
 </li>
 <li>
 <p>Department : <code>department/[DEPARTMENT]</code></p>
@@ -691,7 +693,7 @@ Format: <code>editModule &lt;INDEX&gt; OPTION/INPUT&#8230;&#8203;</code><br></p>
 <p>Credit : <code>credit/[CREDIT]</code></p>
 </li>
 <li>
-<p>Available semesters : <code>available/[&lt;SEM1&gt;&lt;SEM2&gt;&lt;SPECIAL_TERM1&gt;&lt;SPECIAL_TERM2&gt;]</code></p>
+<p>Available semesters : <code>available/[SEM1][SEM2][SPECIAL_TERM1][SPECIAL_TERM2]</code></p>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -699,7 +701,9 @@ Format: <code>editModule &lt;INDEX&gt; OPTION/INPUT&#8230;&#8203;</code><br></p>
 <div class="title">Note</div>
 </td>
 <td class="content">
-For each entry enter '1' if available, '0' if not
+For each entry enter '1' if the module will be available. Otherwise, enter '0'.<br>
+Only the first four digits will be taken into account and if there are less than four digits the remaining input will be
+'0' by default.
 </td>
 </tr>
 </table>
@@ -714,10 +718,10 @@ For each entry enter '1' if available, '0' if not
 <div class="title">Note</div>
 </td>
 <td class="content">
-Format for PREREQ_STRING: <code>&lt;&amp;OR|&gt;[&lt;MODULE_CODE,&gt; [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH]</code><br>
-Format for BRANCH: <code>(&lt;&amp;OR|&gt;[&lt;MODULE_CODE,&gt; [MORE_MODULE_CODE,]]OR[BRANCH] [MORE_BRANCH])</code><br>
-Every branch should be enclosed in parentheses followed by <code>&amp;</code> or <code>|</code>, then the list of module codes or branches.
-The end of a module code should be indicated with a <code>,</code>.
+Format for PREREQ_STRING: <code>&lt;&amp;OR|&gt;[&lt;MODULE_CODE,&gt;[MORE_MODULE_CODE,]][BRANCH][MORE_BRANCH]</code><br>
+Format for BRANCH: <code>(&lt;&amp;OR|&gt;[&lt;MODULE_CODE,&gt;[MORE_MODULE_CODE,]][BRANCH][MORE_BRANCH])</code><br>
+To represent no prerequisite, use an empty string or a string that consist of only '&amp;' or '|'<br>
+To represent only 1 prerequisite, use '&amp;' or '|' followed by the module code.
 </td>
 </tr>
 </table>
@@ -730,10 +734,6 @@ The end of a module code should be indicated with a <code>,</code>.
 </div>
 <div class="ulist">
 <ul>
-<li>
-<p><code>editModule 1 code/CS2105</code><br>
-Change the module code of module with index "1" to "CS2105".</p>
-</li>
 <li>
 <p><code>editModule 4 code/CS2103 credit/4</code><br>
 Change the module code and credit of module with index "4" to "CS2103" and "4" respectively.</p>
@@ -760,13 +760,13 @@ After editing, the database panel will display the updated list as shown below.
 <div style="page-break-after: always;"></div>
 </div>
 <div class="sect2">
-<h3 id="_remove_a_existing_module_from_database_code_removemoduledb_code">4.3. Remove a existing module from database: <code>removeModuleDB</code></h3>
+<h3 id="_remove_a_existing_module_from_database_code_removemoduledb_code">Remove a existing module from database: <code>removeModuleDB</code></h3>
 <div class="paragraph">
 <p>Removes a existing module from the module database.<br>
 Format: <code>removeModuleDB &lt;MODULE_CODE&gt;</code></p>
 </div>
 <div class="paragraph">
-<p>Examples:</p>
+<p>Example:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -798,7 +798,7 @@ After removing, the database panel will display the updated list as shown below.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contributions_to_the_developer_guide">5. Contributions to the Developer Guide</h2>
+<h2 id="_5_contributions_to_the_developer_guide">5. Contributions to the Developer Guide</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -811,7 +811,7 @@ After removing, the database panel will display the updated list as shown below.
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_module_database_administration">5.1. Module Database Administration</h3>
+<h3 id="_module_database_administration">Module Database Administration</h3>
 <div class="paragraph">
 <p>Module database administration is a series of commands that administrators can use to make necessary changes to keep
 the module database up to date, or to cater to their own needs.</p>
@@ -855,7 +855,7 @@ of the module database in an activity diagram.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/AddModuleToDatabaseCommandUML.png" alt="AddModuleToDatabaseCommandUML" width="400">
+<img src="../images/AddModuleToDatabaseCommandUML.png" alt="AddModuleToDatabaseCommandUML" width="300">
 </div>
 </div>
 <div class="paragraph">
@@ -988,7 +988,7 @@ informing the admin that the module already exists, and the module is not added.
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/RemoveModuleFromDatabaseCommandUML.png" alt="RemoveModuleFromDatabaseCommandUML" width="400">
+<img src="../images/RemoveModuleFromDatabaseCommandUML.png" alt="RemoveModuleFromDatabaseCommandUML" width="300">
 </div>
 </div>
 <div class="paragraph">
@@ -1090,7 +1090,7 @@ diagram of the <code>EditModuleCommandParser</code>.</p>
 <p><em>Figure 10. High-level sequence diagram of editing a module from database.</em></p>
 </div>
 <div class="sect3">
-<h4 id="_design_considerations">5.1.1. Design Considerations</h4>
+<h4 id="_design_considerations">Design Considerations</h4>
 <div class="sect4">
 <h5 id="_aspect_how_add_remove_executes">Aspect: How add &amp; remove executes</h5>
 <div class="ulist">
@@ -1166,7 +1166,7 @@ another module just to store the other module codes. This can be heavy on memory
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-10 15:13:08 +08
+Last updated 2018-11-12 10:19:39 +08
 </div>
 </div>
 </body>
