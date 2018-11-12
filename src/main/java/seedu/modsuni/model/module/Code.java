@@ -34,7 +34,8 @@ public class Code {
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidCode(String test) {
-        return test != null && test.matches(NAME_VALIDATION_REGEX);
+        requireNonNull(test);
+        return test.matches(NAME_VALIDATION_REGEX);
     }
 
 
