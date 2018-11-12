@@ -76,8 +76,8 @@ Format: `help`
 // tag::addmodule[]
 === Adding a module to student's staged module list: `addModuleS`
 
-Adds a module to the student’s staged module list.
-Staged list is the list of module student about to take. +
+Adds a module to the student's staged module list.
+A staged module list is a list of modules a student is intending to take. +
 This command is case insensitive. +
 Format: `addModuleS <MOD_CODE> [MORE MOD_CODE]`
 
@@ -135,7 +135,7 @@ Both the above commands will have the same effect.
 === Deleting a module from student's staged module list: `removeModuleS`
 
 Deletes a module from the student’s staged module list.
-Staged list is the list of module student about to take. +
+A staged module list is a list of modules a student is intending to take. +
 This command is case insensitive. +
 Format: `removeModuleS <MOD_CODE> [MORE MOD_CODE]`
 

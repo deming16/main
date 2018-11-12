@@ -540,7 +540,7 @@ It is the actor of the command. Add and remove commands are limited to a user wh
 
 ** `Student` stores two `ModuleList` namely `modulesTaken` and `modulesStaged`, to store the modules chosen by the student.
 *** `modulesTaken` represents the module student has taken before.
-*** `modulesStaged` represents the module student wants to take later.
+*** `modulesStaged` represents the module student is intending to take.
 
 ===== Implementation of the add feature
 
