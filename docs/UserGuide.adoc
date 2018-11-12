@@ -1,4 +1,4 @@
-C= modsUni - User Guide
+= modsUni - User Guide
 :site-section: UserGuide
 :toc:
 :toc-title:
