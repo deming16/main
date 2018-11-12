@@ -14,7 +14,6 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.showModuleAtIndex;
 import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_MODULE;
 import static seedu.modsuni.testutil.TypicalIndexes.INDEX_SECOND_MODULE;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,10 +45,9 @@ public class EditModuleCommandTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private Model model = new ModelManager(
-            getTypicalModuleList(),
-            getTypicalAddressBook(),
-            new UserPrefs(),
-            new CredentialStore());
+        getTypicalModuleList(),
+        new UserPrefs(),
+        new CredentialStore());
     private CommandHistory commandHistory = new CommandHistory();
 
     @Before
@@ -60,7 +58,7 @@ public class EditModuleCommandTest {
     @Test
     public void notLoggedIn_throwsCommandException() throws Exception {
         EditModuleCommand editModuleCommand =
-                new EditModuleCommand(Index.fromZeroBased(1), new EditModuleDescriptorBuilder().build());
+            new EditModuleCommand(Index.fromZeroBased(1), new EditModuleDescriptorBuilder().build());
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(EditModuleCommand.MESSAGE_NOT_LOGGED_IN);
@@ -72,7 +70,7 @@ public class EditModuleCommandTest {
     @Test
     public void notAdmin_throwsCommandException() throws Exception {
         EditModuleCommand editModuleCommand =
-                new EditModuleCommand(Index.fromZeroBased(1), new EditModuleDescriptorBuilder().build());
+            new EditModuleCommand(Index.fromZeroBased(1), new EditModuleDescriptorBuilder().build());
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(EditModuleCommand.MESSAGE_NOT_ADMIN);
@@ -89,8 +87,10 @@ public class EditModuleCommandTest {
         EditModuleCommand editModuleCommand = new EditModuleCommand(INDEX_FIRST_MODULE, descriptor);
 
         String expectedMessage = String.format(EditModuleCommand.MESSAGE_EDIT_MODULE_SUCCESS, editedModule);
-        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
-                new UserPrefs(), new CredentialStore());
+        ModelManager expectedModel = new ModelManager(
+            model.getModuleList(),
+            new UserPrefs(),
+            new CredentialStore());
 
         expectedModel.updateModule(model.getFilteredDatabaseModuleList().get(0), editedModule);
 
@@ -104,16 +104,18 @@ public class EditModuleCommandTest {
 
         ModuleBuilder moduleInList = new ModuleBuilder(lastModule);
         Module editedModule = moduleInList.withTitle(VALID_TITLE_CS2109).withDepartment(VALID_DEPARTMENT_CS2109)
-                .withDescription(VALID_DESCRIPTION_CS2109).build();
+            .withDescription(VALID_DESCRIPTION_CS2109).build();
 
         EditModuleDescriptor descriptor = new EditModuleDescriptorBuilder().withTitle(VALID_TITLE_CS2109)
-                .withDepartment(VALID_DEPARTMENT_CS2109)
-                .withDescription(VALID_DESCRIPTION_CS2109).build();
+            .withDepartment(VALID_DEPARTMENT_CS2109)
+            .withDescription(VALID_DESCRIPTION_CS2109).build();
         EditModuleCommand editModuleCommand = new EditModuleCommand(indexLastModule, descriptor);
 
         String expectedMessage = String.format(EditModuleCommand.MESSAGE_EDIT_MODULE_SUCCESS, editedModule.toString());
-        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
-                new UserPrefs(), new CredentialStore());
+        ModelManager expectedModel = new ModelManager(
+            model.getModuleList(),
+            new UserPrefs(),
+            new CredentialStore());
 
         expectedModel.updateModule(lastModule, editedModule);
 
@@ -126,8 +128,10 @@ public class EditModuleCommandTest {
         Module editedModule = model.getFilteredDatabaseModuleList().get(INDEX_FIRST_MODULE.getZeroBased());
 
         String expectedMessage = String.format(EditModuleCommand.MESSAGE_EDIT_MODULE_SUCCESS, editedModule);
-        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
-                new UserPrefs(), new CredentialStore());
+        ModelManager expectedModel = new ModelManager(
+            model.getModuleList(),
+            new UserPrefs(),
+            new CredentialStore());
 
         assertCommandSuccess(editModuleCommand, model, commandHistory, expectedMessage, expectedModel);
     }
@@ -139,11 +143,13 @@ public class EditModuleCommandTest {
         Module moduleInFilteredList = model.getFilteredDatabaseModuleList().get(INDEX_FIRST_MODULE.getZeroBased());
         Module editedModule = new ModuleBuilder(moduleInFilteredList).withTitle(VALID_TITLE_CS2109).build();
         EditModuleCommand editModuleCommand = new EditModuleCommand(INDEX_FIRST_MODULE,
-                new EditModuleDescriptorBuilder().withTitle(VALID_TITLE_CS2109).build());
+            new EditModuleDescriptorBuilder().withTitle(VALID_TITLE_CS2109).build());
 
         String expectedMessage = String.format(EditModuleCommand.MESSAGE_EDIT_MODULE_SUCCESS, editedModule.toString());
-        ModelManager expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(),
-                new UserPrefs(), new CredentialStore());
+        ModelManager expectedModel = new ModelManager(
+            model.getModuleList(),
+            new UserPrefs(),
+            new CredentialStore());
         expectedModel.updateModule(model.getFilteredDatabaseModuleList().get(0), editedModule);
 
         assertCommandSuccess(editModuleCommand, model, commandHistory, expectedMessage, expectedModel);
@@ -165,14 +171,14 @@ public class EditModuleCommandTest {
         // edit module in filtered list into a duplicate in modsuni book
         Module moduleInList = model.getModuleList().getModuleList().get(INDEX_SECOND_MODULE.getZeroBased());
         EditModuleCommand editModuleCommand = new EditModuleCommand(INDEX_FIRST_MODULE,
-                new EditModuleDescriptorBuilder(moduleInList).build());
+            new EditModuleDescriptorBuilder(moduleInList).build());
 
         assertCommandFailure(editModuleCommand, model, commandHistory, EditModuleCommand.MESSAGE_DUPLICATE_MODULE);
     }
 
     @Test
     public void execute_invalidModuleIndexUnfilteredList_failure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredDatabaseModuleList().size() + 1);
         EditModuleDescriptor descriptor = new EditModuleDescriptorBuilder().withTitle(VALID_TITLE_CS2109).build();
         EditModuleCommand editModuleCommand = new EditModuleCommand(outOfBoundIndex, descriptor);
 
@@ -191,7 +197,7 @@ public class EditModuleCommandTest {
         assertTrue(outOfBoundIndex.getZeroBased() < model.getModuleList().getModuleList().size());
 
         EditModuleCommand editModuleCommand = new EditModuleCommand(outOfBoundIndex,
-                new EditModuleDescriptorBuilder().withTitle(TITLE_DESC_CS2109).build());
+            new EditModuleDescriptorBuilder().withTitle(TITLE_DESC_CS2109).build());
 
         assertCommandFailure(editModuleCommand, model, commandHistory, Messages.MESSAGE_INVALID_MODULE_DISPLAYED_INDEX);
     }
@@ -212,7 +218,7 @@ public class EditModuleCommandTest {
         assertFalse(standardCommand.equals(null));
 
         // different types -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
+        assertFalse(standardCommand.equals(new ListCommand()));
 
         // different index -> returns false
         assertFalse(standardCommand.equals(new EditModuleCommand(INDEX_SECOND_MODULE, DESC_CS1010)));

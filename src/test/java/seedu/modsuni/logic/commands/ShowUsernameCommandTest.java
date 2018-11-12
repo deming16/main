@@ -1,7 +1,6 @@
 package seedu.modsuni.logic.commands;
 
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,7 +38,7 @@ public class ShowUsernameCommandTest {
 
     @Test
     public void execute_notAdmin_throwsCommandException() throws Exception {
-        model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new UserPrefs(),
+        model = new ModelManager(getTypicalModuleList(), new UserPrefs(),
                 new CredentialStore());
         model.setCurrentUser(new StudentBuilder().build());
         ShowUsernameCommand showUsernameCommand = new ShowUsernameCommand();

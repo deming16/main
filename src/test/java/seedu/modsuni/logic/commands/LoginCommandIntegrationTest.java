@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import seedu.modsuni.logic.CommandHistory;
-import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.ModuleList;
@@ -58,11 +57,9 @@ public class LoginCommandIntegrationTest {
             null,
             null,
             null,
-            null,
             new XmlUserStorage(TEMP_USERDATA_FILE));
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
@@ -75,7 +72,6 @@ public class LoginCommandIntegrationTest {
 
         Model expectedModel = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 

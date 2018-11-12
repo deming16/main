@@ -12,17 +12,6 @@ import seedu.modsuni.commons.util.XmlUtil;
  * Stores data in an XML file
  */
 public class XmlFileStorage {
-    /**
-     * Saves the given addressbook data to the specified file.
-     */
-    public static void saveDataToFile(Path file, XmlSerializableAddressBook addressBook)
-        throws FileNotFoundException {
-        try {
-            XmlUtil.saveDataToFile(file, addressBook);
-        } catch (JAXBException e) {
-            throw new AssertionError("Unexpected exception " + e.getMessage(), e);
-        }
-    }
 
     /**
      * Saves the given modulelist data to the specified file.
@@ -57,18 +46,6 @@ public class XmlFileStorage {
             XmlUtil.saveDataToFile(file, user);
         } catch (JAXBException e) {
             throw new AssertionError("Unexpected exception " + e.getMessage(), e);
-        }
-    }
-
-    /**
-     * Returns modsuni book in the file or an empty modsuni book
-     */
-    public static XmlSerializableAddressBook loadDataFromSaveFile(Path file) throws DataConversionException,
-            FileNotFoundException {
-        try {
-            return XmlUtil.getDataFromFile(file, XmlSerializableAddressBook.class);
-        } catch (JAXBException e) {
-            throw new DataConversionException(e);
         }
     }
 

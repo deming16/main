@@ -12,9 +12,9 @@ import seedu.modsuni.commons.core.GuiSettings;
 public class UserPrefs {
 
     private GuiSettings guiSettings;
-    private Path addressBookFilePath = Paths.get("data" , "addressbook.xml");
     private Path moduleFilePath = Paths.get("data", "modules.xml");
-    private Path credentialStoreFilePath = Paths.get("data" , "credentialstore.xml");
+    private Path credentialStoreFilePath = Paths.get("data" ,
+        "credentialStore.xml");
     private Path userStorageFilePath = Paths.get("data", "userdata.xml");
 
     public UserPrefs() {
@@ -45,13 +45,6 @@ public class UserPrefs {
         return userStorageFilePath;
     }
 
-    public Path getAddressBookFilePath() {
-        return addressBookFilePath;
-    }
-
-    public void setAddressBookFilePath(Path addressBookFilePath) {
-        this.addressBookFilePath = addressBookFilePath;
-    }
 
     public Path getModuleFilePath() {
         return moduleFilePath;
@@ -73,20 +66,19 @@ public class UserPrefs {
         UserPrefs o = (UserPrefs) other;
 
         return Objects.equals(guiSettings, o.guiSettings)
-                && Objects.equals(addressBookFilePath, o.addressBookFilePath)
+                && Objects.equals(credentialStoreFilePath, o.credentialStoreFilePath)
                 && Objects.equals(moduleFilePath, o.moduleFilePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(guiSettings, addressBookFilePath);
+        return Objects.hash(guiSettings, credentialStoreFilePath);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Gui Settings : " + guiSettings.toString());
-        sb.append("\nLocal data file location : " + addressBookFilePath);
         sb.append("\nLocal module list data file location : " + moduleFilePath);
         sb.append("\nLocal Credential Store File Location : " + credentialStoreFilePath);
         return sb.toString();

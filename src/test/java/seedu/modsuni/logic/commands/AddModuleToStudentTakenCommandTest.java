@@ -29,7 +29,6 @@ import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModuleList;
-import seedu.modsuni.model.ReadOnlyAddressBook;
 import seedu.modsuni.model.ReadOnlyModuleList;
 import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.Password;
@@ -38,7 +37,6 @@ import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
 import seedu.modsuni.model.module.UniqueModuleList;
-import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.User;
@@ -252,10 +250,6 @@ public class AddModuleToStudentTakenCommandTest {
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
-        @Override
-        public void addPerson(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
 
         @Override
         public boolean hasModuleTaken(Module module) {
@@ -288,42 +282,12 @@ public class AddModuleToStudentTakenCommandTest {
         }
 
         @Override
-        public void resetData(ReadOnlyAddressBook newData) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public ReadOnlyModuleList getModuleList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public ObservableList<Module> getObservableModuleList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasPerson(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePerson(Person target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updatePerson(Person target, Person editedPerson) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Person> getFilteredPersonList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -343,37 +307,7 @@ public class AddModuleToStudentTakenCommandTest {
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void updateFilteredDatabaseModuleList(Predicate<Module> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean canUndoAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean canRedoAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void undoAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void redoAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void commitAddressBook() {
             throw new AssertionError("This method should not be called.");
         }
 

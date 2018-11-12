@@ -13,7 +13,6 @@ import com.google.common.eventbus.Subscribe;
 
 import seedu.modsuni.commons.core.ComponentManager;
 import seedu.modsuni.commons.core.LogsCenter;
-import seedu.modsuni.commons.events.model.AddressBookChangedEvent;
 import seedu.modsuni.commons.events.model.CredentialStoreChangedEvent;
 import seedu.modsuni.commons.events.model.ModuleListChangedEvent;
 import seedu.modsuni.commons.events.model.SaveUserChangedEvent;
@@ -22,7 +21,6 @@ import seedu.modsuni.commons.exceptions.CorruptedFileException;
 import seedu.modsuni.commons.exceptions.DataConversionException;
 import seedu.modsuni.commons.exceptions.InvalidPasswordException;
 import seedu.modsuni.commons.util.DataSecurityUtil;
-import seedu.modsuni.model.ReadOnlyAddressBook;
 import seedu.modsuni.model.ReadOnlyModuleList;
 import seedu.modsuni.model.UserPrefs;
 import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
@@ -35,20 +33,17 @@ public class StorageManager extends ComponentManager implements Storage {
 
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private static final DataSecurityUtil DataSecurityUtil = new DataSecurityUtil();
-    private AddressBookStorage addressBookStorage;
     private UserPrefsStorage userPrefsStorage;
     private ModuleListStorage moduleListStorage;
     private CredentialStoreStorage credentialStoreStorage;
     private UserStorage userStorage;
 
     public StorageManager(ModuleListStorage moduleListStorage,
-                          AddressBookStorage addressBookStorage,
                           UserPrefsStorage userPrefsStorage,
                           CredentialStoreStorage credentialStoreStorage,
                           UserStorage userStorage) {
         super();
         this.moduleListStorage = moduleListStorage;
-        this.addressBookStorage = addressBookStorage;
         this.userPrefsStorage = userPrefsStorage;
         this.credentialStoreStorage = credentialStoreStorage;
         this.userStorage = userStorage;
@@ -106,47 +101,6 @@ public class StorageManager extends ComponentManager implements Storage {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "ModuleList data changed, saving to file"));
         try {
             saveModuleList(event.data);
-        } catch (IOException e) {
-            raise(new DataSavingExceptionEvent(e));
-        }
-    }
-
-    // ================ AddressBook methods ==============================
-
-    @Override
-    public Path getAddressBookFilePath() {
-        return addressBookStorage.getAddressBookFilePath();
-    }
-
-    @Override
-    public Optional<ReadOnlyAddressBook> readAddressBook() throws DataConversionException, IOException {
-        return readAddressBook(addressBookStorage.getAddressBookFilePath());
-    }
-
-    @Override
-    public Optional<ReadOnlyAddressBook> readAddressBook(Path filePath) throws DataConversionException, IOException {
-        logger.fine("Attempting to read data from file: " + filePath);
-        return addressBookStorage.readAddressBook(filePath);
-    }
-
-    @Override
-    public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
-        saveAddressBook(addressBook, addressBookStorage.getAddressBookFilePath());
-    }
-
-    @Override
-    public void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath) throws IOException {
-        logger.fine("Attempting to write to data file: " + filePath);
-        addressBookStorage.saveAddressBook(addressBook, filePath);
-    }
-
-
-    @Override
-    @Subscribe
-    public void handleAddressBookChangedEvent(AddressBookChangedEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
-        try {
-            saveAddressBook(event.data);
         } catch (IOException e) {
             raise(new DataSavingExceptionEvent(e));
         }

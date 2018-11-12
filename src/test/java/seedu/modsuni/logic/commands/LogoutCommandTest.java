@@ -12,7 +12,6 @@ import org.junit.rules.ExpectedException;
 
 import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
-import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.UserPrefs;
@@ -31,10 +30,14 @@ public class LogoutCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalModuleList(), new AddressBook(), new UserPrefs(),
+        model = new ModelManager(
+            getTypicalModuleList(),
+            new UserPrefs(),
             getTypicalCredentialStore());
 
-        expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(), new UserPrefs(),
+        expectedModel = new ModelManager(
+            model.getModuleList(),
+            new UserPrefs(),
             model.getCredentialStore());
     }
 

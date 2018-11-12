@@ -4,7 +4,6 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.modsuni.logic.commands.CommandTestUtil.showModuleAtIndex;
 import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_MODULE;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,10 +25,14 @@ public class ListCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(), new UserPrefs(),
-                                new CredentialStore());
-        expectedModel = new ModelManager(model.getModuleList(), model.getAddressBook(), new UserPrefs(),
-                                        new CredentialStore());
+        model = new ModelManager(
+            getTypicalModuleList(),
+            new UserPrefs(),
+            new CredentialStore());
+        expectedModel = new ModelManager(
+            model.getModuleList(),
+            new UserPrefs(),
+            new CredentialStore());
     }
 
     @Test

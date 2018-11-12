@@ -13,6 +13,9 @@ import seedu.modsuni.model.credential.CredentialStore;
  */
 public class TypicalCredentials {
 
+    public static final String STUDENT_MAX_PASSWORD = "#Qwerty4321";
+    public static final String STUDENT_TEST_PASSWORD = STUDENT_MAX_PASSWORD;
+
     public static final Credential CREDENTIAL_STUDENT_MAX =
         new CredentialBuilder()
             .withUsername("max33")
@@ -27,10 +30,16 @@ public class TypicalCredentials {
             .build();
 
     public static final Credential CREDENTIAL_ADMIN =
-            new CredentialBuilder()
-                    .withUsername("Admin123")
-                    .withPassword("7ecccb4114345326ec385a43f6a56ed525cdd2e4eeb9d06fbd9f9d7a8d718495")
-                    .build();
+        new CredentialBuilder()
+            .withUsername("Admin123")
+            .withPassword("7ecccb4114345326ec385a43f6a56ed525cdd2e4eeb9d06fbd9f9d7a8d718495")
+            .build();
+
+    public static final Credential CREDENTIAL_MASTER =
+        new CredentialBuilder()
+            .withUsername("master")
+            .withPassword("2b005cc8b610fa5899a9f9e592671bba9776a0e778c7f88db9b54eef48490e94")
+            .build();
 
     private TypicalCredentials() {
     }

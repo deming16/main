@@ -13,7 +13,6 @@ import static seedu.modsuni.testutil.TypicalCodes.CODE_SECOND_MODULE;
 import static seedu.modsuni.testutil.TypicalIndexes.INDEX_FIRST_MODULE;
 import static seedu.modsuni.testutil.TypicalIndexes.INDEX_SECOND_MODULE;
 import static seedu.modsuni.testutil.TypicalModules.getTypicalModuleList;
-import static seedu.modsuni.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,10 +39,14 @@ public class ShowModuleCommandTest {
 
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
-    private final Model model = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
-            new UserPrefs(), new CredentialStore());
-    private final Model expectedModel = new ModelManager(getTypicalModuleList(), getTypicalAddressBook(),
-            new UserPrefs(), new CredentialStore());
+    private final Model model = new ModelManager(
+        getTypicalModuleList(),
+        new UserPrefs(),
+        new CredentialStore());
+    private final Model expectedModel = new ModelManager(
+        getTypicalModuleList(),
+        new UserPrefs(),
+        new CredentialStore());
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
@@ -114,7 +117,7 @@ public class ShowModuleCommandTest {
         assertCommandSuccess(showModuleCommand, model, commandHistory, expectedMessage, expectedModel);
 
         JumpToDatabaseListRequestEvent lastEvent = (JumpToDatabaseListRequestEvent) eventsCollectorRule
-                .eventsCollector.getMostRecent();
+            .eventsCollector.getMostRecent();
         BaseEvent secondLastEvent = eventsCollectorRule.eventsCollector.getSelectedMostRecent(2);
 
         assertEquals(showModuleCommand.getIndex(), Index.fromZeroBased(lastEvent.targetIndex));

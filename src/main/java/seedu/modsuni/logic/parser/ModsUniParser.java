@@ -7,25 +7,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.modsuni.logic.commands.AddAdminCommand;
-import seedu.modsuni.logic.commands.AddCommand;
 import seedu.modsuni.logic.commands.AddModuleToDatabaseCommand;
 import seedu.modsuni.logic.commands.AddModuleToStudentStagedCommand;
 import seedu.modsuni.logic.commands.AddModuleToStudentTakenCommand;
-import seedu.modsuni.logic.commands.ClearCommand;
 import seedu.modsuni.logic.commands.Command;
-import seedu.modsuni.logic.commands.DeleteCommand;
 import seedu.modsuni.logic.commands.EditAdminCommand;
 import seedu.modsuni.logic.commands.EditModuleCommand;
 import seedu.modsuni.logic.commands.EditStudentCommand;
 import seedu.modsuni.logic.commands.ExitCommand;
-import seedu.modsuni.logic.commands.FindCommand;
 import seedu.modsuni.logic.commands.GenerateCommand;
 import seedu.modsuni.logic.commands.HelpCommand;
 import seedu.modsuni.logic.commands.HistoryCommand;
 import seedu.modsuni.logic.commands.ListCommand;
 import seedu.modsuni.logic.commands.LoginCommand;
 import seedu.modsuni.logic.commands.LogoutCommand;
-import seedu.modsuni.logic.commands.RedoCommand;
 import seedu.modsuni.logic.commands.RegisterCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromDatabaseCommand;
 import seedu.modsuni.logic.commands.RemoveModuleFromStudentStagedCommand;
@@ -33,11 +28,9 @@ import seedu.modsuni.logic.commands.RemoveModuleFromStudentTakenCommand;
 import seedu.modsuni.logic.commands.RemoveUserCommand;
 import seedu.modsuni.logic.commands.SaveCommand;
 import seedu.modsuni.logic.commands.SearchCommand;
-import seedu.modsuni.logic.commands.SelectCommand;
 import seedu.modsuni.logic.commands.ShowModuleCommand;
 import seedu.modsuni.logic.commands.ShowUsernameCommand;
 import seedu.modsuni.logic.commands.SwitchTabCommand;
-import seedu.modsuni.logic.commands.UndoCommand;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 
 /**
@@ -73,20 +66,8 @@ public class ModsUniParser {
         case AddModuleToStudentStagedCommand.COMMAND_WORD:
             return new AddModuleToStudentStagedCommandParser().parse(arguments);
 
-        case AddCommand.COMMAND_WORD:
-            return new AddCommandParser().parse(arguments);
-
-        case DeleteCommand.COMMAND_WORD:
-            return new DeleteCommandParser().parse(arguments);
-
-        case FindCommand.COMMAND_WORD:
-            return new FindCommandParser().parse(arguments);
-
         case SaveCommand.COMMAND_WORD:
             return new SaveCommandParser().parse(arguments);
-
-        case SelectCommand.COMMAND_WORD:
-            return new SelectCommandParser().parse(arguments);
 
         case SwitchTabCommand.COMMAND_WORD:
             return new SwitchTabCommandParser().parse(arguments);
@@ -96,9 +77,6 @@ public class ModsUniParser {
 
         case RemoveModuleFromStudentStagedCommand.COMMAND_WORD:
             return new RemoveModuleFromStudentStagedCommandParser().parse(arguments);
-
-        case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
 
         case SearchCommand.COMMAND_WORD:
             return new SearchCommandParser().parse(arguments);
@@ -114,12 +92,6 @@ public class ModsUniParser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
-
-        case UndoCommand.COMMAND_WORD:
-            return new UndoCommand();
-
-        case RedoCommand.COMMAND_WORD:
-            return new RedoCommand();
 
         case GenerateCommand.COMMAND_WORD:
             return new GenerateCommand();

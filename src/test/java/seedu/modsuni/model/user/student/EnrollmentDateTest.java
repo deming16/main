@@ -18,7 +18,7 @@ public class EnrollmentDateTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void isValidEnrollmentDate() {
+    public void is_validEnrollmentDate() {
         // null enrollment date
         Assert.assertThrows(NullPointerException.class, () -> EnrollmentDate.isValidEnrollmentDate(null));
 
@@ -27,10 +27,20 @@ public class EnrollmentDateTest {
 
         // invalid enrollment date -> returns false
         assertFalse(EnrollmentDate.isValidEnrollmentDate(INVALID_ENROLLMENT_DESC));
+        assertFalse(EnrollmentDate.isValidEnrollmentDate("")); // empty string
+        assertFalse(EnrollmentDate.isValidEnrollmentDate(" ")); // spaces only
+        assertFalse(EnrollmentDate.isValidEnrollmentDate("^")); // only
+        // non-alphanumeric
+        // characters
+        assertFalse(EnrollmentDate.isValidEnrollmentDate("peter*")); //
+        // contains
+        // non-alphanumeric characters
+        assertFalse(EnrollmentDate.isValidEnrollmentDate("12082014")); //no
+        // slashes
     }
 
     @Test
-    public void testHashCode () {
+    public void test_hashCode () {
         EnrollmentDate maxEnrollment = STUDENT_MAX.getEnrollmentDate();
 
         // same credential

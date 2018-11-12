@@ -7,6 +7,7 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import java.nio.file.Path;
@@ -37,7 +38,8 @@ public class RegisterCommand extends Command {
         + PREFIX_STUDENT_MAJOR + "MAJORCODE_1 "
         + PREFIX_STUDENT_MAJOR + "MAJORCODE_2 "
         + PREFIX_STUDENT_MINOR + "MINORCODE_1 "
-        + PREFIX_STUDENT_MINOR + "MINORCODE_2";
+        + PREFIX_STUDENT_MINOR + "MINORCODE_2 "
+        + PREFIX_USERDATA + "SAVE_PATH";
 
     public static final String MESSAGE_SUCCESS = "New Account created added: "
         + "%1$s\n"

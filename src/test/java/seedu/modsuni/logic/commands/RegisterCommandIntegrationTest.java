@@ -4,6 +4,7 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.modsuni.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.modsuni.testutil.TypicalCredentials.CREDENTIAL_STUDENT_MAX;
 import static seedu.modsuni.testutil.TypicalCredentials.getTypicalCredentialStore;
+import static seedu.modsuni.testutil.TypicalUsers.STUDENT_MAX;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import seedu.modsuni.logic.CommandHistory;
-import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.ModuleList;
@@ -36,16 +36,14 @@ public class RegisterCommandIntegrationTest {
     public void setUp() {
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
     }
 
     @Test
-    public void executeNewCredentialSuccess() {
+    public void execute_newCredential_success() {
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
@@ -56,7 +54,6 @@ public class RegisterCommandIntegrationTest {
 
         Model expectedModel = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
         expectedModel.addCredential(validCredential);
@@ -73,10 +70,9 @@ public class RegisterCommandIntegrationTest {
     }
 
     @Test
-    public void executeDuplicateCredentialThrowsCommandException() {
+    public void execute_duplicateCredential_throwsCommandException() {
         model = new ModelManager(
             new ModuleList(),
-            new AddressBook(),
             new UserPrefs(),
             getTypicalCredentialStore());
 
@@ -90,4 +86,20 @@ public class RegisterCommandIntegrationTest {
     }
 
 
+    @Test
+    public void execute_alreadyLoggedIn_throwsCommandException() {
+        model = new ModelManager(
+            new ModuleList(),
+            new UserPrefs(),
+            getTypicalCredentialStore());
+        model.setCurrentUser(STUDENT_MAX);
+
+        Path dummyPath = Paths.get("dummy.xml");
+
+        assertCommandFailure(new RegisterCommand(CREDENTIAL_STUDENT_MAX,
+                new StudentBuilder().build(), dummyPath),
+            model,
+            commandHistory,
+            RegisterCommand.MESSAGE_ALREADY_LOGGED_IN);
+    }
 }

@@ -4,7 +4,6 @@
         <username>1USERNAME</username>
         <name>dummy</name>
         <role>STUDENT</role>
-        <pathToProfilePic>dummy.img</pathToProfilePic>
         <enrollmentDate>08/08/2018</enrollmentDate>
         <major>[CS]</major>
         <minor>[MA]</minor>

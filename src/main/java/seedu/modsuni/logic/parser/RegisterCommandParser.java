@@ -6,6 +6,7 @@ import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_ENROLLMENT_DATE;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MAJOR;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_STUDENT_MINOR;
+import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERDATA;
 import static seedu.modsuni.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import java.nio.file.Path;
@@ -42,7 +43,8 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
         ArgumentMultimap argMultimap =
             ArgumentTokenizer.tokenize(userInput, PREFIX_USERNAME,
                 PREFIX_PASSWORD, PREFIX_NAME,
-                PREFIX_STUDENT_ENROLLMENT_DATE, PREFIX_STUDENT_MAJOR, PREFIX_STUDENT_MINOR);
+                PREFIX_STUDENT_ENROLLMENT_DATE, PREFIX_STUDENT_MAJOR,
+                PREFIX_STUDENT_MINOR, PREFIX_USERDATA);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_USERNAME, PREFIX_PASSWORD,
             PREFIX_NAME, PREFIX_STUDENT_ENROLLMENT_DATE,
@@ -62,19 +64,26 @@ public class RegisterCommandParser implements Parser<RegisterCommand> {
         User newUser = new Student(username, name, Role.STUDENT,
             enrollmentDate, majors, minors);
 
-        Path tempSavePath;
-        try {
-            tempSavePath = generateTempSavePath(newUser);
-        } catch (CommandException e) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
-        }
 
-        //TODO key to be removed
         Credential credential = new Credential(
             username,
             password);
 
-        return new RegisterCommand(credential, newUser, tempSavePath);
+        Path tempSavePath;
+        if (argMultimap.getValue(PREFIX_USERDATA).isPresent()) {
+            tempSavePath = Paths.get(argMultimap.getValue(PREFIX_USERDATA).get());
+            return new RegisterCommand(credential, newUser, tempSavePath);
+        }
+
+        try {
+            tempSavePath = generateTempSavePath(newUser);
+            return new RegisterCommand(credential, newUser, tempSavePath);
+        } catch (CommandException e) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterCommand.MESSAGE_USAGE));
+        }
+
+
+
 
     }
 

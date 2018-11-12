@@ -22,7 +22,6 @@ import seedu.modsuni.logic.CommandHistory;
 import seedu.modsuni.logic.commands.exceptions.CommandException;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
-import seedu.modsuni.model.ReadOnlyAddressBook;
 import seedu.modsuni.model.ReadOnlyModuleList;
 import seedu.modsuni.model.credential.Credential;
 import seedu.modsuni.model.credential.CredentialStore;
@@ -31,7 +30,6 @@ import seedu.modsuni.model.credential.ReadOnlyCredentialStore;
 import seedu.modsuni.model.credential.Username;
 import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Module;
-import seedu.modsuni.model.person.Person;
 import seedu.modsuni.model.semester.SemesterList;
 import seedu.modsuni.model.user.Admin;
 import seedu.modsuni.model.user.Role;
@@ -57,7 +55,7 @@ public class RemoveUserCommandTest {
     @Test
     public void notLoggedIn_throwsCommandException() throws Exception {
         RemoveUserCommand removeUserCommand =
-                new RemoveUserCommand(new Username("dummy"));
+            new RemoveUserCommand(new Username("dummy"));
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(RemoveUserCommand.MESSAGE_NOT_LOGGED_IN);
@@ -69,7 +67,7 @@ public class RemoveUserCommandTest {
     @Test
     public void notAdmin_throwsCommandException() throws Exception {
         RemoveUserCommand removeUserCommand =
-                new RemoveUserCommand(new Username("dummy"));
+            new RemoveUserCommand(new Username("dummy"));
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(RemoveUserCommand.MESSAGE_NOT_ADMIN);
@@ -86,11 +84,11 @@ public class RemoveUserCommandTest {
         ModelStub modelStub = new ModelStubWithCredential(validCredential);
 
         CommandResult commandResult =
-                new RemoveUserCommand(validCredential.getUsername()).execute(modelStub,
-                        commandHistory);
+            new RemoveUserCommand(validCredential.getUsername()).execute(modelStub,
+                commandHistory);
 
         assertEquals(String.format(RemoveUserCommand.MESSAGE_DELETE_USER_SUCCESS,
-                validCredential.getUsername()), commandResult.feedbackToUser);
+            validCredential.getUsername()), commandResult.feedbackToUser);
         assertFalse(modelStub.hasCredential(validCredential));
     }
 
@@ -100,7 +98,7 @@ public class RemoveUserCommandTest {
         ModelStub modelStub = new ModelStubWithCredential(validCredential);
 
         RemoveUserCommand removeUserCommand =
-                new RemoveUserCommand(new CredentialBuilder().withUsername(ABSENT_USERNAME).build().getUsername());
+            new RemoveUserCommand(new CredentialBuilder().withUsername(ABSENT_USERNAME).build().getUsername());
 
         thrown.expect(CommandException.class);
         thrown.expectMessage(String.format(RemoveUserCommand.MESSAGE_USER_NOT_FOUND, ABSENT_USERNAME));
@@ -113,9 +111,9 @@ public class RemoveUserCommandTest {
         Username username1 = new Username("user1");
         Username username2 = new Username("user2");
         RemoveUserCommand removeUser1Command =
-                new RemoveUserCommand(username1);
+            new RemoveUserCommand(username1);
         RemoveUserCommand removeUser2Command =
-                new RemoveUserCommand(username2);
+            new RemoveUserCommand(username2);
 
 
         // same object -> returns true
@@ -123,7 +121,7 @@ public class RemoveUserCommandTest {
 
         // same values -> returns true
         RemoveUserCommand removeUser1CommandCopy =
-                new RemoveUserCommand(username1);
+            new RemoveUserCommand(username1);
         assertTrue(removeUser1Command.equals(removeUser1CommandCopy));
 
         // different types -> returns false
@@ -140,10 +138,6 @@ public class RemoveUserCommandTest {
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
-        @Override
-        public void addPerson(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
 
         @Override
         public boolean hasModuleTaken(Module module) {
@@ -176,42 +170,12 @@ public class RemoveUserCommandTest {
         }
 
         @Override
-        public void resetData(ReadOnlyAddressBook newData) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public ReadOnlyModuleList getModuleList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public ObservableList<Module> getObservableModuleList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasPerson(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void deletePerson(Person target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updatePerson(Person target, Person editedPerson) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Person> getFilteredPersonList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -231,37 +195,7 @@ public class RemoveUserCommandTest {
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void updateFilteredDatabaseModuleList(Predicate<Module> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean canUndoAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean canRedoAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void undoAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void redoAddressBook() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void commitAddressBook() {
             throw new AssertionError("This method should not be called.");
         }
 

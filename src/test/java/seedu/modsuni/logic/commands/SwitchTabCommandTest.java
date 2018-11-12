@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.modsuni.logic.CommandHistory;
-import seedu.modsuni.model.AddressBook;
 import seedu.modsuni.model.Model;
 import seedu.modsuni.model.ModelManager;
 import seedu.modsuni.model.ModuleList;
@@ -31,7 +30,6 @@ public class SwitchTabCommandTest {
     public void setUp() {
         model = new ModelManager(
                 new ModuleList(),
-                new AddressBook(),
                 new UserPrefs(),
                 getTypicalCredentialStore());
     }
