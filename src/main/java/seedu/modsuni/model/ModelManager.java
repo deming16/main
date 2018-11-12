@@ -108,20 +108,6 @@ public class ModelManager extends ComponentManager implements Model {
         return databaseModuleList;
     }
 
-    @Override
-    public Optional<Module> searchCodeInDatabase(Code code) {
-        requireNonNull(code);
-        ModuleList moduleList = (ModuleList) getModuleList();
-        return moduleList.searchCode(code);
-    }
-
-    @Override
-    public Index searchForIndexInDatabase(Module module) {
-        requireNonNull(module);
-        ModuleList moduleList = (ModuleList) getModuleList();
-        return moduleList.searchForIndex(module);
-    }
-
     /**
      * Raises an event to indicate the model has changed
      */
@@ -147,6 +133,32 @@ public class ModelManager extends ComponentManager implements Model {
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         indicateAddressBookChanged();
     }
+
+
+    @Override
+    public void updatePerson(Person target, Person editedPerson) {
+        requireAllNonNull(target, editedPerson);
+
+        versionedAddressBook.updatePerson(target, editedPerson);
+        indicateAddressBookChanged();
+    }
+
+    //=========== Search Module Management =============================================================
+    @Override
+    public Optional<Module> searchCodeInDatabase(Code code) {
+        requireNonNull(code);
+        ModuleList moduleList = (ModuleList) getModuleList();
+        return moduleList.searchCode(code);
+    }
+
+    @Override
+    public Index searchForIndexInDatabase(Module module) {
+        requireNonNull(module);
+        ModuleList moduleList = (ModuleList) getModuleList();
+        return moduleList.searchForIndex(module);
+    }
+
+    //=========== Student Account Management =============================================================
 
     @Override
     public boolean hasModuleTaken(Module module) throws NotStudentUserException {
@@ -225,16 +237,6 @@ public class ModelManager extends ComponentManager implements Model {
 
         updateFilteredDatabaseModuleList(PREDICATE_SHOW_ALL_MODULES);
     }
-
-    @Override
-    public void updatePerson(Person target, Person editedPerson) {
-        requireAllNonNull(target, editedPerson);
-
-        versionedAddressBook.updatePerson(target, editedPerson);
-        indicateAddressBookChanged();
-    }
-
-    //=========== Student Account Management =============================================================
 
     @Override
     public boolean isStudent() {

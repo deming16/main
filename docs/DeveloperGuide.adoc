@@ -621,7 +621,7 @@ encapsulate the processes for generating a schedule.
 ** Cons: The command might end up with an infinite loop as it keeps on trying to arrange the modules.
 // end::generate[]
 
-// tag::usermodulemanagement[]
+// tag::usermodulemanagement1[]
 === User Module Management
 User Module Management involves mainly the interaction between users and their module lists.
 A user is able to add and remove the module only if he is a student and the module exists in the database.
@@ -648,7 +648,7 @@ It is the actor of the command. Add and remove commands are limited to a user wh
 
 ** `Student` stores two `ModuleList` namely `modulesTaken` and `modulesStaged`, to store the modules chosen by the student.
 *** `modulesTaken` represents the module student has taken before.
-*** `modulesStaged` represents the module student wants to take later.
+*** `modulesStaged` represents the module student is intending to take.
 
 ===== Implementation of the add feature
 
@@ -660,7 +660,7 @@ A user is allowed to add only if: +
 the user has logged in +
 the user is a student +
 the module exists in the database at this moment +
-his staged/taken module list does not contains the module already
+both staged and taken module list do not contain the module already
 
 `AddModuleToStudentStaged/TakenCommand` extends the `Command` class. Figure 1(shown below) depicts the UML representation of `AddModuleToStudentStaged/TakenCommand`.
 
@@ -693,15 +693,72 @@ The second is a `String` contains the duplicate code entered by user.
 
 Step 3. When the command is executed, `AddModuleToStudentStaged/TakenCommand` will call `Model#getCurrentUser()` and `Model#isStudent()` to check whether the user is a `Student`. +
 `Model#searchCodeInDatabase(...)` to check whether the module exists in the database and update `toAdd` to the searched module,
-`Model#hasModuleStaged/Taken(...)` to check whether the module has already existed in the student's staged/taken module list,
+`Model#hasModuleStaged(...)` and `Model#hasModuleTaken(...)` to check whether the module has already existed in the student's staged or taken module list,
 `Model#addModuleStaged/Taken(...)` to finally add the module to the student's staged/taken module list.
 
-Step 4. After the module is added, the command will post an `ShowStaged/TakenTabRequestEvent` to show the user updated staged/taken module list. +
+Step 4. After the module is added, the command will post a `ShowStaged/TakenTabRequestEvent` to show the user updated staged/taken module list. +
 A `CommandResult` containing the log of execution result will be returned.
 
+===== Implementation of the remove feature
+The `remove` feature is facilitated by the `RemoveModuleFromStudentStagedCommand` and `RemoveModuleFromStudentTakenCommand` class.
+It allows a user to remove modules from his staged/taken module list by giving their code.
+[NOTE]
+A user is allowed to remove only if: +
+the user has logged in +
+the user is a student +
+the module exists in the database at this moment +
+his staged/taken module list contains the module need to be removed
+
+The implementation of `remove` feature is similar to `add` feature. They have generally the same mechanism, except remove
+command only use `Model#hasModuleStaged/Taken(...)` to ensure the respective module list contains the module, while add
+command use both methods to ensure the ensure does not exist in neither module list. See Step 3 of the adding mechanism for reference.
+
+// end::usermodulemanagement1[]
+===== Implementation of the search feature
+The `search` feature is facilitated by the `SearchCommand` class.
+It allows a user to search modules in the database using one or several prefixes.
+[NOTE]
+The command does not require user to login or register.
+
+[NOTE]
+The command does not support using a substring for searching. +
+Eg. `search 1010` can not being used for searching "CS1010"
+
+[NOTE]
+The command only supports to search within database module list. +
+The design consideration is that it does not make sense to search staged or taken module list
+as the scale of these two lists tend to be small.
+
+`SearchCommand` extends the `Command` class. Figure 4(shown below) depicts the UML representation of `SearchModule`.
+
+image::SearchCommandUML.png[width="400"]
+_Figure 4. UML Diagram of `SearchCommand`._
+
+The Sequence Diagram shown below in Figure 5 illustrates the interactions between the `Logic` & `Model` components when `SearchCommand` is being executed.
+
+image::SDforSearchCommandLogicAndModel.png[width="900"]
+_Figure 5. Sequence Diagram for the interaction between `Logic` and `Model` Components when executing `SearchCommand`._
+
+Figure 6 below shows the high-level sequence diagram of the command execution.
+
+image::SDforSearchCommandOverview.png[width="800"]
+_Figure 6. High-Level Sequence Diagram of search modules in database module list._
+
+Given below is an example usage scenario and how the searching mechanism behaves at each step: +
+Step 1. User enters the command, then `ModsUniParser` will handle it and create a `SearchCommandPraser`.
+`SearchCommandPraser` will use `CodeStartsKeywordsPredicate` to create a `predicate`. `SearchCommandPraser` then will
+use the `predicate` as a parameter to create a `SearchCommand`.
+
+Step 2. When the command is executed, `SearchCommand` will call `Model#updateFilteredDatabaseModuleList(...)` to use
+the `predicate` to filter `filteredDatabaseModules`. UI of `DatabaseModuleListPanel` will change accordingly.
+
+Step 3. The command will  post a `DatabaseTabRequestEvent` to show the user updated database module list. +
+A `CommandResult` containing the execution result will be returned.
+
+// tag::usermodulemanagement2[]
 ==== Design Considerations
 
-===== Aspect: Search the module in the database
+===== Aspect: How to search database using Code
 
 * **Alternative 1 (current choice):** Use `Code` as a key to search `moduleList` one by one.
 ** Pros: Easy to implement. Do not need to refactor `moduleList` to support this feature.
@@ -709,7 +766,7 @@ A `CommandResult` containing the log of execution result will be returned.
 * **Alternative 2:** Refactor `moduleList` to be a `HashMap` for searching.
 ** Pros: Efficiency of searching will increase. The time complexity is `O(1)`.
 ** Cons: May not be cost-efficient to refactor `moduleList` only to support this feature.
-// end::usermodulemanagement[]
+// end::usermodulemanagement2[]
 
 // tag::moduledatabaseadministration1[]
 === Module Database Administration

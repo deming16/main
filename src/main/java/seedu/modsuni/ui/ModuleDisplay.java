@@ -12,7 +12,7 @@ import seedu.modsuni.model.module.Module;
 
 
 /**
- * The User tab of the Application.
+ * The detailed information of a module.
  */
 public class ModuleDisplay extends UiPart<Region> {
 

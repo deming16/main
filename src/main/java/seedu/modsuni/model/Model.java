@@ -113,36 +113,36 @@ public interface Model {
     boolean isAdmin();
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the modsuni book.
+     * Returns true if a module with the same identity as {@code module} exists in the taken module list.
      */
     boolean hasModuleTaken(Module module);
 
     /**
-     * Deletes the given person.
-     * The person must exist in the modsuni book.
+     * Deletes the given module.
+     * The module must exist in the taken module list.
      */
     void removeModuleTaken(Module module);
 
     /**
-     * Adds the given person.
-     * {@code person} must not already exist in the modsuni book.
+     * Adds the given module.
+     * {@code module} must not already exist in the taken module list.
      */
     void addModuleTaken(Module module);
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the modsuni book.
+     * Returns true if a module with the same identity as {@code module} exists in the staged module list.
      */
     boolean hasModuleStaged(Module module);
 
     /**
-     * Deletes the given person.
-     * The person must exist in the modsuni book.
+     * Deletes the given module.
+     * The module must exist in the staged module list.
      */
     void removeModuleStaged(Module module);
 
     /**
-     * Adds the given person.
-     * {@code person} must not already exist in the modsuni book.
+     * Adds the given module.
+     * {@code module} must not already exist in the staged module list.
      */
     void addModuleStaged(Module module);
 
@@ -159,7 +159,7 @@ public interface Model {
     ObservableList<Person> getFilteredPersonList();
 
     /**
-     * Returns an unmodifiable view of the filtered data module list
+     * Returns an unmodifiable view of the filtered database  module list
      */
     ObservableList<Module> getFilteredDatabaseModuleList();
 

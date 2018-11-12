@@ -1,4 +1,4 @@
-= modsUni - User Guide
+C= modsUni - User Guide
 :site-section: UserGuide
 :toc:
 :toc-title:
@@ -63,9 +63,9 @@ This section displays the current implemented features as well as features that 
 *Command Format*
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.
-Using `addon <MOD_CODE>` as an example, you can issue the command `addon CS2103T` to add the module `CS2103T` for the generation of the candidature planner.
+Using `addModuleS <MOD_CODE>` as an example, you can issue the command `addModuleS CS2103T` to add the module `CS2103T` to the staged module list.
 
-* Items in square brackets are optional e.g `MOD_CODE [MORE MOD_CODES]` can be used as `add CS2103T CS2101` or as `add CS2103T`.
+* Items in square brackets are optional e.g `MOD_CODE [MORE MOD_CODES]` can be used as `addModuleS CS2103T CS2101` or as `addModuleS CS2103T`.
 ====
 
 === Viewing help : `help`
@@ -73,10 +73,11 @@ Using `addon <MOD_CODE>` as an example, you can issue the command `addon CS2103T
 Gives the list of command available for the user to use. +
 Format: `help`
 
+// tag::addmodule[]
 === Adding a module to student's staged module list: `addModuleS`
 
-Adds a module to the student’s staged module list.
-Staged list is the module list student about to take. +
+Adds a module to the student's staged module list.
+A staged module list is a list of modules a student is intending to take. +
 This command is case insensitive. +
 Format: `addModuleS <MOD_CODE> [MORE MOD_CODE]`
 
@@ -88,10 +89,38 @@ Both the above commands will have the same effect.
 
 * `addModuleS CS2103T CS2101 CS1010`
 
+Figure 1 shows an example of the usage of addModuleS command in the application
+
+image::AddModuleSCommandExample.png[width="450"]
+_Figure 1. An example of an addModuleS command_
+
+[IMPORTANT]
+Only a student can execute this command. Please `register` or `login` as a student
+before executing. +
+Same for `addModuleT`, `removeModuleS` and `removeModuleT`.
+
+[IMPORTANT]
+The module you added has not been saved. If you wish to save the module,
+use command `save` before `logout` or `exit`. +
+Same for `addModuleT`, `removeModuleS` and `removeModuleT`.
+
+[TIP]
+To add the module successfully, you must ensure the module do not exist in
+neither your staged nor taken module list, and it should exist in our database module list.
+You can use `switch` or `showModule` to check. +
+Same for `addModuleT`.
+
+[NOTE]
+By executing add/remove command, the application will automatically display
+respective module list. +
+Apply to `addModuleS`, `addModuleT`, `removeModuleS`, `removeModuleT`.
+
+// end::addmodule[]
+
 === Adding a module to student's taken module list: `addModuleT`
 
 Adds a module to the student’s taken module list.
-Taken list is the module list student about to take. +
+Taken list is the list of modules student has taken. +
 This command is case insensitive. +
 Format: `addModuleT <MOD_CODE> [MORE MOD_CODE]`
 
@@ -106,7 +135,7 @@ Both the above commands will have the same effect.
 === Deleting a module from student's staged module list: `removeModuleS`
 
 Deletes a module from the student’s staged module list.
-Staged list is the module list student about to take. +
+A staged module list is a list of modules a student is intending to take. +
 This command is case insensitive. +
 Format: `removeModuleS <MOD_CODE> [MORE MOD_CODE]`
 
@@ -118,10 +147,14 @@ Both the above commands will have the same effect.
 
 * `removeModuleS CS2103T CS2101 CS1010`
 
+[TIP]
+To delete the module successfully, you must ensure the module exists in
+both staged module list and our database module list.
+
 === Deleting a module from student's taken module list: `removeModuleT`
 
 Deletes a module form the student’s taken module list.
-Taken list is the module list student about to take. +
+Taken list is the list of modules student has taken. +
 This command is case insensitive. +
 Format: `removeModuleT <MOD_CODE> [MORE MOD_CODE]`
 
@@ -133,25 +166,71 @@ Both the above commands will have the same effect.
 
 * `removeModuleT CS2103T CS2101 CS1010`
 
-By executing the above add/remove command, the application will display
-the respective module list.
+[TIP]
+To delete the module successfully, you must ensure the module exists in
+both taken module list and our database module list.
 
-
+// tag::search[]
 === Searching for a module in the database: `search`
 
-Search for all modules in the database that match the given prefix. Searching is case insensitive. +
-Format: `search <MOD_CODE> [MORE MOD_CODE]`
+Searches for all modules in the database that match the given prefix. Searching is case insensitive. +
+Format: `search <MOD_CODE_PREFIX> [MORE MOD_CODE_PREFIX]`
 
 Examples:
 
-* `search CS101 GEH` +
-Returns a list of modules that begin with CS101 or GEH.
+* `search CS101 ACC` +
+Returns a list of modules that begin with "CS101" or "ACC".
 
-* `search cs101 gEh` +
+* `search cs101 aCc` +
 Returns the same result as above.
 
-By executing this command, the application will display
-the filtered database module list.
+Figure 1 shows an example of the usage of search command in the application
+
+image::SearchCommandExample.png[width="450"]
+_Figure 1. An example of a search command_
+
+[NOTE]
+This command does not require user to `login` or `register` before executing. +
+Same for `list` and `showModule`.
+
+[NOTE]
+This command does not support using a substring to search. +
+Eg. `search 1010` cannot search for "CS1010".
+
+[NOTE]
+By executing database related command, the application will automatically
+display the database module list. Apply to `search`, `list` and `showModule`.
+// end::search[]
+
+=== Listing all modules in the database: `list`
+
+Shows a list of all modules in the database module list. +
+Format: `list`
+
+// tag::showmodule[]
+=== Showing the detail of a module in the database: `showModule`
+
+Shows the detailed information of a certain module in the database module list. +
+This command is case insensitive. +
+Format: `showModule <MOD_CODE>`
+
+Example:
+
+* `showModule CS2103T` +
+Displays the detailed information of module CS2103T.
+
+* `showModule cs2103T` +
+Displays the same result as the above command.
+
+Figure 1 shows an example of the usage of showModule command in the application
+
+image::ShowModuleCommandExample.png[width="450"]
+_Figure 1. An example of a showModule command_
+
+[TIP]
+Please use the full code name of the module to execute this command. If you are not sure
+the module code, use `search` command to get the full code name first.
+// end::showmodule[]
 
 // tag::saveuser[]
 [[save]]
@@ -607,8 +686,10 @@ image::RemoveModuleFromDatabaseCommandExample.png[width="700"]
 * *Add to Staged*: `addModuleS <MOD_CODE> [MORE_MOD_CODES]`
 * *Add to Taken*: `addModuleT <MOD_CODE> [MORE_MOD_CODES]`
 * *Delete from Staged*: `removeModuleS <MOD_CODE> [MORE_MOD_CODES]`
-* *Deleter from Taken*: `removeModuleT <MOD_CODE> [MORE_MOD_CODES]`
-* *Search* : `search <KEYWORD> [MORE_KEYWORDS]`
+* *Delete from Taken*: `removeModuleT <MOD_CODE> [MORE_MOD_CODES]`
+* *Search* : `search <MOD_CODE_PREFIX> [MORE MOD_CODE_PREFIX]`
+* *List* : `list`
+* *Show Module* : `showModule <MOD_CODE>`
 * *Save* : `save sp/[FILE_NAME]`
 * *Generate Schedule* : `generate`
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
