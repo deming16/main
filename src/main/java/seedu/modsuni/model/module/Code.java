@@ -27,7 +27,7 @@ public class Code {
     public Code(String code) {
         requireNonNull(code);
         checkArgument(isValidCode(code), MESSAGE_CODE_CONSTRAINTS);
-        this.code = code;
+        this.code = code.toUpperCase();
     }
 
     /**

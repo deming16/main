@@ -40,8 +40,9 @@ public class EditModuleCommand extends Command {
             + "[" + PREFIX_MODULE_TITLE + "TITLE] "
             + "[" + PREFIX_MODULE_CREDIT + "CREDIT] "
             + "[" + PREFIX_MODULE_AVAILABLE + "AVAILABLE_STRING] "
-            + "[" + PREFIX_MODULE_PREREQ + "PREREQ_STRING]\n"
-            + "Refer to the user guide for information on the example usages.\n";
+            + "[" + PREFIX_MODULE_PREREQ + "PREREQ_STRING] "
+            + "Refer to the help window for more information on the format of available/ and prereq/\n"
+            + "Refer to the help window for information on the example usages.\n";
 
     public static final String MESSAGE_EDIT_MODULE_SUCCESS = "Edit Successfully!%1$s";
 

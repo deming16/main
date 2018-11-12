@@ -14,7 +14,6 @@ import seedu.modsuni.commons.core.index.Index;
 import seedu.modsuni.logic.commands.EditModuleCommand;
 import seedu.modsuni.logic.commands.EditModuleCommand.EditModuleDescriptor;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
-import seedu.modsuni.model.module.Code;
 
 /**
  * Parses input arguments and creates a new EditModuleCommand obejct.
@@ -51,7 +50,7 @@ public class EditModuleCommandParser implements Parser<EditModuleCommand> {
                                                 ArgumentMultimap argMultimap) throws ParseException {
         if (argMultimap.getValue(PREFIX_MODULE_CODE).isPresent()) {
             editModuleDescriptor.setCode(
-                    new Code(ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE_CODE).get())));
+                    ParserUtil.parseModuleCode(argMultimap.getValue(PREFIX_MODULE_CODE).get()));
         }
         if (argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).isPresent()) {
             editModuleDescriptor.setDeparment(argMultimap.getValue(PREFIX_MODULE_DEPARTMENT).get());
@@ -80,15 +79,13 @@ public class EditModuleCommandParser implements Parser<EditModuleCommand> {
     /**
      * Converts the given {@code String} of available semester into its respective booleans.
      */
-    private boolean[] getAvailableSems(String sem) {
-        boolean[] sems = new boolean[4];
+    public boolean[] getAvailableSems(String sem) {
+        boolean[] sems = new boolean[]{false, false, false, false};
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < sem.length() && i < sems.length; i++) {
 
             if (sem.charAt(i) == '1') {
                 sems[i] = true;
-            } else {
-                sems[i] = false;
             }
         }
 

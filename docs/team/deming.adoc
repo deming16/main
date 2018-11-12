@@ -5,34 +5,105 @@
 
 == PROJECT: ModsUni
 
----
-
-== Overview
+== 1. Overview
 
 modsUni is a desktop timetable management application created by students for students. It incorporates a simple GUI with majority of its user interactions occurring in its in-built CLI.
 
-== Summary of contributions
+== 2. About this portfolio
+This project portfolio documents my contributions to the ModsUni project.
+It includes a summary of features that I implemented and other contributions to the project.
 
-* *Major enhancement*: **The ability to add/remove/edit modules** was added.
-** What it does: It allows administrators to make changes to any module in the database.
-** Justification: This feature allows administrators to keep the module database up to date so that students can continue to generate schedules that are valid.
+== 3. Summary of contributions
 
-* *Minor enhancement*: The show user command was added that show the list of usernames to facilitate user account management.
+* *Major enhancement*: This enhancement added functionality to **manage modules in the database.**
+** What it does: The add module feature adds a non-existing module to the database. Conversely, the remove module feature
+removes a existing module from the database. In addition, the edit module feature allows modification of the information
+of existing modules.
 
-== Contributions to the User Guide
+** Justification: When there is a change in module information, introduction of new modules or removal of modules, the
+database should match the changes. The administrator will then have to do modify the database to keep it up to date. The
+`addModuleDB`, `removeModuleDB` and `editModule` command allows the administrator to perform such tasks.
 
+** Highlights: This enhancement is an end-to-end feature and makes use of almost all components of the software. Though
+the implementation of these features is intuitive and makes use of existing code wherever possible, it was challenging
+as it required the creation of a PrereqGenerator class (to handle parsing) from scratch.
+
+** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/92[#92],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/123[#123] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/186[#186]
+
+* *Minor enhancement*: This enhancement added support for multiple administrator accounts.
+** What it does: This enhancement allows logged in admin users to create new admin accounts. Similarly, they can choose to
+remove other admin users as well.
+
+** Justification: Since the database have a large number of modules, administrator may find it difficult to manage the
+entire database by alone. Having the ability to assign new administrators to help spread the workload makes it much easier
+to manage the database.
+
+** Highlights: This enhancement is an end-to-end feature and makes use of almost all components of the software, from
+`Storage` to `Ui`. It was challenging as the feature had to handle validation of different data types, to ensure that
+the feature functions sensibly.
+
+** Relevant pull requests: https://github.com/CS2103-AY1819S1-W17-2/main/pull/46[#46],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/169[#169] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/186[#186]
+
+* Code contributed: [https://nus-cs2103-ay1819s1.github.io/cs2103-dashboard/#=undefined&search=deming16&sort=displayName&since=2018-09-12&until=2018-11-07&timeframe=day&reverse=false&repoSort=true[Functional code]]
+
+* Other contributions:
+** Project management on GitHub:
+*** Updated descriptions and labels of PRs (where necessary)
+*** Organised and assigned issues
+
+** Enhancements to existing features:
+*** Refactored some existing `Person` fields to fit the new `User` fields (Pull request
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/46[#46])
+*** Updated existing test cases to fit new code (Pull request https://github.com/CS2103-AY1819S1-W17-2/main/pull/92[#92])
+
+** Documentation:
+*** Updated the User Guide (Pull requests https://github.com/CS2103-AY1819S1-W17-2/main/pull/55[#55],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/128[#128], https://github.com/CS2103-AY1819S1-W17-2/main/pull/204[#204]
+and https://github.com/CS2103-AY1819S1-W17-2/main/pull/267[#267])
+*** Updated the Developer Guide (Pull requests https://github.com/CS2103-AY1819S1-W17-2/main/pull/128[#128],
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/142[#142] and https://github.com/CS2103-AY1819S1-W17-2/main/pull/204[#204])
+
+** Community:
+*** Reported bugs for other teams in the class (https://github.com/CS2103-AY1819S1-T12-1/main/issues/147[1],
+https://github.com/CS2103-AY1819S1-T12-1/main/issues/153[2], https://github.com/CS2103-AY1819S1-T12-1/main/issues/161[3] and
+https://github.com/CS2103-AY1819S1-T12-1/main/issues/135[4])
+*** Reviewed PRs (with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-2/main/pull/131[#131] and
+https://github.com/CS2103-AY1819S1-W17-2/main/pull/184[#184]
+
+== 4. Contributions to the User Guide
 
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=admincommands]
+include::../UserGuide.adoc[tag=addmoddbcommand]
 
-== Contributions to the Developer Guide
+<<<
+
+include::../UserGuide.adoc[tag=editmodcommand]
+
+<<<
+
+include::../UserGuide.adoc[tag=removemodcommand]
+
+<<<
+
+== 5. Contributions to the Developer Guide
 
 |===
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=moduledatabaseadministration]
+include::../DeveloperGuide.adoc[tag=moduledatabaseadministration1]
+
+<<<
+
+include::../DeveloperGuide.adoc[tag=moduledatabaseadministration2]
+
+<<<
+
+include::../DeveloperGuide.adoc[tag=moduledatabaseadministration3]
+
 

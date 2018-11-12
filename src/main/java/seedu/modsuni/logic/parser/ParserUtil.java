@@ -17,6 +17,7 @@ import seedu.modsuni.logic.PrereqGenerator;
 import seedu.modsuni.logic.parser.exceptions.ParseException;
 import seedu.modsuni.model.credential.Password;
 import seedu.modsuni.model.credential.Username;
+import seedu.modsuni.model.module.Code;
 import seedu.modsuni.model.module.Prereq;
 import seedu.modsuni.model.person.Address;
 import seedu.modsuni.model.person.Email;
@@ -217,13 +218,15 @@ public class ParserUtil {
         return new EnrollmentDate(trimmedDate);
     }
     /**
-     * TODO check if moduleCode is valid
      * Parses a {@code String moduleCode} into a {@code Code}.
      */
-    public static String parseModuleCode(String moduleCode) throws ParseException {
+    public static Code parseModuleCode(String moduleCode) throws ParseException {
         requireNonNull(moduleCode);
         String trimmedModuleCode = moduleCode.trim();
-        return trimmedModuleCode;
+        if (!Code.isValidCode(trimmedModuleCode)) {
+            throw new ParseException(Code.MESSAGE_CODE_CONSTRAINTS);
+        }
+        return new Code(trimmedModuleCode);
     }
 
     /**
