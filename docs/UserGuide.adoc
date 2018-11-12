@@ -557,6 +557,7 @@ image::RemoveModuleFromDatabaseCommandExample.png[width="700"]
 * *Deleter from Taken*: `removeModuleT <MOD_CODE> [MORE_MOD_CODES]`
 * *Search* : `search <KEYWORD> [MORE_KEYWORDS]`
 * *Save* : `save sp/[FILE_NAME]`
+* *Generate Schedule* : `generate`
 * *Login* : `login user/[USERNAME] pass/[PASSWORD] userData/[PATH_TO_DATA_FILE]`
 * *Register* : `register user/[USERNAME] pass/[PASSWORD] n/[NAME] enroll/[ENROLLMENT_DATE] maj/[MAJOR_CODE] min/[MINOR_CODE]`
 * *Edit Student* : `edit [OPTION]/[INPUT]...`
