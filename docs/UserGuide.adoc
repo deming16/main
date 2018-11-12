@@ -405,30 +405,6 @@ _Figure 7. Output when the schedule has been successfully generated._
 // end::generate[]
 
 // tag::useraccountmanagement[]
-=== Login to User Account : `login`
-
-Login to the User Account with the corresponding credentials. +
-Format: `login user/<USERNAME> pass/<PASSWORD> userData/<PATH_TO_DATA_FILE>`
-
-Examples:
-
-* `login user/max33 pass/#Qwerty4321 userdata/max33.xml` +
-  The above command essentially sends a login request to `CredentialStore` with the following credential details:
-  ** Username : `max33`
-  ** Password : `#Qwerty4321`
-  ** Userdata : `max33.xml`
-
-[NOTE]
-Specified `userdata/` option should specify a relative filepath.
-
-The figure below displays the UI updates that you should expect to observed after the successful execution of a login command.
-
-image::LoginCommandExample2.png[width="500",align="center"]
-[.text-center]
-_Fig 1. Example of a Login Command and the expected UI output_
-
-[NOTE]
-Note that your details will automatically be displayed in the User Tab and a simple successful message is displayed on the bottom right window.
 
 === Register a Student Account : `register`
 
@@ -464,9 +440,8 @@ Example:
 
 The figure below displays the UI updates that you should expect to observed after the successful execution of the register command.
 
-image::RegisterCommandExample2.png[width="600",align="center"]
+image::RegisterCommandExample3.png[width="700",align="center"]
 [.text-center]
-_Fig 2a. Example of a register command & the expected UI output._
 
 [NOTE]
 Notice how the respective fields related to the newly registered user is automatically
@@ -474,12 +449,36 @@ updated.
 
 image::RegisterCommandOutputDisplay.png[width="400",align="center"]
 [.text-center]
-_Fig 2b. Expected Command Message after running register command._
+_Fig 1c. Expected Command Message after running register command._
 
 [NOTE]
 A temporary save file path is generated and used to save the details of the newly
 registered user. Do remember the location of the save file. You may choose to save
 the file in another location by executing the `save` command as detailed in <<save>>.
+
+=== Login to User Account : `login`
+
+Login to the User Account with the corresponding credentials. +
+Format: `login user/<USERNAME> pass/<PASSWORD> userData/<PATH_TO_DATA_FILE>`
+
+Examples:
+
+* `login user/max33 pass/#Qwerty4321 userdata/max33.xml` +
+  The above command essentially sends a login request to `CredentialStore` with the following credential details:
+  ** Username : `max33`
+  ** Password : `#Qwerty4321`
+  ** Userdata : `max33.xml`
+
+[NOTE]
+Specified `userdata/` option should specify a relative filepath.
+
+The figure below displays the UI updates that you should expect to observed after the successful execution of a login command.
+
+image::LoginCommandExample3.png[width="700",align="center"]
+[.text-center]
+
+[NOTE]
+Note that your details will automatically be displayed in the User Tab and a simple successful message is displayed on the bottom right window.
 
 === Edit Student Account : `edit`
 
@@ -503,9 +502,8 @@ Example:
 
 The figure below displays the UI updates that you should expect to observed after the successful execution of the edit command.
 
-image::EditCommandExample2.png[width="500",align="center"]
+image::EditCommandExample3.png[width="700",align="center"]
 [.text-center]
-_Fig 3. Example of an edit command & the expected UI output._
 
 [NOTE]
 Notice that the Name, Major and Minor fields in the User Tab has changed
@@ -522,9 +520,8 @@ Example:
 
 The figure below displays the expected UI updates after the successful execution of the logout command.
 
-image::LogoutCommandExample.png[align="center",width="500"]
+image::LogoutCommandExample2.png[align="center",width="700"]
 [.text-center]
-_Fig 4. Example of a logout command & the expected UI output._
 
 [NOTE]
 Notice that the Data Fields in the User Tab has been reset to its original state as seen at start up.
@@ -581,12 +578,12 @@ Change both the salary and employement date of the logged in administrator to "3
 === Remove a existing user account: `removeUser`
 
 Remove a currently existing user account. +
-Format: `removeAdmin <USERNAME>`
+Format: `removeUser <USERNAME>`
 
 Example:
 
-* `removeAdmin Username` +
-Removes a administrator account with username "Username" if it exists.
+* `removeUser Username` +
+Removes a user account with username "Username" if it exists
 
 === Show the list of usernames: `showUser`
 
