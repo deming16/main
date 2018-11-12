@@ -39,7 +39,7 @@ Responsibilities: In charge of UI, Model
 
 === Lin Deming
 image::deming16.png[width="150", align="left"]
-{empty}[http://github.com/deming16[github]] [<<deming#, portfolio>>]
+{empty}[http://github.com/deming16[github]] [<<deming16#, portfolio>>]
 
 Role: Developer +
 Responsibilities: In charge of UI, Testing
