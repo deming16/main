@@ -17,8 +17,12 @@ import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_MINOR;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.modsuni.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
+import org.junit.After;
 import org.junit.Test;
 
 import seedu.modsuni.logic.commands.LogoutCommand;
@@ -29,6 +33,17 @@ import seedu.modsuni.testutil.StudentBuilder;
 import seedu.modsuni.testutil.StudentUtil;
 
 public class RegisterCommandSystemTest extends ModsUniSystemTest {
+
+    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data",
+        "sandbox");
+    private static final Path TYPICAL_CREDENTIALSTORE_FILE =
+        TEST_DATA_FOLDER.resolve("sampleCredentialStore.xml");
+
+    @After
+    public void cleanUp() {
+        File toRemove = TYPICAL_CREDENTIALSTORE_FILE.toFile();
+        toRemove.delete();
+    }
 
     @Test
     public void register() {

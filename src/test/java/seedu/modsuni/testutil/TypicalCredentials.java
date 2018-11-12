@@ -13,6 +13,8 @@ import seedu.modsuni.model.credential.CredentialStore;
  */
 public class TypicalCredentials {
 
+    public static final String STUDENT_MAX_PASSWORD = "#Qwerty4321";
+
     public static final Credential CREDENTIAL_STUDENT_MAX =
         new CredentialBuilder()
             .withUsername("max33")
