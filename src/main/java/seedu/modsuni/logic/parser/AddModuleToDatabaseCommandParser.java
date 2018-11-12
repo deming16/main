@@ -63,11 +63,7 @@ public class AddModuleToDatabaseCommandParser implements Parser<AddModuleToDatab
      * Converts the given {@code String} of available semester into its respective booleans.
      */
     private boolean[] getAvailableSems(String sem) {
-        boolean[] sems = new boolean[4];
-
-        for (int i = 0; i < sems.length; i++) {
-            sems[i] = false;
-        }
+        boolean[] sems = new boolean[]{false, false, false, false};
 
         for (int i = 0; i < sem.length() && i < sems.length; i++) {
 
