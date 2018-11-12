@@ -43,7 +43,7 @@ public class AddModuleToStudentStagedCommandSystemTest extends ModsUniSystemTest
         TEST_DATA_FOLDER.resolve(MASTER_DATA);
 
     private static final String COMMAND_LOGOUT = "logout";
-    
+
     @Test
     public void addModuleS() {
 
@@ -62,7 +62,7 @@ public class AddModuleToStudentStagedCommandSystemTest extends ModsUniSystemTest
         Module toAdd = ACC1002;
         String command = AddModuleToStudentStagedCommand.COMMAND_WORD + CODE_DESC_ACC1002;
         String expectedResultMessage = AddModuleToStudentStagedCommandTest
-                        .createCommandResult(EMPTY, EMPTY, EMPTY, EMPTY, " " + toAdd.getCode().code);
+            .createCommandResult(EMPTY, EMPTY, EMPTY, EMPTY, " " + toAdd.getCode().code);
 
         assertCommandAsExpected(command, model, expectedResultMessage);
 
@@ -75,7 +75,7 @@ public class AddModuleToStudentStagedCommandSystemTest extends ModsUniSystemTest
         toAdd = ACC1002;
         command = "        " + AddModuleToStudentStagedCommand.COMMAND_WORD + CODE_DESC_ACC1002;
         expectedResultMessage = AddModuleToStudentStagedCommandTest
-                .createCommandResult(EMPTY, EMPTY, EMPTY, EMPTY, " " + toAdd.getCode().code);
+            .createCommandResult(EMPTY, EMPTY, EMPTY, EMPTY, " " + toAdd.getCode().code);
 
         assertCommandAsExpected(command, model, expectedResultMessage);
 
@@ -85,10 +85,10 @@ public class AddModuleToStudentStagedCommandSystemTest extends ModsUniSystemTest
         one duplicates in staged list, one duplicates in taken list, one added successfully. -> added as expected
          */
         command = AddModuleToStudentStagedCommand.COMMAND_WORD + CODE_DESC_ACC1002 + CODE_DESC_ACC1002X
-                + CODE_DESC_CS1010 + CODE_DESC_CS9999 + CODE_DESC_ACC1002;
+            + CODE_DESC_CS1010 + CODE_DESC_CS9999 + CODE_DESC_ACC1002;
         expectedResultMessage = AddModuleToStudentStagedCommandTest
-                .createCommandResult(CODE_DESC_ACC1002, CODE_DESC_CS9999, CODE_DESC_ACC1002, CODE_DESC_ACC1002X,
-                        CODE_DESC_CS1010);
+            .createCommandResult(CODE_DESC_ACC1002, CODE_DESC_CS9999, CODE_DESC_ACC1002, CODE_DESC_ACC1002X,
+                CODE_DESC_CS1010);
 
         assertCommandAsExpected(command, model, expectedResultMessage);
 
@@ -99,7 +99,7 @@ public class AddModuleToStudentStagedCommandSystemTest extends ModsUniSystemTest
         command = AddModuleToStudentStagedCommand.COMMAND_WORD + CODE_DESC_LOWER_ACC1002X;
 
         expectedResultMessage = AddModuleToStudentStagedCommandTest
-                .createCommandResult(EMPTY, EMPTY, EMPTY, EMPTY, CODE_DESC_ACC1002X);
+            .createCommandResult(EMPTY, EMPTY, EMPTY, EMPTY, CODE_DESC_ACC1002X);
 
         assertCommandAsExpected(command, model, expectedResultMessage);
 
@@ -147,6 +147,7 @@ public class AddModuleToStudentStagedCommandSystemTest extends ModsUniSystemTest
      * 5. Browser url, selected card and status bar remain unchanged.<br>
      * Verifications 1, 3 and 4 are performed by
      * {@code ModsUniSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
+     *
      * @see ModsUniSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
     private void assertCommandFailure(String command, String expectedResultMessage) {
